@@ -1,0 +1,10 @@
+[
+  {
+    "id": "free-rides",
+    "label": { "en": "Free rides" },
+    "resourceIds": ["capmetro-ut-id", "ut-shuttles", "ut-shop-shuttle"]
+  },
+  { "id": "bikes", "label": { "en": "Bikes & scooters" }, "resourceIds": ["metrobike", "austin-bike-map"] },
+  { "id": "late-night", "label": { "en": "Late night" }, "resourceIds": ["late-night"] },
+  { "id": "cars", "label": { "en": "Cars & carpool" }, "resourceIds": ["ut-carpool", "park-ride"] }
+]

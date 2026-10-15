@@ -1,0 +1,107 @@
+[
+  {
+    "id": "golden-rollers",
+    "slug": "golden-rollers",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Golden Rollers – Conley-Guerrero SAC" },
+    "start": "2026-10-14T08:45:00-05:00",
+    "end": "2026-10-14T10:00:00-05:00",
+    "venue": { "name": "Conley-Guerrero SAC", "address": "808 Nile St, Austin, TX 78702" },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/10/golden-rollers.jpg",
+      "alt": "Older adults riding adaptive bikes and trikes with ride leaders on a bridge"
+    },
+    "blurb": {
+      "en": "Golden Rollers provides engaging bicycle-based recreation, exploration, and supportive services for adults aged 50 and older."
+    },
+    "url": "https://ghisallo.org/programs/golden-rollers/",
+    "recurrence": { "freq": "weekly", "byDay": ["WE"], "until": "2026-12-16" },
+    "tags": ["Ghisallo Cycling Initiative", "seniors"]
+  },
+  {
+    "id": "transit-tour-snorkel",
+    "slug": "transit-tour-get-snorked-or-dive-tryin",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Transit Tour – Get snorked or dive tryin’" },
+    "start": "2026-10-17T08:30:00-05:00",
+    "end": "2026-10-17T12:00:00-05:00",
+    "venue": { "name": "707 West Cesar Chavez Street", "address": "707 West Cesar Chavez Street, Austin, TX 78701" },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/10/20261017-snorkle-tour-v5-scaled.png",
+      "alt": "Snorkel Tour poster: a snorkel mask reflecting a group of cyclists, with event time 8:30 AM to 12 PM on 10/17/2026"
+    },
+    "blurb": {
+      "en": "Utilize public transit and micromobility to travel to Barton Springs – get treated to the Save Our Springs Alliance Snorkel Tour!"
+    },
+    "url": "https://ghisallo.org/events/austin/",
+    "tags": ["Ghisallo Cycling Initiative", "transit tour"]
+  },
+  {
+    "id": "ride-to-the-future",
+    "slug": "ride-to-the-future",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Ride to the Future: Youth Bike Mechanic Program" },
+    "start": "2026-09-12T13:00:00-05:00",
+    "end": "2026-09-12T17:00:00-05:00",
+    "venue": { "name": "Yellow Bike Project", "address": "1216 Webberville Rd, Austin, TX 78721" },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/05/20ab0d75-2769-4093-8d9c-2e9c548b3d6e.jpg",
+      "alt": "Yellow sign reading Austin's Yellow Bike Project, We are your community bike shop"
+    },
+    "blurb": {
+      "en": "Bike mechanic work and mentorship program for youth of all genders, age 14-18."
+    },
+    "url": "https://austinyellowbike.org/ride-to-the-future/",
+    "recurrence": { "freq": "weekly", "byDay": ["SA"], "until": "2026-11-14" },
+    "tags": ["Yellow Bike", "Bike mechanics", "youth"]
+  },
+  {
+    "id": "bicycle-repair-clinic",
+    "slug": "bicycle-repair-clinic",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Bicycle Repair Clinic @ Central APL" },
+    "start": "2026-04-26T13:00:00-05:00",
+    "end": "2026-04-26T16:00:00-05:00",
+    "venue": { "name": "Central Austin Public Library", "address": "710 W Cesar Chavez St, Austin, TX 78701" },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/07/55283523669_082a384ba7_c.jpg",
+      "alt": "Image includes Bike tools, helmet, library card, and bike maps"
+    },
+    "blurb": {
+      "en": "Bring your bike! Free bicycle maintenance and repair clinic. Learn mechanic skills with guidance from our volunteers."
+    },
+    "url": "https://austinyellowbike.org/diy-bike-repairs-at-central-library/",
+    "recurrence": { "freq": "monthly", "byDay": ["-1SU"], "until": "2026-12-31" },
+    "tags": ["Yellow Bike", "Bike mechanics"]
+  },
+  {
+    "id": "trick-or-treat-on-the-trail",
+    "slug": "trick-or-treat-on-the-trail",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Trick or Treat on the Trail" },
+    "start": "2026-10-30T18:00:00-05:00",
+    "end": "2026-10-30T20:00:00-05:00",
+    "venue": { "name": "Boggy Creek Trail", "address": "888 Nile Street, Austin, TX 78702" },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/10/ghisallo-trick-or-treat-on-the-trail-austin-web-20260903-scaled.jpg",
+      "alt": "Trick or Treat on the Trail poster: Friday October 30, 6 to 8 PM, Boggy Creek Trail, with a map of the trail"
+    },
+    "blurb": {
+      "en": "Stay safe, have a blast, and eat some candy as you and your family explore spooky, car-free trails of Boggy Creek Greenbelt!"
+    },
+    "url": "https://ghisallo.org/events/austin/",
+    "gettingThere": [
+      { "mode": "walk", "note": { "en": "Please consider arriving by foot, bike, or bus." } },
+      {
+        "mode": "drive",
+        "note": { "en": "If carpooling or driving, please park at Conley-Guerrero Senior Activity Center." }
+      }
+    ],
+    "tags": ["Ghisallo Cycling Initiative", "family"]
+  }
+]

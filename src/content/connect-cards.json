@@ -1,0 +1,30 @@
+[
+  {
+    "id": "students",
+    "title": { "en": "Students" },
+    "body": {
+      "en": "The University of Texas at Austin carpool program supports efforts to reduce traffic congestion and curb vehicle pollution in Austin. Students can share the commute with a fellow Longhorn and get around Austin."
+    },
+    "image": { "src": "/images/home/card-students.png", "alt": "Illustration: Carpool program only takes 2" },
+    "resourceId": "ut-carpool"
+  },
+  {
+    "id": "families",
+    "title": { "en": "Families" },
+    "body": {
+      "en": "Austin’s Bike Bus Program is a fun and safe community program. Students learn to bike to school in guided group rides led by trained adults."
+    },
+    "image": { "src": "/images/home/card-families.png", "alt": "Kids in helmets riding bikes together on a street" },
+    "resourceId": "bike-bus"
+  },
+  {
+    "id": "seniors",
+    "title": { "en": "Senior Citizens" },
+    "body": { "en": "Carpooling programs can help older adults get where they need to go." },
+    "image": {
+      "src": "/images/home/card-seniors.png",
+      "alt": "An older man getting out of a car with help from a driver"
+    },
+    "resourceId": "capmetro-access"
+  }
+]

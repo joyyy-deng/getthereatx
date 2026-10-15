@@ -1,0 +1,87 @@
+[
+  {
+    "id": "ctx-go",
+    "slug": "ctx-go",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "CTX GO rewards" },
+    "oneLiner": { "en": "Earn $5 a day for trips that aren't driving alone, up to $150 over 3 months." },
+    "provider": "GetThereATX",
+    "howToGet": "link",
+    "url": "https://www.getthereatx.com/ready/",
+    "modes": ["walk", "bike", "bus", "rail", "carpool"]
+  },
+  {
+    "id": "guaranteed-ride-home",
+    "slug": "guaranteed-ride-home",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Guaranteed Ride Home" },
+    "oneLiner": { "en": "Get up to $75 back for a ride home in an emergency." },
+    "provider": "GetThereATX",
+    "howToGet": "link",
+    "url": "https://www.getthereatx.com/ready/#ride",
+    "modes": ["walk", "bike", "bus", "rail", "carpool"]
+  },
+  {
+    "id": "bike-maps",
+    "slug": "bike-maps",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Free bike maps" },
+    "oneLiner": { "en": "Printed Austin Bike Maps in English and Spanish." },
+    "provider": "GetThereATX",
+    "howToGet": "email",
+    "email": "GetThereATX@austintexas.gov",
+    "modes": ["bike"]
+  },
+  {
+    "id": "bike-lights",
+    "slug": "bike-lights",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Free bike lights for organizations" },
+    "oneLiner": { "en": "Bike lights for groups to hand out to their riders." },
+    "provider": "GetThereATX",
+    "howToGet": "email",
+    "email": "GetThereATX@austintexas.gov",
+    "eligibility": { "en": "Organizations" },
+    "modes": ["bike"]
+  },
+  {
+    "id": "handouts",
+    "slug": "handouts",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Free handouts" },
+    "oneLiner": { "en": "Printed transit and bike handouts for your group or event." },
+    "provider": "GetThereATX",
+    "howToGet": "email",
+    "email": "GetThereATX@austintexas.gov",
+    "modes": ["bike", "bus", "rail"]
+  },
+  {
+    "id": "invite-gtatx",
+    "slug": "invite-gtatx",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Invite GetThereATX to your event" },
+    "oneLiner": { "en": "Request a GetThereATX table at your event with 3 weeks' notice." },
+    "provider": "GetThereATX",
+    "howToGet": "email",
+    "email": "GetThereATX@austintexas.gov",
+    "modes": []
+  },
+  {
+    "id": "library-bike-tool-loan",
+    "slug": "library-bike-tool-loan",
+    "status": "published",
+    "lastReviewed": "2026-10-15",
+    "title": { "en": "Library bike tool loan" },
+    "oneLiner": { "en": "Borrow bike repair tools with your Austin Public Library card." },
+    "provider": "Austin Public Library",
+    "howToGet": "link",
+    "url": "https://www.getthereatx.com/austin-bike-repair-tool-loan-program/",
+    "modes": ["bike"]
+  }
+]

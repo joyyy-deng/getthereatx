@@ -1,0 +1,28 @@
+[
+  {
+    "id": "cost",
+    "label": { "en": "Lowest cost" },
+    "ranking": ["walk", "bike", "bus", "drive"],
+    "resourceIds": ["capmetro-fares"],
+    "studentResourceIds": ["capmetro-ut-id"]
+  },
+  {
+    "id": "safe",
+    "label": { "en": "Safest route" },
+    "ranking": ["bus", "walk", "drive", "bike"],
+    "resourceIds": ["austin-bike-map"]
+  },
+  {
+    "id": "walking",
+    "label": { "en": "Less walking" },
+    "ranking": ["drive", "bike", "bus", "walk"],
+    "resourceIds": ["park-ride"]
+  },
+  {
+    "id": "carry",
+    "label": { "en": "Carrying stuff" },
+    "ranking": ["drive", "bus", "bike", "walk"],
+    "resourceIds": [],
+    "studentResourceIds": ["ut-shop-shuttle"]
+  }
+]

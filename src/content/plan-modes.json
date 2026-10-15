@@ -1,0 +1,172 @@
+[
+  {
+    "id": "walk",
+    "title": {
+      "en": "Walk"
+    },
+    "image": {
+      "src": "/images/modes/walk.png",
+      "alt": "Peacock in sneakers"
+    },
+    "eyebrow": {
+      "en": "No cost, no waiting"
+    },
+    "effort": {
+      "en": "Most physical effort"
+    },
+    "cost": {
+      "en": "$0"
+    },
+    "primary": {
+      "resourceId": "google-maps",
+      "label": {
+        "en": "Get walking directions"
+      },
+      "travelmode": "walking"
+    },
+    "secondary": [
+      {
+        "resourceId": "walking-map",
+        "label": {
+          "en": "See trails & sidewalks"
+        }
+      }
+    ],
+    "ctxGo": true
+  },
+  {
+    "id": "bike",
+    "title": {
+      "en": "Bike"
+    },
+    "image": {
+      "src": "/images/modes/bike.png",
+      "alt": "Grackle riding a green cargo trike"
+    },
+    "eyebrow": {
+      "en": "Fast for short trips"
+    },
+    "effort": {
+      "en": "More physical effort"
+    },
+    "cost": {
+      "en": "$0 on your own bike"
+    },
+    "primary": {
+      "resourceId": "google-maps",
+      "label": {
+        "en": "Get bike directions"
+      },
+      "travelmode": "bicycling"
+    },
+    "secondary": [
+      {
+        "resourceId": "austin-bike-map",
+        "label": {
+          "en": "Austin Bike Map"
+        }
+      },
+      {
+        "resourceId": "metrobike",
+        "label": {
+          "en": "Rent a bike"
+        }
+      }
+    ],
+    "longRide": {
+      "resourceId": "capmetro-bring-your-bike",
+      "label": {
+        "en": "Bring your bike on the bus"
+      }
+    },
+    "ctxGo": true
+  },
+  {
+    "id": "bus",
+    "title": {
+      "en": "Bus + walk"
+    },
+    "image": {
+      "src": "/images/modes/bus.png",
+      "alt": "Sloth driving a blue bus"
+    },
+    "eyebrow": {
+      "en": "Less effort, more waiting"
+    },
+    "effort": {
+      "en": "Less physical effort"
+    },
+    "cost": {
+      "en": "$1.25 fare · free with UT ID"
+    },
+    "primary": {
+      "resourceId": "capmetro-planner",
+      "label": {
+        "en": "Plan on CapMetro"
+      }
+    },
+    "airportPrimary": {
+      "resourceId": "capmetro-airport",
+      "label": {
+        "en": "Take Route 20 to the airport"
+      }
+    },
+    "secondary": [
+      {
+        "resourceId": "google-maps",
+        "label": {
+          "en": "Transit directions in Google Maps"
+        },
+        "travelmode": "transit"
+      },
+      {
+        "resourceId": "capmetro-how-to-ride",
+        "label": {
+          "en": "First time riding?"
+        }
+      }
+    ],
+    "ctxGo": true
+  },
+  {
+    "id": "drive",
+    "title": {
+      "en": "Drive"
+    },
+    "image": {
+      "src": "/images/modes/drive.png",
+      "alt": "Three rabbits riding in a blue convertible"
+    },
+    "eyebrow": {
+      "en": "More time needed to park"
+    },
+    "effort": {
+      "en": "Parking adds time and cost"
+    },
+    "cost": {
+      "en": "Gas + parking"
+    },
+    "primary": {
+      "resourceId": "drivetexas",
+      "label": {
+        "en": "Check traffic on DriveTexas"
+      }
+    },
+    "secondary": [
+      {
+        "resourceId": "google-maps",
+        "label": {
+          "en": "Driving directions"
+        },
+        "travelmode": "driving"
+      },
+      {
+        "resourceId": "park-ride",
+        "label": {
+          "en": "Try Park & Ride"
+        }
+      }
+    ],
+    "ctxGo": false
+  }
+]

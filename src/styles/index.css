@@ -1,0 +1,52 @@
+@import '@fontsource/geist-sans/400.css';
+@import '@fontsource/geist-sans/500.css';
+@import '@fontsource/geist-mono/400.css';
+@import '@fontsource/geist-mono/500.css';
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-bg font-sans text-body text-ink antialiased;
+  }
+  body {
+    @apply m-0 min-h-screen;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  ::placeholder {
+    color: var(--color-placeholder);
+  }
+}
+
+/* Leaflet labels on Plan Your Trip: Figma's uppercase map labels. */
+.map-label {
+  @apply whitespace-nowrap rounded-sm border-0 bg-white/85 px-1 py-0.5 font-sans text-label uppercase text-ink shadow-none;
+}
+.map-label-anchor .map-label {
+  @apply absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2;
+}
+.map-label-anchor--pin .map-label {
+  @apply -translate-y-[calc(100%+12px)];
+}
+.leaflet-tooltip.map-label::before {
+  display: none;
+}
+.leaflet-container {
+  @apply font-sans;
+}
+/* Map shapes are mouse shortcuts; keyboard users pick places in the From/To fields. */
+.leaflet-interactive:focus {
+  outline: none;
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}

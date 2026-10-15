@@ -1,0 +1,339 @@
+[
+  {
+    "id": "transit-101",
+    "slug": "transit-101",
+    "status": "published",
+    "lastReviewed": "2025-12-15",
+    "title": {
+      "en": "Transit 101"
+    },
+    "summary": {
+      "en": "Transit reduces air pollution and makes everyone healthier! People who use transit get more three times the amount of physical activity per day than those who don’t. Austin is full…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/IMG_3180-scaled.webp",
+      "alt": "Three individuals sitting at a Bus stop bench, smiling at each other."
+    },
+    "url": "https://www.getthereatx.com/transit-101/",
+    "topics": ["transit"],
+    "modes": ["bus", "rail"],
+    "audiences": ["new-to-transit", "everyone"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "transit-etiquette-101",
+    "slug": "transit-etiquette-101",
+    "status": "published",
+    "lastReviewed": "2024-10-23",
+    "title": {
+      "en": "Transit Etiquette 101"
+    },
+    "summary": {
+      "en": "Ever wonder what you can and can’t do on the bus or rail, or just common etiquette when riding? Here’s a quick 101 on transit etiquette."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/0A1A8179-scaled.webp",
+      "alt": "Lady in pink and white dress smiling making a peace sign with their hand as they board the CapMetro Bus"
+    },
+    "url": "https://www.getthereatx.com/transit-etiquette-101/",
+    "topics": ["transit"],
+    "modes": ["bus", "rail"],
+    "audiences": ["new-to-transit", "everyone"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "how-to-put-your-bike-on-the-bus",
+    "slug": "how-to-put-your-bike-on-the-bus",
+    "status": "published",
+    "lastReviewed": "2025-12-22",
+    "title": {
+      "en": "How to Put Your Bike on the Bus"
+    },
+    "summary": {
+      "en": "If you’ve been too scared to try and put your bike on the bus, this is for you. It’s easier than you think. Here’s a step-by-step on how to do it."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/0A1A3880-edited-scaled.webp",
+      "alt": "Individual putting a White Bike on to the Cap Metro Bus Bike Rack"
+    },
+    "url": "https://www.getthereatx.com/how-to-put-your-bike-on-the-bus/",
+    "topics": ["transit", "bike"],
+    "modes": ["bike", "bus"],
+    "audiences": ["new-to-transit", "commuter"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "how-to-put-your-bike-on-the-rail",
+    "slug": "how-to-put-your-bike-on-the-rail",
+    "status": "published",
+    "lastReviewed": "2024-10-23",
+    "title": {
+      "en": "How to Put Your Bike on the Rail"
+    },
+    "summary": {
+      "en": "Want to try putting your bike on the train? It’s nice for a commute or even just a bike ride by the lake. Here’s how: You can plan your CapMetro…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/DSC_0770-1-scaled.webp",
+      "alt": "Two people waiting to board the Metro Rail"
+    },
+    "url": "https://www.getthereatx.com/how-to-put-your-bike-on-the-rail/",
+    "topics": ["transit", "bike"],
+    "modes": ["bike", "rail"],
+    "audiences": ["new-to-transit", "commuter"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "biking-101",
+    "slug": "biking-101",
+    "status": "published",
+    "lastReviewed": "2024-12-23",
+    "title": {
+      "en": "Biking 101"
+    },
+    "summary": {
+      "en": "Take your bike’s “ABC Quick Check,” inspect your helmet and wear appropriate clothing to ensure you have a safe trip on two wheels."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/IMG_0329-scaled.webp",
+      "alt": "Individual standing and smiling in front of the \"How YOU doin\" mural with yellow bike and helmet"
+    },
+    "url": "https://www.getthereatx.com/biking-101/",
+    "topics": ["bike"],
+    "modes": ["bike"],
+    "audiences": ["everyone", "commuter"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "bike-infrastructure",
+    "slug": "bike-infrastructure",
+    "status": "published",
+    "lastReviewed": "2025-06-25",
+    "title": {
+      "en": "Bike Infrastructure"
+    },
+    "summary": {
+      "en": "Explore the different types of bike infrastructure in Austin to boost your confidence and cycle safely through the city."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/12/protected-interersection_12-2024_1200.webp",
+      "alt": "Protected Intersection"
+    },
+    "url": "https://www.getthereatx.com/bike-infrastructure/",
+    "topics": ["bike"],
+    "modes": ["bike"],
+    "audiences": ["everyone", "commuter"],
+    "needs": ["learn-how", "plan-route"]
+  },
+  {
+    "id": "bikeshare-101",
+    "slug": "bikeshare-101",
+    "status": "published",
+    "lastReviewed": "2025-12-15",
+    "title": {
+      "en": "Bikeshare 101"
+    },
+    "summary": {
+      "en": "ANYONE CAN BIKE IN AUSTIN CapMetro Bikeshare (formerly MetroBike) is Austin’s affordable and sustainable bikeshare system consisting of a fleet of 100% electric bikes at more than 75 stations available…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/DSC_0753-scaled.webp",
+      "alt": "Three individuals smiling as they check out three metro bikes from a bikeshare station"
+    },
+    "url": "https://www.getthereatx.com/bikeshare-101/",
+    "topics": ["bike"],
+    "modes": ["bike"],
+    "audiences": ["everyone", "visitor", "student"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "bicycle-parking-and-theft",
+    "slug": "bicycle-parking-and-theft",
+    "status": "published",
+    "lastReviewed": "2025-12-15",
+    "title": {
+      "en": "Bicycle Parking and Theft"
+    },
+    "summary": {
+      "en": "Bike theft is a problem in many cities and we’re here to provide tips on how to secure your precious wheels."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/DSC_1038-edited-scaled.webp",
+      "alt": "Individual putting on a helmet with a blue electric bike in front of the Cap Metro Bike Shelter- Sign reads Metro Bike Card, Keeps your bike safe in this secure facility"
+    },
+    "url": "https://www.getthereatx.com/bicycle-parking-and-theft/",
+    "topics": ["bike"],
+    "modes": ["bike"],
+    "audiences": ["everyone", "student", "commuter"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "5-steps-of-a-helmet-fitting",
+    "slug": "5-steps-of-a-helmet-fitting",
+    "status": "published",
+    "lastReviewed": "2026-01-21",
+    "title": {
+      "en": "5 Steps of a Helmet Fitting"
+    },
+    "summary": {
+      "en": "Wearing a helmet is one of the most important things you can do when riding a bike. A helmet protects your head, and inside your head is your brain —…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2025/12/0a1a5947_55000361069_o-scaled.jpg",
+      "alt": "Smiling rider in an orange bike helmet holding up five fingers on a trail in Austin"
+    },
+    "url": "https://www.getthereatx.com/5-steps-of-a-helmet-fitting/",
+    "topics": ["bike", "families"],
+    "modes": ["bike"],
+    "audiences": ["family", "everyone"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "parent-back-to-school-transportation-guide",
+    "slug": "parent-back-to-school-transportation-guide",
+    "status": "published",
+    "lastReviewed": "2025-12-30",
+    "title": {
+      "en": "Parent Back-To-School Transportation Guide"
+    },
+    "summary": {
+      "en": "As the new school year begins, many families are adjusting their daily routines to fit in school drop-offs and pick-ups. We put together a list of local resources and safety tips to help you Get There to and from school."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2025/08/54584475952_7d520d18c3_c.webp",
+      "alt": "Middle school student using protected bike lane, school bus in the background going the opposite direction as the student rider"
+    },
+    "url": "https://www.getthereatx.com/parent-back-to-school-transportation-guide/",
+    "topics": ["families"],
+    "modes": ["walk", "bike", "bus"],
+    "audiences": ["family"],
+    "needs": ["learn-how", "plan-route"]
+  },
+  {
+    "id": "austin-bike-bus-pilot-program",
+    "slug": "austin-bike-bus-pilot-program",
+    "status": "published",
+    "lastReviewed": "2026-08-11",
+    "title": {
+      "en": "Austin Bike Bus Pilot Program"
+    },
+    "summary": {
+      "en": "Austin’s New Bike Bus Program Austin Bike Bus Program – Overview Austin’s Bike Bus Program is a fun, safe, and community-powered way for students to bike to school in guided…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2025/11/54902356750_1db6aae71b_c.jpg",
+      "alt": "Four individuals lined up on bikes as instructor explains the practice scenario"
+    },
+    "url": "https://www.getthereatx.com/austin-bike-bus-pilot-program/",
+    "topics": ["families", "programs"],
+    "modes": ["bike"],
+    "audiences": ["family"],
+    "needs": ["join-program"]
+  },
+  {
+    "id": "austin-bike-repair-tool-loan-program",
+    "slug": "austin-bike-repair-tool-loan-program",
+    "status": "published",
+    "lastReviewed": "2026-08-05",
+    "title": {
+      "en": "Need a Quick Fix? Austin Public Library has Bike Repair Tools!"
+    },
+    "summary": {
+      "en": "The Austin Public Library and Get There ATX officially launched their brand‑new Bike Tool Loan Program on May 15, 2026 on Bike to Work Day. If you need to pump a tire, tighten a bolt or patch a tube on the fly, all you need is your…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/07/55283523669_082a384ba7_c.jpg",
+      "alt": "Image includes Bike tools, helmet, library card, and bike maps"
+    },
+    "url": "https://www.getthereatx.com/austin-bike-repair-tool-loan-program/",
+    "topics": ["programs"],
+    "modes": ["bike"],
+    "audiences": ["everyone"],
+    "needs": ["join-program", "save-money"]
+  },
+  {
+    "id": "how-to-request-bike-maps",
+    "slug": "how-to-request-bike-maps",
+    "status": "published",
+    "lastReviewed": "2026-05-05",
+    "title": {
+      "en": "How to Request Bike Maps"
+    },
+    "summary": {
+      "en": "Planning a bike ride in Austin is simple with the city’s official Austin Bike Map. The map shows recommended bike routes all over the city (and beyond) and sorts them…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/05/image-24-scaled.jpg",
+      "alt": "Image of Bike Maps and Get There ATX Swag"
+    },
+    "url": "https://www.getthereatx.com/how-to-request-bike-maps/",
+    "topics": ["programs"],
+    "modes": ["bike"],
+    "audiences": ["everyone"],
+    "needs": ["plan-route", "join-program"]
+  },
+  {
+    "id": "wishbone-bridge-poster",
+    "slug": "wishbone-bridge-poster",
+    "status": "published",
+    "lastReviewed": "2026-02-09",
+    "title": {
+      "en": "Wishbone Bridge and Unity Underpass Poster"
+    },
+    "summary": {
+      "en": "Austin proudly unveils the Wishbone Bridge and Unity Underpass, completing the lake-level loop of the Ann & Roy Butler Hike-and-Bike Trail. This milestone connects East Austin neighborhoods with scenic views,…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/02/wishbone_bridge_crowd_2026-02-07-scaled.jpg",
+      "alt": "Crowd gathers on Austin's wishbone bridge moments after its grand opening."
+    },
+    "url": "https://www.getthereatx.com/wishbone-bridge-poster/",
+    "topics": ["news"],
+    "modes": ["walk", "bike"],
+    "audiences": ["everyone", "visitor"],
+    "needs": ["plan-route"]
+  },
+  {
+    "id": "how-traffic-congestion-affects-air-quality",
+    "slug": "how-traffic-congestion-affects-air-quality",
+    "status": "published",
+    "lastReviewed": "2025-12-30",
+    "title": {
+      "en": "How Traffic Congestion Affects Air Quality"
+    },
+    "summary": {
+      "en": "Mental fatigue, irritability and increased stress are not the only side effect of sitting in traffic. In its 2024 Annual Report, Movability – Central Texas’ Transportation Management Association – found…"
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2025/07/Screenshot-2025-07-15-093808.webp",
+      "alt": "Group of cyclists using a paved path with green space containing wildflowers between them and Mopac traffic"
+    },
+    "url": "https://www.getthereatx.com/how-traffic-congestion-affects-air-quality-2/",
+    "topics": ["news"],
+    "modes": [],
+    "audiences": ["everyone", "commuter"],
+    "needs": ["learn-how"]
+  },
+  {
+    "id": "spring-festival-season-travel-guide",
+    "slug": "spring-festival-season-travel-guide",
+    "status": "published",
+    "lastReviewed": "2025-12-15",
+    "title": {
+      "en": "Spring Festival Season Travel Guide"
+    },
+    "summary": {
+      "en": "Our interactive map highlights rideshare drop-off and pickup locations, detours, bike parking areas, public restrooms, and more for the Spring Festival Season."
+    },
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2024/03/DSC_0770-scaled.webp",
+      "alt": "Two people waiting to board the Metro Rail"
+    },
+    "url": "https://www.getthereatx.com/spring-festival-season-travel-guide/",
+    "topics": ["news"],
+    "modes": ["walk", "bike", "bus", "rail"],
+    "expiresAt": "2026-05-31T23:59:59-05:00",
+    "audiences": ["visitor", "everyone"],
+    "needs": ["plan-route"]
+  }
+]

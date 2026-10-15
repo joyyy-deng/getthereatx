@@ -1,0 +1,64 @@
+/* GetThereATX design tokens. Source of truth: CLAUDE.md "Design system". */
+:root {
+  /* Brand. Yellow and green were sampled from screenshots (≈) and still need
+     confirming in Figma; they are logo/illustration colors only. */
+  --brand-bluebonnet: #424a9e;
+  --brand-navy: #1e2939; /* Confirmed: Home hero CTA in Figma */
+  --brand-yellow: #f5c518;
+  --brand-green: #16a34a;
+
+  /* Roles */
+  --color-bg: #ffffff;
+  --color-surface-muted: #f4f4f5;
+  --color-ink: #111111;
+  --color-ink-muted: #52525b;
+  --color-border: #e4e4e7;
+  --color-border-strong: #111111;
+  --color-border-control: #888888; /* Outline on row buttons (Figma Student resources) */
+  --color-action: #15803d;
+  --color-action-hover: #166534;
+  --color-link: var(--brand-bluebonnet);
+  --color-focus: var(--brand-bluebonnet);
+  --color-placeholder: #6b7280;
+
+  /* Modes. Always paired with a label or icon. */
+  --mode-walk: #b45309;
+  --mode-bike: #15803d;
+  --mode-bus: #1d4ed8;
+  --mode-rail: #7c3aed;
+  --mode-carpool: #0f766e;
+  --mode-drive: #52525b;
+
+  /* Alert severity */
+  --alert-info-bg: #eff6ff;
+  --alert-info-ink: #1e3a8a;
+  --alert-advisory-bg: #fffbeb;
+  --alert-advisory-ink: #78350f;
+  --alert-advisory-border: #f5c518;
+  --alert-disruption-bg: #fef2f2;
+  --alert-disruption-ink: #7f1d1d;
+  --alert-disruption-border: #b91c1c;
+
+  /* Shape: every box is square (cards, panels, inputs, buttons, menus).
+     Only chips and tabs stay pill-shaped. */
+  --radius-none: 0;
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --container-content: 1008px;
+  --container-frame: 1184px; /* Nav and Footer: 1440 frame minus 128px side padding */
+
+  --elevation-raised: 0 8px 24px rgb(0 0 0 / 0.12);
+
+  --motion-hover: 150ms;
+  --motion-panel: 250ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-hover: 0ms;
+    --motion-panel: 0ms;
+  }
+}

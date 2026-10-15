@@ -1,0 +1,42 @@
+[
+  {
+    "mode": "bus",
+    "title": {
+      "en": "Bus"
+    },
+    "image": {
+      "src": "/images/modes/bus.png",
+      "alt": "Sloth driving a blue bus"
+    }
+  },
+  {
+    "mode": "bike",
+    "title": {
+      "en": "Bike/Scooter/Skate"
+    },
+    "image": {
+      "src": "/images/modes/bike.png",
+      "alt": "Grackle riding a green cargo trike"
+    }
+  },
+  {
+    "mode": "carpool",
+    "title": {
+      "en": "Carpool"
+    },
+    "image": {
+      "src": "/images/modes/drive.png",
+      "alt": "Three rabbits riding in a blue convertible"
+    }
+  },
+  {
+    "mode": "walk",
+    "title": {
+      "en": "Walk"
+    },
+    "image": {
+      "src": "/images/modes/walk.png",
+      "alt": "Peacock in sneakers"
+    }
+  }
+]

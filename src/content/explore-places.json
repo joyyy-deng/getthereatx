@@ -1,0 +1,65 @@
+[
+  {
+    "id": "zilker",
+    "name": { "en": "Zilker Park" },
+    "categories": ["parks"],
+    "image": {
+      "src": "/images/community/explore-zilker.png",
+      "alt": "People relaxing on the Zilker Park lawn with the downtown skyline behind them"
+    },
+    "url": "https://www.austintexas.gov/department/zilker-metropolitan-park",
+    "provider": "City of Austin"
+  },
+  {
+    "id": "south-congress",
+    "name": { "en": "South Congress" },
+    "categories": ["shopping", "food", "arts"],
+    "image": {
+      "src": "/images/community/explore-soco.png",
+      "alt": "The green 'i love you so much' mural on South Congress"
+    },
+    "url": "https://www.austintexas.org/explore/entertainment-districts/south-congress/",
+    "provider": "Visit Austin"
+  },
+  {
+    "id": "barton-springs",
+    "name": { "en": "Barton Springs Pool" },
+    "categories": ["parks"],
+    "image": { "src": "/images/community/explore-barton.png", "alt": "People on a grassy hillside under shade trees" },
+    "url": "https://www.austintexas.gov/department/barton-springs-pool",
+    "provider": "City of Austin"
+  },
+  {
+    "id": "wishbone-bridge",
+    "name": { "en": "Wishbone Bridge" },
+    "categories": ["parks", "arts"],
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/02/wishbone_bridge_crowd_2026-02-07-scaled.jpg",
+      "alt": "Crowd gathers on Austin's wishbone bridge moments after its grand opening."
+    },
+    "url": "https://www.getthereatx.com/wishbone-bridge-poster/",
+    "provider": "GetThereATX"
+  },
+  {
+    "id": "central-library",
+    "name": { "en": "Austin Central Library" },
+    "categories": ["arts"],
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/07/55283523669_082a384ba7_c.jpg",
+      "alt": "Image includes Bike tools, helmet, library card, and bike maps"
+    },
+    "url": "https://library.austintexas.gov/central-library",
+    "provider": "Austin Public Library"
+  },
+  {
+    "id": "yellow-bike",
+    "name": { "en": "Yellow Bike Project" },
+    "categories": ["shopping"],
+    "image": {
+      "src": "https://www.getthereatx.com/wp-content/uploads/2026/05/20ab0d75-2769-4093-8d9c-2e9c548b3d6e.jpg",
+      "alt": "Yellow sign reading Austin's Yellow Bike Project, We are your community bike shop"
+    },
+    "url": "https://austinyellowbike.org/",
+    "provider": "Yellow Bike Project"
+  }
+]
