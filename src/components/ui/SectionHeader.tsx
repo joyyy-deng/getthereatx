@@ -45,7 +45,8 @@ export function SectionHeader({
           className={cx(
             'm-0',
             light ? 'text-white' : 'text-ink',
-            size === 'display' ? 'text-display' : level === 1 ? 'text-h1' : 'text-h2',
+            // Display titles step down to H1 size on phones (Figma mobile frames).
+            size === 'display' ? 'text-h1 md:text-display' : level === 1 ? 'text-h1' : 'text-h2',
           )}
         >
           {title}

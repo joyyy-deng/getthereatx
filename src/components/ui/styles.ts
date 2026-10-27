@@ -48,7 +48,8 @@ export const STRETCHED_LINK = "after:absolute after:inset-0 after:content-['']";
 /** Pill shape and colors shared by Chip and Tabs (Figma Student resources tabs). */
 export function pillClasses(selected: boolean): string {
   return cx(
-    'inline-flex min-h-[46px] items-center justify-center whitespace-nowrap rounded-pill border border-border-strong px-[18px] py-[10px] text-body',
+    // Compact on phones (Figma mobile), full size from 768px.
+    'inline-flex min-h-[36px] items-center justify-center whitespace-nowrap rounded-pill border border-border-strong px-3 py-[6px] text-small md:min-h-[46px] md:px-[18px] md:py-[10px] md:text-body',
     'transition-colors duration-hover ease-out',
     selected ? 'bg-ink text-white' : 'bg-bg text-ink hover:bg-surface-muted',
   );

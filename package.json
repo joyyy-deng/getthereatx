@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc -b && tsc -p tsconfig.scripts.json",
     "validate-content": "tsx scripts/validate-content.ts",
-    "check-links": "tsx scripts/check-links.ts"
+    "check-links": "tsx scripts/check-links.ts",
+    "import-sheet": "tsx scripts/import-sheet.ts"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.2.5",

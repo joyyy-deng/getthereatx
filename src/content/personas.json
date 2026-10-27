@@ -1,26 +1,46 @@
 [
   {
     "id": "student",
-    "title": { "en": "I’m a student" },
-    "body": { "en": "Resources and discounts for students" },
+    "title": {
+      "en": "I’m a student"
+    },
+    "body": {
+      "en": "Resources and discounts for students"
+    },
     "to": "/resources/students"
   },
   {
     "id": "new-to-transit",
-    "title": { "en": "I’m new to public transit" },
-    "body": { "en": "How to ride, and bus etiquette information" },
-    "filter": { "need": "learn-how" }
+    "title": {
+      "en": "I’m new to public transit"
+    },
+    "body": {
+      "en": "How to ride, and bus etiquette information"
+    },
+    "filter": {
+      "type": "Public Transit"
+    }
   },
   {
     "id": "commuter",
-    "title": { "en": "I want another way to commute" },
-    "body": { "en": "Compare different ways to take a recurring trip" },
-    "filter": { "audience": "commuter" }
+    "title": {
+      "en": "I want another way to commute"
+    },
+    "body": {
+      "en": "Compare different ways to take a recurring trip"
+    },
+    "filter": {
+      "forWho": "Commuters"
+    }
   },
   {
     "id": "event",
-    "title": { "en": "I’m going to an event" },
-    "body": { "en": "Find transportation information for special events" },
+    "title": {
+      "en": "I’m going to an event"
+    },
+    "body": {
+      "en": "Find transportation information for special events"
+    },
     "to": "/community#events"
   }
 ]

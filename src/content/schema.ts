@@ -209,6 +209,8 @@ export type StudentTab = z.infer<typeof StudentTab>;
 export const ResourceModeCard = z.object({
   mode: z.enum(MODES),
   title: L,
+  /** The Trip Planning sheet's "Type" value this card filters by. */
+  sheetType: z.string().min(1),
   image: Img.optional(),
 });
 export type ResourceModeCard = z.infer<typeof ResourceModeCard>;
@@ -219,21 +221,63 @@ export const Persona = z
     id: z.string().min(1),
     title: L,
     body: L,
-    /** Either go to a page, or set a directory filter. */
+    /** Either go to a page, or set a directory filter using the sheet's own values. */
     to: z.string().startsWith('/').optional(),
-    filter: z.object({ audience: Audience.optional(), need: Need.optional() }).optional(),
+    filter: z.object({ forWho: z.string().min(1).optional(), type: z.string().min(1).optional() }).optional(),
   })
   .refine((p) => !!p.to !== !!p.filter, { message: 'a persona needs exactly one of `to` or `filter`' });
 export type Persona = z.infer<typeof Persona>;
 
-/** Home page lists that staff can edit. */
-export const HomeContent = z.object({
-  /** Place ids offered as quick picks under the hero From/To. */
-  heroDestinations: z.array(z.string().min(1)).min(1),
-  /** "Build confidence before you go" rows, each pointing at a live post. */
-  confidenceRows: z.array(z.object({ label: L, postSlug: z.string().min(1) })).min(1),
+const Text = z.string().min(1);
+/** Eyebrow + title (+ optional intro) above a section. */
+const SectionText = z.object({ eyebrow: Text, title: Text, intro: Text.optional() });
+
+/**
+ * The wording on each page: headings, intros and labels. Lists that have
+ * their own records (resources, posts, events…) live in their own files.
+ */
+export const PageContent = z.object({
+  home: z.object({
+    hero: z.object({
+      /** One string per line; lines join with a space on phones. */
+      title: z.array(Text).min(1),
+      intro: Text,
+      button: Text,
+    }),
+    confidence: SectionText.extend({
+      /** Each row links to a live post (posts.json slug). */
+      rows: z.array(z.object({ label: Text, postSlug: Text })).min(1),
+    }),
+    connect: SectionText,
+  }),
+  plan: z.object({
+    title: Text,
+    preferencesTitle: Text,
+    rideHome: z.object({ lead: Text, link: Text }),
+    estimateNote: Text,
+  }),
+  resources: z.object({
+    modes: SectionText,
+    personas: SectionText,
+    searchLabel: Text,
+    searchPlaceholder: Text,
+    noResults: Text,
+    /** Button on each directory row that has a link. */
+    linkLabel: Text,
+  }),
+  students: z.object({
+    title: Text,
+    intro: Text,
+    callout: z.object({ title: Text, body: Text, link: Text }),
+  }),
+  community: z.object({
+    hero: SectionText,
+    events: SectionText.extend({ empty: Text }),
+    explore: SectionText,
+  }),
+  notFound: z.object({ title: Text, intro: Text }),
 });
-export type HomeContent = z.infer<typeof HomeContent>;
+export type PageContent = z.infer<typeof PageContent>;
 
 export const Resources = z.array(Resource);
 export const ConnectCards = z.array(ConnectCard);

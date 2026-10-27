@@ -1,42 +1,15 @@
 // Local JSON data source. src/data/wordpress.ts replaces this file later,
 // reading /wp-json/wp/v2/... and /wp-json/tribe/events/v1/events.
 
-import alertsJson from '../content/alerts.json';
-import connectCardsJson from '../content/connect-cards.json';
-import eventsJson from '../content/events.json';
-import explorePlacesJson from '../content/explore-places.json';
-import homeJson from '../content/home.json';
-import personasJson from '../content/personas.json';
-import placesJson from '../content/places.json';
-import planModesJson from '../content/plan-modes.json';
-import planPreferencesJson from '../content/plan-preferences.json';
-import postsJson from '../content/posts.json';
-import programsJson from '../content/programs.json';
-import resourceModesJson from '../content/resource-modes.json';
-import resourcesJson from '../content/resources.json';
-import studentTabsJson from '../content/student-tabs.json';
-import {
-  Alerts,
-  ConnectCards,
-  Events,
-  ExplorePlaces,
-  HomeContent,
-  Personas,
-  Places,
-  PlanModes,
-  PlanPreferences,
-  Posts,
-  Programs,
-  ResourceModeCards,
-  Resources,
-  StudentTabs,
-} from '../content/schema';
+import { CONTENT_FILES, type ContentFile, type ContentOf } from '../content/registry';
+import { readTripPlanningSheet, type DirectoryEntry } from '../content/sheet';
+import tripPlanningCsv from '../content/sheets/trip-planning.csv?raw';
 import type {
   Alert,
   ConnectCard,
   ExplorePlace,
-  HomeContent as HomeContentType,
   Meta,
+  PageContent,
   Persona,
   Place,
   PlanMode,
@@ -50,22 +23,32 @@ import type {
 import type { Audience, Mode, Need, PostTopic } from '../content/taxonomies';
 import { expandEvent, type Occurrence } from '../lib/recurrence';
 
+// Every JSON file in src/content, bundled at build time.
+const json = import.meta.glob<unknown>('../content/*.json', { eager: true, import: 'default' });
+
+/** Read one content file and check it against its schema (see content/registry.ts). */
+function load<F extends ContentFile>(file: F): ContentOf<F> {
+  return CONTENT_FILES[file].parse(json[`../content/${file}.json`]) as ContentOf<F>;
+}
+
 // Parsing at load keeps the types honest; `npm run validate-content`
 // catches the same errors before the build.
-const resources = Resources.parse(resourcesJson);
-const posts = Posts.parse(postsJson);
-const events = Events.parse(eventsJson);
-const programs = Programs.parse(programsJson);
-const alerts = Alerts.parse(alertsJson);
-const places = Places.parse(placesJson);
-const planModes = PlanModes.parse(planModesJson);
-const planPreferences = PlanPreferences.parse(planPreferencesJson);
-const connectCards = ConnectCards.parse(connectCardsJson);
-const explorePlaces = ExplorePlaces.parse(explorePlacesJson);
-const studentTabs = StudentTabs.parse(studentTabsJson);
-const resourceModes = ResourceModeCards.parse(resourceModesJson);
-const personas = Personas.parse(personasJson);
-const home = HomeContent.parse(homeJson);
+const pages = load('pages');
+const resources = load('resources');
+const posts = load('posts');
+const events = load('events');
+const programs = load('programs');
+const alerts = load('alerts');
+const places = load('places');
+const planModes = load('plan-modes');
+const planPreferences = load('plan-preferences');
+const connectCards = load('connect-cards');
+const explorePlaces = load('explore-places');
+const studentTabs = load('student-tabs');
+const resourceModes = load('resource-modes');
+const personas = load('personas');
+// Rows with errors are left out; `npm run validate-content` reports them.
+const directory = readTripPlanningSheet(tripPlanningCsv).entries.filter((e) => e.name && e.description);
 
 /** `?preview=1` shows drafts, so the future admin "Preview" button just works. */
 function isPreview(): boolean {
@@ -178,6 +161,12 @@ export async function getResourcesPage(): Promise<{ modes: ResourceModeCard[]; p
   return { modes: resourceModes, personas };
 }
 
-export async function getHomeContent(): Promise<HomeContentType> {
-  return home;
+/** The Resources directory: every row of the client's "Trip Planning" sheet. */
+export async function getDirectory(): Promise<DirectoryEntry[]> {
+  return directory;
+}
+
+/** Headings, intros and labels for every page (pages.json). */
+export async function getPageContent(): Promise<PageContent> {
+  return pages;
 }

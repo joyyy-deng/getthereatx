@@ -3,8 +3,9 @@ import { SiteLayout } from './components/layout/SiteLayout';
 import { Community } from './pages/Community';
 import { ComponentGallery } from './pages/ComponentGallery';
 import { Home } from './pages/Home';
-import { Placeholder } from './pages/Placeholder';
+import { NotFound } from './pages/NotFound';
 import { PlanTrip } from './pages/PlanTrip';
+import { SiteMap } from './pages/SiteMap';
 import { Resources } from './pages/Resources';
 import { StudentResources } from './pages/StudentResources';
 
@@ -19,7 +20,8 @@ const router = createBrowserRouter(
         { path: '/resources', element: <Resources /> },
         { path: '/resources/students', element: <StudentResources /> },
         { path: '/dev/components', element: <ComponentGallery /> },
-        { path: '*', element: <Placeholder title="Page not found" phase={1} /> },
+        { path: '/dev/sitemap', element: <SiteMap /> },
+        { path: '*', element: <NotFound /> },
       ],
     },
   ],

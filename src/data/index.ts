@@ -3,9 +3,10 @@
 export {
   getAlerts,
   getConnectCards,
+  getDirectory,
   getEvents,
   getExplorePlaces,
-  getHomeContent,
+  getPageContent,
   getPlaces,
   getPlanConfig,
   getPost,
@@ -19,3 +20,4 @@ export {
 } from './local';
 export type { DateRange, PostFilter, ResourceFilter } from './local';
 export type { Occurrence } from '../lib/recurrence';
+export type { DirectoryEntry } from '../content/sheet';

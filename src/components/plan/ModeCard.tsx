@@ -33,7 +33,7 @@ export function ModeCard({ card, from, to, resources, bestMatch, airport, ctxGo,
         key={l.resourceId + (l.travelmode ?? '')}
         as={as}
         size="md"
-        className={as === 'button' ? 'w-full whitespace-normal text-center' : undefined}
+        className={as === 'button' ? 'w-full !whitespace-normal py-2 text-center max-md:!px-3' : undefined}
         href={handoffUrl(r, trip, l.travelmode)}
         provider={r.provider}
         label={text(l.label)}
@@ -66,10 +66,15 @@ export function ModeCard({ card, from, to, resources, bestMatch, airport, ctxGo,
   return (
     <article className="flex flex-col gap-3 rounded-md border border-border bg-bg p-4">
       <div className="flex gap-3">
-        <div className="flex w-[104px] shrink-0 flex-col gap-2">
+        {/* Narrower mascot column on phones so the time range fits beside it. */}
+        <div className="flex w-[80px] shrink-0 flex-col gap-2 sm:w-[104px]">
           {title}
           {mode.image && (
-            <img src={asset(mode.image.src)} alt={mode.image.alt} className="h-[86px] w-[104px] object-contain" />
+            <img
+              src={asset(mode.image.src)}
+              alt={mode.image.alt}
+              className="h-[66px] w-[80px] object-contain sm:h-[86px] sm:w-[104px]"
+            />
           )}
         </div>
         <div className="flex min-w-0 flex-1 flex-col gap-2">

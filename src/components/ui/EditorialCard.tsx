@@ -19,7 +19,7 @@ export function EditorialCard({ title, image, body, action, bordered = true, cla
   return (
     <article
       className={cx(
-        'group relative flex h-full flex-col gap-2 rounded-none bg-bg p-[20px] transition-colors duration-hover hover:bg-surface-muted',
+        'group relative flex h-full flex-col gap-2 rounded-none bg-bg p-4 transition md:p-[20px]-colors duration-hover hover:bg-surface-muted',
         bordered && 'border border-border-strong',
         className,
       )}
@@ -33,8 +33,8 @@ export function EditorialCard({ title, image, body, action, bordered = true, cla
           className="size-full object-cover transition-transform duration-hover ease-out group-hover:scale-[1.02]"
         />
       </div>
-      <p className="m-0 text-small text-ink-muted">{body}</p>
-      <div className="mt-auto pt-2 text-small">{action}</div>
+      <p className="m-0 text-small text-ink-muted max-md:line-clamp-4">{body}</p>
+      <div className="mt-auto pt-1 text-small md:pt-2">{action}</div>
     </article>
   );
 }

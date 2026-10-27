@@ -2,40 +2,12 @@
 // Checks every content file against the zod schemas, plus rules the schemas
 // can't see on their own (unique ids, event times). Exits 1 on any error.
 import type { z } from 'zod';
-import {
-  Alerts,
-  ConnectCards,
-  Events,
-  ExplorePlaces,
-  HomeContent,
-  Personas,
-  Places,
-  PlanModes,
-  PlanPreferences,
-  Posts,
-  Programs,
-  ResourceModeCards,
-  Resources,
-  StudentTabs,
-} from '../src/content/schema';
-import { load, type ContentFile } from './content';
-
-const SCHEMAS: Record<ContentFile, z.ZodTypeAny> = {
-  resources: Resources,
-  posts: Posts,
-  events: Events,
-  programs: Programs,
-  alerts: Alerts,
-  places: Places,
-  'plan-modes': PlanModes,
-  'plan-preferences': PlanPreferences,
-  'connect-cards': ConnectCards,
-  'explore-places': ExplorePlaces,
-  'student-tabs': StudentTabs,
-  'resource-modes': ResourceModeCards,
-  personas: Personas,
-  home: HomeContent,
-};
+import { CONTENT_FILES } from '../src/content/registry';
+import { Events, PageContent, PlanModes, PlanPreferences } from '../src/content/schema';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { readTripPlanningSheet } from '../src/content/sheet';
+import { CONTENT_DIR, FILES, load } from './content';
 
 let errors = 0;
 const fail = (file: string, msg: string) => {
@@ -43,13 +15,13 @@ const fail = (file: string, msg: string) => {
   console.error(`  ✗ ${file}: ${msg}`);
 };
 
-for (const [file, schema] of Object.entries(SCHEMAS) as [ContentFile, z.ZodTypeAny][]) {
-  const result = schema.safeParse(load(file));
+for (const file of FILES) {
+  const result = (CONTENT_FILES[file] as z.ZodTypeAny).safeParse(load(file));
   if (!result.success) {
     for (const issue of result.error.issues) fail(file, `[${issue.path.join('.')}] ${issue.message}`);
     continue;
   }
-  // Most files are lists; home.json is a single object.
+  // Most files are lists; pages.json is a single object.
   const records = (Array.isArray(result.data) ? result.data : [result.data]) as { id?: string; slug?: string }[];
 
   for (const key of ['id', 'slug'] as const) {
@@ -94,13 +66,48 @@ const pageRefs = [
 ];
 for (const id of pageRefs) if (!resourceIds.has(id)) fail('pages', `unknown resourceId "${id}"`);
 
-const home = HomeContent.safeParse(load('home'));
-if (home.success) {
-  const placeIds = new Set((load('places') as { id: string }[]).map((p) => p.id));
+const pages = PageContent.safeParse(load('pages'));
+if (pages.success) {
   const postSlugs = new Set((load('posts') as { slug: string }[]).map((p) => p.slug));
-  for (const id of home.data.heroDestinations) if (!placeIds.has(id)) fail('home', `unknown place "${id}"`);
-  for (const r of home.data.confidenceRows)
-    if (!postSlugs.has(r.postSlug)) fail('home', `unknown post "${r.postSlug}"`);
+  const home = pages.data.home;
+  for (const r of home.confidence.rows)
+    if (!postSlugs.has(r.postSlug)) fail('pages', `home: unknown post "${r.postSlug}"`);
+}
+
+// Images live in the repo (public/), never on another site: outside images
+// break when that site moves or deletes them, as getthereatx.com uploads did.
+for (const file of FILES) {
+  const walk = (v: unknown, path: string): void => {
+    if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}.${i}`));
+    else if (v && typeof v === 'object')
+      for (const [k, x] of Object.entries(v)) {
+        if (k === 'src' && typeof x === 'string' && /^https?:/.test(x))
+          fail(file, `[${path}.src] image is on another site; save it under public/images/ instead: ${x}`);
+        walk(x, `${path}.${k}`);
+      }
+  };
+  walk(load(file), file);
+}
+
+// The client's Trip Planning sheet (Resources directory). Errors fail the build;
+// warnings list cells to fix in the Google Sheet.
+const sheet = readTripPlanningSheet(readFileSync(join(CONTENT_DIR, 'sheets', 'trip-planning.csv'), 'utf8'));
+for (const e of sheet.errors) fail('sheets/trip-planning.csv', e);
+if (!sheet.errors.length) console.log(`  ✓ sheets/trip-planning.csv: ${sheet.entries.length} rows`);
+if (sheet.warnings.length) {
+  console.warn(`\n  ${sheet.warnings.length} things to fix in the Trip Planning sheet:`);
+  for (const w of sheet.warnings) console.warn(`  ! ${w}`);
+}
+
+// Mode cards and persona filters must use a Type / For Who? value that exists in the sheet.
+const sheetTypes = new Set(sheet.entries.flatMap((e) => e.types));
+const sheetWho = new Set(sheet.entries.flatMap((e) => e.forWho));
+for (const m of load('resource-modes') as { mode: string; sheetType: string }[])
+  if (!sheetTypes.has(m.sheetType)) fail('resource-modes', `${m.mode}: no sheet Type "${m.sheetType}"`);
+for (const p of load('personas') as { id: string; filter?: { type?: string; forWho?: string } }[]) {
+  if (p.filter?.type && !sheetTypes.has(p.filter.type)) fail('personas', `${p.id}: no sheet Type "${p.filter.type}"`);
+  if (p.filter?.forWho && !sheetWho.has(p.filter.forWho))
+    fail('personas', `${p.id}: no sheet For Who? "${p.filter.forWho}"`);
 }
 
 if (errors) {

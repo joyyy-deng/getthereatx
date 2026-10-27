@@ -25,14 +25,15 @@ const label = 'text-label uppercase text-ink';
 
 export function Footer() {
   return (
-    <footer className="px-8">
+    <footer className="px-6 md:px-8">
       <div className="mx-auto flex max-w-frame flex-col gap-6 py-8">
         <hr className="m-0 h-px w-full border-0 bg-border-strong" />
-        <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-4">
+        {/* Below 1024px (Figma mobile): logo, links stacked, socials and legal centered. */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="contents lg:flex lg:flex-col lg:gap-4">
             <Logo src="/brand/logo-footer.png" />
-            <p className={`m-0 whitespace-pre ${label}`}>
-              {'© 2026 Get There ATX. All Rights Reserved.  |  '}
+            <p className={`order-last m-0 text-center lg:order-none lg:whitespace-pre lg:text-left ${label}`}>
+              <span className="block lg:inline">{'© 2026 Get There ATX. All Rights Reserved.  |  '}</span>
               {LEGAL.map((l, i) => (
                 <span key={l.href}>
                   {i > 0 && '  |  '}
@@ -44,8 +45,8 @@ export function Footer() {
               ))}
             </p>
           </div>
-          <div className="flex items-start gap-12">
-            <ul className="m-0 flex list-none gap-12 p-0">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
+            <ul className="m-0 flex list-none flex-col gap-3 p-0 lg:flex-row lg:gap-12">
               {PAGE_LINKS.map((l) => (
                 <li key={l.label}>
                   <Link to={l.to} className={`${label} hover:underline`}>
@@ -54,7 +55,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <ul className="m-0 flex list-none gap-4 p-0">
+            <ul className="m-0 flex list-none justify-center gap-4 p-0">
               {SOCIAL.map((s) => (
                 <li key={s.href}>
                   <a href={s.href} aria-label={s.label} className="block size-6">

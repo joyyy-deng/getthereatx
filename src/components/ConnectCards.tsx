@@ -15,7 +15,8 @@ export function ConnectCards({
   bordered?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    // Swipeable on phones, three across from 768px.
+    <div className="swipe-row md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 [&>*]:h-auto [&>*]:w-[220px] md:[&>*]:h-full md:[&>*]:w-auto">
       {cards.map((c) => {
         const r = resources.get(c.resourceId);
         return (

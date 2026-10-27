@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Post, Resource } from '../../content/schema';
+import type { DirectoryEntry } from '../../content/sheet';
 import { cx } from '../../lib/cx';
 import { text } from '../../lib/i18n';
 import { Eyebrow } from './Eyebrow';
@@ -7,7 +8,10 @@ import { LinkOut } from './LinkOut';
 
 const checkedFormat = new Intl.DateTimeFormat('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 
-/** Figma Student resources / Resources directory row: text on the left, a pill button on the right. */
+/**
+ * Figma Student resources / Resources directory row: text on the left, a pill button on the right.
+ * On phones the button drops below the text and spans the row (Figma mobile frames).
+ */
 function DirectoryRow({
   eyebrow,
   title,
@@ -24,7 +28,7 @@ function DirectoryRow({
   clampBody?: boolean;
 }) {
   return (
-    <li className="grid min-h-[130px] grid-cols-[minmax(0,1fr)_auto] items-center gap-6 border-t border-border-strong py-6 transition-colors duration-hover ease-out hover:bg-surface-muted">
+    <li className="flex flex-col gap-4 border-t border-border-strong py-6 transition-colors duration-hover ease-out hover:bg-surface-muted md:grid md:min-h-[130px] md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:gap-6">
       <div className="flex flex-col gap-2">
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <h3 className="m-0 text-h4 font-normal text-ink">{title}</h3>
@@ -71,6 +75,7 @@ export function ResourceRow({ resource: r, variant = 'student', from }: Resource
           variant="secondary"
           size="sm"
           shape="pill"
+          className="w-full md:w-auto"
           href={r.url}
           provider={r.provider}
           label={r.action}
@@ -96,12 +101,44 @@ export function PostRow({ post, from }: { post: Post; from?: string }) {
           variant="secondary"
           size="sm"
           shape="pill"
+          className="w-full md:w-auto"
           href={post.url}
           provider="GetThereATX"
           label="Read"
           resourceId={`post:${post.id}`}
           from={from}
         />
+      }
+    />
+  );
+}
+
+/**
+ * A row of the client's Trip Planning sheet: Type as the eyebrow, name and
+ * description ("For Who?" only drives the filters). The button only shows when
+ * the Link cell is a URL.
+ */
+export function SheetRow({ entry: e, linkLabel, from }: { entry: DirectoryEntry; linkLabel: string; from?: string }) {
+  return (
+    <DirectoryRow
+      eyebrow={e.types.join(' · ') || undefined}
+      title={e.name}
+      body={e.description}
+      action={
+        e.url && (
+          <LinkOut
+            as="button"
+            variant="secondary"
+            size="sm"
+            shape="pill"
+            className="w-full md:w-auto"
+            href={e.url}
+            provider={e.name}
+            label={linkLabel}
+            resourceId={`sheet:${e.id}`}
+            from={from}
+          />
+        )
       }
     />
   );

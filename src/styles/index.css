@@ -46,6 +46,18 @@
 }
 
 @layer utilities {
+  /* Sideways-scrolling card rows on phones (Figma mobile frames). */
+  .swipe-row {
+    @apply -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2;
+    scroll-padding-inline: 24px;
+    scrollbar-width: none;
+  }
+  .swipe-row::-webkit-scrollbar {
+    display: none;
+  }
+  .swipe-row > * {
+    @apply shrink-0 snap-start;
+  }
   .tabular {
     font-variant-numeric: tabular-nums;
   }

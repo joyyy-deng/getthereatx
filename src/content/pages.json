@@ -1,0 +1,87 @@
+{
+  "home": {
+    "hero": {
+      "title": [
+        "You know where you’re going.",
+        "Get there with us."
+      ],
+      "intro": "GetThereATX is your one-stop shop for Austin transportation information. Learn about modes of transport available to you and ways to save time and money on your commute.",
+      "button": "Plan your trip"
+    },
+    "confidence": {
+      "eyebrow": "Learn",
+      "title": "Build confidence before you go",
+      "rows": [
+        {
+          "label": "Taking the bus for the first time",
+          "postSlug": "transit-101"
+        },
+        {
+          "label": "Bringing a bike on public transit",
+          "postSlug": "how-to-put-your-bike-on-the-bus"
+        },
+        {
+          "label": "Riding a bike in Austin for the first time",
+          "postSlug": "biking-101"
+        }
+      ]
+    },
+    "connect": {
+      "eyebrow": "Connect",
+      "title": "Try something new with other people.",
+      "intro": "Local events and programs can make unfamiliar transportation options feel more comfortable. These are good places to connect with the Austin community and try out a route."
+    }
+  },
+  "plan": {
+    "title": "Plan your trip",
+    "preferencesTitle": "What matters to you?",
+    "rideHome": {
+      "lead": "Worried about getting stuck?",
+      "link": "Guaranteed Ride Home covers up to $75"
+    },
+    "estimateNote": "Times are estimates. Check the planner for live times."
+  },
+  "resources": {
+    "modes": {
+      "eyebrow": "How-to’s",
+      "title": "Transportation resources"
+    },
+    "personas": {
+      "eyebrow": "Blogs",
+      "title": "Which sounds most like you?"
+    },
+    "searchLabel": "Search this directory",
+    "searchPlaceholder": "Search resources",
+    "noResults": "Nothing matches those filters.",
+    "linkLabel": "Visit website"
+  },
+  "students": {
+    "title": "How can I get around as a student?",
+    "intro": "Choose a type of trip to see the services available to UT students.",
+    "callout": {
+      "title": "Want to learn from other students?",
+      "body": "GetThereTogether is separate from UT transportation services. Find advice from other students about public transit and things first-time riders should know.",
+      "link": "Go to GetThereTogether"
+    }
+  },
+  "community": {
+    "hero": {
+      "eyebrow": "Community",
+      "title": "Get There Together"
+    },
+    "events": {
+      "eyebrow": "New",
+      "title": "Upcoming Events",
+      "empty": "No upcoming events right now."
+    },
+    "explore": {
+      "eyebrow": "Connect",
+      "title": "Explore Austin",
+      "intro": "Find places in Austin to go to, and learn how to get there."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "intro": "That page doesn’t exist. Try planning a trip or browsing resources instead."
+  }
+}

@@ -149,7 +149,9 @@ export function PlaceCombobox({
           className={cx(
             'w-full rounded-sm border bg-surface-muted pr-12 text-ink outline-none focus-visible:border-focus',
             selected ? 'border-focus ring-1 ring-focus' : 'border-transparent',
-            size === 'sm' ? 'p-3 text-body' : 'p-4 text-body-lg',
+            size === 'sm' ? 'p-3 text-body' : 'p-3 text-body-lg md:p-4',
+            // 16px on phones so iOS doesn't zoom in on focus.
+            'max-md:!text-[16px]',
           )}
         />
         <button
@@ -191,7 +193,7 @@ export function PlaceCombobox({
           aria-label={`${label} places`}
           // Keep focus in the input while clicking options.
           onMouseDown={(e) => e.preventDefault()}
-          className="absolute left-0 top-full z-[1000] mt-2 max-h-[360px] w-[320px] overflow-y-auto rounded-md border border-border bg-bg py-2 shadow-raised"
+          className="absolute left-0 top-full z-[1000] mt-2 max-h-[360px] w-[320px] max-w-[calc(100vw-48px)] overflow-y-auto rounded-md border border-border bg-bg py-2 shadow-raised"
         >
           {ordered.length === 0 ? (
             <div className="flex flex-col gap-2 px-4 py-3 text-small">

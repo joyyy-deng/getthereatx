@@ -1,31 +1,28 @@
-import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { LinkIn, ResourceList, ResourceRow, Tabs } from '../components/ui';
-import type { Resource, StudentTab } from '../content/schema';
-import { getResources, getStudentTabs } from '../data';
+import { LinkIn, PageLoading, ResourceList, ResourceRow, Tabs } from '../components/ui';
+import type { Resource } from '../content/schema';
+import { getPageContent, getResources, getStudentTabs } from '../data';
 import { text } from '../lib/i18n';
+import { indexBy } from '../lib/indexBy';
+import { useContent } from '../lib/useContent';
 
 // Student resources (Figma 358:2035), organized by need. The open tab is in the URL.
+// Wording comes from content/pages.json ("students"); tabs from student-tabs.json.
 
 export function StudentResources() {
-  const [tabs, setTabs] = useState<StudentTab[]>([]);
-  const [resources, setResources] = useState<Map<string, Resource>>(new Map());
   const [params, setParams] = useSearchParams();
+  const data = useContent(async () => {
+    const [copy, tabs, resources] = await Promise.all([getPageContent(), getStudentTabs(), getResources()]);
+    return { copy: copy.students, tabs, resources: indexBy(resources) };
+  });
 
-  useEffect(() => {
-    Promise.all([getStudentTabs(), getResources()]).then(([t, r]) => {
-      setTabs(t);
-      setResources(new Map(r.map((x) => [x.id, x])));
-    });
-  }, []);
-
-  if (!tabs.length) return <div className="min-h-screen" aria-busy="true" />;
-
+  if (!data?.tabs.length) return <PageLoading />;
+  const { copy, tabs, resources } = data;
   const current = tabs.find((t) => t.id === params.get('tab')) ?? tabs[0];
   const rows = current.resourceIds.map((id) => resources.get(id)).filter((r): r is Resource => !!r);
 
   return (
-    <div className="px-8 pb-24">
+    <div className="px-6 pb-16 md:px-8 md:pb-24">
       <div className="mx-auto max-w-content">
         <Link
           to="/resources"
@@ -36,21 +33,16 @@ export function StudentResources() {
         {/* Figma order: the GetThereTogether callout sits above the heading. */}
         <div className="pt-8">
           <aside className="flex flex-col gap-2 border-l-[3px] border-border-strong pl-6">
-            <h2 className="m-0 text-h3 font-normal text-ink">Want to learn from other students?</h2>
-            <p className="m-0 text-body text-ink-muted">
-              GetThereTogether is separate from UT transportation services. Find advice from other students about public
-              transit and things first-time riders should know.
-            </p>
+            <h2 className="m-0 text-h3 font-normal text-ink">{copy.callout.title}</h2>
+            <p className="m-0 text-body text-ink-muted">{copy.callout.body}</p>
             <p className="m-0 text-small">
-              <LinkIn to="/community" label="Go to GetThereTogether" />
+              <LinkIn to="/community" label={copy.callout.link} />
             </p>
           </aside>
         </div>
-        <header className="flex flex-col gap-6 pb-[60px] pt-[80px]">
-          <h1 className="m-0 text-display text-ink">How can I get around as a student?</h1>
-          <p className="m-0 max-w-[650px] text-body-lg text-ink-muted">
-            Choose a type of trip to see the services available to UT students.
-          </p>
+        <header className="flex flex-col gap-6 pb-12 pt-12 md:pb-[60px] md:pt-[80px]">
+          <h1 className="m-0 text-h1 text-ink md:text-display">{copy.title}</h1>
+          <p className="m-0 max-w-[650px] text-body-lg text-ink-muted">{copy.intro}</p>
         </header>
       </div>
       <hr className="mx-auto my-0 h-px max-w-[1157px] border-0 bg-border-strong" />

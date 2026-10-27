@@ -1,8 +1,0 @@
-{
-  "heroDestinations": ["ut-austin", "downtown", "domain", "airport", "mueller"],
-  "confidenceRows": [
-    { "label": { "en": "Taking the bus for the first time" }, "postSlug": "transit-101" },
-    { "label": { "en": "Bringing a bike on public transit" }, "postSlug": "how-to-put-your-bike-on-the-bus" },
-    { "label": { "en": "Riding a bike in Austin for the first time" }, "postSlug": "biking-101" }
-  ]
-}
