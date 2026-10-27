@@ -22,8 +22,8 @@
     "title": { "en": "Senior Citizens" },
     "body": { "en": "Carpooling programs can help older adults get where they need to go." },
     "image": {
-      "src": "/images/home/card-seniors.png",
-      "alt": "An older man getting out of a car with help from a driver"
+      "src": "/images/home/card-seniors.webp",
+      "alt": "An older woman in glasses smiling as she looks out a bus window"
     },
     "resourceId": "capmetro-access"
   }
