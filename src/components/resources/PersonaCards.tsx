@@ -5,19 +5,19 @@ import { text } from '../../lib/i18n';
 
 /**
  * "Which sounds most like you?" cards. Each one either links to a page
- * (`to`) or sets the directory's "For Who?" / "Type" filter (`filter`).
+ * (`to`) or sets the directory's tag / Transportation filter (`filter`).
  * Phones: stacked black rows. Tablet: 2 across. Desktop: 4 tiles.
  */
 export function PersonaCards({
   personas,
   who,
-  type,
+  mode,
   onFilter,
 }: {
   personas: Persona[];
   who?: string;
-  type?: string;
-  onFilter: (filter: { who: string | null; type: string | null }) => void;
+  mode?: string;
+  onFilter: (filter: { who: string | null; mode: string | null }) => void;
 }) {
   return (
     <div className="flex flex-col md:grid md:grid-cols-2 md:border-b md:border-border-strong lg:grid-cols-4">
@@ -50,13 +50,13 @@ export function PersonaCards({
             </Link>
           );
         }
-        const active = (p.filter?.forWho && p.filter.forWho === who) || (p.filter?.type && p.filter.type === type);
+        const active = (p.filter?.who && p.filter.who === who) || (p.filter?.mode && p.filter.mode === mode);
         return (
           <button
             key={p.id}
             type="button"
             aria-pressed={!!active}
-            onClick={() => onFilter({ who: p.filter?.forWho ?? null, type: p.filter?.type ?? null })}
+            onClick={() => onFilter({ who: p.filter?.who ?? null, mode: p.filter?.mode ?? null })}
             className={cx(cls, active && 'outline outline-4 -outline-offset-8 outline-white')}
           >
             {body}

@@ -9,6 +9,7 @@ Everything the site says lives in this folder as JSON. To change wording, a link
 | A heading, intro, button or label on a page | `pages.json` (one section per page: `home`, `plan`, `resources`, `students`, `community`, `notFound`) |
 | The Home "Build confidence" rows | `pages.json` → `home.confidence.rows` |
 | A row in the Resources directory | The client's Google Sheet ("Website Content", tab "Trip Planning"). See "Updating the Resources directory" below |
+| The Resources filter tags and the Transportation dropdown, and which of the sheet's "For Who?" / "Type" words each one covers | `directory-tags.json` |
 | Links used on Plan Your Trip, the Student page and the Students / Families / Seniors cards | `resources.json` |
 | The blog posts behind the Home "Build confidence" rows | `posts.json` |
 | The site map and test tasks (/dev/sitemap) | `sheets/site-map.csv`, `sheets/site-map-tasks.csv` |

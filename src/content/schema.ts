@@ -209,8 +209,8 @@ export type StudentTab = z.infer<typeof StudentTab>;
 export const ResourceModeCard = z.object({
   mode: z.enum(MODES),
   title: L,
-  /** The Trip Planning sheet's "Type" value this card filters by. */
-  sheetType: z.string().min(1),
+  /** The Transportation option this card selects (directory-tags.json). */
+  transportation: z.string().min(1),
   image: Img.optional(),
 });
 export type ResourceModeCard = z.infer<typeof ResourceModeCard>;
@@ -221,9 +221,9 @@ export const Persona = z
     id: z.string().min(1),
     title: L,
     body: L,
-    /** Either go to a page, or set a directory filter using the sheet's own values. */
+    /** Either go to a page, or set directory filters (tag / Transportation labels from directory-tags.json). */
     to: z.string().startsWith('/').optional(),
-    filter: z.object({ forWho: z.string().min(1).optional(), type: z.string().min(1).optional() }).optional(),
+    filter: z.object({ who: z.string().min(1).optional(), mode: z.string().min(1).optional() }).optional(),
   })
   .refine((p) => !!p.to !== !!p.filter, { message: 'a persona needs exactly one of `to` or `filter`' });
 export type Persona = z.infer<typeof Persona>;
@@ -278,6 +278,27 @@ export const PageContent = z.object({
   notFound: z.object({ title: Text, intro: Text }),
 });
 export type PageContent = z.infer<typeof PageContent>;
+
+const SheetValues = z.array(Text);
+
+/**
+ * The Resources filters. The client's sheet has its own "For Who?" and "Type"
+ * words; this says which of them each site tag and Transportation option covers,
+ * so the site can use its own labels without changing the sheet.
+ */
+export const DirectoryTags = z.object({
+  forWho: z.object({
+    label: Text,
+    tags: z
+      .array(z.object({ label: Text, sheetForWho: SheetValues.default([]), sheetType: SheetValues.default([]) }))
+      .min(1),
+  }),
+  transportation: z.object({
+    label: Text,
+    options: z.array(z.object({ label: Text, sheetType: SheetValues.min(1) })).min(1),
+  }),
+});
+export type DirectoryTags = z.infer<typeof DirectoryTags>;
 
 export const Resources = z.array(Resource);
 export const ConnectCards = z.array(ConnectCard);

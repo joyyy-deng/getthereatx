@@ -7,6 +7,7 @@ import tripPlanningCsv from '../content/sheets/trip-planning.csv?raw';
 import type {
   Alert,
   ConnectCard,
+  DirectoryTags,
   ExplorePlace,
   Meta,
   PageContent,
@@ -47,6 +48,7 @@ const explorePlaces = load('explore-places');
 const studentTabs = load('student-tabs');
 const resourceModes = load('resource-modes');
 const personas = load('personas');
+const directoryTags = load('directory-tags');
 // Rows with errors are left out; `npm run validate-content` reports them.
 const directory = readTripPlanningSheet(tripPlanningCsv).entries.filter((e) => e.name && e.description);
 
@@ -164,6 +166,11 @@ export async function getResourcesPage(): Promise<{ modes: ResourceModeCard[]; p
 /** The Resources directory: every row of the client's "Trip Planning" sheet. */
 export async function getDirectory(): Promise<DirectoryEntry[]> {
   return directory;
+}
+
+/** The Resources filter tags and Transportation options (directory-tags.json). */
+export async function getDirectoryTags(): Promise<DirectoryTags> {
+  return directoryTags;
 }
 
 /** Headings, intros and labels for every page (pages.json). */

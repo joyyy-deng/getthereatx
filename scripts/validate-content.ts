@@ -3,7 +3,7 @@
 // can't see on their own (unique ids, event times). Exits 1 on any error.
 import type { z } from 'zod';
 import { CONTENT_FILES } from '../src/content/registry';
-import { Events, PageContent, PlanModes, PlanPreferences } from '../src/content/schema';
+import { DirectoryTags, Events, PageContent, PlanModes, PlanPreferences } from '../src/content/schema';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { readTripPlanningSheet } from '../src/content/sheet';
@@ -99,15 +99,42 @@ if (sheet.warnings.length) {
   for (const w of sheet.warnings) console.warn(`  ! ${w}`);
 }
 
-// Mode cards and persona filters must use a Type / For Who? value that exists in the sheet.
+// Tags and Transportation options must point at words the sheet really uses,
+// and anything the site filters by must be one of those labels.
 const sheetTypes = new Set(sheet.entries.flatMap((e) => e.types));
 const sheetWho = new Set(sheet.entries.flatMap((e) => e.forWho));
-for (const m of load('resource-modes') as { mode: string; sheetType: string }[])
-  if (!sheetTypes.has(m.sheetType)) fail('resource-modes', `${m.mode}: no sheet Type "${m.sheetType}"`);
-for (const p of load('personas') as { id: string; filter?: { type?: string; forWho?: string } }[]) {
-  if (p.filter?.type && !sheetTypes.has(p.filter.type)) fail('personas', `${p.id}: no sheet Type "${p.filter.type}"`);
-  if (p.filter?.forWho && !sheetWho.has(p.filter.forWho))
-    fail('personas', `${p.id}: no sheet For Who? "${p.filter.forWho}"`);
+const tags = DirectoryTags.safeParse(load('directory-tags'));
+if (tags.success) {
+  const { forWho, transportation } = tags.data;
+  for (const t of forWho.tags) {
+    for (const v of t.sheetForWho)
+      if (!sheetWho.has(v)) fail('directory-tags', `tag "${t.label}": no "For Who?" value "${v}" in the sheet`);
+    for (const v of t.sheetType)
+      if (!sheetTypes.has(v)) fail('directory-tags', `tag "${t.label}": no "Type" value "${v}" in the sheet`);
+  }
+  for (const o of transportation.options)
+    for (const v of o.sheetType)
+      if (!sheetTypes.has(v)) fail('directory-tags', `option "${o.label}": no "Type" value "${v}" in the sheet`);
+
+  // Sheet words no tag or option covers can't be filtered to (fine, but worth knowing).
+  const coveredWho = new Set(forWho.tags.flatMap((t) => t.sheetForWho));
+  const coveredTypes = new Set([...forWho.tags, ...transportation.options].flatMap((x) => x.sheetType));
+  const loose = [
+    ...[...sheetWho].filter((v) => !coveredWho.has(v)).map((v) => `"For Who?" value "${v}"`),
+    ...[...sheetTypes].filter((v) => !coveredTypes.has(v)).map((v) => `"Type" value "${v}"`),
+  ];
+  for (const l of loose) console.warn(`  ! directory-tags: no tag or option covers the sheet's ${l}`);
+
+  const tagLabels = new Set(forWho.tags.map((t) => t.label));
+  const modeLabels = new Set(transportation.options.map((o) => o.label));
+  for (const m of load('resource-modes') as { mode: string; transportation: string }[])
+    if (!modeLabels.has(m.transportation))
+      fail('resource-modes', `${m.mode}: no Transportation option "${m.transportation}"`);
+  for (const p of load('personas') as { id: string; filter?: { who?: string; mode?: string } }[]) {
+    if (p.filter?.who && !tagLabels.has(p.filter.who)) fail('personas', `${p.id}: no tag "${p.filter.who}"`);
+    if (p.filter?.mode && !modeLabels.has(p.filter.mode))
+      fail('personas', `${p.id}: no Transportation option "${p.filter.mode}"`);
+  }
 }
 
 if (errors) {

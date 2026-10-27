@@ -80,26 +80,41 @@ export const pageAnchor = (name: string) => `page-${name.toLowerCase().replace(/
 
 export const isIssue = (r: SiteMapRow) => /broken|placeholder/i.test(r.notes) || /fail|broken/i.test(r.testStatus);
 
-/** Links between pages, counted, for the diagram. Outside links are grouped. */
-export function pageLinks(rows: SiteMapRow[]) {
-  const names = new Set(rows.map((r) => r.page));
-  const counts = new Map<string, number>();
-  for (const r of rows) {
-    const to = names.has(r.goesTo)
-      ? r.goesTo
-      : /^https?:|^Google Maps|Link column/.test(r.goesTo)
-        ? 'Outside sites'
-        : r.goesTo.startsWith('mailto:')
-          ? 'Email'
-          : undefined;
-    if (!to || to === r.page) continue;
-    const key = `${r.page}→${to}`;
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  }
-  return [...counts].map(([key, count]) => {
-    const [from, to] = key.split('→');
-    return { from, to, count };
-  });
+export interface SiteArea {
+  name: string;
+  purpose: string;
+  pages: string[];
+}
+
+/** Go / Learn / Connect and the pages in each (content/sheets/site-map-areas.csv). */
+export function readSiteAreas(csv: string): SiteArea[] {
+  return records(csv).map((r) => ({
+    name: r['Area'],
+    purpose: r["What it's for"],
+    pages: r['Pages']
+      .split(';')
+      .map((p) => p.trim())
+      .filter(Boolean),
+  }));
+}
+
+/** One color per concept-model area, so every view of the map matches. */
+const AREA_COLORS: Record<string, string> = {
+  Go: 'var(--mode-bus)',
+  Learn: 'var(--mode-bike)',
+  Connect: 'var(--mode-walk)',
+};
+export const HOME_COLOR = 'var(--brand-navy)';
+export const OTHER_COLOR = 'var(--mode-drive)';
+export const areaColor = (area?: string) => (area && AREA_COLORS[area]) || OTHER_COLOR;
+
+/** Page name → its area and color. Home and pages outside an area get their own colors. */
+export function pageColors(rows: SiteMapRow[], areas: SiteArea[]): Map<string, string> {
+  const colors = new Map<string, string>();
+  for (const r of rows) if (!colors.has(r.page)) colors.set(r.page, r.page === 'Home' ? HOME_COLOR : OTHER_COLOR);
+  for (const a of areas) for (const p of a.pages) colors.set(p, areaColor(a.name));
+  colors.set('Every page', 'var(--color-ink)');
+  return colors;
 }
 
 export type LinkKind = 'page' | 'outside' | 'email' | 'action';

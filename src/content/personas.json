@@ -18,7 +18,7 @@
       "en": "How to ride, and bus etiquette information"
     },
     "filter": {
-      "type": "Public Transit"
+      "mode": "Public Transit"
     }
   },
   {
@@ -30,7 +30,7 @@
       "en": "Compare different ways to take a recurring trip"
     },
     "filter": {
-      "forWho": "Commuters"
+      "who": "Commuter"
     }
   },
   {

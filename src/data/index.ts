@@ -4,6 +4,7 @@ export {
   getAlerts,
   getConnectCards,
   getDirectory,
+  getDirectoryTags,
   getEvents,
   getExplorePlaces,
   getPageContent,

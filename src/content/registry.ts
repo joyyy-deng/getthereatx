@@ -2,6 +2,7 @@ import type { z } from 'zod';
 import {
   Alerts,
   ConnectCards,
+  DirectoryTags,
   Events,
   ExplorePlaces,
   PageContent,
@@ -22,6 +23,7 @@ import {
  */
 export const CONTENT_FILES = {
   pages: PageContent,
+  'directory-tags': DirectoryTags,
   resources: Resources,
   posts: Posts,
   events: Events,

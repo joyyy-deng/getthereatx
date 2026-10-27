@@ -1,3 +1,5 @@
+import { currentAbTest } from './abTests';
+
 // Prototype analytics: events are kept in localStorage so a /metrics page can
 // read them back in the demo. Swap for a real analytics call in production.
 
@@ -10,7 +12,13 @@ export interface TrackEvent {
 const KEY = 'gtatx:events';
 
 export function track(name: string, props: Record<string, unknown> = {}): void {
-  const entry: TrackEvent = { name, props, at: new Date().toISOString() };
+  // Tag events with the running A/B test so results can be split by version.
+  const ab = currentAbTest();
+  const entry: TrackEvent = {
+    name,
+    props: ab ? { ...props, ab: `${ab.test}=${ab.version}` } : props,
+    at: new Date().toISOString(),
+  };
   try {
     const all: TrackEvent[] = JSON.parse(localStorage.getItem(KEY) ?? '[]');
     all.push(entry);

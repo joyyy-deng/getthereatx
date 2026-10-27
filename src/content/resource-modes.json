@@ -8,7 +8,7 @@
       "src": "/images/modes/bus.png",
       "alt": "Sloth driving a blue bus"
     },
-    "sheetType": "Public Transit"
+    "transportation": "Public Transit"
   },
   {
     "mode": "bike",
@@ -19,7 +19,7 @@
       "src": "/images/modes/bike.png",
       "alt": "Grackle riding a green cargo trike"
     },
-    "sheetType": "Biking"
+    "transportation": "Biking"
   },
   {
     "mode": "carpool",
@@ -30,7 +30,7 @@
       "src": "/images/modes/drive.png",
       "alt": "Three rabbits riding in a blue convertible"
     },
-    "sheetType": "Carpooling, Van or Car/Rideshare"
+    "transportation": "Carpooling, Van or Car/Rideshare"
   },
   {
     "mode": "walk",
@@ -41,6 +41,6 @@
       "src": "/images/modes/walk.png",
       "alt": "Peacock in sneakers"
     },
-    "sheetType": "Walking"
+    "transportation": "Walking"
   }
 ]

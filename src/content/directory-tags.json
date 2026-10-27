@@ -1,0 +1,27 @@
+{
+  "forWho": {
+    "label": "For who?",
+    "tags": [
+      { "label": "Commuter", "sheetForWho": ["Commuters"] },
+      { "label": "University Student", "sheetForWho": ["University/College"] },
+      { "label": "Visiting Austin", "sheetForWho": ["Visitor"] },
+      { "label": "Families", "sheetForWho": ["Youth/Families"] },
+      { "label": "Seniors", "sheetForWho": ["Seniors"], "sheetType": ["Senior/ADA"] },
+      { "label": "Accessibility", "sheetForWho": ["ADA"], "sheetType": ["Senior/ADA"] }
+    ]
+  },
+  "transportation": {
+    "label": "Transportation",
+    "options": [
+      { "label": "Public Transit", "sheetType": ["Public Transit"] },
+      { "label": "Biking", "sheetType": ["Biking"] },
+      { "label": "Walking", "sheetType": ["Walking"] },
+      { "label": "Carpooling, Van or Car/Rideshare", "sheetType": ["Carpooling, Van or Car/Rideshare"] },
+      { "label": "Rideshare", "sheetType": ["Rideshare"] },
+      { "label": "Carsharing", "sheetType": ["Carsharing"] },
+      { "label": "Ride-hailing/Taxi", "sheetType": ["Ride-hailing/Taxi"] },
+      { "label": "Shuttles", "sheetType": ["Shuttles"] },
+      { "label": "Micro-Transit", "sheetType": ["Micro-Tranist"] }
+    ]
+  }
+}

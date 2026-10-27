@@ -10,17 +10,6 @@ const DETAILS: { id: Detail; label: string }[] = [
   { id: 'all', label: '+ Every button' },
 ];
 
-// One color per page, in map order, so a link's tag matches its page's column.
-const PALETTE = [
-  'var(--brand-navy)',
-  'var(--mode-bus)',
-  'var(--mode-bike)',
-  'var(--mode-walk)',
-  'var(--mode-rail)',
-  'var(--mode-carpool)',
-  'var(--mode-drive)',
-];
-
 const treeAnchor = (name: string) => `map-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
 const ICON = { page: '→', outside: '↗', email: '✉', action: '•' } as const;
@@ -171,7 +160,7 @@ function PageColumn({ page, ctx }: { page: SitePage; ctx: Ctx }) {
  * sections and every button, and pages reached from inside a page beneath it.
  * Hover a "→ page" tag to highlight where it goes.
  */
-export function SiteMapTree({ rows }: { rows: SiteMapRow[] }) {
+export function SiteMapTree({ rows, colors }: { rows: SiteMapRow[]; colors: Map<string, string> }) {
   const [detail, setDetail] = useState<Detail>('all');
   const [focus, setFocus] = useState<string>();
   const { global, roots } = siteTree(rows);
@@ -182,8 +171,8 @@ export function SiteMapTree({ rows }: { rows: SiteMapRow[] }) {
     p.children.forEach(walk);
   };
   roots.forEach(walk);
-  const color = new Map(order.map((p, i) => [p.name, PALETTE[i % PALETTE.length]]));
-  color.set(global.name, 'var(--color-ink)');
+  // Same colors as the structure view: by Go / Learn / Connect area.
+  const color = colors;
   const ctx: Ctx = { detail, pageNames: new Set([global.name, ...order.map((p) => p.name)]), color, focus, setFocus };
 
   return (

@@ -4,14 +4,20 @@ import { DirectoryFilters, type FilterChange } from '../components/resources/Dir
 import { ModeFilterCards } from '../components/resources/ModeFilterCards';
 import { PersonaCards } from '../components/resources/PersonaCards';
 import { PageLoading, Pagination, ResourceList, SectionHeader, SheetRow } from '../components/ui';
-import { getDirectory, getPageContent, getResourcesPage } from '../data';
-import { directoryOptions, filterDirectory, type DirectoryFilter } from '../lib/directory';
+import { getDirectory, getDirectoryTags, getPageContent, getResourcesPage } from '../data';
+import { filterDirectory, type DirectoryFilter } from '../lib/directory';
 import { useContent } from '../lib/useContent';
 import { useMediaQuery } from '../lib/useMediaQuery';
+import { abVersion } from '../lib/abTests';
+import { cx } from '../lib/cx';
 
 // Resources (Figma 350:1440). The directory is the client's "Trip Planning"
-// Google Sheet (content/sheets/trip-planning.csv), filtered in place by its own
-// "Type" and "For Who?" values. Filters live in the URL: /resources?type=Biking&who=Commuters&q=bike
+// Google Sheet (content/sheets/trip-planning.csv), filtered by our own tags and a
+// Transportation dropdown (content/directory-tags.json maps them to the sheet's
+// words). Filters live in the URL: /resources?who=Commuter&mode=Biking&q=bike
+
+// A/B test Learn [1] (/learn=b): no mode cards or "Which sounds most like you?" cards;
+// the directory comes right after the title.
 
 /** Phones page through the directory; wider screens show the whole list. */
 const PAGE_SIZE = 6;
@@ -22,8 +28,13 @@ function oneOf<T extends string>(list: readonly T[], value: string | null): T | 
 
 export function Resources() {
   const data = useContent(async () => {
-    const [entries, page, copy] = await Promise.all([getDirectory(), getResourcesPage(), getPageContent()]);
-    return { entries, options: directoryOptions(entries), ...page, copy: copy.resources };
+    const [entries, tags, page, copy] = await Promise.all([
+      getDirectory(),
+      getDirectoryTags(),
+      getResourcesPage(),
+      getPageContent(),
+    ]);
+    return { entries, tags, ...page, copy: copy.resources };
   });
   const [params, setParams] = useSearchParams();
   const directoryRef = useRef<HTMLDivElement>(null);
@@ -31,11 +42,11 @@ export function Resources() {
   const [page, setPage] = useState(1);
 
   const filter: DirectoryFilter = {
-    type: oneOf(data?.options.types ?? [], params.get('type')),
-    who: oneOf(data?.options.forWho ?? [], params.get('who')),
+    who: oneOf(data?.tags.forWho.tags.map((t) => t.label) ?? [], params.get('who')),
+    mode: oneOf(data?.tags.transportation.options.map((o) => o.label) ?? [], params.get('mode')),
     q: params.get('q') ?? '',
   };
-  const { type, who, q } = filter;
+  const { who, mode, q } = filter;
 
   function setFilter(change: FilterChange) {
     setParams(
@@ -50,16 +61,19 @@ export function Resources() {
       { replace: true, preventScrollReset: true },
     );
   }
-  const clearFilters = () => setFilter({ type: null, who: null, q: null });
+  const clearFilters = () => setFilter({ who: null, mode: null, q: null });
 
   function showDirectory() {
     directoryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  const results = useMemo(() => (data ? filterDirectory(data.entries, { type, who, q }) : []), [data, type, who, q]);
+  const results = useMemo(
+    () => (data ? filterDirectory(data.entries, { who, mode, q }, data.tags) : []),
+    [data, who, mode, q],
+  );
 
   // Any filter change starts the directory over at page 1.
-  useEffect(() => setPage(1), [type, who, q]);
+  useEffect(() => setPage(1), [who, mode, q]);
 
   if (!data) return <PageLoading />;
   const { copy } = data;
@@ -68,38 +82,50 @@ export function Resources() {
   const pages = paged ? Math.max(1, Math.ceil(rows.length / PAGE_SIZE)) : 1;
   const current = Math.min(page, pages);
   const shown = paged ? rows.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE) : rows;
+  const directoryOnly = abVersion('learn') === 'b';
 
   return (
     <div className="px-6 md:px-8">
       {/* How-to's: mode cards filter the directory below. */}
       <section className="mx-auto flex max-w-content flex-col gap-12 pt-16 md:pt-24">
         <SectionHeader level={1} size="display" eyebrow={copy.modes.eyebrow} title={copy.modes.title} />
-        <ModeFilterCards
-          modes={data.modes}
-          selected={type}
-          onSelect={(t) => {
-            setFilter({ type: t });
-            if (t) showDirectory();
-          }}
-        />
+        {!directoryOnly && (
+          <ModeFilterCards
+            modes={data.modes}
+            selected={mode}
+            onSelect={(m) => {
+              setFilter({ mode: m });
+              if (m) showDirectory();
+            }}
+          />
+        )}
       </section>
 
-      <section className="mx-auto flex max-w-content flex-col gap-12 py-16 md:py-24">
-        <SectionHeader size="display" eyebrow={copy.personas.eyebrow} title={copy.personas.title} />
-        <PersonaCards
-          personas={data.personas}
-          who={who}
-          type={type}
-          onFilter={(f) => {
-            setFilter(f);
-            showDirectory();
-          }}
-        />
+      <section
+        className={cx(
+          'mx-auto flex max-w-content flex-col gap-12 pb-16 md:pb-24',
+          directoryOnly ? 'pt-12' : 'pt-16 md:pt-24',
+        )}
+      >
+        {!directoryOnly && (
+          <>
+            <SectionHeader size="display" eyebrow={copy.personas.eyebrow} title={copy.personas.title} />
+            <PersonaCards
+              personas={data.personas}
+              who={who}
+              mode={mode}
+              onFilter={(f) => {
+                setFilter(f);
+                showDirectory();
+              }}
+            />
+          </>
+        )}
 
         <div ref={directoryRef} className="flex scroll-mt-[140px] flex-col gap-4">
           <DirectoryFilters
             filter={filter}
-            options={data.options}
+            tags={data.tags}
             onChange={setFilter}
             onClear={clearFilters}
             count={rows.length}
