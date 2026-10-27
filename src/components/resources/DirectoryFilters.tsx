@@ -32,7 +32,8 @@ export function DirectoryFilters({
 
   return (
     <>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
+      {/* Tags on top; Transportation and search below them, left-aligned. */}
+      <div className="flex flex-col gap-4">
         <div role="group" aria-label={tags.forWho.label} className="flex flex-wrap gap-2">
           <Chip label="All" selected={!who} onClick={() => onChange({ who: null })} className={SMALL_CHIP} />
           {tags.forWho.tags.map((t) => (
@@ -45,17 +46,40 @@ export function DirectoryFilters({
             />
           ))}
         </div>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end lg:shrink-0">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end">
           <label className="flex flex-col gap-2">
             <Eyebrow>{tags.transportation.label}</Eyebrow>
-            <select value={mode ?? ''} onChange={(e) => onChange({ mode: e.target.value || null })} className={FIELD}>
-              <option value="">All</option>
-              {tags.transportation.options.map((o) => (
-                <option key={o.label} value={o.label}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
+            {/* Own arrow, inset from the border (the browser's sits against it). */}
+            <span className="relative block">
+              <select
+                value={mode ?? ''}
+                onChange={(e) => onChange({ mode: e.target.value || null })}
+                className={`${FIELD} appearance-none pr-12`}
+              >
+                <option value="">All</option>
+                {tags.transportation.options.map((o) => (
+                  <option key={o.label} value={o.label}>
+                    {o.label}
+                  </option>
+                ))}
+              </select>
+              <svg
+                aria-hidden="true"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-ink"
+              >
+                <path
+                  d="M4 6l4 4 4-4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
           </label>
           <label className="flex flex-col gap-2">
             <Eyebrow>{searchLabel}</Eyebrow>
