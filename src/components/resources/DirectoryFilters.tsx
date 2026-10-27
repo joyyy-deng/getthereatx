@@ -32,21 +32,9 @@ export function DirectoryFilters({
 
   return (
     <>
-      {/* Tags on top; Transportation and search below them, left-aligned. */}
-      <div className="flex flex-col gap-4">
-        <div role="group" aria-label={tags.forWho.label} className="flex flex-wrap gap-2">
-          <Chip label="All" selected={!who} onClick={() => onChange({ who: null })} className={SMALL_CHIP} />
-          {tags.forWho.tags.map((t) => (
-            <Chip
-              key={t.label}
-              label={t.label}
-              selected={who === t.label}
-              onClick={() => onChange({ who: who === t.label ? null : t.label })}
-              className={SMALL_CHIP}
-            />
-          ))}
-        </div>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end">
+      {/* Transportation and search on the left, tags on the right. Phones: fields above the tags. */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between lg:gap-8">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end lg:shrink-0">
           <label className="flex flex-col gap-2">
             <Eyebrow>{tags.transportation.label}</Eyebrow>
             {/* Own arrow, inset from the border (the browser's sits against it). */}
@@ -91,6 +79,18 @@ export function DirectoryFilters({
               className={FIELD}
             />
           </label>
+        </div>
+        <div role="group" aria-label={tags.forWho.label} className="flex flex-wrap gap-2 lg:justify-end">
+          <Chip label="All" selected={!who} onClick={() => onChange({ who: null })} className={SMALL_CHIP} />
+          {tags.forWho.tags.map((t) => (
+            <Chip
+              key={t.label}
+              label={t.label}
+              selected={who === t.label}
+              onClick={() => onChange({ who: who === t.label ? null : t.label })}
+              className={SMALL_CHIP}
+            />
+          ))}
         </div>
       </div>
       <p className="m-0 flex flex-wrap items-baseline gap-x-3 text-small text-ink-muted" aria-live="polite">
