@@ -10,6 +10,11 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+
+# WordPress plugin build output (npm run build:wp / zip:wp)
+wordpress/gtatx-tools/build
+wordpress/gtatx-tools/assets
+wordpress/gtatx-tools.zip
 *.local
 
 # Editor directories and files

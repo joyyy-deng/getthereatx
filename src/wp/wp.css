@@ -1,0 +1,36 @@
+/* WordPress-only rules. Like everything in the plugin build, these end up under .gtatx-app. */
+
+/* The map and results panel use z-indexes up to 1000. Keep them inside the tool
+   so they never cover the theme's sticky header or menus. */
+:root {
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  /* index.css gives body a full-screen min-height; the wrapper shouldn't have one. */
+  min-height: 0;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+/* Themes (and Elementor's kit) style headings and text elements directly, e.g.
+   `h1 { font-family: …; text-transform: uppercase }`. Tailwind's preflight doesn't
+   reset these, so undo them here. Tailwind classes still win (they're more specific). */
+:is(h1, h2, h3, h4, h5, h6, p, a, span, li, label, small, strong, em, dt, dd, figcaption, blockquote) {
+  font-family: inherit;
+  font-style: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-transform: inherit;
+  text-shadow: none;
+}
+:is(h1, h2, h3, h4, h5, h6) {
+  color: inherit;
+}
+:is(input, select, textarea, button) {
+  box-shadow: none;
+  letter-spacing: inherit;
+  line-height: inherit;
+  text-transform: none;
+  min-height: 0;
+}

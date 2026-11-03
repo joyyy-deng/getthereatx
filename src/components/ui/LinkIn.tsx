@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { cx } from '../../lib/cx';
+import { PageLink } from './PageLink';
 import { buttonClasses, type ButtonStyle } from './styles';
 
 // → means "stays on GetThereATX." Internal navigation only.
@@ -23,9 +23,9 @@ export function LinkIn({ to, label, as = 'inline', variant = 'primary', size, sh
   }[as];
 
   return (
-    <Link to={to} className={cx(styles, className)}>
+    <PageLink to={to} className={cx(styles, className)}>
       {label}
       <span aria-hidden="true">&nbsp;→</span>
-    </Link>
+    </PageLink>
   );
 }

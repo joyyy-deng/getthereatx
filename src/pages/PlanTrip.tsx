@@ -20,7 +20,8 @@ const FORM_PAD: [number, number] = [330, 60];
 /** The page fills the screen under the nav (64px on phones, 75px from 768px), with no page scroll. */
 const SECTION_H = 'h-[calc(100dvh-64px)] min-h-[480px] md:h-[calc(100dvh-75px)] lg:min-h-[560px]';
 
-export function PlanTrip() {
+/** `height` replaces the full-screen height when the page is embedded (the WordPress plugin). */
+export function PlanTrip({ height }: { height?: string }) {
   const data = useContent(async () => {
     const [copy, places, config, resources, programs] = await Promise.all([
       getPageContent(),
@@ -119,11 +120,18 @@ export function PlanTrip() {
     [mobile, showResults, box.form, sheetH],
   );
 
-  if (!data) return <PageLoading className={`${SECTION_H} bg-surface-muted`} />;
+  const sectionH = height ? 'min-h-[480px]' : SECTION_H;
+  const style = height ? { height } : undefined;
+  if (!data) return <PageLoading className={`${sectionH} bg-surface-muted`} style={style} />;
   const sheetMode = mobile && showResults;
 
   return (
-    <section ref={sectionRef} aria-labelledby="plan-title" className={`relative ${SECTION_H} overflow-hidden`}>
+    <section
+      ref={sectionRef}
+      aria-labelledby="plan-title"
+      className={`relative ${sectionH} overflow-hidden`}
+      style={style}
+    >
       <div className="absolute inset-0 z-0">
         <TripMap
           places={data.places}

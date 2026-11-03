@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import type { Persona } from '../../content/schema';
+import { PageLink } from '../ui/PageLink';
 import { cx } from '../../lib/cx';
 import { text } from '../../lib/i18n';
 
@@ -45,9 +45,9 @@ export function PersonaCards({
 
         if (p.to) {
           return (
-            <Link key={p.id} to={p.to} className={cls}>
+            <PageLink key={p.id} to={p.to} className={cls}>
               {body}
-            </Link>
+            </PageLink>
           );
         }
         const active = (p.filter?.who && p.filter.who === who) || (p.filter?.mode && p.filter.mode === mode);

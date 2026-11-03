@@ -11,7 +11,9 @@
     "typecheck": "tsc -b && tsc -p tsconfig.scripts.json",
     "validate-content": "tsx scripts/validate-content.ts",
     "check-links": "tsx scripts/check-links.ts",
-    "import-sheet": "tsx scripts/import-sheet.ts"
+    "import-sheet": "tsx scripts/import-sheet.ts",
+    "build:wp": "npm run validate-content && tsc -b && vite build --config vite.wp.config.ts",
+    "zip:wp": "npm run build:wp && cd wordpress && rm -f gtatx-tools.zip && zip -rq gtatx-tools.zip gtatx-tools -x '*.DS_Store'"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.2.5",

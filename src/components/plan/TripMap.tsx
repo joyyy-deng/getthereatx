@@ -9,9 +9,13 @@ import { text } from '../../lib/i18n';
 const AUSTIN: LatLngExpression = [30.283, -97.71];
 const DEFAULT_ZOOM = 12.5;
 
-/** Read a design token so map colors stay in tokens.css. */
+/**
+ * Read a design token so map colors stay in tokens.css. Inside WordPress the
+ * tokens live on the plugin's .gtatx-app wrapper instead of <html>.
+ */
 function token(name: string): string {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const scope = document.querySelector('.gtatx-app') ?? document.documentElement;
+  return getComputedStyle(scope).getPropertyValue(name).trim();
 }
 
 export interface TripMapProps {
