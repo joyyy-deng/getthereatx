@@ -1,7 +1,8 @@
 import type { Config } from 'tailwindcss';
 
-// Every value points at a CSS variable in src/styles/tokens.css.
-// Components use role tokens (bg-action, text-ink-muted), never raw hex.
+// Every value points at a CSS variable. Colors and fonts come from
+// src/content/theme.json (applied at load); sizes from src/styles/tokens.css.
+// Components use these names (bg-navy, text-ink-soft), never raw hex.
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
@@ -12,7 +13,21 @@ export default {
       bg: 'var(--color-bg)',
       'surface-muted': 'var(--color-surface-muted)',
       ink: 'var(--color-ink)',
+      'ink-soft': 'var(--color-ink-soft)',
       'ink-muted': 'var(--color-ink-muted)',
+      rule: 'var(--color-rule)',
+      line: 'var(--color-line)',
+      field: 'var(--color-field)',
+      navy: 'var(--color-navy)',
+      sky: 'var(--color-sky)',
+      'sky-strong': 'var(--color-sky-strong)',
+      'sky-nav': 'var(--color-sky-nav)',
+      mist: 'var(--color-mist)',
+      leaf: 'var(--color-leaf)',
+      charcoal: 'var(--color-charcoal)',
+      route: 'var(--color-route)',
+      'map-land': 'var(--color-map-land)',
+      'map-label': 'var(--color-map-label)',
       border: 'var(--color-border)',
       'border-strong': 'var(--color-border-strong)',
       'border-control': 'var(--color-border-control)',
@@ -47,8 +62,9 @@ export default {
       },
     },
     fontFamily: {
-      sans: ['"Geist Sans"', 'system-ui', 'sans-serif'],
-      mono: ['"Geist Mono"', 'ui-monospace', 'monospace'],
+      // theme.json sets these (Real Text Pro first, Geist as the fallback).
+      sans: ['var(--font-sans)'],
+      mono: ['var(--font-mono)'],
     },
     // Sizes come from tokens.css so phones can use a smaller scale.
     fontSize: {
@@ -81,6 +97,11 @@ export default {
       8: '32px',
       12: '48px',
       16: '64px',
+      5: '20px',
+      7: '28px',
+      9: '36px',
+      10: '40px',
+      14: '56px',
       24: '96px',
       32: '128px',
     },
@@ -89,6 +110,7 @@ export default {
       sm: 'var(--radius-sm)',
       md: 'var(--radius-md)',
       pill: 'var(--radius-pill)',
+      poster: 'var(--radius-poster)',
     },
     extend: {
       maxWidth: {

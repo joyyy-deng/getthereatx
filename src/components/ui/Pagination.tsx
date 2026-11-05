@@ -17,9 +17,9 @@ function pageList(current: number, total: number): (number | '…')[] {
 }
 
 const arrow =
-  'grid size-[44px] place-items-center rounded-pill text-ink transition-colors duration-hover hover:bg-surface-muted disabled:opacity-30';
+  'grid size-[44px] place-items-center text-[20px] text-ink transition-colors duration-hover hover:bg-mist disabled:opacity-30';
 
-/** ‹ 1 2 … 7 › with square page boxes (Figma mobile Resources). */
+/** ‹ 1 2 … 7 › with square page boxes, styled like the Resources filters (charcoal = current). */
 export function Pagination({ page, pages, onChange, label }: PaginationProps) {
   if (pages <= 1) return null;
   return (
@@ -46,8 +46,8 @@ export function Pagination({ page, pages, onChange, label }: PaginationProps) {
             aria-label={`Page ${n}`}
             aria-current={n === page ? 'page' : undefined}
             className={cx(
-              'grid size-[36px] place-items-center border text-small transition-colors duration-hover',
-              n === page ? 'border-ink bg-ink text-white' : 'border-border-strong text-ink hover:bg-surface-muted',
+              'grid size-[44px] place-items-center border text-[14px] transition-colors duration-hover',
+              n === page ? 'border-charcoal bg-charcoal text-white' : 'border-line text-ink hover:bg-mist',
             )}
           >
             {n}

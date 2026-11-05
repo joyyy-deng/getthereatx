@@ -1,16 +1,21 @@
 import 'leaflet/dist/leaflet.css';
 import { divIcon, latLngBounds, type LatLngExpression, type PathOptions } from 'leaflet';
 import { useEffect, useMemo, useState } from 'react';
-import { CircleMarker, MapContainer, Marker, Polygon, TileLayer, Tooltip, useMap } from 'react-leaflet';
+import { CircleMarker, MapContainer, Marker, Polygon, Polyline, TileLayer, Tooltip, useMap } from 'react-leaflet';
 import type { Place } from '../../content/schema';
 import { text } from '../../lib/i18n';
 
-// Frames the central neighborhoods to the right of the form.
-const AUSTIN: LatLngExpression = [30.283, -97.71];
-const DEFAULT_ZOOM = 12.5;
+// Real Leaflet map, styled like the Figma "Austin route map" (775:3888):
+// cream-tinted streets, a green line from A to B with the travel time, white
+// name labels and square zoom controls. The line is straight: there is no
+// routing service, so the page labels it as a sketch, not a street route.
+
+const AUSTIN: LatLngExpression = [30.283, -97.73];
+const DEFAULT_ZOOM = 12;
+const PAD: [number, number] = [48, 48];
 
 /**
- * Read a design token so map colors stay in tokens.css. Inside WordPress the
+ * Read a design token so map colors stay in theme.json. Inside WordPress the
  * tokens live on the plugin's .gtatx-app wrapper instead of <html>.
  */
 function token(name: string): string {
@@ -22,19 +27,22 @@ export interface TripMapProps {
   places: Place[];
   from?: Place;
   to?: Place;
+  /** Shown on the line, e.g. "32 min". */
+  badge?: string;
+  /** Click a neighborhood or pin to fill From, then To. */
   onPick: (place: Place) => void;
-  /** The place in the field map clicks will fill; drawn with a heavier outline. */
-  activeId?: string;
-  /** Pixels hidden behind overlays, so the trip is framed in the visible area. */
-  padding: { topLeft: [number, number]; bottomRight: [number, number] };
+  /** Under the zoom buttons' scale line, e.g. "Straight-line sketch, not a street route". */
+  note: string;
 }
+
+const center = (p: Place): [number, number] => [p.centroid.lat, p.centroid.lng];
 
 function points(p: Place): [number, number][] {
-  return p.polygon ?? [[p.centroid.lat, p.centroid.lng]];
+  return p.polygon ?? [center(p)];
 }
 
-/** Re-frames the map whenever From or To changes. */
-function FitTrip({ from, to, padding }: Pick<TripMapProps, 'from' | 'to' | 'padding'>) {
+/** Frames the trip (or Austin) whenever From or To changes. */
+function FitTrip({ from, to }: Pick<TripMapProps, 'from' | 'to'>) {
   const map = useMap();
   useEffect(() => {
     const picked = [from, to].filter((p): p is Place => !!p);
@@ -42,40 +50,68 @@ function FitTrip({ from, to, padding }: Pick<TripMapProps, 'from' | 'to' | 'padd
       map.setView(AUSTIN, DEFAULT_ZOOM);
       return;
     }
-    const bounds = latLngBounds(picked.flatMap(points));
-    map.flyToBounds(bounds, {
-      paddingTopLeft: padding.topLeft,
-      paddingBottomRight: padding.bottomRight,
+    map.flyToBounds(latLngBounds(picked.flatMap(points)), {
+      padding: PAD,
       maxZoom: 14,
       duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.6,
     });
-  }, [map, from, to, padding.topLeft, padding.bottomRight]);
+  }, [map, from, to]);
   return null;
 }
 
-/** Light street map with clickable neighborhoods (polygons) and destinations (pins). */
-export function TripMap({ places, from, to, activeId, onPick, padding }: TripMapProps) {
+/** Figma "Map controls": N ↑ (reset), +, −, as 36px white squares. */
+function Controls({ from, to }: Pick<TripMapProps, 'from' | 'to'>) {
+  const map = useMap();
+  const btn =
+    'grid size-9 place-items-center bg-bg text-ink shadow-[0_1px_2px_rgb(0_0_0/0.15)] transition-colors duration-hover hover:bg-mist';
+  function reset() {
+    const picked = [from, to].filter((p): p is Place => !!p);
+    if (picked.length) map.fitBounds(latLngBounds(picked.flatMap(points)), { padding: PAD, maxZoom: 14 });
+    else map.setView(AUSTIN, DEFAULT_ZOOM);
+  }
+  return (
+    <div className="absolute right-3 top-3 z-[500] flex flex-col gap-1 lg:right-6 lg:top-6">
+      <button type="button" onClick={reset} aria-label="Reset the map to the trip" className={`${btn} text-[16px] font-semibold`}>
+        N ↑
+      </button>
+      <button type="button" onClick={() => map.zoomIn()} aria-label="Zoom in" className={`${btn} text-[24px]`}>
+        +
+      </button>
+      <button type="button" onClick={() => map.zoomOut()} aria-label="Zoom out" className={`${btn} text-[24px]`}>
+        −
+      </button>
+    </div>
+  );
+}
+
+const label = (html: string, className = 'trip-map-label') =>
+  divIcon({ className: 'trip-map-anchor', html: `<span class="${className}">${html}</span>`, iconSize: [0, 0] });
+
+const escape = (s: string) => s.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
+
+export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps) {
   const [hover, setHover] = useState<string>();
   const colors = useMemo(
     () => ({
+      route: token('--color-route'),
       from: token('--mode-bus'),
-      to: token('--color-action'),
-      idle: token('--color-ink-muted'),
-      pin: token('--color-bg'),
+      idle: token('--color-map-label'),
+      white: token('--color-bg'),
     }),
     [],
   );
+  const trip = from && to;
 
   function style(p: Place): PathOptions {
     const role = p.id === from?.id ? 'from' : p.id === to?.id ? 'to' : undefined;
     // dashArray '' clears the idle dashes when a shape becomes selected.
     if (role)
       return {
-        color: colors[role],
-        weight: p.id === activeId ? 4 : 2,
+        color: role === 'from' ? colors.from : colors.route,
+        weight: 2,
         dashArray: '',
-        fillColor: colors[role],
-        fillOpacity: 0.35,
+        fillColor: role === 'from' ? colors.from : colors.route,
+        fillOpacity: trip ? 0.12 : 0.3,
       };
     return {
       color: colors.idle,
@@ -92,79 +128,108 @@ export function TripMap({ places, from, to, activeId, onPick, padding }: TripMap
     mouseout: () => setHover((h) => (h === p.id ? undefined : h)),
   });
 
+  const mid: [number, number] | undefined = trip
+    ? [(from.centroid.lat + to.centroid.lat) / 2, (from.centroid.lng + to.centroid.lng) / 2]
+    : undefined;
+
   return (
-    <MapContainer
-      center={AUSTIN}
-      zoom={DEFAULT_ZOOM}
-      zoomSnap={0.5}
-      zoomControl={false}
-      scrollWheelZoom={false}
-      className="size-full"
-      attributionControl
-      aria-label="Map of Austin. Click a neighborhood or pin to set From, then To. You can also use the From and To fields."
-    >
-      {/* Esri light-gray basemap: free for prototypes, no API key. Labels sit on a separate layer. */}
-      <TileLayer
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-        attribution="Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors · Neighborhoods: City of Austin"
-        maxZoom={16}
-      />
-      <TileLayer
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
-        maxZoom={16}
-      />
-      {places.map((p) => {
-        const selected = p.id === from?.id || p.id === to?.id;
-        // Hover name for unselected places only; selected names are drawn below.
-        const hoverLabel = !selected && (
-          <Tooltip
-            direction={p.polygon ? 'center' : 'top'}
-            offset={p.polygon ? [0, 0] : [0, -10]}
-            className="map-label"
-          >
-            {text(p.name)}
-          </Tooltip>
-        );
-        return p.polygon ? (
-          <Polygon key={p.id} positions={p.polygon} pathOptions={style(p)} eventHandlers={handlers(p)}>
-            {hoverLabel}
-          </Polygon>
-        ) : (
-          <CircleMarker
-            key={p.id}
-            center={[p.centroid.lat, p.centroid.lng]}
-            radius={8}
-            pathOptions={{
-              ...style(p),
-              dashArray: '',
-              weight: 2,
-              fillColor: selected ? style(p).fillColor : colors.pin,
-              fillOpacity: 1,
-            }}
-            eventHandlers={handlers(p)}
-          >
-            {hoverLabel}
-          </CircleMarker>
-        );
-      })}
-      {/* Always-on names for From and To (Figma's "DOWNTOWN" / "MUELLER" labels). Separate
-          markers, because swapping a bound tooltip in and out can unbind the new one. */}
-      {[from, to]
-        .filter((p): p is Place => !!p)
-        .map((p) => (
-          <Marker
-            key={`label-${p.id}`}
-            position={[p.centroid.lat, p.centroid.lng]}
-            interactive={false}
-            keyboard={false}
-            icon={divIcon({
-              className: p.polygon ? 'map-label-anchor' : 'map-label-anchor map-label-anchor--pin',
-              html: `<span class="map-label">${text(p.name)}</span>`,
-              iconSize: [0, 0],
-            })}
-          />
-        ))}
-      <FitTrip from={from} to={to} padding={padding} />
-    </MapContainer>
+    <div className="trip-map relative size-full bg-map-land">
+      <MapContainer
+        center={AUSTIN}
+        zoom={DEFAULT_ZOOM}
+        zoomSnap={0.5}
+        zoomControl={false}
+        scrollWheelZoom={false}
+        className="size-full"
+        attributionControl
+        aria-label="Map of Austin. Click a neighborhood or pin to set From, then To. You can also use the From and To fields."
+      >
+        {/* Esri light-gray basemap: free for prototypes, no API key. */}
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          attribution="Tiles &copy; Esri, HERE, Garmin, &copy; OpenStreetMap contributors · Neighborhoods: City of Austin"
+          maxZoom={16}
+        />
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+          maxZoom={16}
+        />
+        {places.map((p) => {
+          const selected = p.id === from?.id || p.id === to?.id;
+          const hoverLabel = !selected && (
+            <Tooltip direction={p.polygon ? 'center' : 'top'} offset={p.polygon ? [0, 0] : [0, -10]} className="map-label">
+              {text(p.name)}
+            </Tooltip>
+          );
+          return p.polygon ? (
+            <Polygon key={p.id} positions={p.polygon} pathOptions={style(p)} eventHandlers={handlers(p)}>
+              {hoverLabel}
+            </Polygon>
+          ) : (
+            !selected && (
+              <CircleMarker
+                key={p.id}
+                center={center(p)}
+                radius={7}
+                pathOptions={{ ...style(p), dashArray: '', weight: 2, fillColor: colors.white, fillOpacity: 1 }}
+                eventHandlers={handlers(p)}
+              >
+                {hoverLabel}
+              </CircleMarker>
+            )
+          );
+        })}
+
+        {trip && (
+          <>
+            {/* Figma "Route casing" + "Selected route". */}
+            <Polyline positions={[center(from), center(to)]} pathOptions={{ color: colors.white, weight: 10, opacity: 1 }} />
+            <Polyline positions={[center(from), center(to)]} pathOptions={{ color: colors.route, weight: 5, opacity: 1 }} />
+          </>
+        )}
+        {from && (
+          <>
+            {/* Figma "Origin halo". */}
+            <CircleMarker
+              center={center(from)}
+              radius={9}
+              interactive={false}
+              pathOptions={{ color: colors.route, weight: 4, fillColor: colors.white, fillOpacity: 1 }}
+            />
+            <Marker
+              position={center(from)}
+              interactive={false}
+              keyboard={false}
+              icon={label(escape(text(from.name)), 'trip-map-label trip-map-label--below')}
+            />
+          </>
+        )}
+        {to && (
+          <>
+            {/* Figma "Destination marker": green square with B. */}
+            <Marker
+              position={center(to)}
+              interactive={false}
+              keyboard={false}
+              icon={label('B', 'trip-map-pin')}
+            />
+            <Marker
+              position={center(to)}
+              interactive={false}
+              keyboard={false}
+              icon={label(escape(text(to.name)), 'trip-map-label trip-map-label--above')}
+            />
+          </>
+        )}
+        {mid && badge && (
+          <Marker position={mid} interactive={false} keyboard={false} icon={label(escape(badge), 'trip-map-badge')} />
+        )}
+        <FitTrip from={from} to={to} />
+        <Controls from={from} to={to} />
+      </MapContainer>
+      <p className="pointer-events-none absolute left-2 top-2 z-[500] m-0 max-w-[calc(100%-64px)] bg-bg px-[6px] py-[3px] text-[10px] leading-[1.3] text-map-label">
+        {note}
+      </p>
+    </div>
   );
 }

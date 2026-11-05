@@ -41,3 +41,11 @@ export function recurrenceText(event: Event): string | null {
 export function nextText(start: Date, end: Date): string {
   return `${day.format(start)} · ${timeRange(start, end)}`;
 }
+
+const railParts = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', weekday: 'short', timeZone: TZ });
+
+/** The agenda's date rail: { month: "NOV", day: "08", weekday: "SUN" }. */
+export function dateRail(start: Date): { month: string; day: string; weekday: string } {
+  const p = Object.fromEntries(railParts.formatToParts(start).map((x) => [x.type, x.value]));
+  return { month: p.month.toUpperCase(), day: p.day, weekday: p.weekday.toUpperCase() };
+}

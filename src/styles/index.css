@@ -1,5 +1,7 @@
 @import '@fontsource/geist-sans/400.css';
 @import '@fontsource/geist-sans/500.css';
+@import '@fontsource/geist-sans/600.css';
+@import '@fontsource/geist-sans/700.css';
 @import '@fontsource/geist-mono/400.css';
 @import '@fontsource/geist-mono/500.css';
 @import './tokens.css';
@@ -40,6 +42,35 @@
 .leaflet-container {
   @apply font-sans;
 }
+/* Plan Your Trip route map (Figma "Austin route map"): cream-tinted tiles,
+   white name labels, a green B pin and time badge. Markers are 0×0 anchors at
+   the point; the label inside is positioned from there. */
+.trip-map .leaflet-container {
+  background: var(--color-map-land);
+  @apply font-sans;
+}
+.trip-map .leaflet-tile-pane {
+  filter: sepia(0.25) saturate(0.7) brightness(1.03);
+}
+.trip-map-label {
+  @apply absolute left-0 top-0 whitespace-nowrap bg-bg p-2 text-[13px] font-medium leading-[1.3] text-ink;
+  transform: translate(-50%, -50%);
+}
+.trip-map-label--below {
+  transform: translate(-50%, 16px);
+}
+.trip-map-label--above {
+  transform: translate(-50%, calc(-100% - 18px));
+}
+.trip-map-pin {
+  @apply absolute left-0 top-0 grid size-6 place-items-center bg-route text-[12px] font-bold leading-none text-white;
+  transform: translate(-50%, -50%);
+}
+.trip-map-badge {
+  @apply absolute left-0 top-0 whitespace-nowrap bg-route px-3 py-[7px] text-[14px] font-semibold leading-[1.3] text-white;
+  transform: translate(-50%, -50%);
+}
+
 /* Map shapes are mouse shortcuts; keyboard users pick places in the From/To fields. */
 .leaflet-interactive:focus {
   outline: none;

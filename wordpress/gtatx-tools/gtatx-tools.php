@@ -90,17 +90,22 @@ function gtatx_tools_mount( $tool, $extra = array() ) {
 }
 
 /**
- * [gtatx_trip_planner]
- * [gtatx_trip_planner height="760px"]  Map height. Default: the screen height minus 120px.
+ * Both shortcodes take width="full" (default: the tool spans the whole page,
+ * as in the Figma) or width="content" (it stays inside the theme's column).
  */
+function gtatx_tools_width_attr( $atts, $tag ) {
+	$atts = shortcode_atts( array( 'width' => 'full' ), $atts, $tag );
+	return array( 'data-gtatx-width' => 'content' === $atts['width'] ? 'content' : 'full' );
+}
+
+/** [gtatx_trip_planner] */
 function gtatx_tools_trip_planner_shortcode( $atts ) {
-	$atts = shortcode_atts( array( 'height' => 'calc(100dvh - 120px)' ), $atts, 'gtatx_trip_planner' );
-	return gtatx_tools_mount( 'plan', array( 'data-gtatx-height' => $atts['height'] ) );
+	return gtatx_tools_mount( 'plan', gtatx_tools_width_attr( $atts, 'gtatx_trip_planner' ) );
 }
 add_shortcode( 'gtatx_trip_planner', 'gtatx_tools_trip_planner_shortcode' );
 
 /** [gtatx_resources] */
-function gtatx_tools_resources_shortcode() {
-	return gtatx_tools_mount( 'resources' );
+function gtatx_tools_resources_shortcode( $atts ) {
+	return gtatx_tools_mount( 'resources', gtatx_tools_width_attr( $atts, 'gtatx_resources' ) );
 }
 add_shortcode( 'gtatx_resources', 'gtatx_tools_resources_shortcode' );

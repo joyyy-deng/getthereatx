@@ -2,6 +2,7 @@ import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import type { Place, Resource } from '../../content/schema';
 import { cx } from '../../lib/cx';
 import { text } from '../../lib/i18n';
+import { asset } from '../../lib/asset';
 import { handoffUrl } from '../../lib/trip';
 import { Eyebrow, LinkOut } from '../ui';
 
@@ -17,10 +18,8 @@ export interface PlaceComboboxProps {
   side: 'from' | 'to';
   googleMaps?: Resource;
   onChange: (place: Place | undefined) => void;
-  /** `light` for fields set on a dark photo (Home hero). */
-  tone?: 'dark' | 'light';
-  /** `sm` is the compact field on Plan Your Trip. */
-  size?: 'md' | 'sm';
+  /** `white` on the Home trip card; `field` (light grey) on Plan Your Trip. */
+  tone?: 'white' | 'field';
   /** Plan Your Trip: this is the field map clicks will fill. */
   selected?: boolean;
   /** Called when the field is clicked or focused. */
@@ -54,11 +53,10 @@ export function PlaceCombobox({
   side,
   googleMaps,
   onChange,
-  tone = 'dark',
-  size = 'md',
+  tone = 'field',
   selected = false,
   onActivate,
-  className = 'w-[260px]',
+  className = 'w-full',
 }: PlaceComboboxProps) {
   const id = useId();
   const listId = `${id}-list`;
@@ -118,42 +116,56 @@ export function PlaceCombobox({
   const shown = query ?? (value ? text(value.name) : '');
 
   return (
-    <div className={cx('relative flex flex-col gap-2', className)}>
-      <label htmlFor={`${id}-input`}>
-        <Eyebrow className={cx(tone === 'light' && '!text-white')}>{label}</Eyebrow>
-      </label>
-      <div className="relative">
-        <input
-          ref={inputRef}
-          id={`${id}-input`}
-          type="text"
-          role="combobox"
-          autoComplete="off"
-          aria-autocomplete="list"
-          aria-expanded={open}
-          aria-controls={listId}
-          aria-activedescendant={open && active >= 0 ? optionId(ordered[active]) : undefined}
-          placeholder={placeholder}
-          value={shown}
-          onFocus={(e) => {
-            onActivate?.();
-            e.currentTarget.select();
-          }}
-          onBlur={() => close()}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setActive(-1);
-            setOpen(true);
-          }}
-          onKeyDown={onKeyDown}
-          className={cx(
-            'w-full rounded-sm border bg-surface-muted pr-12 text-ink outline-none focus-visible:border-focus',
-            selected ? 'border-focus ring-1 ring-focus' : 'border-transparent',
-            size === 'sm' ? 'p-3 text-body' : 'p-3 text-body-lg md:p-4',
-            // 16px on phones so iOS doesn't zoom in on focus.
-            'max-md:!text-[16px]',
-          )}
+    <div className={cx('relative', className)}>
+      {/* Figma "Location input": icon, small label, then the place. */}
+      <div
+        className={cx(
+          'relative flex h-[62px] items-start gap-3 border px-[14px] py-[10px]',
+          tone === 'white' ? 'border-white bg-bg' : 'border-line bg-field',
+          selected && 'outline outline-2 -outline-offset-2 outline-focus',
+        )}
+      >
+        <img
+          src={asset(side === 'from' ? '/icons/circle-dot.svg' : '/icons/map-pin.svg')}
+          alt=""
+          width={18}
+          height={18}
+          className="mt-0 block size-[18px] shrink-0"
         />
+        <div className="flex min-w-0 flex-1 flex-col gap-[3px] pr-8 leading-[1.3]">
+          <label
+            htmlFor={`${id}-input`}
+            className={cx('text-[11px] font-bold uppercase', tone === 'white' ? 'text-navy' : 'text-ink-soft')}
+          >
+            {label}
+          </label>
+          <input
+            ref={inputRef}
+            id={`${id}-input`}
+            type="text"
+            role="combobox"
+            autoComplete="off"
+            aria-autocomplete="list"
+            aria-expanded={open}
+            aria-controls={listId}
+            aria-activedescendant={open && active >= 0 ? optionId(ordered[active]) : undefined}
+            placeholder={placeholder}
+            value={shown}
+            onFocus={(e) => {
+              onActivate?.();
+              e.currentTarget.select();
+            }}
+            onBlur={() => close()}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActive(-1);
+              setOpen(true);
+            }}
+            onKeyDown={onKeyDown}
+            // 16px so iOS doesn't zoom in on focus; Figma's 15px is close enough.
+            className="w-full truncate border-0 bg-transparent p-0 text-[16px] leading-[1.3] text-ink outline-none"
+          />
+        </div>
         <button
           type="button"
           tabIndex={-1}
@@ -166,7 +178,7 @@ export function PlaceCombobox({
             inputRef.current?.focus();
             setOpen((o) => !o);
           }}
-          className="absolute inset-y-0 right-3 grid w-8 place-items-center text-ink-muted transition-colors duration-hover hover:text-ink"
+          className="absolute inset-y-0 right-2 grid w-8 place-items-center text-ink-muted transition-colors duration-hover hover:text-ink"
         >
           <svg
             aria-hidden="true"
@@ -193,7 +205,7 @@ export function PlaceCombobox({
           aria-label={`${label} places`}
           // Keep focus in the input while clicking options.
           onMouseDown={(e) => e.preventDefault()}
-          className="absolute left-0 top-full z-[1000] mt-2 max-h-[360px] w-[320px] max-w-[calc(100vw-48px)] overflow-y-auto rounded-md border border-border bg-bg py-2 shadow-raised"
+          className="absolute left-0 top-full z-[1000] mt-1 max-h-[360px] w-full min-w-[280px] max-w-[calc(100vw-48px)] overflow-y-auto border border-line bg-bg py-2 shadow-raised"
         >
           {ordered.length === 0 ? (
             <div className="flex flex-col gap-2 px-4 py-3 text-small">
@@ -231,7 +243,7 @@ export function PlaceCombobox({
                         onMouseEnter={() => !disabled && setActive(i)}
                         className={cx(
                           'flex cursor-pointer items-baseline justify-between gap-3 px-4 py-2 text-body',
-                          i === active && 'bg-surface-muted',
+                          i === active && 'bg-mist',
                           value?.id === p.id && 'font-medium',
                           disabled && 'cursor-not-allowed text-ink-muted',
                         )}

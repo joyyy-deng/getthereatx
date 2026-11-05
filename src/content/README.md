@@ -7,24 +7,38 @@ Everything the site says lives in this folder as JSON. To change wording, a link
 | You want to change… | Edit |
 |---|---|
 | A heading, intro, button or label on a page | `pages.json` (one section per page: `home`, `plan`, `resources`, `students`, `community`, `notFound`) |
-| The Home "Build confidence" rows | `pages.json` → `home.confidence.rows` |
+| **A color or the font** | **`theme.json`** (see "Changing colors" below) |
+| The Home "New to this?" rows (CapMetro Bus, Bike, Walk…) | `pages.json` → `home.guides.items`. Each row points at a post (`postSlug`) or a resource (`resourceId`) |
+| The Home "See what's going on" photos and the Explore More / See all guides cards | `pages.json` → `home.discover`, `home.guides.seeAll` |
 | A row in the Resources directory | The client's Google Sheet ("Website Content", tab "Trip Planning"). See "Updating the Resources directory" below |
-| The Resources filter tags and the Transportation dropdown, and which of the sheet's "For Who?" / "Type" words each one covers | `directory-tags.json` |
-| Links used on Plan Your Trip, the Student page and the Students / Families / Seniors cards | `resources.json` |
-| The blog posts behind the Home "Build confidence" rows | `posts.json` |
+| The Resources filter list (Public Transit, Biking…) and the "For who?" menu, and which of the sheet's "Type" / "For Who?" words each covers | `directory-tags.json` |
+| Links used on Plan Your Trip, the Student page and the Students / Seniors / Families cards | `resources.json` |
+| The blog posts behind the Home "New to this?" rows | `posts.json` |
 | The site map and test tasks (/dev/sitemap) | `sheets/site-map.csv`, `sheets/site-map-tasks.csv` |
-| An upcoming event | `events.json` |
-| Students / Families / Senior Citizens cards | `connect-cards.json` |
-| Explore Austin cards | `explore-places.json` |
-| Bus / Bike / Carpool / Walk cards on Resources | `resource-modes.json` |
-| "Which sounds most like you?" cards | `personas.json` |
+| An upcoming event (Community) | `events.json` |
+| Student Carpooling / Senior Citizens / Families cards ("Get there together") | `connect-cards.json` |
 | Student page tabs and which resources each shows | `student-tabs.json` |
 | Places you can pick on Plan Your Trip, and their map shapes | `places.json` |
-| Mode cards on Plan Your Trip (times, costs, hand-off links) | `plan-modes.json` |
-| "What matters to you?" chips | `plan-preferences.json` |
+| Mode cards on Plan Your Trip (name, mascot, cost, hand-off link) | `plan-modes.json` |
 | CTX GO, Guaranteed Ride Home and other programs | `programs.json` |
 | Site-wide alert banners | `alerts.json` |
 | The fixed lists (modes, audiences, needs, place categories) and their labels | `taxonomies.ts` |
+
+Not shown on the current design, kept for later: `explore-places.json`, `resource-modes.json`, `personas.json`, `plan-preferences.json`.
+
+## Changing colors
+
+Every color on the site is one line in `theme.json`, with a note saying where it shows up:
+
+```json
+"color-navy": { "value": "#17324d", "use": "Get there together band, trip card heading, round plan button" },
+```
+
+Change `value` (a 6-digit hex color) and every place that uses it changes. Page code never contains a color, only these names (`bg-navy`, `text-ink-soft`…). To add a new color: add a line here, then map its name in `tailwind.config.ts`.
+
+The font is set the same way. `font.stylesheets` loads the Adobe Fonts kit (Real Text Pro), and `font.sans` names it first (`ff-real-text-pro`), with Geist as the fallback if the kit can't load. The kit is managed in Adobe Fonts (Web Projects); weights added there show up on the site without code changes.
+
+When the site moves to WordPress, `theme.json` becomes a settings page in WP admin with the same names, so staff can change colors there.
 
 ## Updating the Resources directory
 

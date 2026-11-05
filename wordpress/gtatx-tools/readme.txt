@@ -35,12 +35,6 @@ Note: in the Elementor editor the tool may show as an empty box. Use Preview to 
 
 == Options ==
 
-Map height. By default the trip planner is the screen height minus 120px (room
-for a typical header). Change it per page:
-
-  [gtatx_trip_planner height="760px"]
-  [gtatx_trip_planner height="calc(100dvh - 90px)"]
-
 Links to other pages. The tools link to Home, Plan Your Trip, Community,
 Resources and Student Resources. The defaults are /, /plan-your-trip/,
 /community/, /resources/ and /resources/students/. If the real pages live
@@ -50,6 +44,15 @@ elsewhere, a developer can change them in the theme's functions.php:
       $pages['plan'] = home_url( '/plan/' );
       return $pages;
   } );
+
+Width. By default each tool stretches to the full page width, like the Figma
+design, even when the theme puts page content in a narrow column. To keep a
+tool inside the column instead:
+
+  [gtatx_trip_planner width="content"]
+
+Page title. Hide the theme's page title on these pages (Elementor: page
+settings > Hide Title), since each tool has its own heading.
 
 Trip links. Plan Your Trip keeps the trip in the page address
 (?from=downtown&to=mueller&pref=cost), so refreshing, going back and sharing
@@ -85,9 +88,10 @@ Option A: LocalWP (no command line)
 
 Option B: wp-env (needs Docker Desktop running)
 1. In the repo's wordpress/ folder, run:
-     npx @wordpress/env start --plugin=./gtatx-tools
-   (or create .wp-env.json with { "plugins": ["./gtatx-tools"] } and run npx @wordpress/env start)
-2. Open http://localhost:8888/wp-admin (user: admin, password: password).
+     npx @wordpress/env start
+   wordpress/.wp-env.json pins the live site's versions (WordPress 7.1.4,
+   PHP 8.4) and loads the plugin folder directly, so a rebuild shows on reload.
+2. Open http://localhost:8888/wp-admin (wp-env's default login is admin / password).
 3. Activate "GetThereATX Tools", make a page with the shortcode, and view it.
 4. Stop with: npx @wordpress/env stop
 

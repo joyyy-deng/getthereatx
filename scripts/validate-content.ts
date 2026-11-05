@@ -69,9 +69,11 @@ for (const id of pageRefs) if (!resourceIds.has(id)) fail('pages', `unknown reso
 const pages = PageContent.safeParse(load('pages'));
 if (pages.success) {
   const postSlugs = new Set((load('posts') as { slug: string }[]).map((p) => p.slug));
-  const home = pages.data.home;
-  for (const r of home.confidence.rows)
-    if (!postSlugs.has(r.postSlug)) fail('pages', `home: unknown post "${r.postSlug}"`);
+  for (const item of pages.data.home.guides.items) {
+    if (item.postSlug && !postSlugs.has(item.postSlug)) fail('pages', `home guides: unknown post "${item.postSlug}"`);
+    if (item.resourceId && !resourceIds.has(item.resourceId))
+      fail('pages', `home guides: unknown resourceId "${item.resourceId}"`);
+  }
 }
 
 // Images live in the repo (public/), never on another site: outside images

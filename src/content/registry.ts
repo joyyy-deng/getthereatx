@@ -15,6 +15,7 @@ import {
   ResourceModeCards,
   Resources,
   StudentTabs,
+  Theme,
 } from './schema';
 
 /**
@@ -37,6 +38,7 @@ export const CONTENT_FILES = {
   'student-tabs': StudentTabs,
   'resource-modes': ResourceModeCards,
   personas: Personas,
+  theme: Theme,
 } as const;
 
 export type ContentFile = keyof typeof CONTENT_FILES;

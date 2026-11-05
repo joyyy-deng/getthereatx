@@ -12,8 +12,21 @@ import react from '@vitejs/plugin-react';
 const PLUGIN_DIR = resolve(__dirname, 'wordpress/gtatx-tools');
 const SCOPE = '.gtatx-app';
 
-/** The only /public files the two tools use (mode mascots). Everything else in public/ is ~22MB of page photos. */
-const TOOL_IMAGES = ['images/modes/walk.png', 'images/modes/bike.png', 'images/modes/bus.png', 'images/modes/drive.png'];
+/** The only /public files the two tools use. Everything else in public/ is page photos the tools don't need. */
+const TOOL_IMAGES = [
+  // Mode cards (plan-modes.json) and directory image slots.
+  'images/mascots/mode-walk.svg',
+  'images/mascots/mode-bike.svg',
+  'images/mascots/mode-bus.svg',
+  'images/mascots/mode-bus-walk.svg',
+  'images/mascots/mode-drive.svg',
+  // From / To fields and the swap button.
+  'icons/circle-dot.svg',
+  'icons/map-pin.svg',
+  'icons/arrow-left-right.svg',
+  // Resources hero.
+  'images/resources/commuter.jpg',
+];
 
 /**
  * Puts every CSS rule under .gtatx-app so nothing leaks onto the theme:
@@ -43,6 +56,34 @@ function scopeCss(scope: string): PostcssPlugin {
   };
 }
 
+/**
+ * Turns screen-width media queries (Tailwind's sm/md/lg/xl, tokens.css's phone
+ * type scale) into container queries on the .gtatx-app wrapper. A WordPress
+ * theme may put the tool in a narrow content column on a wide screen; this
+ * makes the layout follow the space the tool actually has. Runs after
+ * scopeCss. A container query can't style the container itself, so rules on
+ * the bare wrapper move to its children (the CSS variables still inherit).
+ */
+function widthQueriesToContainer(scope: string, name: string): PostcssPlugin {
+  const widthOnly = /^\(\s*(min|max)-width:\s*[\d.]+px\s*\)$/;
+  return {
+    postcssPlugin: 'gtatx-container-queries',
+    AtRule: {
+      media(at: AtRule) {
+        const params = at.params.trim();
+        // Tailwind's max-* variants print as "not all and (min-width: …)".
+        const negated = /^not all and (\(.*\))$/.exec(params);
+        if (!widthOnly.test(negated?.[1] ?? params)) return;
+        at.name = 'container';
+        at.params = negated ? `${name} not ${negated[1]}` : `${name} ${params}`;
+        at.walkRules((rule) => {
+          rule.selectors = rule.selectors.map((s) => (s === scope ? `${scope} > *` : s));
+        });
+      },
+    },
+  };
+}
+
 /** Copies TOOL_IMAGES into the plugin's assets/ after the build. */
 function copyToolImages(): Plugin {
   return {
@@ -65,7 +106,7 @@ export default defineConfig({
   base: './',
   publicDir: false,
   css: {
-    postcss: { plugins: [tailwindcss(), autoprefixer(), scopeCss(SCOPE)] },
+    postcss: { plugins: [tailwindcss(), autoprefixer(), scopeCss(SCOPE), widthQueriesToContainer(SCOPE, 'gtatx')] },
   },
   build: {
     outDir: resolve(PLUGIN_DIR, 'build'),

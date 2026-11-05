@@ -229,8 +229,15 @@ export const Persona = z
 export type Persona = z.infer<typeof Persona>;
 
 const Text = z.string().min(1);
-/** Eyebrow + title (+ optional intro) above a section. */
-const SectionText = z.object({ eyebrow: Text, title: Text, intro: Text.optional() });
+
+/** A link to another GetThereATX page, e.g. "/plan?to=mueller" or "#events". */
+const PagePath = z.string().regex(/^[/#]/, 'start internal links with / or #');
+/** Text set on separate lines in the design ("AUSTIN," / "YOUR WAY."). Joined with spaces where it wraps. */
+const Lines = z.array(Text).min(1);
+/** A big colored card that links somewhere ("See all guides", "Explore More"). */
+const LinkCard = z.object({ title: Lines, to: PagePath });
+/** "Get there together." band (Home and Community). Its cards are connect-cards.json. */
+const Together = z.object({ title: Text, button: z.object({ label: Text, to: PagePath }) });
 
 /**
  * The wording on each page: headings, intros and labels. Lists that have
@@ -239,30 +246,68 @@ const SectionText = z.object({ eyebrow: Text, title: Text, intro: Text.optional(
 export const PageContent = z.object({
   home: z.object({
     hero: z.object({
-      /** One string per line; lines join with a space on phones. */
-      title: z.array(Text).min(1),
-      intro: Text,
+      title: Lines,
+      planTitle: Text,
+      /** Screen-reader label for the round plan button. */
       button: Text,
+      illustrationAlt: Text,
     }),
-    confidence: SectionText.extend({
-      /** Each row links to a live post (posts.json slug). */
-      rows: z.array(z.object({ label: Text, postSlug: Text })).min(1),
+    guides: z.object({
+      title: Lines,
+      seeAll: LinkCard,
+      /** Accordion rows. Each links to a live post (posts.json slug) or a registry resource. */
+      items: z
+        .array(
+          z
+            .object({
+              id: Text,
+              title: Text,
+              postSlug: Text.optional(),
+              resourceId: Text.optional(),
+              /** Defaults to the post excerpt or the resource one-liner. */
+              body: Text.optional(),
+              /** Defaults to the post image. */
+              image: Img.optional(),
+              /** Defaults to "Read the guide" (post) or the resource action. */
+              linkLabel: Text.optional(),
+            })
+            .refine((i) => !!i.postSlug !== !!i.resourceId, { message: 'an item needs exactly one of postSlug or resourceId' }),
+        )
+        .min(1),
     }),
-    connect: SectionText,
+    discover: z.object({
+      title: Text,
+      cards: z.array(z.object({ title: Text, image: Img, to: PagePath })).min(1),
+      explore: LinkCard,
+    }),
+    together: Together,
   }),
   plan: z.object({
     title: Text,
-    preferencesTitle: Text,
-    rideHome: z.object({ lead: Text, link: Text }),
+    fromPlaceholder: Text,
+    toPlaceholder: Text,
+    /** Shown until both From and To are set. */
+    emptyHint: Text,
+    /** The "Leave now" menu. Times don't change with it yet: there is no live data. */
+    departOptions: z.array(Text).min(1),
+    updateButton: Text,
+    compareTitle: Text,
+    /** Eyebrow after the mode name: "BIKING · SELECTED ROUTE". */
+    selectedLabel: Text,
+    /** {minutes} and {to} are filled in: "32 minutes to Mueller". */
+    headline: Text,
     estimateNote: Text,
+    /** Under the map: it draws a straight line, not a street route. */
+    mapNote: Text,
   }),
   resources: z.object({
-    modes: SectionText,
-    personas: SectionText,
-    searchLabel: Text,
-    searchPlaceholder: Text,
+    hero: z.object({ title: Text, intro: Text, button: z.object({ label: Text, to: PagePath }) }),
+    title: Text,
+    allLabel: Text,
+    /** First option of the "For who?" menu. */
+    everyoneLabel: Text,
     noResults: Text,
-    /** Button on each directory row that has a link. */
+    /** Action on each entry that has a link. */
     linkLabel: Text,
   }),
   students: z.object({
@@ -271,9 +316,17 @@ export const PageContent = z.object({
     callout: z.object({ title: Text, body: Text, link: Text }),
   }),
   community: z.object({
-    hero: SectionText,
-    events: SectionText.extend({ empty: Text }),
-    explore: SectionText,
+    together: Together,
+    events: z.object({
+      title: Text,
+      typeLabel: Text,
+      dateLabel: Text,
+      locationLabel: Text,
+      featuredLabel: Text,
+      linkLabel: Text,
+      empty: Text,
+    }),
+    explore: LinkCard,
   }),
   notFound: z.object({ title: Text, intro: Text }),
 });
@@ -299,6 +352,28 @@ export const DirectoryTags = z.object({
   }),
 });
 export type DirectoryTags = z.infer<typeof DirectoryTags>;
+
+/**
+ * Colors and fonts (theme.json). Each color key is a CSS variable name without
+ * the leading `--`; `use` tells an editor where it shows up. The site applies
+ * these at load, so changing one value here (or in WordPress later) recolors
+ * the site without touching components.
+ */
+export const Theme = z.object({
+  font: z.object({
+    sans: Text,
+    mono: Text,
+    /** Web font stylesheets to load, e.g. the Adobe Fonts kit. Only these hosts are allowed. */
+    stylesheets: z
+      .array(z.string().regex(/^https:\/\/(use\.typekit\.net|fonts\.googleapis\.com)\//, 'use an Adobe Fonts or Google Fonts URL'))
+      .default([]),
+  }),
+  colors: z.record(
+    z.string().regex(/^[a-z][a-z0-9-]*$/, 'use lowercase-and-dashes names'),
+    z.object({ value: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'use a 6-digit hex color like #17324d'), use: Text }),
+  ),
+});
+export type Theme = z.infer<typeof Theme>;
 
 export const Resources = z.array(Resource);
 export const ConnectCards = z.array(ConnectCard);

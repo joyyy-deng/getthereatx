@@ -43,6 +43,11 @@ export function estimateMinutes(mode: Mode, mi: number): [number, number] {
   return [low, Math.max(low + 5, round5(hi))];
 }
 
+/** Single number for a card or headline: the middle of the estimate range. */
+export function typicalMinutes([lo, hi]: [number, number]): number {
+  return Math.round((lo + hi) / 2);
+}
+
 export function isAirportTrip(from: Place, to: Place): boolean {
   return from.id === 'airport' || to.id === 'airport';
 }

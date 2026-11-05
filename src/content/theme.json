@@ -1,0 +1,57 @@
+{
+  "font": {
+    "sans": "\"ff-real-text-pro\", \"Geist Sans\", system-ui, sans-serif",
+    "mono": "\"Geist Mono\", ui-monospace, monospace",
+    "stylesheets": ["https://use.typekit.net/pgu6iej.css"]
+  },
+  "colors": {
+    "color-bg": { "value": "#ffffff", "use": "Page background" },
+    "color-ink": { "value": "#111111", "use": "Headings and body text" },
+    "color-ink-soft": { "value": "#3a3a3a", "use": "Descriptions on cards and rows" },
+    "color-ink-muted": { "value": "#52525b", "use": "Small print: dates, legal line, estimate notes" },
+    "color-rule": { "value": "#151515", "use": "Nav and footer rules, accordion lines" },
+    "color-line": { "value": "#dcdcdc", "use": "Card outlines, filter outlines, row dividers" },
+    "color-field": { "value": "#f5f5f5", "use": "From / To fields on Plan Your Trip" },
+    "color-navy": { "value": "#17324d", "use": "Get there together band, trip card heading, round plan button" },
+    "color-sky": { "value": "#d9e8f4", "use": "Trip card, opened guide, image placeholders" },
+    "color-sky-strong": { "value": "#a6d3f6", "use": "Explore More card" },
+    "color-sky-nav": { "value": "#bfe3f8", "use": "Current page in the nav" },
+    "color-mist": { "value": "#f0f4f8", "use": "Footer panel, event details, category cards" },
+    "color-leaf": { "value": "#74ab60", "use": "See all guides, Find your community button, Explore Austin card" },
+    "color-charcoal": { "value": "#2b2b2b", "use": "Dark buttons, selected filter" },
+    "color-link": { "value": "#1268b3", "use": "Text links" },
+    "color-route": { "value": "#087c3b", "use": "Route line, destination marker and time badge on the map" },
+    "color-map-land": { "value": "#f3f2eb", "use": "Map background tint" },
+    "color-map-label": { "value": "#5e6b73", "use": "Map scale text" },
+    "color-focus": { "value": "#424a9e", "use": "Keyboard focus outline" },
+    "color-placeholder": { "value": "#6b7280", "use": "Placeholder text in fields" },
+
+    "color-surface-muted": { "value": "#f4f4f5", "use": "Selected mode card, hover rows" },
+    "color-border": { "value": "#e4e4e7", "use": "Light borders (older components)" },
+    "color-border-strong": { "value": "#111111", "use": "Strong borders (older components)" },
+    "color-border-control": { "value": "#888888", "use": "Outlined row buttons (Student resources)" },
+    "color-action": { "value": "#15803d", "use": "Green buttons (Student resources)" },
+    "color-action-hover": { "value": "#166534", "use": "Green button hover" },
+
+    "brand-bluebonnet": { "value": "#424a9e", "use": "Brand blue" },
+    "brand-navy": { "value": "#1e2939", "use": "Brand navy" },
+    "brand-yellow": { "value": "#f5c518", "use": "Logo accent only. Never text on white." },
+    "brand-green": { "value": "#16a34a", "use": "Logo and illustrations only" },
+
+    "mode-walk": { "value": "#b45309", "use": "Walking (map, chips)" },
+    "mode-bike": { "value": "#15803d", "use": "Biking" },
+    "mode-bus": { "value": "#1d4ed8", "use": "Bus; also the From shape on the map" },
+    "mode-rail": { "value": "#7c3aed", "use": "Rail" },
+    "mode-carpool": { "value": "#0f766e", "use": "Carpool" },
+    "mode-drive": { "value": "#52525b", "use": "Driving" },
+
+    "alert-info-bg": { "value": "#eff6ff", "use": "Info alert background" },
+    "alert-info-ink": { "value": "#1e3a8a", "use": "Info alert text" },
+    "alert-advisory-bg": { "value": "#fffbeb", "use": "Advisory alert background" },
+    "alert-advisory-ink": { "value": "#78350f", "use": "Advisory alert text" },
+    "alert-advisory-border": { "value": "#f5c518", "use": "Advisory alert border" },
+    "alert-disruption-bg": { "value": "#fef2f2", "use": "Disruption alert background" },
+    "alert-disruption-ink": { "value": "#7f1d1d", "use": "Disruption alert text" },
+    "alert-disruption-border": { "value": "#b91c1c", "use": "Disruption alert border" }
+  }
+}

@@ -5,12 +5,17 @@
 :root {
   isolation: isolate;
   display: block;
+  /* Breakpoints follow the tool's own width, not the window (vite.wp.config.ts). */
+  container: gtatx / inline-size;
   width: 100%;
   /* index.css gives body a full-screen min-height; the wrapper shouldn't have one. */
   min-height: 0;
   text-align: left;
   text-transform: none;
   letter-spacing: normal;
+  /* Themes often set a light body weight (Twenty Twenty-Five uses 300); children inherit it. */
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Themes (and Elementor's kit) style headings and text elements directly, e.g.

@@ -1,161 +1,192 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { DirectoryFilters, type FilterChange } from '../components/resources/DirectoryFilters';
-import { ModeFilterCards } from '../components/resources/ModeFilterCards';
-import { PersonaCards } from '../components/resources/PersonaCards';
-import { PageLoading, Pagination, ResourceList, SectionHeader, SheetRow } from '../components/ui';
-import { getDirectory, getDirectoryTags, getPageContent, getResourcesPage } from '../data';
-import { filterDirectory, type DirectoryFilter } from '../lib/directory';
-import { useContent } from '../lib/useContent';
-import { useMediaQuery } from '../lib/useMediaQuery';
-import { abVersion } from '../lib/abTests';
+import { DirectoryEntryCard } from '../components/resources/DirectoryEntryCard';
+import { PageLoading, Pagination } from '../components/ui';
+import { FilterSelect } from '../components/ui/FilterSelect';
+import { PageLink } from '../components/ui/PageLink';
+import { getDirectory, getDirectoryTags, getPageContent } from '../data';
+import { asset } from '../lib/asset';
 import { cx } from '../lib/cx';
+import { filterDirectory } from '../lib/directory';
+import { useContent } from '../lib/useContent';
 
-// Resources (Figma 350:1440). The directory is the client's "Trip Planning"
-// Google Sheet (content/sheets/trip-planning.csv), filtered by our own tags and a
-// Transportation dropdown (content/directory-tags.json maps them to the sheet's
-// words). Filters live in the URL: /resources?who=Commuter&mode=Biking&q=bike
-
-// A/B test Learn [1] (/learn=b): no mode cards or "Which sounds most like you?" cards;
-// the directory comes right after the title.
-
-/** Phones page through the directory; wider screens show the whole list. */
-const PAGE_SIZE = 6;
+// Resources (Figma desktop 783:25613, mobile 865:6071): photo hero, then the
+// directory. The directory is the client's "Trip Planning" Google Sheet
+// (content/sheets/trip-planning.csv); the Figma activity list becomes the
+// sheet's Transportation types, and the area menu becomes "For who?".
+// Filters and the page live in the URL: /resources?mode=Biking&who=Commuter&page=2
 
 function oneOf<T extends string>(list: readonly T[], value: string | null): T | undefined {
   return list.find((v) => v === value);
 }
 
+/** Entries per page (Figma: two photo-led cards, then two rows). */
+const PAGE_SIZE = 4;
+/** How many entries on each page get the big photo-led card before the list rows. */
+const FEATURED = 2;
+
 export function Resources() {
   const data = useContent(async () => {
-    const [entries, tags, page, copy] = await Promise.all([
-      getDirectory(),
-      getDirectoryTags(),
-      getResourcesPage(),
-      getPageContent(),
-    ]);
-    return { entries, tags, ...page, copy: copy.resources };
+    const [entries, tags, copy] = await Promise.all([getDirectory(), getDirectoryTags(), getPageContent()]);
+    return { entries, tags, copy: copy.resources };
   });
   const [params, setParams] = useSearchParams();
-  const directoryRef = useRef<HTMLDivElement>(null);
-  const paged = useMediaQuery('(max-width: 767px)');
-  const [page, setPage] = useState(1);
+  const directoryRef = useRef<HTMLElement>(null);
 
-  const filter: DirectoryFilter = {
-    who: oneOf(data?.tags.forWho.tags.map((t) => t.label) ?? [], params.get('who')),
-    mode: oneOf(data?.tags.transportation.options.map((o) => o.label) ?? [], params.get('mode')),
-    q: params.get('q') ?? '',
-  };
-  const { who, mode, q } = filter;
+  const modes = data?.tags.transportation.options.map((o) => o.label) ?? [];
+  const who = oneOf(data?.tags.forWho.tags.map((t) => t.label) ?? [], params.get('who'));
+  const mode = oneOf(modes, params.get('mode'));
 
-  function setFilter(change: FilterChange) {
+  function setFilter(key: 'who' | 'mode' | 'page', value: string | undefined) {
     setParams(
       (prev) => {
         const p = new URLSearchParams(prev);
-        for (const [key, value] of Object.entries(change)) {
-          if (value) p.set(key, value);
-          else p.delete(key);
-        }
+        if (value) p.set(key, value);
+        else p.delete(key);
+        // A new filter starts over at page 1.
+        if (key !== 'page') p.delete('page');
         return p;
       },
       { replace: true, preventScrollReset: true },
     );
   }
-  const clearFilters = () => setFilter({ who: null, mode: null, q: null });
-
-  function showDirectory() {
-    directoryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
 
   const results = useMemo(
-    () => (data ? filterDirectory(data.entries, { who, mode, q }, data.tags) : []),
-    [data, who, mode, q],
+    () => (data ? filterDirectory(data.entries, { who, mode, q: '' }, data.tags) : []),
+    [data, who, mode],
   );
-
-  // Any filter change starts the directory over at page 1.
-  useEffect(() => setPage(1), [who, mode, q]);
 
   if (!data) return <PageLoading />;
   const { copy } = data;
-
-  const rows = results.map((e) => <SheetRow key={e.id} entry={e} linkLabel={copy.linkLabel} from="resources" />);
-  const pages = paged ? Math.max(1, Math.ceil(rows.length / PAGE_SIZE)) : 1;
-  const current = Math.min(page, pages);
-  const shown = paged ? rows.slice((current - 1) * PAGE_SIZE, current * PAGE_SIZE) : rows;
-  const directoryOnly = abVersion('learn') === 'b';
+  const pages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
+  const page = Math.min(pages, Math.max(1, Number(params.get('page')) || 1));
+  const shown = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const options = [{ label: copy.allLabel, value: undefined }, ...modes.map((m) => ({ label: m, value: m }))];
 
   return (
-    <div className="px-6 md:px-8">
-      {/* How-to's: mode cards filter the directory below. */}
-      <section className="mx-auto flex max-w-content flex-col gap-12 pt-16 md:pt-24">
-        <SectionHeader level={1} size="display" eyebrow={copy.modes.eyebrow} title={copy.modes.title} />
-        {!directoryOnly && (
-          <ModeFilterCards
-            modes={data.modes}
-            selected={mode}
-            onSelect={(m) => {
-              setFilter({ mode: m });
-              if (m) showDirectory();
-            }}
-          />
-        )}
-      </section>
-
-      <section
-        className={cx(
-          'mx-auto flex max-w-content flex-col gap-12 pb-16 md:pb-24',
-          directoryOnly ? 'pt-12' : 'pt-16 md:pt-24',
-        )}
-      >
-        {!directoryOnly && (
-          <>
-            <SectionHeader size="display" eyebrow={copy.personas.eyebrow} title={copy.personas.title} />
-            <PersonaCards
-              personas={data.personas}
-              who={who}
-              mode={mode}
-              onFilter={(f) => {
-                setFilter(f);
-                showDirectory();
-              }}
-            />
-          </>
-        )}
-
-        <div ref={directoryRef} className="flex scroll-mt-[140px] flex-col gap-4">
-          <DirectoryFilters
-            filter={filter}
-            tags={data.tags}
-            onChange={setFilter}
-            onClear={clearFilters}
-            count={rows.length}
-            searchLabel={copy.searchLabel}
-            searchPlaceholder={copy.searchPlaceholder}
-          />
+    <>
+      {/* Learn and commute */}
+      <section className="relative overflow-hidden px-6 py-12 lg:px-8 lg:py-24">
+        <img
+          src={asset('/images/resources/commuter.jpg')}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 size-full object-cover grayscale"
+        />
+        <div aria-hidden="true" className="absolute inset-0 bg-[rgb(0_0_0/0.75)]" />
+        <div className="relative mx-auto flex max-w-content flex-col items-start gap-5 lg:gap-[15px]">
+          <h1 className="m-0 text-[38px] font-bold leading-[1.08] tracking-[-0.03em] text-white lg:text-[52px] lg:leading-[1.02] lg:tracking-[-0.056em]">
+            {copy.hero.title}
+          </h1>
+          <p className="m-0 max-w-[706px] text-[16px] leading-[1.5] text-white lg:leading-normal">{copy.hero.intro}</p>
+          <PageLink
+            to={copy.hero.button.to}
+            className="flex min-h-[56px] items-center gap-2 bg-bg px-4 text-[14px] font-medium text-ink transition-opacity duration-hover hover:opacity-90 lg:min-h-[43px]"
+          >
+            {copy.hero.button.label}
+            <span aria-hidden="true" className="text-[20px] font-normal lg:text-[14px]">
+              →
+            </span>
+          </PageLink>
         </div>
-
-        {rows.length > 0 ? (
-          <div className="flex flex-col gap-6">
-            <ResourceList>{shown}</ResourceList>
-            <Pagination
-              label="Directory pages"
-              page={current}
-              pages={pages}
-              onChange={(n) => {
-                setPage(n);
-                showDirectory();
-              }}
-            />
-          </div>
-        ) : (
-          <p className="m-0 border-y border-border-strong py-12 text-body text-ink-muted">
-            {copy.noResults}{' '}
-            <button type="button" onClick={clearFilters} className="text-link underline underline-offset-4">
-              Clear filters
-            </button>
-          </p>
-        )}
       </section>
-    </div>
+
+      {/* Directory */}
+      <section ref={directoryRef} id="directory" aria-labelledby="directory-title" className="scroll-mt-[96px] px-6 py-10 lg:px-32 lg:py-14">
+        <div className="mx-auto flex max-w-frame flex-col gap-6 lg:gap-8">
+          <h2
+            id="directory-title"
+            className="m-0 text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] text-ink lg:text-[42px] lg:leading-[1.06] lg:tracking-[-2px]"
+          >
+            {copy.title}
+          </h2>
+
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
+            {/* Filters: chips on phones, a side list on desktop. */}
+            <div className="flex flex-col gap-6 lg:w-[240px] lg:shrink-0">
+              <ul
+                aria-label={data.tags.transportation.label}
+                className="m-0 flex list-none flex-wrap gap-2 p-0 lg:flex-col lg:flex-nowrap lg:gap-1"
+              >
+                {options.map((o) => {
+                  const active = o.value === mode;
+                  return (
+                    <li key={o.label}>
+                      <button
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => setFilter('mode', o.value)}
+                        className={cx(
+                          'flex h-11 items-center gap-4 px-[14px] text-left text-[14px] transition-colors duration-hover lg:h-12 lg:w-full lg:justify-between lg:px-4 lg:text-[15px]',
+                          active ? 'bg-charcoal text-white' : 'bg-mist text-ink hover:bg-sky lg:bg-transparent lg:hover:bg-mist',
+                        )}
+                      >
+                        {o.label}
+                        {!active && (
+                          <span aria-hidden="true" className="hidden text-charcoal lg:inline">
+                            →
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <FilterSelect
+                label={data.tags.forWho.label}
+                value={who ?? ''}
+                onChange={(v) => setFilter('who', v || undefined)}
+                options={[
+                  { value: '', label: copy.everyoneLabel },
+                  ...data.tags.forWho.tags.map((t) => ({ value: t.label, label: t.label })),
+                ]}
+                className="lg:h-14"
+              />
+            </div>
+
+            <div className="flex min-w-0 flex-1 flex-col gap-6 lg:gap-8" aria-live="polite">
+              {results.length === 0 ? (
+                <p className="m-0 border-y border-line py-12 text-[16px] text-ink-muted">
+                  {copy.noResults}{' '}
+                  <button
+                    type="button"
+                    onClick={() => setParams({}, { replace: true, preventScrollReset: true })}
+                    className="text-link underline underline-offset-4"
+                  >
+                    Clear filters
+                  </button>
+                </p>
+              ) : (
+                <>
+                  <div className="grid gap-6 sm:grid-cols-2 lg:gap-8">
+                    {shown.slice(0, FEATURED).map((e) => (
+                      <DirectoryEntryCard key={e.id} entry={e} linkLabel={copy.linkLabel} featured />
+                    ))}
+                  </div>
+                  {shown.length > FEATURED && (
+                    <ul className="m-0 list-none border-b border-line p-0">
+                      {shown.slice(FEATURED).map((e) => (
+                        <li key={e.id}>
+                          <DirectoryEntryCard entry={e} linkLabel={copy.linkLabel} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <Pagination
+                    label="Resources pages"
+                    page={page}
+                    pages={pages}
+                    onChange={(n) => {
+                      setFilter('page', n > 1 ? String(n) : undefined);
+                      directoryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

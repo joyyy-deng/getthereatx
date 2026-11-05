@@ -20,6 +20,7 @@ import type {
   Resource,
   ResourceModeCard,
   StudentTab,
+  Theme,
 } from '../content/schema';
 import type { Audience, Mode, Need, PostTopic } from '../content/taxonomies';
 import { expandEvent, type Occurrence } from '../lib/recurrence';
@@ -49,6 +50,7 @@ const studentTabs = load('student-tabs');
 const resourceModes = load('resource-modes');
 const personas = load('personas');
 const directoryTags = load('directory-tags');
+const theme = load('theme');
 // Rows with errors are left out; `npm run validate-content` reports them.
 const directory = readTripPlanningSheet(tripPlanningCsv).entries.filter((e) => e.name && e.description);
 
@@ -176,4 +178,13 @@ export async function getDirectoryTags(): Promise<DirectoryTags> {
 /** Headings, intros and labels for every page (pages.json). */
 export async function getPageContent(): Promise<PageContent> {
   return pages;
+}
+
+/** Colors and fonts (theme.json). Synchronous so the first paint already has them. */
+export function getThemeNow(): Theme {
+  return theme;
+}
+
+export async function getTheme(): Promise<Theme> {
+  return theme;
 }

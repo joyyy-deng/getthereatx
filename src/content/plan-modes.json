@@ -2,11 +2,11 @@
   {
     "id": "walk",
     "title": {
-      "en": "Walk"
+      "en": "Walking"
     },
     "image": {
-      "src": "/images/modes/walk.png",
-      "alt": "Peacock in sneakers"
+      "src": "/images/mascots/mode-walk.svg",
+      "alt": "A kangaroo riding a scooter"
     },
     "eyebrow": {
       "en": "No cost, no waiting"
@@ -15,7 +15,7 @@
       "en": "Most physical effort"
     },
     "cost": {
-      "en": "$0"
+      "en": "no cost"
     },
     "primary": {
       "resourceId": "google-maps",
@@ -37,11 +37,11 @@
   {
     "id": "bike",
     "title": {
-      "en": "Bike"
+      "en": "Biking"
     },
     "image": {
-      "src": "/images/modes/bike.png",
-      "alt": "Grackle riding a green cargo trike"
+      "src": "/images/mascots/mode-bike.svg",
+      "alt": "A bird riding a blue bike"
     },
     "eyebrow": {
       "en": "Fast for short trips"
@@ -50,7 +50,7 @@
       "en": "More physical effort"
     },
     "cost": {
-      "en": "$0 on your own bike"
+      "en": "no cost"
     },
     "primary": {
       "resourceId": "google-maps",
@@ -87,8 +87,8 @@
       "en": "Bus + walk"
     },
     "image": {
-      "src": "/images/modes/bus.png",
-      "alt": "Sloth driving a blue bus"
+      "src": "/images/mascots/mode-bus-walk.svg",
+      "alt": "A dog riding a skateboard"
     },
     "eyebrow": {
       "en": "Less effort, more waiting"
@@ -131,11 +131,11 @@
   {
     "id": "drive",
     "title": {
-      "en": "Drive"
+      "en": "Driving"
     },
     "image": {
-      "src": "/images/modes/drive.png",
-      "alt": "Three rabbits riding in a blue convertible"
+      "src": "/images/mascots/mode-drive.svg",
+      "alt": "A bird riding a blue bike"
     },
     "eyebrow": {
       "en": "More time needed to park"
@@ -144,7 +144,7 @@
       "en": "Parking adds time and cost"
     },
     "cost": {
-      "en": "Gas + parking"
+      "en": "parking extra"
     },
     "primary": {
       "resourceId": "drivetexas",

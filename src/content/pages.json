@@ -2,56 +2,121 @@
   "home": {
     "hero": {
       "title": [
-        "You know where you’re going.",
-        "Get there with us."
+        "AUSTIN,",
+        "YOUR WAY."
       ],
-      "intro": "GetThereATX is your one-stop shop for Austin transportation information. Learn about modes of transport available to you and ways to save time and money on your commute.",
-      "button": "Plan your trip"
+      "planTitle": "Plan a trip",
+      "button": "Plan your trip",
+      "illustrationAlt": "A sloth driving a blue bus past the Texas Capitol and the downtown skyline"
     },
-    "confidence": {
-      "eyebrow": "Learn",
-      "title": "Build confidence before you go",
-      "rows": [
+    "guides": {
+      "title": [
+        "New to this?",
+        "We got you."
+      ],
+      "seeAll": {
+        "title": [
+          "See all",
+          "guides"
+        ],
+        "to": "/resources"
+      },
+      "items": [
         {
-          "label": "Taking the bus for the first time",
-          "postSlug": "transit-101"
+          "id": "bus",
+          "title": "CapMetro Bus",
+          "postSlug": "transit-101",
+          "body": "Find your stop, check the fare and signal before you get off.",
+          "image": {
+            "src": "/images/home/first-bus-ride.jpg",
+            "alt": "A blue CapMetro bus on a downtown Austin street"
+          },
+          "linkLabel": "Read the first-time bus guide"
         },
         {
-          "label": "Bringing a bike on public transit",
-          "postSlug": "how-to-put-your-bike-on-the-bus"
-        },
-        {
-          "label": "Riding a bike in Austin for the first time",
+          "id": "bike",
+          "title": "Bike",
           "postSlug": "biking-101"
+        },
+        {
+          "id": "walk",
+          "title": "Walk",
+          "resourceId": "walking-map"
+        },
+        {
+          "id": "scooter",
+          "title": "Scooter",
+          "resourceId": "shared-mobility"
+        },
+        {
+          "id": "drive",
+          "title": "Drive",
+          "resourceId": "drivetexas"
         }
       ]
     },
-    "connect": {
-      "eyebrow": "Connect",
-      "title": "Try something new with other people.",
-      "intro": "Local events and programs can make unfamiliar transportation options feel more comfortable. These are good places to connect with the Austin community and try out a route."
+    "discover": {
+      "title": "See what’s going on in Austin.",
+      "cards": [
+        {
+          "title": "Lady Bird Lake",
+          "image": {
+            "src": "/images/home/lady-bird-lake.jpg",
+            "alt": "The downtown Austin skyline across Lady Bird Lake"
+          },
+          "to": "/community"
+        },
+        {
+          "title": "Mueller Lake Park",
+          "image": {
+            "src": "/images/home/mueller-lake-park.jpg",
+            "alt": "The lake and pavilion at Mueller Lake Park"
+          },
+          "to": "/plan?to=mueller"
+        }
+      ],
+      "explore": {
+        "title": [
+          "Explore More"
+        ],
+        "to": "/community"
+      }
+    },
+    "together": {
+      "title": "Get there together.",
+      "button": {
+        "label": "Find your community",
+        "to": "/community"
+      }
     }
   },
   "plan": {
     "title": "Plan your trip",
-    "preferencesTitle": "What matters to you?",
-    "rideHome": {
-      "lead": "Worried about getting stuck?",
-      "link": "Guaranteed Ride Home covers up to $75"
-    },
-    "estimateNote": "Times are estimates. Check the planner for live times."
+    "fromPlaceholder": "Starting point",
+    "toPlaceholder": "Destination",
+    "emptyHint": "Choose where you’re starting and where you’re going, or click a neighborhood on the map.",
+    "departOptions": [
+      "Leave now"
+    ],
+    "updateButton": "Update trip",
+    "compareTitle": "Compare ways to get there",
+    "selectedLabel": "Selected route",
+    "headline": "{minutes} minutes to {to}",
+    "estimateNote": "Times are estimates. Check the planner for live times.",
+    "mapNote": "Straight-line sketch, not a street route"
   },
   "resources": {
-    "modes": {
-      "eyebrow": "How-to’s",
-      "title": "Transportation resources"
+    "hero": {
+      "title": "What kind of commuter are you?",
+      "intro": "Find the best way to get where you're going. Take our quick quiz to discover your commute style and get personalized travel recommendations.",
+      "button": {
+        "label": "Find My Commute Style",
+        "to": "#directory"
+      }
     },
-    "personas": {
-      "eyebrow": "Blogs",
-      "title": "Which sounds most like you?"
-    },
-    "searchLabel": "Search this directory",
-    "searchPlaceholder": "Search resources",
+    "title": "Resources",
+    "allLabel": "All Resources",
+    "everyoneLabel": "Everyone",
     "noResults": "Nothing matches those filters.",
     "linkLabel": "Visit website"
   },
@@ -65,19 +130,28 @@
     }
   },
   "community": {
-    "hero": {
-      "eyebrow": "Community",
-      "title": "Get There Together"
+    "together": {
+      "title": "Get there together.",
+      "button": {
+        "label": "Find your community",
+        "to": "#events"
+      }
     },
     "events": {
-      "eyebrow": "New",
-      "title": "Upcoming Events",
-      "empty": "No upcoming events right now."
+      "title": "Trade a little screen time for outside time.",
+      "typeLabel": "Event type",
+      "dateLabel": "Date",
+      "locationLabel": "Location",
+      "featuredLabel": "Featured",
+      "linkLabel": "Get event details",
+      "empty": "No upcoming events match those filters."
     },
     "explore": {
-      "eyebrow": "Connect",
-      "title": "Explore Austin",
-      "intro": "Find places in Austin to go to, and learn how to get there."
+      "title": [
+        "Explore",
+        "Austin"
+      ],
+      "to": "/plan"
     }
   },
   "notFound": {

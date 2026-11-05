@@ -1,14 +1,18 @@
 import { cx } from '../../lib/cx';
 import { asset } from '../../lib/asset';
 
-/** Get There ATX wordmark. Crop matches the Figma "image 1" layer (141 × 43). */
-export function Logo({ src, className }: { src: string; className?: string }) {
+/**
+ * Get There ATX wordmark ("Walk Bike Ride Share" lockup). The source image has
+ * extra canvas around the mark; the crop matches the Figma logo layer. Size it
+ * with a width class: the height follows (Figma 298 × 96).
+ */
+export function Logo({ className }: { className?: string }) {
   return (
-    <span className={cx('relative block h-[43px] w-[141px] shrink-0 overflow-hidden', className)}>
+    <span className={cx('relative block aspect-[298/96] shrink-0 overflow-hidden', className)}>
       <img
-        src={asset(src)}
+        src={asset('/brand/logo-2027.png')}
         alt="Get There ATX"
-        className="absolute left-[-6.11%] top-0 h-full w-[106.54%] max-w-none"
+        className="absolute left-[-5.7%] top-[-65.68%] h-[368.18%] w-[207.22%] max-w-none"
       />
     </span>
   );

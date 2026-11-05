@@ -17,6 +17,8 @@ export {
   getResources,
   getResourcesPage,
   getStudentTabs,
+  getTheme,
+  getThemeNow,
   isLive,
 } from './local';
 export type { DateRange, PostFilter, ResourceFilter } from './local';
