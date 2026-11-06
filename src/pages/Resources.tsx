@@ -66,7 +66,7 @@ export function Resources() {
   return (
     <>
       {/* Learn and commute */}
-      <section className="relative overflow-hidden px-6 py-12 lg:px-8 lg:py-24">
+      <section className="relative overflow-hidden px-page py-12 lg:py-20">
         <img
           src={asset('/images/resources/commuter.jpg')}
           alt=""
@@ -74,17 +74,17 @@ export function Resources() {
           className="absolute inset-0 size-full object-cover grayscale"
         />
         <div aria-hidden="true" className="absolute inset-0 bg-[rgb(0_0_0/0.75)]" />
-        <div className="relative mx-auto flex max-w-content flex-col items-start gap-5 lg:gap-[15px]">
-          <h1 className="m-0 text-[38px] font-bold leading-[1.08] tracking-[-0.03em] text-white lg:text-[52px] lg:leading-[1.02] lg:tracking-[-0.056em]">
+        <div className="relative flex flex-col items-start gap-5 lg:gap-4">
+          <h1 className="m-0 text-headline font-bold text-white">
             {copy.hero.title}
           </h1>
-          <p className="m-0 max-w-[706px] text-[16px] leading-[1.5] text-white lg:leading-normal">{copy.hero.intro}</p>
+          <p className="m-0 max-w-[640px] text-copy text-white">{copy.hero.intro}</p>
           <PageLink
             to={copy.hero.button.to}
-            className="flex min-h-[56px] items-center gap-2 bg-bg px-4 text-[14px] font-medium text-ink transition-opacity duration-hover hover:opacity-90 lg:min-h-[43px]"
+            className="flex min-h-[56px] items-center gap-2 bg-bg px-4 text-fine font-medium text-ink transition-opacity duration-hover hover:opacity-90 lg:min-h-[44px]"
           >
             {copy.hero.button.label}
-            <span aria-hidden="true" className="text-[20px] font-normal lg:text-[14px]">
+            <span aria-hidden="true" className="text-lead font-normal">
               →
             </span>
           </PageLink>
@@ -92,11 +92,11 @@ export function Resources() {
       </section>
 
       {/* Directory */}
-      <section ref={directoryRef} id="directory" aria-labelledby="directory-title" className="scroll-mt-[96px] px-6 py-10 lg:px-32 lg:py-14">
-        <div className="mx-auto flex max-w-frame flex-col gap-6 lg:gap-8">
+      <section ref={directoryRef} id="directory" aria-labelledby="directory-title" className="scroll-mt-[96px] px-page py-10 lg:py-14">
+        <div className="flex flex-col gap-6 lg:gap-8">
           <h2
             id="directory-title"
-            className="m-0 text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] text-ink lg:text-[42px] lg:leading-[1.06] lg:tracking-[-2px]"
+            className="m-0 text-title font-semibold text-ink"
           >
             {copy.title}
           </h2>
@@ -117,7 +117,7 @@ export function Resources() {
                         aria-pressed={active}
                         onClick={() => setFilter('mode', o.value)}
                         className={cx(
-                          'flex h-11 items-center gap-4 px-[14px] text-left text-[14px] transition-colors duration-hover lg:h-12 lg:w-full lg:justify-between lg:px-4 lg:text-[15px]',
+                          'flex h-11 items-center gap-4 px-[14px] text-left text-fine transition-colors duration-hover lg:h-12 lg:w-full lg:justify-between lg:px-4',
                           active ? 'bg-charcoal text-white' : 'bg-mist text-ink hover:bg-sky lg:bg-transparent lg:hover:bg-mist',
                         )}
                       >
@@ -146,7 +146,7 @@ export function Resources() {
 
             <div className="flex min-w-0 flex-1 flex-col gap-6 lg:gap-8" aria-live="polite">
               {results.length === 0 ? (
-                <p className="m-0 border-y border-line py-12 text-[16px] text-ink-muted">
+                <p className="m-0 border-y border-line py-12 text-copy text-ink-muted">
                   {copy.noResults}{' '}
                   <button
                     type="button"

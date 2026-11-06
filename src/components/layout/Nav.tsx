@@ -21,9 +21,9 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-[1100] border-b border-rule bg-bg lg:border-b-2">
-      <nav aria-label="Main" className="flex h-[80px] items-center justify-between px-6 lg:h-[96px] lg:pl-16 lg:pr-0">
+      <nav aria-label="Main" className="flex h-[72px] items-center justify-between px-page lg:h-[84px]">
         <Link to="/" aria-label="Get There ATX home" className="block">
-          <Logo className="w-[210px] lg:w-[298px]" />
+          <Logo className="w-[190px] lg:w-[240px]" />
         </Link>
         <ul className="m-0 hidden h-full list-none items-stretch p-0 lg:flex">
           {LINKS.map((l) => (
@@ -32,7 +32,7 @@ export function Nav() {
                 to={l.to}
                 className={({ isActive }) =>
                   cx(
-                    'flex h-full items-center px-8 text-[21px] text-rule transition-colors duration-hover',
+                    'flex h-full items-center px-7 text-menu text-rule transition-colors duration-hover',
                     isActive ? 'bg-sky-nav font-normal' : 'font-medium hover:bg-mist',
                   )
                 }
@@ -66,7 +66,7 @@ export function Nav() {
               <NavLink
                 to={l.to}
                 className={({ isActive }) =>
-                  cx('block px-6 py-4 text-[18px] font-medium text-ink', isActive && 'bg-sky-nav font-normal')
+                  cx('block px-[var(--page-gutter)] py-4 text-menu font-medium text-ink', isActive && 'bg-sky-nav font-normal')
                 }
               >
                 {l.label}

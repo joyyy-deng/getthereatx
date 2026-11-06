@@ -34,7 +34,7 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
                 aria-expanded={open}
                 aria-controls={panelId}
                 onClick={() => setOpenId(open ? undefined : item.id)}
-                className="flex w-full items-center justify-between gap-4 py-[18px] text-left text-[24px] font-medium leading-tight text-ink lg:py-5 lg:pl-4 lg:text-[30px] lg:leading-[1.15] lg:tracking-[-0.04em]"
+                className="flex w-full items-center justify-between gap-4 py-4 text-left text-heading font-medium text-ink lg:py-5 lg:pl-4"
               >
                 {item.title}
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6 shrink-0 lg:size-8" fill="none">
@@ -51,10 +51,10 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
                   className="block h-[150px] w-full object-cover lg:h-[180px] lg:border lg:border-link"
                 />
               )}
-              <p className="m-0 text-[19px] leading-[1.5] text-navy lg:text-[24px] lg:leading-none lg:tracking-[-0.02em]">
+              <p className="m-0 text-lead text-navy">
                 {item.body}
               </p>
-              <p className="m-0 text-[14px] leading-none">
+              <p className="m-0 text-fine">
                 <LinkOut
                   href={item.link.href}
                   provider={item.link.provider}

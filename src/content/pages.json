@@ -95,9 +95,9 @@
     "fromPlaceholder": "Starting point",
     "toPlaceholder": "Destination",
     "emptyHint": "Choose where you’re starting and where you’re going, or click a neighborhood on the map.",
-    "departOptions": [
-      "Leave now"
-    ],
+    "leaveNow": "Leave now",
+    "leaveLabel": "When do you want to leave?",
+    "timing": "Leave {leave} · arrive about {arrive}",
     "updateButton": "Update trip",
     "compareTitle": "Compare ways to get there",
     "selectedLabel": "Selected route",
@@ -139,12 +139,9 @@
     },
     "events": {
       "title": "Trade a little screen time for outside time.",
-      "typeLabel": "Event type",
-      "dateLabel": "Date",
-      "locationLabel": "Location",
       "featuredLabel": "Featured",
       "linkLabel": "Get event details",
-      "empty": "No upcoming events match those filters."
+      "empty": "No upcoming events right now."
     },
     "explore": {
       "title": [

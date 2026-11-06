@@ -31,11 +31,11 @@ const LEGAL = [
 export function Footer() {
   return (
     <footer className="flex flex-col border-t border-rule lg:flex-row">
-      <div className="flex flex-col gap-6 p-6 lg:w-[560px] lg:shrink-0 lg:gap-8 lg:py-10 lg:pl-16 lg:pr-12">
-        <Logo className="w-[248px] lg:w-[330px]" />
+      <div className="flex flex-col gap-6 px-[var(--page-gutter)] py-6 lg:w-[38%] lg:shrink-0 lg:gap-8 lg:py-10 lg:pl-[var(--page-edge)] lg:pr-12">
+        <Logo className="w-[220px] lg:w-[280px]" />
         <Link
           to="/plan"
-          className="group flex items-end gap-6 text-[36px] font-medium leading-[1.08] tracking-[-0.03em] text-ink lg:w-[432px] lg:text-[44px] lg:leading-[1.25] lg:tracking-[-0.04em]"
+          className="group flex items-end gap-6 text-feature font-medium text-ink lg:max-w-[380px]"
         >
           <span className="flex-1">
             Keep Austin
@@ -44,14 +44,14 @@ export function Footer() {
           </span>
           <span
             aria-hidden="true"
-            className="text-[64px] font-normal leading-none transition-transform duration-hover group-hover:translate-x-1"
+            className="text-[48px] font-normal leading-none transition-transform duration-hover group-hover:translate-x-1"
           >
             →
           </span>
         </Link>
       </div>
 
-      <div className="flex flex-1 flex-col gap-5 bg-mist p-6 lg:gap-6 lg:pb-4 lg:pl-12 lg:pr-16 lg:pt-10">
+      <div className="flex flex-1 flex-col gap-5 bg-mist px-[var(--page-gutter)] py-6 lg:gap-6 lg:pb-4 lg:pl-12 lg:pr-[var(--page-edge)] lg:pt-10">
         <div className="flex gap-5 lg:gap-12">
           {DIRECTORY.map((group, i) => (
             <ul key={i} className="m-0 flex flex-1 list-none flex-col gap-4 p-0 lg:gap-0">
@@ -59,7 +59,7 @@ export function Footer() {
                 <li key={l.label}>
                   <Link
                     to={l.to}
-                    className="block text-[18px] font-medium leading-[1.5] text-ink hover:underline lg:py-2 lg:text-[22px] lg:leading-[1.25]"
+                    className="block text-menu font-medium text-ink hover:underline lg:py-2"
                   >
                     {l.label}
                   </Link>
@@ -73,7 +73,7 @@ export function Footer() {
             <li key={s.label}>
               <a
                 href={s.href}
-                className="flex items-center gap-[5px] text-[12px] text-ink hover:underline lg:h-[44px] lg:gap-2 lg:text-[14px]"
+                className="flex items-center gap-[5px] text-caption text-ink hover:underline lg:h-[44px] lg:gap-2"
               >
                 <img src={asset(s.icon)} alt="" width={24} height={24} className="block size-6" />
                 {s.label}
@@ -82,7 +82,7 @@ export function Footer() {
           ))}
         </ul>
         <hr className="m-0 h-px w-full border-0 bg-rule" />
-        <div className="flex flex-col gap-5 text-[12px] leading-[1.5] text-ink-muted lg:flex-row lg:items-center lg:justify-between lg:text-[14px]">
+        <div className="flex flex-col gap-5 text-caption text-ink-muted lg:flex-row lg:items-center lg:justify-between">
           <p className="m-0">© 2026 Get There ATX. All rights reserved.</p>
           <ul className="m-0 flex list-none gap-6 p-0 lg:h-[44px] lg:items-center">
             {LEGAL.map((l) => (

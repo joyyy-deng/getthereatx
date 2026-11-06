@@ -30,4 +30,9 @@ wordpress/gtatx-tools.zip
 
 # Planning docs stay local (build brief, site audit, Figma screenshots)
 CLAUDE.md
+context.md
+WORDPRESS-PLAN.md
 docs/
+
+# Copies of the live site's CSS for local testing only
+wordpress/local-dev/live-css/

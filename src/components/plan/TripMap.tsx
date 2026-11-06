@@ -10,9 +10,11 @@ import { text } from '../../lib/i18n';
 // name labels and square zoom controls. The line is straight: there is no
 // routing service, so the page labels it as a sketch, not a street route.
 
-const AUSTIN: LatLngExpression = [30.283, -97.73];
-const DEFAULT_ZOOM = 12;
-const PAD: [number, number] = [48, 48];
+// Central Austin, close enough to see streets and the neighborhoods you can pick.
+const AUSTIN: LatLngExpression = [30.283, -97.728];
+const DEFAULT_ZOOM = 13;
+// Room for the A / B name labels around the ends of the line.
+const PAD: [number, number] = [72, 56];
 
 /**
  * Read a design token so map colors stay in theme.json. Inside WordPress the
@@ -37,8 +39,12 @@ export interface TripMapProps {
 
 const center = (p: Place): [number, number] => [p.centroid.lat, p.centroid.lng];
 
-function points(p: Place): [number, number][] {
-  return p.polygon ?? [center(p)];
+/**
+ * What to frame: both ends of a trip (the line runs centroid to centroid, and
+ * whole neighborhood shapes would zoom out too far), or one picked place's shape.
+ */
+function frame(picked: Place[]) {
+  return latLngBounds(picked.length > 1 ? picked.map(center) : (picked[0].polygon ?? [center(picked[0])]));
 }
 
 /** Frames the trip (or Austin) whenever From or To changes. */
@@ -50,7 +56,7 @@ function FitTrip({ from, to }: Pick<TripMapProps, 'from' | 'to'>) {
       map.setView(AUSTIN, DEFAULT_ZOOM);
       return;
     }
-    map.flyToBounds(latLngBounds(picked.flatMap(points)), {
+    map.flyToBounds(frame(picked), {
       padding: PAD,
       maxZoom: 14,
       duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.6,
@@ -66,7 +72,7 @@ function Controls({ from, to }: Pick<TripMapProps, 'from' | 'to'>) {
     'grid size-9 place-items-center bg-bg text-ink shadow-[0_1px_2px_rgb(0_0_0/0.15)] transition-colors duration-hover hover:bg-mist';
   function reset() {
     const picked = [from, to].filter((p): p is Place => !!p);
-    if (picked.length) map.fitBounds(latLngBounds(picked.flatMap(points)), { padding: PAD, maxZoom: 14 });
+    if (picked.length) map.fitBounds(frame(picked), { padding: PAD, maxZoom: 14 });
     else map.setView(AUSTIN, DEFAULT_ZOOM);
   }
   return (
@@ -137,7 +143,9 @@ export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps)
       <MapContainer
         center={AUSTIN}
         zoom={DEFAULT_ZOOM}
-        zoomSnap={0.5}
+        // Whole zoom steps only: in-between steps stretch the map images and blur them.
+        zoomSnap={1}
+        minZoom={10}
         zoomControl={false}
         scrollWheelZoom={false}
         className="size-full"

@@ -83,6 +83,21 @@ export default {
       data: ['var(--text-data)', { lineHeight: '1.4' }],
       // Nav links and footer labels, sized from the Figma Nav Bar / Footer frames.
       nav: ['var(--text-nav)', { lineHeight: '33px', letterSpacing: '-0.66px' }],
+      // Redesign type scale (tokens.css --t-*): line height and tracking per role.
+      // Not tighter than -0.015em: Real Text Bold's T and I touch in "AUSTIN".
+      poster: ['var(--t-poster)', { lineHeight: '0.98', letterSpacing: '-0.015em' }],
+      headline: ['var(--t-headline)', { lineHeight: '1.02', letterSpacing: '-0.035em' }],
+      title: ['var(--t-title)', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
+      feature: ['var(--t-feature)', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
+      card: ['var(--t-card)', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
+      heading: ['var(--t-heading)', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
+      lead: ['var(--t-lead)', { lineHeight: '1.4' }],
+      copy: ['var(--t-copy)', { lineHeight: '1.5' }],
+      fine: ['var(--t-fine)', { lineHeight: '1.4' }],
+      caption: ['var(--t-caption)', { lineHeight: '1.3' }],
+      time: ['var(--t-time)', { lineHeight: '1.2' }],
+      numeral: ['var(--t-numeral)', { lineHeight: '1' }],
+      menu: ['var(--t-menu)', { lineHeight: '1.3' }],
       label: ['var(--text-label)', { lineHeight: '15px', letterSpacing: '1.4px' }],
     },
     spacing: {

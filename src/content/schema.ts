@@ -288,8 +288,12 @@ export const PageContent = z.object({
     toPlaceholder: Text,
     /** Shown until both From and To are set. */
     emptyHint: Text,
-    /** The "Leave now" menu. Times don't change with it yet: there is no live data. */
-    departOptions: z.array(Text).min(1),
+    /** First choice of the departure menu; the rest are times every 15 minutes. */
+    leaveNow: Text,
+    /** Screen-reader name of the departure menu. */
+    leaveLabel: Text,
+    /** Under the route headline. {leave} is "now" or a time, {arrive} a time. */
+    timing: Text,
     updateButton: Text,
     compareTitle: Text,
     /** Eyebrow after the mode name: "BIKING · SELECTED ROUTE". */
@@ -319,9 +323,6 @@ export const PageContent = z.object({
     together: Together,
     events: z.object({
       title: Text,
-      typeLabel: Text,
-      dateLabel: Text,
-      locationLabel: Text,
       featuredLabel: Text,
       linkLabel: Text,
       empty: Text,

@@ -10,7 +10,14 @@ import react from '@vitejs/plugin-react';
 // The GitHub Pages build (vite.config.ts) is separate and unchanged.
 
 const PLUGIN_DIR = resolve(__dirname, 'wordpress/gtatx-tools');
-const SCOPE = '.gtatx-app';
+/**
+ * Every rule is prefixed with this. The two :not(#…) parts match always (no
+ * element has those ids) but give each rule the weight of two ids, so the
+ * tool's styles beat site-wide theme and Elementor rules that target plain
+ * buttons, inputs and links, such as `.elementor-kit-10 button` or
+ * `body #main article a`, without touching anything outside the tool.
+ */
+const SCOPE = '.gtatx-app:not(#gtatx-a):not(#gtatx-b)';
 
 /** The only /public files the two tools use. Everything else in public/ is page photos the tools don't need. */
 const TOOL_IMAGES = [

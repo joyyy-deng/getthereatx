@@ -26,18 +26,18 @@ export function TogetherBand({
 }) {
   const Heading = headingLevel === 1 ? 'h1' : 'h2';
   return (
-    <section className="bg-navy px-6 py-10 lg:p-16">
+    <section className="bg-navy px-page py-10 lg:py-16">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-16">
-        <div className="flex flex-col items-start gap-6 lg:w-[457px] lg:shrink-0">
-          <Heading className="m-0 text-[48px] font-semibold leading-[1.08] tracking-[-0.03em] text-mist lg:text-[72px] lg:leading-[0.98] lg:tracking-[-0.04em]">
+        <div className="flex flex-col items-start gap-6 lg:w-[32%] lg:shrink-0">
+          <Heading className="m-0 text-headline font-semibold text-mist">
             {title}
           </Heading>
           <PageLink
             to={button.to}
-            className="flex min-h-[56px] items-center gap-2 bg-leaf px-4 text-[14px] font-medium text-ink transition-opacity duration-hover hover:opacity-90 lg:gap-7 lg:px-5 lg:text-[16px] lg:font-bold"
+            className="flex min-h-[56px] items-center gap-2 bg-leaf px-4 text-fine font-medium text-ink transition-opacity duration-hover hover:opacity-90 lg:gap-7 lg:px-5 lg:font-bold"
           >
             {button.label}
-            <span aria-hidden="true" className="text-[20px] font-normal">
+            <span aria-hidden="true" className="text-lead font-normal">
               →
             </span>
           </PageLink>
@@ -55,7 +55,7 @@ export function TogetherBand({
                   onClick={() => r && track('handoff', { resourceId: r.id, from, provider: r.provider, href: r.url })}
                   className="group flex w-full flex-col overflow-hidden border border-sky bg-mist"
                 >
-                  <span className="block h-[230px] overflow-hidden bg-sky">
+                  <span className="block h-[200px] overflow-hidden bg-sky">
                     <img
                       src={asset(c.image.src)}
                       alt={c.image.alt}
@@ -63,10 +63,10 @@ export function TogetherBand({
                     />
                   </span>
                   <span className="flex flex-col gap-[10px] p-6">
-                    <span className="text-[36px] font-bold leading-[1.1] tracking-[-0.04em] text-ink sm:text-[28px] xl:text-[36px]">
+                    <span className="text-card font-bold text-ink">
                       {text(c.title)}
                     </span>
-                    <span className="text-[21px] leading-[1.3] text-navy">
+                    <span className="text-copy text-navy">
                       {text(c.body)} <span aria-hidden="true">↗</span>
                     </span>
                   </span>

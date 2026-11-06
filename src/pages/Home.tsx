@@ -66,10 +66,10 @@ export function Home() {
   return (
     <>
       {/* Civic masthead */}
-      <section className="border-b border-navy px-6 py-8 lg:p-16">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-10">
-          <div className="flex flex-col gap-6 lg:w-[712px] lg:shrink lg:justify-end">
-            <h1 className="m-0 text-[61px] font-bold leading-[0.98] tracking-[-0.04em] text-ink sm:text-[96px] xl:text-[124px]">
+      <section className="border-b border-navy px-page py-8 lg:py-12">
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-stretch lg:gap-10">
+          <div className="flex min-w-0 flex-col gap-6 lg:justify-end">
+            <h1 className="m-0 text-poster font-bold text-ink">
               {copy.hero.title.map((line, i) => (
                 <Fragment key={i}>
                   {i > 0 && <br />}
@@ -86,17 +86,24 @@ export function Home() {
               googleMaps={data.resources.get('google-maps')}
             />
           </div>
-          <CapitolIllustration
-            alt={copy.hero.illustrationAlt}
-            className="w-full max-w-[560px] self-center lg:w-[560px] lg:shrink-0 lg:self-end"
-          />
+          {/* Desktop: the picture fits inside a box as tall as the headline + trip card
+              (a size container), so it never makes the hero taller, keeps its shape,
+              and "New to this?" shows below the hero. */}
+          <div className="lg:relative">
+            <div className="lg:absolute lg:inset-0 lg:flex lg:items-end lg:justify-end lg:[container-type:size]">
+              <CapitolIllustration
+                alt={copy.hero.illustrationAlt}
+                className="mx-auto w-full max-w-[480px] lg:mx-0 lg:w-[min(100cqw,calc(100cqh*560/688))] lg:max-w-none"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* New to this? We got you. Phones: title, guides, card. Desktop: title + card left, guides right. */}
-      <section className="px-6 py-10 lg:p-16">
-        <div className="grid gap-6 lg:grid-cols-[369px_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-24 lg:gap-y-6">
-          <h2 className="m-0 text-[40px] font-semibold leading-[1.08] tracking-[-0.03em] text-ink lg:text-[64px] lg:leading-[0.98] lg:tracking-[-0.04em]">
+      <section className="px-page py-10 lg:py-16">
+        <div className="grid gap-6 lg:grid-cols-[minmax(240px,28%)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-[clamp(32px,6vw,96px)] lg:gap-y-6">
+          <h2 className="m-0 text-headline font-semibold text-ink">
             {copy.guides.title.map((line, i) => (
               <Fragment key={i}>
                 {i > 0 && <br />}
@@ -119,9 +126,9 @@ export function Home() {
       </section>
 
       {/* See what's going on in Austin. */}
-      <section className="border-y border-rule px-6 py-10 lg:p-16">
+      <section className="border-y border-rule px-page py-10 lg:py-16">
         <div className="flex flex-col gap-6 lg:gap-10">
-          <h2 className="m-0 text-[40px] font-semibold leading-[1.08] tracking-[-0.03em] text-ink lg:text-[80px] lg:leading-[0.98] lg:tracking-[-0.04em]">
+          <h2 className="m-0 text-headline font-semibold text-ink">
             {copy.discover.title}
           </h2>
           <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
@@ -138,7 +145,7 @@ export function Home() {
                       className="absolute inset-0 size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
                     />
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-[rgb(0_0_0/0.7)]" />
-                    <span className="relative text-[28px] font-bold tracking-[-0.04em] text-white">{c.title}</span>
+                    <span className="relative text-heading font-bold text-white lg:text-title">{c.title}</span>
                     <span aria-hidden="true" className="relative text-[20px] text-white">
                       →
                     </span>
@@ -152,7 +159,7 @@ export function Home() {
               tone="sky"
               layout="side"
               mascot={{ src: '/images/mascots/austin-dog.svg', flip: true }}
-              className="lg:w-[484px] lg:shrink-0"
+              className="lg:w-[36%] lg:shrink-0"
             />
           </div>
         </div>

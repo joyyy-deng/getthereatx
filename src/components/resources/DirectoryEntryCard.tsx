@@ -21,7 +21,7 @@ function Art({ entry, className }: { entry: DirectoryEntry; className: string })
   );
 }
 
-const eyebrow = 'text-[12px] uppercase leading-[15px] tracking-[1.4px] text-charcoal';
+const eyebrow = 'text-caption uppercase tracking-[1.4px] text-charcoal';
 
 /** "Visit website ↗": hands off to the entry's own site. */
 function Action({ entry, label }: { entry: DirectoryEntry; label: string }) {
@@ -34,10 +34,10 @@ function Action({ entry, label }: { entry: DirectoryEntry; label: string }) {
       rel="noopener noreferrer"
       aria-label={`${label}: ${entry.name}, opens in a new tab`}
       onClick={() => track('handoff', { resourceId: `sheet:${entry.id}`, from: 'resources', href: url })}
-      className="inline-flex items-center gap-3 self-start text-[14px] font-semibold text-charcoal hover:underline"
+      className="inline-flex items-center gap-3 self-start text-fine font-semibold text-charcoal hover:underline"
     >
       {label}
-      <span aria-hidden="true" className="text-[18px] font-normal">
+      <span aria-hidden="true" className="text-lead font-normal">
         ↗
       </span>
     </a>
@@ -62,10 +62,10 @@ export function DirectoryEntryCard({
   if (featured) {
     return (
       <article className="flex flex-col gap-3">
-        <Art entry={entry} className="h-[250px] w-full" />
+        <Art entry={entry} className="h-[200px] w-full lg:h-[220px]" />
         {types && <p className={cx('m-0', eyebrow)}>{types}</p>}
-        <h3 className="m-0 text-[30px] font-medium leading-[1.06] tracking-[-0.8px] text-ink">{entry.name}</h3>
-        <p className="m-0 text-[16px] leading-[1.5] text-ink-soft">{entry.description}</p>
+        <h3 className="m-0 text-card font-medium text-ink">{entry.name}</h3>
+        <p className="m-0 text-copy text-ink-soft">{entry.description}</p>
         <Action entry={entry} label={linkLabel} />
       </article>
     );
@@ -75,10 +75,10 @@ export function DirectoryEntryCard({
       <Art entry={entry} className="h-[116px] w-[120px]" />
       <div className="flex min-w-0 flex-1 flex-col gap-[6px]">
         {types && <p className={cx('m-0', eyebrow)}>{types}</p>}
-        <h3 className="m-0 text-[24px] font-medium leading-[1.06] tracking-[-0.8px] text-ink">{entry.name}</h3>
-        <p className="m-0 text-[14px] leading-[1.5] text-ink-soft">{entry.description}</p>
+        <h3 className="m-0 text-heading font-medium text-ink">{entry.name}</h3>
+        <p className="m-0 text-fine text-ink-soft">{entry.description}</p>
         {entry.forWho.length > 0 && (
-          <p className="m-0 text-[12px] leading-[1.5] text-ink">{entry.forWho.join(' · ')}</p>
+          <p className="m-0 text-caption text-ink">{entry.forWho.join(' · ')}</p>
         )}
         <Action entry={entry} label={linkLabel} />
       </div>

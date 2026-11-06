@@ -38,7 +38,7 @@ export function HeroTripForm({
   return (
     <form
       aria-labelledby="hero-trip-title"
-      className="flex w-full flex-col gap-[14px] rounded-tr-poster bg-sky p-4 lg:gap-5 lg:rounded-tr-[37px] lg:px-5 lg:pb-8 lg:pt-5"
+      className="flex w-full flex-col gap-[14px] rounded-tr-poster bg-sky p-4 lg:gap-5 lg:rounded-tr-[37px] lg:px-5 lg:pb-6 lg:pt-5"
       onSubmit={(e) => {
         e.preventDefault();
         planTrip();
@@ -46,7 +46,7 @@ export function HeroTripForm({
     >
       <h2
         id="hero-trip-title"
-        className="m-0 text-[32px] font-bold leading-[1.08] tracking-[-0.03em] text-navy lg:text-[53px] lg:leading-normal lg:tracking-[-2px]"
+        className="m-0 text-feature font-bold text-navy"
       >
         {title}
       </h2>
@@ -80,7 +80,7 @@ export function HeroTripForm({
         <button
           type="submit"
           aria-label={buttonLabel}
-          className="grid size-16 shrink-0 place-items-center rounded-pill bg-navy text-[40px] leading-none text-bg transition-transform duration-hover hover:scale-105 lg:size-[124px] lg:text-[64px]"
+          className="grid size-16 shrink-0 place-items-center rounded-pill bg-navy text-[32px] leading-none text-bg transition-transform duration-hover hover:scale-105 lg:size-[96px] lg:text-[48px]"
         >
           <span aria-hidden="true">→</span>
         </button>

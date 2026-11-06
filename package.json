@@ -13,6 +13,7 @@
     "check-links": "tsx scripts/check-links.ts",
     "import-sheet": "tsx scripts/import-sheet.ts",
     "build:wp": "npm run validate-content && tsc -b && vite build --config vite.wp.config.ts",
+    "build:elementor": "tsx scripts/build-elementor-home.ts",
     "zip:wp": "npm run build:wp && cd wordpress && rm -f gtatx-tools.zip && zip -rq gtatx-tools.zip gtatx-tools -x '*.DS_Store'"
   },
   "dependencies": {

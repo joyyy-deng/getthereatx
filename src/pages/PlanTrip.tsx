@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ModeCard } from '../components/plan/ModeCard';
 import { PlaceCombobox } from '../components/plan/PlaceCombobox';
@@ -8,6 +8,7 @@ import { FilterSelect } from '../components/ui/FilterSelect';
 import type { Place } from '../content/schema';
 import { getPageContent, getPlaces, getPlanConfig, getResources } from '../data';
 import { asset } from '../lib/asset';
+import { departureOptions, departureTime, formatTime } from '../lib/departure';
 import { text } from '../lib/i18n';
 import { indexBy } from '../lib/indexBy';
 import { handoffUrl, isAirportTrip, planCards, routeMiles, typicalMinutes } from '../lib/trip';
@@ -15,7 +16,7 @@ import { useContent } from '../lib/useContent';
 
 // Plan Your Trip (Figma desktop 775:3820 "V3", mobile 865:5838), built phone-first:
 // From / To → compare cards → the picked card's route detail, map and hand-off.
-// The whole trip lives in the URL: /plan?from=downtown&to=mueller&mode=bike
+// The whole trip lives in the URL: /plan?from=downtown&to=mueller&mode=bike&leave=08:15
 // so refreshing or sharing the link restores the same screen.
 
 export function PlanTrip() {
@@ -29,7 +30,6 @@ export function PlanTrip() {
     return { copy: copy.plan, places, modes: config.modes, resources: indexBy(resources) };
   });
   const [params, setParams] = useSearchParams();
-  const [depart, setDepart] = useState('');
   const compareRef = useRef<HTMLHeadingElement>(null);
 
   const placeById = (id: string | null) => (id ? data?.places.find((p) => p.id === id) : undefined);
@@ -37,7 +37,11 @@ export function PlanTrip() {
   const toRaw = placeById(params.get('to'));
   const to = toRaw?.id === from?.id ? undefined : toRaw;
 
-  function update(next: { from?: Place | null; to?: Place | null; mode?: string }) {
+  // Departure menu, built once per visit: "Leave now", then every 15 minutes.
+  const leaveOptions = useMemo(() => departureOptions(), []);
+  const leave = params.get('leave') ?? '';
+
+  function update(next: { from?: Place | null; to?: Place | null; mode?: string; leave?: string }) {
     setParams(
       (prev) => {
         const p = new URLSearchParams(prev);
@@ -45,6 +49,7 @@ export function PlanTrip() {
         if (next.from !== undefined) set('from', next.from?.id);
         if (next.to !== undefined) set('to', next.to?.id);
         if (next.mode !== undefined) set('mode', next.mode);
+        if (next.leave !== undefined) set('leave', next.leave);
         return p;
       },
       { replace: true, preventScrollReset: true },
@@ -65,6 +70,11 @@ export function PlanTrip() {
   // The picked card (?mode=), or the first one.
   const picked = cards.find((c) => c.mode.id === params.get('mode')) ?? cards[0];
   const minutes = picked ? typicalMinutes(picked.minutes) : 0;
+  const leaveAt = departureTime(leave || null);
+  const arriveAt = new Date(leaveAt.getTime() + minutes * 60_000);
+  const timing = copy.timing
+    .replace('{leave}', leave ? formatTime(leaveAt) : 'now')
+    .replace('{arrive}', formatTime(arriveAt));
 
   const swap = (
     <button
@@ -94,7 +104,7 @@ export function PlanTrip() {
   );
 
   return (
-    <div className="flex flex-col gap-7 p-6 lg:gap-6 lg:p-16">
+    <div className="flex flex-col gap-7 px-page py-6 lg:gap-6 lg:py-16">
       <h1 className="sr-only">{copy.title}</h1>
 
       {/* Search recap: stacked on phones, one row on desktop. */}
@@ -117,19 +127,26 @@ export function PlanTrip() {
         </div>
         <div className="flex items-center gap-3 lg:gap-6">
           <FilterSelect
-            label="When"
-            value={depart}
-            onChange={setDepart}
-            options={copy.departOptions.map((o, i) => ({ value: i ? o : '', label: o }))}
-            className="min-w-0 flex-1 lg:h-[62px] lg:w-[160px] lg:flex-none"
+            label={copy.leaveLabel}
+            value={leave}
+            onChange={(v) => update({ leave: v })}
+            options={[
+              { value: '', label: copy.leaveNow },
+              // A shared link with a time that isn't in today's list still shows it.
+              ...(leave && !leaveOptions.some((o) => o.value === leave)
+                ? [{ value: leave, label: formatTime(departureTime(leave)) }]
+                : []),
+              ...leaveOptions,
+            ]}
+            className="min-w-0 flex-1 lg:h-[62px] lg:w-[180px] lg:flex-none"
           />
           <button
             type="submit"
             disabled={!trip}
-            className="flex min-h-[56px] items-center gap-2 bg-charcoal px-4 text-[14px] font-medium text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:px-6 lg:font-bold"
+            className="flex min-h-[56px] items-center gap-2 bg-charcoal px-4 text-fine font-medium text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:px-6 lg:font-bold"
           >
             {copy.updateButton}
-            <span aria-hidden="true" className="text-[20px] font-normal">
+            <span aria-hidden="true" className="text-lead font-normal">
               ↓
             </span>
           </button>
@@ -138,7 +155,7 @@ export function PlanTrip() {
 
       {!trip && (
         <>
-          <p className="m-0 text-[16px] leading-[1.5] text-ink-soft">{copy.emptyHint}</p>
+          <p className="m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
           <div className="h-[420px] lg:h-[560px]">
             <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} note={copy.mapNote} />
           </div>
@@ -153,7 +170,7 @@ export function PlanTrip() {
               id="compare-title"
               ref={compareRef}
               tabIndex={-1}
-              className="m-0 scroll-mt-[112px] text-[28px] font-medium leading-[1.08] tracking-[-0.03em] text-ink outline-none lg:text-[26px] lg:leading-[1.3] lg:tracking-[-0.04em]"
+              className="m-0 scroll-mt-[112px] text-heading font-medium text-ink outline-none"
             >
               {copy.compareTitle}
             </h2>
@@ -169,27 +186,28 @@ export function PlanTrip() {
                 </li>
               ))}
             </ul>
-            <p className="m-0 text-[12px] leading-[1.5] text-ink-muted">{copy.estimateNote}</p>
+            <p className="m-0 text-caption text-ink-muted">{copy.estimateNote}</p>
           </section>
 
           {/* Selected route detail. Phones: text, map, steps, button. Desktop: text column + map. */}
           <section
             aria-labelledby="route-title"
-            className="grid gap-5 lg:grid-cols-[416px_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8"
+            className="grid gap-5 lg:grid-cols-[minmax(300px,34%)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8"
           >
             <div className="flex flex-col gap-4 lg:pt-2">
-              <p className="m-0 text-[12px] font-bold uppercase leading-[1.3] text-charcoal">
+              <p className="m-0 text-caption font-bold uppercase text-charcoal">
                 {text(picked.mode.title)} · {copy.selectedLabel}
               </p>
               <h2
                 id="route-title"
-                className="m-0 text-[32px] font-medium leading-[1.08] tracking-[-0.03em] text-ink lg:leading-[1.3] lg:tracking-[-0.04em]"
+                className="m-0 text-title font-medium text-ink"
               >
                 {copy.headline.replace('{minutes}', String(minutes)).replace('{to}', text(trip.to.name))}
               </h2>
-              <p className="m-0 text-[14px] leading-[1.5] text-ink-soft lg:leading-[1.3]">
+              <p className="m-0 text-fine text-ink-soft">
                 {text(picked.mode.eyebrow)}. {text(picked.mode.effort)}.
               </p>
+              <p className="m-0 text-fine font-medium text-ink">{timing}</p>
             </div>
             <div className="h-[300px] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:h-[386px]">
               <TripMap
@@ -201,7 +219,7 @@ export function PlanTrip() {
                 note={copy.mapNote}
               />
             </div>
-            <ol className="m-0 flex list-none flex-col gap-3 p-0 text-[14px] leading-[1.5] text-ink">
+            <ol className="m-0 flex list-none flex-col gap-3 p-0 text-fine text-ink">
               <li className="flex gap-4">
                 <span aria-hidden="true">A</span>
                 <span className="sr-only">From </span>
@@ -250,7 +268,7 @@ function HandoffButton({
         resourceId={r.id}
         from="plan"
         mode={mode.id}
-        className="flex min-h-[56px] w-full items-center justify-center !rounded-none !border-charcoal !bg-charcoal px-4 text-[14px] font-medium !text-white hover:opacity-90 lg:min-h-[48px] lg:text-[16px] lg:font-bold"
+        className="flex min-h-[56px] w-full items-center justify-center !rounded-none !border-charcoal !bg-charcoal px-4 text-fine font-medium !text-white hover:opacity-90 lg:min-h-[48px] lg:font-bold"
       />
     </div>
   );

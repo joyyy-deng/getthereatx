@@ -30,7 +30,7 @@ export function FilterSelect({
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="size-full cursor-pointer appearance-none bg-transparent pl-[14px] pr-12 text-[14px] text-ink outline-none lg:pl-[18px]"
+        className="size-full cursor-pointer appearance-none bg-transparent pl-[14px] pr-12 text-fine text-ink outline-none lg:pl-[18px]"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>

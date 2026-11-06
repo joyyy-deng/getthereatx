@@ -46,7 +46,7 @@ export function Pagination({ page, pages, onChange, label }: PaginationProps) {
             aria-label={`Page ${n}`}
             aria-current={n === page ? 'page' : undefined}
             className={cx(
-              'grid size-[44px] place-items-center border text-[14px] transition-colors duration-hover',
+              'grid size-[44px] place-items-center border text-fine transition-colors duration-hover',
               n === page ? 'border-charcoal bg-charcoal text-white' : 'border-line text-ink hover:bg-mist',
             )}
           >

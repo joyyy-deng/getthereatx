@@ -135,7 +135,7 @@ export function PlaceCombobox({
         <div className="flex min-w-0 flex-1 flex-col gap-[3px] pr-8 leading-[1.3]">
           <label
             htmlFor={`${id}-input`}
-            className={cx('text-[11px] font-bold uppercase', tone === 'white' ? 'text-navy' : 'text-ink-soft')}
+            className={cx('text-caption font-bold uppercase', tone === 'white' ? 'text-navy' : 'text-ink-soft')}
           >
             {label}
           </label>

@@ -38,6 +38,8 @@ Change `value` (a 6-digit hex color) and every place that uses it changes. Page 
 
 The font is set the same way. `font.stylesheets` loads the Adobe Fonts kit (Real Text Pro), and `font.sans` names it first (`ff-real-text-pro`), with Geist as the fallback if the kit can't load. The kit is managed in Adobe Fonts (Web Projects); weights added there show up on the site without code changes.
 
+Page margins and text sizes live in `src/styles/tokens.css`, at the top of the "Page margin and the redesign's type scale" block: `--page-gutter` (side margin), `--page-max` (widest the content gets) and `--t-*` (one size per role: `--t-headline` for section titles, `--t-copy` for body text, and so on), each with a phone value and a desktop value.
+
 When the site moves to WordPress, `theme.json` becomes a settings page in WP admin with the same names, so staff can change colors there.
 
 ## Updating the Resources directory

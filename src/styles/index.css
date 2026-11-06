@@ -50,7 +50,8 @@
   @apply font-sans;
 }
 .trip-map .leaflet-tile-pane {
-  filter: sepia(0.25) saturate(0.7) brightness(1.03);
+  /* A light warm tint toward the Figma's cream map; more than this washes out the streets. */
+  filter: sepia(0.1) saturate(0.95);
 }
 .trip-map-label {
   @apply absolute left-0 top-0 whitespace-nowrap bg-bg p-2 text-[13px] font-medium leading-[1.3] text-ink;
@@ -88,6 +89,17 @@
   }
   .swipe-row > * {
     @apply shrink-0 snap-start;
+  }
+  /* Page side margin (tokens.css --page-gutter), widening past --page-max so
+     content centers on big screens while backgrounds still run full width. */
+  .px-page {
+    padding-inline: max(var(--page-gutter), calc((100% - var(--page-max)) / 2));
+  }
+  .pl-page {
+    padding-left: max(var(--page-gutter), calc((100% - var(--page-max)) / 2));
+  }
+  .pr-page {
+    padding-right: max(var(--page-gutter), calc((100% - var(--page-max)) / 2));
   }
   .tabular {
     font-variant-numeric: tabular-nums;

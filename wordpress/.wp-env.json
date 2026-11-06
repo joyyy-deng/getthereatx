@@ -3,12 +3,19 @@
   "core": "https://wordpress.org/wordpress-7.1.4.zip",
   "phpVersion": "8.4",
   "plugins": [
-    "./gtatx-tools"
+    "./gtatx-tools",
+    "https://downloads.wordpress.org/plugin/elementor.4.3.6.zip"
   ],
   "config": {
     "WP_DEBUG": true,
     "WP_DEBUG_LOG": true,
     "WP_DEBUG_DISPLAY": false
   },
-  "testsEnvironment": false
+  "testsEnvironment": false,
+  "mappings": {
+    "wp-content/uploads/gtatx-sample": "./elementor",
+    "wp-content/mu-plugins/gtatx-allow-local-images.php": "./local-dev/allow-local-images.php",
+    "wp-content/mu-plugins/gtatx-live-styles.php": "./local-dev/live-styles.php",
+    "wp-content/mu-plugins/gtatx-live-css": "./local-dev/live-css"
+  }
 }

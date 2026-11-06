@@ -40,14 +40,14 @@ export function MascotCard({
       className={cx(
         'group relative flex overflow-hidden p-6 lg:border lg:border-sky lg:p-9',
         tone === 'leaf' ? 'bg-leaf' : 'bg-sky-strong',
-        layout === 'stacked' ? 'h-[250px] lg:h-[468px]' : 'h-[260px] lg:h-auto lg:min-h-[303px]',
+        layout === 'stacked' ? 'h-[250px] lg:h-[420px]' : 'h-[260px] lg:h-auto lg:min-h-[303px]',
         className,
       )}
     >
       <span className={cx('relative z-10 flex h-full flex-col justify-between', ink)}>
         <span
           className={cx(
-            'block text-[36px] leading-[1.08] tracking-[-0.03em] lg:text-[52px] lg:leading-none lg:tracking-[-0.04em]',
+            'block text-feature',
             tone === 'leaf' ? 'font-semibold' : 'font-bold',
           )}
         >
@@ -61,7 +61,7 @@ export function MascotCard({
         <span
           aria-hidden="true"
           className={cx(
-            'text-[48px] leading-none transition-transform duration-hover group-hover:translate-x-1',
+            'text-[40px] leading-none transition-transform duration-hover group-hover:translate-x-1',
             layout === 'stacked' && 'lg:hidden',
           )}
         >
@@ -78,7 +78,7 @@ export function MascotCard({
           <span
             aria-hidden="true"
             className={cx(
-              'absolute bottom-9 right-9 hidden text-[48px] leading-none transition-transform duration-hover group-hover:translate-x-1 lg:block',
+              'absolute bottom-9 right-9 hidden text-[40px] leading-none transition-transform duration-hover group-hover:translate-x-1 lg:block',
               ink,
             )}
           >
