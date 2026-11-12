@@ -1,39 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { Logo } from './Logo';
+import { MobileMenu } from './MobileMenu';
+import { NAV_LINKS } from './siteLinks';
 
-// Figma "Nav" (desktop 860:1645, mobile "Mobile navigation"): logo left; from
-// 1024px three full-height tabs on the right, the current page tinted sky.
-// Below 1024px: logo + menu button that opens the links.
-const LINKS = [
-  { to: '/plan', label: 'Plan Your Trip' },
-  { to: '/community', label: 'Community' },
-  { to: '/resources', label: 'Resources' },
-];
+// Figma "Nav" (desktop instance in every page frame, e.g. 860:1672): 76px
+// tall, logo at 16px from the edge, three tabs of 22/28px Real Text Regular
+// with 24px padding and 4px apart, the current page tinted sky. No rule under it.
+// Phones and tablets (Figma "Mobile navigation" 865:6072): 80px bar, 24px side
+// padding, 1px rule, logo and the menu icon; the menu opens a full panel (MobileMenu).
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const button = useRef<HTMLButtonElement>(null);
 
   // Close the menu after navigating.
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header className="sticky top-0 z-[1100] border-b border-rule bg-bg lg:border-b-2">
-      <nav aria-label="Main" className="flex h-[72px] items-center justify-between px-page lg:h-[84px]">
-        <Link to="/" aria-label="Get There ATX home" className="block">
-          <Logo className="w-[190px] lg:w-[240px]" />
+    <header className="sticky top-0 z-[1100] bg-bg">
+      <nav aria-label="Main" className="flex h-[80px] items-center justify-between border-b border-rule px-6 py-2 lg:h-[76px] lg:border-b-0 lg:p-0">
+        <Link to="/" aria-label="Get There ATX home" className="block lg:px-4">
+          <Logo className="w-[210px] lg:hidden" />
+          <Logo crop="nav" className="hidden w-[278px] lg:block" />
         </Link>
-        <ul className="m-0 hidden h-full list-none items-stretch p-0 lg:flex">
-          {LINKS.map((l) => (
+        <ul className="m-0 hidden h-full list-none items-stretch gap-1 p-0 lg:flex">
+          {NAV_LINKS.map((l) => (
             <li key={l.to}>
               <NavLink
                 to={l.to}
                 className={({ isActive }) =>
                   cx(
-                    'flex h-full items-center px-7 text-menu text-rule transition-colors duration-hover',
-                    isActive ? 'bg-sky-nav font-normal' : 'font-medium hover:bg-mist',
+                    'flex h-full items-center whitespace-nowrap p-6 text-[22px] font-normal leading-[28px] text-rule transition-colors duration-hover',
+                    isActive ? 'bg-sky-nav' : 'hover:bg-mist',
                   )
                 }
               >
@@ -43,6 +45,7 @@ export function Nav() {
           ))}
         </ul>
         <button
+          ref={button}
           type="button"
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -50,31 +53,16 @@ export function Nav() {
           onClick={() => setOpen((o) => !o)}
           className="-mr-[10px] grid size-[44px] place-items-center text-ink lg:hidden"
         >
-          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            {open ? (
-              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            ) : (
-              <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            )}
-          </svg>
+          {open ? (
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          ) : (
+            <img src={asset('/icons/menu.svg')} alt="" width={24} height={24} className="block size-6" />
+          )}
         </button>
       </nav>
-      {open && (
-        <ul id="mobile-menu" className="m-0 list-none border-t border-line bg-bg p-0 shadow-raised lg:hidden">
-          {LINKS.map((l) => (
-            <li key={l.to}>
-              <NavLink
-                to={l.to}
-                className={({ isActive }) =>
-                  cx('block px-[var(--page-gutter)] py-4 text-menu font-medium text-ink', isActive && 'bg-sky-nav font-normal')
-                }
-              >
-                {l.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      )}
+      {open && <MobileMenu onClose={() => { setOpen(false); button.current?.focus(); }} />}
     </header>
   );
 }

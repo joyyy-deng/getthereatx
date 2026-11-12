@@ -14,3 +14,4 @@ export { SectionHeader } from './SectionHeader';
 export { Tabs } from './Tabs';
 export type { TabItem } from './Tabs';
 export { MascotCard } from './MascotCard';
+export { Arrow } from './Arrow';

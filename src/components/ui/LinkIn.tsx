@@ -1,8 +1,9 @@
 import { cx } from '../../lib/cx';
+import { Arrow } from './Arrow';
 import { PageLink } from './PageLink';
 import { buttonClasses, type ButtonStyle } from './styles';
 
-// → means "stays on GetThereATX." Internal navigation only.
+// A link to another GetThereATX page, with Figma's angled arrow (↗ on every link, Joy 2026-11-12).
 
 export interface LinkInProps extends ButtonStyle {
   to: string;
@@ -25,7 +26,7 @@ export function LinkIn({ to, label, as = 'inline', variant = 'primary', size, sh
   return (
     <PageLink to={to} className={cx(styles, className)}>
       {label}
-      <span aria-hidden="true">&nbsp;→</span>
+      <Arrow className="ml-[6px] inline-block size-3 align-baseline" />
     </PageLink>
   );
 }

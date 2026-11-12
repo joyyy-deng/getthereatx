@@ -4,7 +4,7 @@
  "type": "section",
  "content": [
   {
-   "id": "2ca56b5",
+   "id": "3bb115e",
    "elType": "container",
    "isInner": true,
    "settings": {
@@ -28,23 +28,23 @@
    },
    "elements": [
     {
-     "id": "c54486d",
+     "id": "d4a2895",
      "elType": "widget",
      "widgetType": "gtatx-facts",
      "settings": {
       "facts": [
        {
-        "_id": "aec010c",
+        "_id": "5371ef3",
         "label": "Stations",
         "value": "75+ across Austin"
        },
        {
-        "_id": "c79845b",
+        "_id": "e8fdd6c",
         "label": "Hours",
         "value": "Open 24/7"
        },
        {
-        "_id": "2d2cd99",
+        "_id": "14c49c2",
         "label": "Bikes",
         "value": "100% electric"
        }
@@ -69,7 +69,7 @@
      "elements": []
     },
     {
-     "id": "eb2a7b1",
+     "id": "71071ca",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -110,7 +110,7 @@
      },
      "elements": [
       {
-       "id": "4a73d71",
+       "id": "42cac9e",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -151,7 +151,7 @@
      ]
     },
     {
-     "id": "2d2f0a3",
+     "id": "dad78fd",
      "elType": "widget",
      "widgetType": "text-editor",
      "settings": {
@@ -200,7 +200,7 @@
      "elements": []
     },
     {
-     "id": "681ab54",
+     "id": "cf23eed",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -252,7 +252,7 @@
      },
      "elements": [
       {
-       "id": "961c6b3",
+       "id": "16c45e0",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -287,7 +287,7 @@
        "elements": []
       },
       {
-       "id": "869e282",
+       "id": "d8fbebf",
        "elType": "widget",
        "widgetType": "text-editor",
        "settings": {
@@ -322,7 +322,7 @@
      ]
     },
     {
-     "id": "37a65f0",
+     "id": "849edbb",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -363,7 +363,7 @@
      },
      "elements": [
       {
-       "id": "8dad3ea",
+       "id": "59a2349",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -404,28 +404,28 @@
      ]
     },
     {
-     "id": "edd2296",
+     "id": "c7d5ff6",
      "elType": "widget",
      "widgetType": "gtatx-steps",
      "settings": {
       "steps": [
        {
-        "_id": "a18069e",
+        "_id": "51f182b",
         "title": "Find a station",
         "text": "Open the map or app to see nearby bikes and open docks."
        },
        {
-        "_id": "9d5df53",
+        "_id": "809be33",
         "title": "Unlock a bike",
         "text": "Scan the code or enter your account details at the dock."
        },
        {
-        "_id": "e965b51",
+        "_id": "113376c",
         "title": "Ride to your stop",
         "text": "Use bike lanes and trails when you can, and follow traffic signals."
        },
        {
-        "_id": "ba80b76",
+        "_id": "bf2ea56",
         "title": "Return it",
         "text": "Dock the bike at any open station and check that it locked."
        }
@@ -450,7 +450,7 @@
      "elements": []
     },
     {
-     "id": "b7c3540",
+     "id": "3b2b2e4",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -490,7 +490,7 @@
      },
      "elements": [
       {
-       "id": "e82a713",
+       "id": "eeaf7b3",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -510,7 +510,7 @@
        },
        "elements": [
         {
-         "id": "7773a93",
+         "id": "2632c89",
          "elType": "widget",
          "widgetType": "image",
          "settings": {
@@ -530,7 +530,7 @@
        ]
       },
       {
-       "id": "38d390c",
+       "id": "f9fb950",
        "elType": "widget",
        "widgetType": "text-editor",
        "settings": {
@@ -560,7 +560,7 @@
      ]
     },
     {
-     "id": "c7ac06a",
+     "id": "a167d2c",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -601,7 +601,7 @@
      },
      "elements": [
       {
-       "id": "9d282f6",
+       "id": "d92161c",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -642,7 +642,7 @@
      ]
     },
     {
-     "id": "09fd79c",
+     "id": "28e9526",
      "elType": "widget",
      "widgetType": "gtatx-table",
      "settings": {
@@ -653,21 +653,21 @@
       "heading_4": "",
       "rows": [
        {
-        "_id": "c9d5d6c",
+        "_id": "74e2c70",
         "cell_1": "Row label",
         "cell_2": "Detail text",
         "cell_3": "Detail text",
         "cell_4": ""
        },
        {
-        "_id": "8b798b0",
+        "_id": "67c7d8f",
         "cell_1": "Row label",
         "cell_2": "Detail text",
         "cell_3": "Detail text",
         "cell_4": ""
        },
        {
-        "_id": "870faa0",
+        "_id": "cdfaf7e",
         "cell_1": "Row label",
         "cell_2": "Detail text",
         "cell_3": "Detail text",
@@ -694,7 +694,7 @@
      "elements": []
     },
     {
-     "id": "c63f387",
+     "id": "3b60665",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -729,7 +729,7 @@
      },
      "elements": [
       {
-       "id": "d34f5fc",
+       "id": "5be71c6",
        "elType": "widget",
        "widgetType": "button",
        "settings": {

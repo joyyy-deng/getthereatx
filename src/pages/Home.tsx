@@ -4,6 +4,7 @@ import { GuideAccordion, type GuideItem } from '../components/home/GuideAccordio
 import { HeroTripForm } from '../components/home/HeroTripForm';
 import { TogetherBand } from '../components/TogetherBand';
 import { MascotCard, PageLoading } from '../components/ui';
+import { Arrow } from '../components/ui/Arrow';
 import { PageLink } from '../components/ui/PageLink';
 import { getConnectCards, getPageContent, getPlaces, getPosts, getResources } from '../data';
 import { asset } from '../lib/asset';
@@ -65,7 +66,7 @@ export function Home() {
       <section className="border-b border-navy px-page py-8 lg:py-12">
         <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-stretch lg:gap-10">
           <div className="flex min-w-0 flex-col gap-6 lg:justify-end">
-            <h1 className="m-0 text-poster font-bold text-ink">
+            <h1 className="m-0 text-fluid font-bold leading-[1.05] tracking-[-0.01em] text-ink [--d:128] [--m:45] lg:leading-[0.98] lg:tracking-[-0.04em]">
               {copy.hero.title.map((line, i) => (
                 <Fragment key={i}>
                   {i > 0 && <br />}
@@ -99,7 +100,7 @@ export function Home() {
       {/* New to this? We got you. Phones: title, guides, card. Desktop: title + card left, guides right. */}
       <section className="px-page py-10 lg:py-16">
         <div className="grid gap-6 lg:grid-cols-[minmax(240px,28%)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-[clamp(32px,6vw,96px)] lg:gap-y-6">
-          <h2 className="m-0 text-headline font-semibold text-ink">
+          <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:64] [--m:32] lg:leading-[0.98] lg:tracking-[-0.04em]">
             {copy.guides.title.map((line, i) => (
               <Fragment key={i}>
                 {i > 0 && <br />}
@@ -124,7 +125,7 @@ export function Home() {
       {/* See what's going on in Austin. */}
       <section className="border-y border-rule px-page py-10 lg:py-16">
         <div className="flex flex-col gap-6 lg:gap-10">
-          <h2 className="m-0 text-headline font-semibold text-ink">
+          <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:80] [--m:32] lg:leading-[0.98] lg:tracking-[-0.04em]">
             {copy.discover.title}
           </h2>
           <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
@@ -141,10 +142,8 @@ export function Home() {
                       className="absolute inset-0 size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
                     />
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-[rgb(0_0_0/0.7)]" />
-                    <span className="relative text-heading font-bold text-white lg:text-title">{c.title}</span>
-                    <span aria-hidden="true" className="relative text-[20px] text-white">
-                      →
-                    </span>
+                    <span className="relative text-fluid font-bold tracking-[-0.04em] text-white [--d:28] [--m:24]">{c.title}</span>
+                    <Arrow className="relative size-5 text-white" />
                   </PageLink>
                 </li>
               ))}
@@ -167,6 +166,7 @@ export function Home() {
         cards={data.cards}
         resources={data.resources}
         from="home"
+        variant="home"
       />
     </>
   );

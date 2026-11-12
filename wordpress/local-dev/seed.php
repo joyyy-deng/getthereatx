@@ -103,6 +103,24 @@ function gtatx_seed_field( $name, $value, $id ) {
 // Austin time, like the live site, so event times and "Updated" dates are right.
 update_option( 'timezone_string', 'America/Chicago' );
 update_option( 'gmt_offset', '' );
+// The new page addresses (local only; a launch step on the live site, see content.php):
+// blogs at /guides/<name>/, events at /community/events/<name>/.
+update_option( 'permalink_structure', '/guides/%postname%/' );
+update_option( 'gtatx_new_addresses', 1 );
+
+// ---------- local page stand-ins ----------
+// The event pages' "Back to Community" link needs a /community/ page. On the
+// live site that's the real Community page (Elementor, a later step).
+gtatx_seed_post(
+	'page:community',
+	array(
+		'post_type'    => 'page',
+		'post_status'  => 'publish',
+		'post_name'    => 'community',
+		'post_title'   => 'Community',
+		'post_content' => '<p>Local stand-in for the Community page (the Elementor version is a later step). <a href="/event/">Events</a></p>',
+	)
+);
 
 // ---------- categories ----------
 $gtatx_cat_ids = array();
@@ -429,5 +447,5 @@ foreach ( $gtatx_data['resources'] as $r ) {
 }
 WP_CLI::log( count( $gtatx_data['resources'] ) . ' external resources' );
 
-flush_rewrite_rules();
+flush_rewrite_rules( false );
 WP_CLI::success( 'Local WordPress seeded. Log in at ' . admin_url() . ' (admin / password).' );

@@ -3,6 +3,7 @@ import type { Img } from '../../content/schema';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { LinkOut } from '../ui';
+import { Arrow } from '../ui/Arrow';
 import { PageLink } from '../ui/PageLink';
 
 export interface GuideItem {
@@ -36,7 +37,7 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
                 aria-expanded={open}
                 aria-controls={panelId}
                 onClick={() => setOpenId(open ? undefined : item.id)}
-                className="flex w-full items-center justify-between gap-4 py-4 text-left text-heading font-medium text-ink lg:py-5 lg:pl-4"
+                className="flex w-full items-center justify-between gap-4 py-4 text-left text-fluid font-normal leading-[28px] text-ink [--d:30] [--m:22] lg:py-5 lg:pl-4 lg:font-medium lg:leading-[1.15] lg:tracking-[-0.04em]"
               >
                 {item.title}
                 <svg aria-hidden="true" viewBox="0 0 24 24" className="size-6 shrink-0 lg:size-8" fill="none">
@@ -53,14 +54,14 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
                   className="block h-[150px] w-full object-cover lg:h-[180px] lg:border lg:border-link"
                 />
               )}
-              <p className="m-0 text-lead text-navy">
+              <p className="m-0 text-fluid leading-[24px] text-navy [--d:24] [--m:16] lg:leading-[1] lg:tracking-[-0.02em]">
                 {item.body}
               </p>
-              <p className="m-0 text-fine">
+              <p className="m-0 text-fluid font-semibold leading-[16px] tracking-[0.01em] [--d:14] [--m:12] lg:font-normal lg:leading-[1]">
                 {'to' in item.link ? (
                   <PageLink to={item.link.to} className="text-link underline decoration-1 underline-offset-4 hover:decoration-2">
                     {item.link.label}
-                    <span aria-hidden="true">&nbsp;→</span>
+                    <Arrow className="ml-1 inline-block size-3 align-baseline" />
                   </PageLink>
                 ) : (
                   <LinkOut

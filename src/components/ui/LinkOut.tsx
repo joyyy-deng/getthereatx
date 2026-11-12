@@ -1,3 +1,4 @@
+import { Arrow } from './Arrow';
 import { cx } from '../../lib/cx';
 import { track } from '../../lib/track';
 import { buttonClasses, type ButtonStyle } from './styles';
@@ -59,7 +60,7 @@ export function LinkOut({
       )}
     >
       {label}
-      <span aria-hidden="true">&nbsp;↗</span>
+      <Arrow className="ml-[6px] inline-block size-3 align-baseline" />
     </a>
   );
 }

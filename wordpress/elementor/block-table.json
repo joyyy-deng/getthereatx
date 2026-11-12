@@ -4,7 +4,7 @@
  "type": "section",
  "content": [
   {
-   "id": "0dd6f57",
+   "id": "481fa09",
    "elType": "container",
    "isInner": true,
    "settings": {
@@ -28,7 +28,7 @@
    },
    "elements": [
     {
-     "id": "d0c94e3",
+     "id": "4e327dc",
      "elType": "widget",
      "widgetType": "gtatx-table",
      "settings": {
@@ -39,21 +39,21 @@
       "heading_4": "",
       "rows": [
        {
-        "_id": "d362d54",
+        "_id": "c89106d",
         "cell_1": "Row label",
         "cell_2": "Detail text",
         "cell_3": "Detail text",
         "cell_4": ""
        },
        {
-        "_id": "9145732",
+        "_id": "438b07b",
         "cell_1": "Row label",
         "cell_2": "Detail text",
         "cell_3": "Detail text",
         "cell_4": ""
        },
        {
-        "_id": "fc995e4",
+        "_id": "a8a5249",
         "cell_1": "Row label",
         "cell_2": "Detail text",
         "cell_3": "Detail text",

@@ -7,7 +7,7 @@
  },
  "content": [
   {
-   "id": "25bdb21",
+   "id": "b1744bb",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -32,7 +32,7 @@
    },
    "elements": [
     {
-     "id": "3a7a711",
+     "id": "773c34a",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -74,7 +74,7 @@
      },
      "elements": [
       {
-       "id": "0b90b35",
+       "id": "da2a0a9",
        "elType": "widget",
        "widgetType": "theme-post-featured-image",
        "settings": {
@@ -101,7 +101,7 @@
      ]
     },
     {
-     "id": "fdb346f",
+     "id": "21e617b",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -145,7 +145,7 @@
      },
      "elements": [
       {
-       "id": "831dcb3",
+       "id": "2d77cca",
        "elType": "widget",
        "widgetType": "button",
        "settings": {
@@ -199,7 +199,7 @@
        "elements": []
       },
       {
-       "id": "db37336",
+       "id": "c8ffe47",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -230,7 +230,7 @@
        },
        "elements": [
         {
-         "id": "97177ea",
+         "id": "d6bbff9",
          "elType": "widget",
          "widgetType": "theme-post-title",
          "settings": {
@@ -268,7 +268,7 @@
          "elements": []
         },
         {
-         "id": "c60fc89",
+         "id": "bca7781",
          "elType": "widget",
          "widgetType": "theme-post-excerpt",
          "settings": {
@@ -314,7 +314,7 @@
      ]
     },
     {
-     "id": "a9c2188",
+     "id": "9cf3387",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -362,7 +362,7 @@
      },
      "elements": [
       {
-       "id": "8e604fc",
+       "id": "56d423d",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -403,7 +403,7 @@
        },
        "elements": [
         {
-         "id": "f1750d4",
+         "id": "447af07",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -428,7 +428,7 @@
          },
          "elements": [
           {
-           "id": "165b197",
+           "id": "462281a",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -467,7 +467,7 @@
            "elements": []
           },
           {
-           "id": "3e6cbd0",
+           "id": "c3dbf92",
            "elType": "widget",
            "widgetType": "text-editor",
            "settings": {
@@ -497,7 +497,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "editor": "[elementor-tag id=\"9c0cd00\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_what_to_bring%22%7D\"]"
+             "editor": "[elementor-tag id=\"6a9c269\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_what_to_bring%22%7D\"]"
             }
            },
            "elements": []
@@ -505,7 +505,7 @@
          ]
         },
         {
-         "id": "77bafa0",
+         "id": "ef4c55c",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -530,7 +530,7 @@
          },
          "elements": [
           {
-           "id": "0058119",
+           "id": "d021fd2",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -569,7 +569,7 @@
            "elements": []
           },
           {
-           "id": "77dcc15",
+           "id": "533138b",
            "elType": "widget",
            "widgetType": "text-editor",
            "settings": {
@@ -599,13 +599,13 @@
              "sizes": []
             },
             "__dynamic__": {
-             "editor": "[elementor-tag id=\"d31d68b\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_hosted_by%22%7D\"]"
+             "editor": "[elementor-tag id=\"eb80e91\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_hosted_by%22%7D\"]"
             }
            },
            "elements": []
           },
           {
-           "id": "0ddf7f6",
+           "id": "8758025",
            "elType": "widget",
            "widgetType": "text-editor",
            "settings": {
@@ -635,7 +635,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "editor": "[elementor-tag id=\"19bfe6a\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_contact%22%7D\"]"
+             "editor": "[elementor-tag id=\"b3689fa\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_contact%22%7D\"]"
             },
             "_css_classes": "gtatx-if-contact"
            },
@@ -644,7 +644,7 @@
          ]
         },
         {
-         "id": "9d5c44f",
+         "id": "08d12c6",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -669,7 +669,7 @@
          },
          "elements": [
           {
-           "id": "9a439fc",
+           "id": "0a9dce7",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -708,7 +708,7 @@
            "elements": []
           },
           {
-           "id": "74cd238",
+           "id": "68b125a",
            "elType": "widget",
            "widgetType": "text-editor",
            "settings": {
@@ -738,7 +738,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "editor": "[elementor-tag id=\"7901fc3\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_accessibility%22%7D\"]"
+             "editor": "[elementor-tag id=\"06ec823\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_accessibility%22%7D\"]"
             }
            },
            "elements": []
@@ -746,7 +746,7 @@
          ]
         },
         {
-         "id": "32e9529",
+         "id": "ac51d4f",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -771,7 +771,7 @@
          },
          "elements": [
           {
-           "id": "3bc32d4",
+           "id": "2a6fc8a",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -810,7 +810,7 @@
            "elements": []
           },
           {
-           "id": "826a97e",
+           "id": "e83779c",
            "elType": "widget",
            "widgetType": "text-editor",
            "settings": {
@@ -835,7 +835,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "editor": "[elementor-tag id=\"6dda5ba\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_getting_there%22%7D\"]"
+             "editor": "[elementor-tag id=\"e37743a\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_getting_there%22%7D\"]"
             }
            },
            "elements": []
@@ -845,7 +845,7 @@
        ]
       },
       {
-       "id": "6c0e5fd",
+       "id": "33830fc",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -896,7 +896,7 @@
        },
        "elements": [
         {
-         "id": "3f69803",
+         "id": "8440041",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -920,7 +920,7 @@
          },
          "elements": [
           {
-           "id": "6ea959b",
+           "id": "954b76e",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -955,7 +955,7 @@
            "elements": []
           },
           {
-           "id": "68ee568",
+           "id": "36a78b3",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -986,7 +986,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"b093847\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_date%22%7D\"]"
+             "title": "[elementor-tag id=\"f0129ee\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_date%22%7D\"]"
             }
            },
            "elements": []
@@ -994,7 +994,7 @@
          ]
         },
         {
-         "id": "ee129eb",
+         "id": "c1521a6",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1019,7 +1019,7 @@
          },
          "elements": [
           {
-           "id": "ec47e81",
+           "id": "38586f3",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1054,7 +1054,7 @@
            "elements": []
           },
           {
-           "id": "711de0b",
+           "id": "acc2d94",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1085,7 +1085,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"701ed59\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_time%22%7D\"]"
+             "title": "[elementor-tag id=\"b15e416\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_time%22%7D\"]"
             }
            },
            "elements": []
@@ -1093,7 +1093,7 @@
          ]
         },
         {
-         "id": "295aec6",
+         "id": "a5c45a9",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1117,7 +1117,7 @@
          },
          "elements": [
           {
-           "id": "f8cc0a4",
+           "id": "53bb622",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1152,7 +1152,7 @@
            "elements": []
           },
           {
-           "id": "da6699a",
+           "id": "bc421c3",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1183,13 +1183,13 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"092749b\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_venue%22%7D\"]"
+             "title": "[elementor-tag id=\"56c423d\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_venue%22%7D\"]"
             }
            },
            "elements": []
           },
           {
-           "id": "f7b321a",
+           "id": "a563261",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1220,7 +1220,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"b80542b\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_address%22%7D\"]"
+             "title": "[elementor-tag id=\"a520cd5\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_address%22%7D\"]"
             }
            },
            "elements": []
@@ -1228,7 +1228,7 @@
          ]
         },
         {
-         "id": "1837e6b",
+         "id": "ab90301",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1253,7 +1253,7 @@
          },
          "elements": [
           {
-           "id": "6dab431",
+           "id": "b1010d9",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1288,7 +1288,7 @@
            "elements": []
           },
           {
-           "id": "fadd445",
+           "id": "2b8cdb0",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1319,7 +1319,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"cc652dd\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_cost%22%7D\"]"
+             "title": "[elementor-tag id=\"c9137bb\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_cost%22%7D\"]"
             }
            },
            "elements": []
@@ -1327,7 +1327,7 @@
          ]
         },
         {
-         "id": "ffd5629",
+         "id": "34d86f7",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1352,7 +1352,7 @@
          },
          "elements": [
           {
-           "id": "5b9fd87",
+           "id": "991f656",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1387,7 +1387,7 @@
            "elements": []
           },
           {
-           "id": "c014ae3",
+           "id": "fab7fc3",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1418,7 +1418,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"788128a\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_ages%22%7D\"]"
+             "title": "[elementor-tag id=\"c2d5f6d\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_ages%22%7D\"]"
             }
            },
            "elements": []
@@ -1426,7 +1426,7 @@
          ]
         },
         {
-         "id": "2d15cd0",
+         "id": "6b6602c",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1451,7 +1451,7 @@
          },
          "elements": [
           {
-           "id": "1d99dec",
+           "id": "bce8916",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1486,7 +1486,7 @@
            "elements": []
           },
           {
-           "id": "cb21a50",
+           "id": "53f754e",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1517,7 +1517,7 @@
              "sizes": []
             },
             "__dynamic__": {
-             "title": "[elementor-tag id=\"784734f\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_registration%22%7D\"]"
+             "title": "[elementor-tag id=\"a2f14da\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_registration%22%7D\"]"
             }
            },
            "elements": []
@@ -1525,7 +1525,7 @@
          ]
         },
         {
-         "id": "bc29813",
+         "id": "5b7ba60",
          "elType": "widget",
          "widgetType": "divider",
          "settings": {
@@ -1544,7 +1544,7 @@
          "elements": []
         },
         {
-         "id": "57a3456",
+         "id": "5f337bb",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1568,7 +1568,7 @@
          },
          "elements": [
           {
-           "id": "5a446a5",
+           "id": "5cc7649",
            "elType": "widget",
            "widgetType": "button",
            "settings": {
@@ -1619,13 +1619,13 @@
             },
             "_css_classes": "gtatx-arrow gtatx-arrow-spread gtatx-if-website",
             "__dynamic__": {
-             "link": "[elementor-tag id=\"17a888c\" name=\"gtatx-url\" settings=\"%7B%22field%22%3A%22event_website%22%7D\"]"
+             "link": "[elementor-tag id=\"4a9df79\" name=\"gtatx-url\" settings=\"%7B%22field%22%3A%22event_website%22%7D\"]"
             }
            },
            "elements": []
           },
           {
-           "id": "52a74e6",
+           "id": "ff11965",
            "elType": "widget",
            "widgetType": "button",
            "settings": {
@@ -1686,7 +1686,7 @@
             },
             "_css_classes": "gtatx-arrow gtatx-arrow-spread",
             "__dynamic__": {
-             "link": "[elementor-tag id=\"d61f623\" name=\"gtatx-url\" settings=\"%7B%22field%22%3A%22event_ical%22%7D\"]"
+             "link": "[elementor-tag id=\"b3965ce\" name=\"gtatx-url\" settings=\"%7B%22field%22%3A%22event_ical%22%7D\"]"
             }
            },
            "elements": []
@@ -1698,7 +1698,7 @@
      ]
     },
     {
-     "id": "933e2a1",
+     "id": "9635e99",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -1755,7 +1755,7 @@
      },
      "elements": [
       {
-       "id": "9a20b78",
+       "id": "e4fb8a5",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -1794,7 +1794,7 @@
        "elements": []
       },
       {
-       "id": "f5dcc46",
+       "id": "dfd9788",
        "elType": "widget",
        "widgetType": "loop-grid",
        "settings": {

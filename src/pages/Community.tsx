@@ -46,6 +46,7 @@ export function Community() {
         cards={data.cards}
         resources={data.resources}
         from="community"
+        variant="community"
         headingLevel={1}
       />
       <EventsSection
@@ -57,6 +58,7 @@ export function Community() {
             to={copy.explore.to}
             tone="leaf"
             layout="side"
+            titleSize={[36, 45]}
             mascot={{ src: '/images/mascots/austin-dog.svg', flip: true }}
           />
         }

@@ -1,6 +1,7 @@
-import { Fragment } from 'react';
+import { Fragment, type CSSProperties } from 'react';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
+import { Arrow } from './Arrow';
 import { PageLink } from './PageLink';
 
 /**
@@ -16,6 +17,7 @@ export function MascotCard({
   mascot,
   layout,
   className,
+  titleSize = [28, 52],
 }: {
   title: string[];
   to: string;
@@ -24,6 +26,8 @@ export function MascotCard({
   mascot: { src: string; flip?: boolean };
   layout: 'stacked' | 'side';
   className?: string;
+  /** Figma title size, phone / desktop px: Home cards 28 / 52, Community "Explore Austin" 36 / 45. */
+  titleSize?: [number, number];
 }) {
   // Navy, not white, on the leaf green: white is 2.7:1 there (fails WCAG AA), navy 4.8:1.
   const ink = 'text-navy';
@@ -41,16 +45,14 @@ export function MascotCard({
       className={cx(
         'group relative flex overflow-hidden p-6 lg:border lg:border-sky lg:p-9',
         tone === 'leaf' ? 'bg-leaf' : 'bg-sky-strong',
-        layout === 'stacked' ? 'h-[250px] lg:h-[420px]' : 'h-[260px] lg:h-auto lg:min-h-[303px]',
+        layout === 'stacked' ? 'h-[250px] lg:h-[468px]' : 'h-[260px] lg:h-auto lg:min-h-[303px]',
         className,
       )}
     >
-      <span className={cx('relative z-10 flex h-full flex-col justify-between', ink)}>
+      <span className={cx('relative z-10 flex flex-col justify-between self-stretch', ink)}>
         <span
-          className={cx(
-            'block text-feature',
-            tone === 'leaf' ? 'font-semibold' : 'font-bold',
-          )}
+          className={cx('block text-fluid leading-[1] tracking-[-0.04em]', tone === 'leaf' ? 'font-semibold' : 'font-bold')}
+          style={{ '--m': titleSize[0], '--d': titleSize[1] } as CSSProperties}
         >
           {title.map((line, i) => (
             <Fragment key={i}>
@@ -59,14 +61,8 @@ export function MascotCard({
             </Fragment>
           ))}
         </span>
-        <span
-          aria-hidden="true"
-          className={cx(
-            'text-[40px] leading-none transition-transform duration-hover group-hover:translate-x-1',
-            layout === 'stacked' && 'lg:hidden',
-          )}
-        >
-          →
+        <span className={cx('block transition-transform duration-hover group-hover:-translate-y-0.5 group-hover:translate-x-0.5', layout === 'stacked' && 'lg:hidden')}>
+          <Arrow className="size-10" strokeWidth={2.2} />
         </span>
       </span>
 
@@ -76,14 +72,8 @@ export function MascotCard({
           <span className="absolute left-[155px] top-9 h-[199px] w-[170px] lg:left-9 lg:top-auto lg:bottom-9 lg:h-[276px] lg:w-[236px] [&_img]:size-full">
             {art}
           </span>
-          <span
-            aria-hidden="true"
-            className={cx(
-              'absolute bottom-9 right-9 hidden text-[40px] leading-none transition-transform duration-hover group-hover:translate-x-1 lg:block',
-              ink,
-            )}
-          >
-            →
+          <span className={cx('absolute bottom-9 right-9 hidden transition-transform duration-hover group-hover:-translate-y-0.5 group-hover:translate-x-0.5 lg:block', ink)}>
+            <Arrow className="size-10" strokeWidth={2.2} />
           </span>
         </>
       ) : (

@@ -103,6 +103,16 @@
   .pr-page {
     padding-right: max(var(--page-gutter), calc((100% - var(--page-max)) / 2));
   }
+  /* Figma's exact type sizes: --m at the 393px phone frame, --d at the 1440px
+     desktop frame, scaling evenly in between (and holding outside them).
+     Use with the sizes in px, no units:  text-fluid [--m:24] [--d:36]  */
+  .text-fluid {
+    font-size: clamp(
+      min(var(--m) * 1px, var(--d) * 1px),
+      calc(var(--m) * 1px + (var(--d) - var(--m)) * (100vw - 393px) / 1047),
+      max(var(--m) * 1px, var(--d) * 1px)
+    );
+  }
   /* Blog and event pages: Figma's 24px phone / 128px desktop margins. */
   .px-article {
     padding-inline: max(var(--a-gutter), calc((100% - var(--a-column)) / 2));

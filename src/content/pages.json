@@ -113,8 +113,15 @@
       }
     },
     "title": "Resources",
-    "allLabel": "All Resources",
-    "everyoneLabel": "Everyone",
+    "searchLabel": "Search",
+    "filters": {
+      "mode": "Ways of getting around",
+      "who": "Who are you?",
+      "type": "Type of info",
+      "guides": "Guides",
+      "websites": "Websites"
+    },
+    "clearFilters": "Clear filters",
     "noResults": "Nothing matches those filters.",
     "linkLabel": "Visit website",
     "guidesLabel": "Guides",
@@ -142,7 +149,16 @@
       "title": "Trade a little screen time for outside time.",
       "featuredLabel": "Featured",
       "linkLabel": "Get event details",
-      "empty": "No upcoming events right now."
+      "empty": "No upcoming events right now.",
+      "noMatch": "No events match these filters.",
+      "filters": {
+        "type": "Event type",
+        "date": "Date",
+        "location": "Location",
+        "thisWeek": "This week",
+        "thisMonth": "This month",
+        "nextMonth": "Next 30 days"
+      }
     },
     "explore": {
       "title": [

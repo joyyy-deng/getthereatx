@@ -76,7 +76,7 @@ export function GuideView({
 
       <header className="flex flex-col px-article py-6 md:pb-14 md:pt-10">
         {/* Figma has no back link on the phone frame. */}
-        <BackLink to="/resources?mode=Guides#directory" label={copy.backLabel} className="hidden md:flex" />
+        <BackLink to="/resources?type=guides#directory" label={copy.backLabel} className="hidden md:flex" />
         <div className="flex flex-col gap-4 md:gap-5">
           {/* The removed eyebrow's line, kept so the spacing matches Figma. */}
           <div aria-hidden="true" className="h-[15px]" />

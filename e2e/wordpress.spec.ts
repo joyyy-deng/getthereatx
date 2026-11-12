@@ -163,3 +163,16 @@ for (const [name, path] of Object.entries(PAGES)) {
     }
   });
 }
+
+test('page addresses: /guides/<name>/ and /community/events/<name>/, old links redirect', async ({ request }) => {
+  const go = (path: string) => request.get(WP + path, { maxRedirects: 0 });
+  expect((await go('/guides/transit-101/')).status()).toBe(200);
+  expect((await go('/community/events/ride-to-the-future/')).status()).toBe(200);
+  const oldBlog = await go('/transit-101/');
+  expect(oldBlog.status()).toBe(301);
+  expect(oldBlog.headers().location).toBe(`${WP}/guides/transit-101/`);
+  const oldEvent = await go('/event/ride-to-the-future/');
+  expect(oldEvent.status()).toBe(301);
+  expect(oldEvent.headers().location).toBe(`${WP}/community/events/ride-to-the-future/`);
+  expect((await go('/no-such-post/')).status()).toBe(404);
+});

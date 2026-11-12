@@ -30,9 +30,9 @@ export function ModeCard({
       )}
     >
       <span className="flex min-w-0 flex-1 flex-col justify-center gap-1 leading-[1.3]">
-        <span className="text-copy font-bold tracking-[-0.02em] text-ink">{text(mode.title)}</span>
-        <span className="tabular text-time font-medium text-ink">{typicalMinutes(minutes)} min</span>
-        <span className="text-caption text-ink-soft">
+        <span className="text-[16px] font-semibold leading-[1.3] tracking-[-0.04em] text-ink lg:leading-[24px] lg:tracking-normal">{text(mode.title)}</span>
+        <span className="tabular text-time font-medium text-ink lg:font-normal lg:leading-[28px]">{typicalMinutes(minutes)} min</span>
+        <span className="text-[12px] leading-[1.3] text-ink-soft lg:text-[14px] lg:leading-[20px] lg:tracking-[0.01em]">
           {longRide ? 'Long ride · try bike + bus' : `${miles.toFixed(1)} miles · ${text(mode.cost)}`}
         </span>
       </span>

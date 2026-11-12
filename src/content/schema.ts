@@ -384,9 +384,10 @@ export const PageContent = z.object({
   resources: z.object({
     hero: z.object({ title: Text, intro: Text, button: z.object({ label: Text, to: PagePath }) }),
     title: Text,
-    allLabel: Text,
-    /** First option of the "For who?" menu. */
-    everyoneLabel: Text,
+    /** Figma's filter column: Search, then three checkbox groups. */
+    searchLabel: Text,
+    filters: z.object({ mode: Text, who: Text, type: Text, guides: Text, websites: Text }),
+    clearFilters: Text,
     noResults: Text,
     /** Action on each entry that has a link. */
     linkLabel: Text,
@@ -407,6 +408,9 @@ export const PageContent = z.object({
       featuredLabel: Text,
       linkLabel: Text,
       empty: Text,
+      noMatch: Text,
+      /** Figma's filter row: Event type, Date, Location (first option = no filter). */
+      filters: z.object({ type: Text, date: Text, location: Text, thisWeek: Text, thisMonth: Text, nextMonth: Text }),
     }),
     explore: LinkCard,
   }),

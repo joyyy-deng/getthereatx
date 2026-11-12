@@ -4,7 +4,7 @@
  "type": "section",
  "content": [
   {
-   "id": "b8672c3",
+   "id": "e78efc2",
    "elType": "container",
    "isInner": true,
    "settings": {
@@ -28,7 +28,7 @@
    },
    "elements": [
     {
-     "id": "5bffe0e",
+     "id": "07df201",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -69,7 +69,7 @@
      },
      "elements": [
       {
-       "id": "a565b22",
+       "id": "0aca1e1",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {

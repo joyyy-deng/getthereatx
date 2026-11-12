@@ -143,7 +143,7 @@ export function PlanTrip() {
           <button
             type="submit"
             disabled={!trip}
-            className="flex min-h-[56px] items-center gap-2 bg-charcoal px-4 text-fine font-medium text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:px-6 lg:font-bold"
+            className="flex min-h-[48px] items-center gap-2 bg-charcoal px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px]"
           >
             {copy.updateButton}
             <span aria-hidden="true" className="text-lead font-normal">
@@ -170,7 +170,7 @@ export function PlanTrip() {
               id="compare-title"
               ref={compareRef}
               tabIndex={-1}
-              className="m-0 scroll-mt-[112px] text-heading font-medium text-ink outline-none"
+              className="m-0 scroll-mt-[112px] text-title font-semibold text-ink outline-none"
             >
               {copy.compareTitle}
             </h2>
@@ -194,16 +194,16 @@ export function PlanTrip() {
             className="grid gap-5 lg:grid-cols-[minmax(300px,34%)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8"
           >
             <div className="flex flex-col gap-4 lg:pt-2">
-              <p className="m-0 text-caption font-bold uppercase text-charcoal">
+              <p className="m-0 text-caption font-semibold uppercase text-charcoal">
                 {text(picked.mode.title)} · {copy.selectedLabel}
               </p>
               <h2
                 id="route-title"
-                className="m-0 text-title font-medium text-ink"
+                className="m-0 text-heading font-normal text-ink"
               >
                 {copy.headline.replace('{minutes}', String(minutes)).replace('{to}', text(trip.to.name))}
               </h2>
-              <p className="m-0 text-fine text-ink-soft">
+              <p className="m-0 text-copy text-ink-soft">
                 {text(picked.mode.eyebrow)}. {text(picked.mode.effort)}.
               </p>
               <p className="m-0 text-fine font-medium text-ink">{timing}</p>
@@ -266,7 +266,7 @@ function HandoffButton({
         resourceId={r.id}
         from="plan"
         mode={mode.id}
-        className="flex min-h-[56px] w-full items-center justify-center !rounded-none !border-charcoal !bg-charcoal px-4 text-fine font-medium !text-white hover:opacity-90 lg:min-h-[48px] lg:font-bold"
+        className="flex min-h-[56px] w-full items-center justify-between !rounded-none !border-charcoal !bg-charcoal px-5 text-fine !text-white hover:opacity-90 lg:min-h-[48px] lg:font-semibold"
       />
     </div>
   );

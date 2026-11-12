@@ -40,30 +40,33 @@
   --text-label: 12px;
 }
 
-/* Page margin and the redesign's type scale (Figma round 3). Change a value
-   here and every page follows. Sizes are about 15–25% smaller than the Figma
-   frames. Phone values first; tablet and desktop below. */
+/* Page margin and the type scale: Figma's own text styles (Joy, 2026-11-12:
+   exact Figma sizes everywhere, no longer scaled down). Phone values first
+   (the 393px frames), desktop from 1024px (the 1440px frames). Big page
+   headlines use exact per-element sizes instead (.text-fluid [--m] [--d]). */
 :root {
-  /* Side margin of every section. Content also stops at --page-max and centers. */
-  --page-gutter: 28px;
-  --page-max: 1200px;
+  /* Side margin of every section (Figma: 24px on phones). Content stops at
+     --page-max and centers: 1312px = the 64px margins of Figma's Home and Plan
+     frames at 1440. Resources, Community, blog and event pages use the
+     narrower 1184px column (128px margins): .px-article. */
+  --page-gutter: 24px;
+  --page-max: 1312px;
   /* The same margin measured from the window edge, for blocks that aren't full width (footer columns). */
   --page-edge: max(var(--page-gutter), calc((100vw - var(--page-max)) / 2));
 
-  /* The two biggest sizes grow smoothly with the screen: clamp(smallest, grows with width, largest). */
-  --t-poster: clamp(44px, min(6.5vw + 14px, 11vh), 104px); /* Home "AUSTIN, YOUR WAY." Also capped by screen height so the hero fits. */
-  --t-headline: clamp(30px, 2.6vw + 18px, 52px); /* Section titles: "New to this?", "Get there together." */
-  --t-title: 26px; /* Page and block titles: "Resources", route headline, featured event */
-  --t-feature: 28px; /* Big card text: "Plan a trip", "See all guides", category cards, footer */
-  --t-card: 20px; /* Card titles: category cards, featured directory cards */
-  --t-heading: 20px; /* Row titles: guide rows, directory rows, events */
-  --t-lead: 17px; /* Intros and card subtitles */
-  --t-copy: 15px; /* Body text */
-  --t-fine: 13px; /* Buttons, links, meta */
-  --t-caption: 11px; /* Eyebrows, labels, dates */
-  --t-time: 22px; /* "28 min" on mode cards */
-  --t-numeral: 32px; /* Date numbers on the events list */
-  --t-menu: 16px; /* Nav and footer links */
+  --t-poster: clamp(45px, 7.8vw + 14px, 128px); /* Home "AUSTIN, YOUR WAY." (45 phone, 128 desktop) */
+  --t-headline: clamp(32px, 2.6vw + 22px, 72px); /* Big section titles */
+  --t-title: 24px; /* Figma Headline/Small 24 → Display 36: "Compare ways to get there", block titles */
+  --t-feature: 28px; /* Figma Headline/Medium 28 → 52 */
+  --t-card: 24px; /* Figma Headline/Small 24 → 28 */
+  --t-heading: 22px; /* Figma Title/Regular/Large 22/28: row titles, route headline */
+  --t-lead: 16px; /* Figma Body/Large 16/24 */
+  --t-copy: 14px; /* Figma Body 14/20 on phones → 16/24 */
+  --t-fine: 14px; /* Figma Label/Large 14/20: buttons, links, meta */
+  --t-caption: 12px; /* Figma Label/Medium 12/16: eyebrows, field labels */
+  --t-time: 26px; /* "28 min" on mode cards (Figma: 26 phone, 22 desktop) */
+  --t-numeral: 44px; /* Date numbers on the events list (44 / 45) */
+  --t-menu: 22px; /* Figma Title/Regular/Large: nav and footer links */
 }
 @media (min-width: 768px) {
   :root {
@@ -72,18 +75,18 @@
 }
 @media (min-width: 1024px) {
   :root {
-    --page-gutter: clamp(48px, 6vw, 96px);
-    --t-title: 34px;
-    --t-feature: 40px;
-    --t-card: 26px;
+    --page-gutter: 64px;
+    --t-title: 36px;
+    --t-feature: 52px;
+    --t-card: 28px;
     --t-heading: 22px;
-    --t-lead: 19px;
+    --t-lead: 16px;
     --t-copy: 16px;
     --t-fine: 14px;
     --t-caption: 12px;
-    --t-time: 24px;
-    --t-numeral: 36px;
-    --t-menu: 18px;
+    --t-time: 22px;
+    --t-numeral: 45px;
+    --t-menu: 22px;
   }
 }
 

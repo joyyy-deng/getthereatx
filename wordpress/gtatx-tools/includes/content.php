@@ -679,3 +679,86 @@ function gtatx_append_body_blocks( $content ) {
 	return $content . $html;
 }
 add_filter( 'the_content', 'gtatx_append_body_blocks', 15 );
+
+/* -------------------------------------------------------------------------
+ * Page addresses (Joy, 2026-11-12): blogs at /guides/<name>/, community
+ * events at /community/events/<name>/, matching the prototype.
+ *
+ * OFF until the option gtatx_new_addresses is turned on, so uploading the
+ * plugin never changes the live site's addresses. At launch:
+ *   1. Settings → Permalinks → Custom structure: /guides/%postname%/
+ *      (WordPress then sends old /<name>/ links to the new address by itself,
+ *      a 301 "guess" redirect; a Redirection rule list is the belt-and-braces.)
+ *   2. Turn on the event addresses: wp option update gtatx_new_addresses 1
+ *      (old /event/<name>/ links redirect to /community/events/<name>/).
+ *   3. Settings → Permalinks → Save once more, so WordPress picks up the rules.
+ * ---------------------------------------------------------------------- */
+
+function gtatx_new_addresses_on() {
+	return (bool) get_option( 'gtatx_new_addresses' );
+}
+
+/** /community/events/<name>/ opens that event. */
+add_action(
+	'init',
+	function () {
+		if ( gtatx_new_addresses_on() ) {
+			add_rewrite_rule( '^community/events/([^/]+)/?$', 'index.php?post_type=tribe_events&tribe_events=$matches[1]&name=$matches[1]', 'top' );
+		}
+	},
+	20
+);
+
+/** Events link to their new address everywhere (lists, cards, the REST API, sitemaps). */
+add_filter(
+	'post_type_link',
+	function ( $link, $post ) {
+		if ( gtatx_new_addresses_on() && 'tribe_events' === $post->post_type && $post->post_name && 'publish' === $post->post_status ) {
+			return home_url( '/community/events/' . $post->post_name . '/' );
+		}
+		return $link;
+	},
+	20,
+	2
+);
+
+/** Old /event/<name>/ addresses (and anything else not canonical) move permanently to the new one. */
+add_action(
+	'template_redirect',
+	function () {
+		if ( ! gtatx_new_addresses_on() || ! is_singular( 'tribe_events' ) ) {
+			return;
+		}
+		$want = wp_parse_url( get_permalink(), PHP_URL_PATH );
+		$have = wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		if ( $want && $have && untrailingslashit( $want ) !== untrailingslashit( $have ) ) {
+			wp_safe_redirect( get_permalink(), 301 );
+			exit;
+		}
+	}
+);
+
+/**
+ * Old blog links (getthereatx.com/<name>/) after the switch to /guides/<name>/:
+ * WordPress reads /<name>/ as a page, finds none and shows "not found". If a
+ * published post has that name, send the visitor there for good (301).
+ * Only while the blog addresses start with /guides/.
+ */
+add_action(
+	'template_redirect',
+	function () {
+		if ( ! is_404() || 0 !== strpos( (string) get_option( 'permalink_structure' ), '/guides/' ) ) {
+			return;
+		}
+		$path = trim( (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH ), '/' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		if ( '' === $path || false !== strpos( $path, '/' ) ) {
+			return; // only single-segment addresses were blog posts
+		}
+		$post = get_page_by_path( sanitize_title( $path ), OBJECT, 'post' );
+		if ( $post && 'publish' === $post->post_status ) {
+			wp_safe_redirect( get_permalink( $post ), 301 );
+			exit;
+		}
+	},
+	5
+);

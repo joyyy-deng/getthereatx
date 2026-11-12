@@ -143,6 +143,13 @@ This checks the Figma sizes, no date by default, the Option B styles, the
 event facts and sections, sideways scrolling at 320–1440px, and accessibility
 (axe).
 
+## Page addresses
+
+The local copy uses the new addresses: blogs at **/guides/<name>/**, events at
+**/community/events/<name>/**. Old links (/<name>/, /event/<name>/) move there
+by themselves. On the live site this is a launch step (see the comment at the
+end of `wordpress/gtatx-tools/includes/content.php`).
+
 ## Stop it
 
 ```bash

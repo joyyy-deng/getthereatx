@@ -4,7 +4,7 @@
  "type": "section",
  "content": [
   {
-   "id": "b2e7baf",
+   "id": "b549074",
    "elType": "container",
    "isInner": true,
    "settings": {
@@ -28,7 +28,7 @@
    },
    "elements": [
     {
-     "id": "d904b32",
+     "id": "02765a3",
      "elType": "widget",
      "widgetType": "text-editor",
      "settings": {

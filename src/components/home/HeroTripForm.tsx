@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Place, Resource } from '../../content/schema';
+import { Arrow } from '../ui/Arrow';
 import { PlaceCombobox } from '../plan/PlaceCombobox';
 
 /**
@@ -46,7 +47,7 @@ export function HeroTripForm({
     >
       <h2
         id="hero-trip-title"
-        className="m-0 text-feature font-bold text-navy"
+        className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-navy [--d:48] [--m:32] lg:font-bold lg:leading-[1.05] lg:tracking-[-2px]"
       >
         {title}
       </h2>
@@ -80,9 +81,9 @@ export function HeroTripForm({
         <button
           type="submit"
           aria-label={buttonLabel}
-          className="grid size-16 shrink-0 place-items-center rounded-pill bg-navy text-[32px] leading-none text-bg transition-transform duration-hover hover:scale-105 lg:size-[96px] lg:text-[48px]"
+          className="grid size-16 shrink-0 place-items-center rounded-pill bg-navy text-bg transition-transform duration-hover hover:scale-105 lg:size-[124px]"
         >
-          <span aria-hidden="true">→</span>
+          <Arrow className="size-7 lg:size-10" strokeWidth={2.2} />
         </button>
       </div>
     </form>
