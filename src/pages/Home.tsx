@@ -37,12 +37,8 @@ export function Home() {
             title: item.title,
             body: item.body ?? text(post.summary),
             image: item.image ?? post.image,
-            link: {
-              href: post.url,
-              label: item.linkLabel ?? 'Read the guide',
-              provider: 'GetThereATX',
-              resourceId: `post:${post.id}`,
-            },
+            // The guide page in the new design (both templates live there).
+            link: { to: `/guides/${post.slug}`, label: item.linkLabel ?? 'Read the guide' },
           },
         ];
       if (r)

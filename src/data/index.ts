@@ -2,9 +2,11 @@
 // To move to headless WordPress, point these exports at ./wordpress instead.
 export {
   getAlerts,
+  getCategoryNames,
   getConnectCards,
   getDirectory,
   getDirectoryTags,
+  getEvent,
   getEvents,
   getExplorePlaces,
   getPageContent,

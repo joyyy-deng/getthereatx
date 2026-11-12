@@ -22,7 +22,13 @@ export function FilterSelect({
 }) {
   const id = useId();
   return (
-    <div className={cx('relative h-12 border border-line bg-bg', className)}>
+    <div
+      className={cx(
+        // The select hides its own outline, so the box shows keyboard focus.
+        'relative h-12 border border-line bg-bg focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-focus',
+        className,
+      )}
+    >
       <label htmlFor={id} className="sr-only">
         {label}
       </label>

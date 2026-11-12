@@ -18,6 +18,7 @@
     "action": "Plan a bus or rail trip",
     "oneLiner": "Bus and rail directions with live arrival times, powered by the Transit app.",
     "url": "https://www.capmetro.org/ride/plan/trip-planner",
+    "deepLink": "https://www.capmetro.org/ride/plan/trip-planner?origin={fromLatLng}&origin_search={fromName}&destination={toLatLng}&destination_search={toName}&leave_at={leaveAt}",
     "modes": ["bus", "rail", "walk"],
     "needs": ["plan-route"],
     "audiences": ["everyone", "commuter", "visitor"],

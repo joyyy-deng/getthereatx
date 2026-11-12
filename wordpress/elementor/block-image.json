@@ -1,0 +1,143 @@
+{
+ "version": "0.4",
+ "title": "[WKRM] Block – Image",
+ "type": "section",
+ "content": [
+  {
+   "id": "2676e0d",
+   "elType": "container",
+   "isInner": true,
+   "settings": {
+    "content_width": "full",
+    "flex_direction": "column",
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    },
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px",
+     "size": 0
+    }
+   },
+   "elements": [
+    {
+     "id": "65e1673",
+     "elType": "container",
+     "isInner": true,
+     "settings": {
+      "content_width": "full",
+      "flex_direction": "column",
+      "padding": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": true
+      },
+      "flex_gap": {
+       "column": "12",
+       "row": "12",
+       "isLinked": true,
+       "unit": "px",
+       "size": 12
+      },
+      "margin": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "32",
+       "left": "0",
+       "isLinked": false
+      },
+      "margin_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "24",
+       "left": "0",
+       "isLinked": false
+      }
+     },
+     "elements": [
+      {
+       "id": "9b32ea6",
+       "elType": "container",
+       "isInner": true,
+       "settings": {
+        "content_width": "full",
+        "flex_direction": "column",
+        "padding": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "background_background": "classic",
+        "background_color": "#d9e8f4",
+        "flex_align_items": "center"
+       },
+       "elements": [
+        {
+         "id": "174aea4",
+         "elType": "widget",
+         "widgetType": "image",
+         "settings": {
+          "image": {
+           "url": "http://wordpress/wp-content/uploads/gtatx-sample/images/first-bus-ride.jpg",
+           "id": "",
+           "alt": "Describe the picture for people who can’t see it",
+           "source": "library"
+          },
+          "image_size": "full",
+          "align": "center",
+          "object-fit": "contain",
+          "_css_classes": "gtatx-media"
+         },
+         "elements": []
+        }
+       ]
+      },
+      {
+       "id": "0741d65",
+       "elType": "widget",
+       "widgetType": "text-editor",
+       "settings": {
+        "editor": "<p>Caption describing the image</p>",
+        "text_color": "#3a3a3a",
+        "typography_typography": "custom",
+        "typography_font_family": "ff-real-text-pro",
+        "typography_font_weight": "400",
+        "typography_font_size": {
+         "unit": "px",
+         "size": 13,
+         "sizes": []
+        },
+        "typography_font_size_tablet": {
+         "unit": "px",
+         "size": 13,
+         "sizes": []
+        },
+        "typography_font_size_mobile": {
+         "unit": "px",
+         "size": 13,
+         "sizes": []
+        }
+       },
+       "elements": []
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

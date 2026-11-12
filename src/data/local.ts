@@ -22,7 +22,7 @@ import type {
   StudentTab,
   Theme,
 } from '../content/schema';
-import type { Audience, Mode, Need, PostTopic } from '../content/taxonomies';
+import type { Audience, Mode, Need } from '../content/taxonomies';
 import { expandEvent, type Occurrence } from '../lib/recurrence';
 
 // Every JSON file in src/content, bundled at build time.
@@ -38,6 +38,7 @@ function load<F extends ContentFile>(file: F): ContentOf<F> {
 const pages = load('pages');
 const resources = load('resources');
 const posts = load('posts');
+const categories = load('categories');
 const events = load('events');
 const programs = load('programs');
 const alerts = load('alerts');
@@ -95,7 +96,8 @@ export async function getResource(id: string): Promise<Resource | undefined> {
 }
 
 export interface PostFilter {
-  topic?: PostTopic;
+  /** A category slug (categories.json). */
+  category?: string;
   mode?: Mode;
   need?: Need;
   audience?: Audience;
@@ -105,15 +107,31 @@ export async function getPosts(filter: PostFilter = {}): Promise<Post[]> {
   return posts.filter(
     (p) =>
       isLive(p) &&
-      (!filter.topic || p.topics.includes(filter.topic)) &&
+      (!filter.category || p.categories.includes(filter.category)) &&
       (!filter.mode || p.modes.includes(filter.mode)) &&
       (!filter.need || p.needs.includes(filter.need)) &&
       (!filter.audience || p.audiences.includes(filter.audience)),
   );
 }
 
+/** Blog category names by slug, as named on getthereatx.com. */
+export async function getCategoryNames(): Promise<Record<string, string>> {
+  return Object.fromEntries(categories.map((c) => [c.slug, c.name]));
+}
+
 export async function getPost(slug: string): Promise<Post | undefined> {
   return posts.find((p) => p.slug === slug && isLive(p));
+}
+
+/**
+ * One event by slug, with the date its page shows: the next one still to come,
+ * or the last one if the event is over (so old links still work).
+ */
+export async function getEvent(slug: string, now = new Date()): Promise<Occurrence | undefined> {
+  const event = events.find((e) => e.slug === slug && isLive(e, now));
+  if (!event) return undefined;
+  const dates = expandEvent(event);
+  return dates.find((o) => o.end > now) ?? dates[dates.length - 1];
 }
 
 export interface DateRange {

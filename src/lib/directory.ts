@@ -1,4 +1,4 @@
-import type { DirectoryTags } from '../content/schema';
+import type { DirectoryTags, Post } from '../content/schema';
 import type { DirectoryEntry } from '../content/sheet';
 
 /**
@@ -13,6 +13,12 @@ export interface DirectoryFilter {
 }
 
 const overlaps = (a: string[], b: string[]) => a.some((v) => b.includes(v));
+
+/** Guides (posts) for a "For who?" tag: those with one of the tag's audiences. */
+export function filterGuides(posts: Post[], who: string | undefined, tags: DirectoryTags): Post[] {
+  const tag = tags.forWho.tags.find((t) => t.label === who);
+  return tag ? posts.filter((p) => p.audiences.some((a) => tag.audiences.includes(a))) : posts;
+}
 
 /** Entries that pass every filter, in sheet order. */
 export function filterDirectory(entries: DirectoryEntry[], f: DirectoryFilter, tags: DirectoryTags): DirectoryEntry[] {

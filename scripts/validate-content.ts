@@ -66,6 +66,12 @@ const pageRefs = [
 ];
 for (const id of pageRefs) if (!resourceIds.has(id)) fail('pages', `unknown resourceId "${id}"`);
 
+// Posts use getthereatx.com's own categories, listed in categories.json.
+const categorySlugs = new Set((load('categories') as { slug: string }[]).map((c) => c.slug));
+for (const p of load('posts') as { slug: string; categories?: string[] }[]) {
+  for (const c of p.categories ?? []) if (!categorySlugs.has(c)) fail('posts', `${p.slug}: unknown category "${c}" (add it to categories.json)`);
+}
+
 const pages = PageContent.safeParse(load('pages'));
 if (pages.success) {
   const postSlugs = new Set((load('posts') as { slug: string }[]).map((p) => p.slug));

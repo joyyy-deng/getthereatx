@@ -18,6 +18,7 @@
     "color-sky-nav": { "value": "#bfe3f8", "use": "Current page in the nav" },
     "color-mist": { "value": "#f0f4f8", "use": "Footer panel, event details, category cards" },
     "color-leaf": { "value": "#74ab60", "use": "See all guides, Find your community button, Explore Austin card" },
+    "color-leaf-deep": { "value": "#63ac56", "use": "Ready to plan your trip? panel on blog pages" },
     "color-charcoal": { "value": "#2b2b2b", "use": "Dark buttons, selected filter" },
     "color-link": { "value": "#1268b3", "use": "Text links" },
     "color-route": { "value": "#087c3b", "use": "Route line, destination marker and time badge on the map" },

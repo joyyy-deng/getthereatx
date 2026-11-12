@@ -232,7 +232,8 @@ const seeAll = container(
     link: { url: href(home.guides.seeAll.to), is_external: '', nofollow: '' },
   },
   [
-    heading(lines(home.guides.seeAll.title), 'h3', c('color-bg'), type(40, 28, '600', { lh: 1.05 })),
+    // Navy on leaf green: white there is 2.7:1 (fails WCAG AA).
+    heading(lines(home.guides.seeAll.title), 'h3', c('color-navy'), type(40, 28, '600', { lh: 1.05 })),
     img('guides-kangaroo.png', '', { width: { unit: 'px', size: 236, sizes: [] }, width_mobile: { unit: 'px', size: 150, sizes: [] } }),
   ],
 );

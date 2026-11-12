@@ -25,7 +25,8 @@ export function MascotCard({
   layout: 'stacked' | 'side';
   className?: string;
 }) {
-  const ink = tone === 'leaf' ? 'text-bg' : 'text-navy';
+  // Navy, not white, on the leaf green: white is 2.7:1 there (fails WCAG AA), navy 4.8:1.
+  const ink = 'text-navy';
   const art = (
     <img
       src={asset(mascot.src)}

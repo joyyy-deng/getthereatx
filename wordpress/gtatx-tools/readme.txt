@@ -1,7 +1,7 @@
 === GetThereATX Tools ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Version: 0.1.0
+Version: 0.2.0
 License: GPL-2.0-or-later
 
 The GetThereATX trip planner and resources directory, for use on getthereatx.com.
@@ -102,3 +102,19 @@ What to check:
 - A page WITHOUT a shortcode: in the browser's dev tools (Network tab), no
   gtatx-tools.js or gtatx-tools.css is loaded.
 - The theme's header and footer look the same as on other pages.
+
+== Blog posts, community events and external resources (0.2.0) ==
+
+- Fields (ACF): "Blog page settings" on posts (Show date: off by default, By,
+  Hero video), "Event page details" on events, "Resources directory filters"
+  on posts and external resources.
+- An "External resources" post type (links shown in the Resources directory).
+- Elementor dynamic tags: "GetThereATX text" and "GetThereATX link".
+- css/blog.css: Figma styles for posts written in the regular editor, loaded
+  on single posts and events only and scoped to our templates' wrappers.
+- Elementor Loop Grid Query IDs: gtatx_related_posts, gtatx_upcoming_events.
+
+None of this changes how existing pages look until the Elementor templates in
+wordpress/elementor/ are imported and turned on. The local preview templates
+(includes/local-templates.php) only run when GTATX_LOCAL_TEMPLATES is defined
+and Elementor Pro is not active; the live site has neither.

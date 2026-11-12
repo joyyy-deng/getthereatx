@@ -90,7 +90,7 @@ export function ComponentGallery() {
     .filter((r): r is Resource => !!r);
   const toggle = (id: string) => setChips((c) => (c.includes(id) ? c.filter((x) => x !== id) : [...c, id]));
   const carpool = byId('ut-carpool');
-  const goldenRollers = events.filter((o) => o.event.id === 'golden-rollers');
+  const rideToTheFuture = events.filter((o) => o.event.id === 'ride-to-the-future');
 
   return (
     <div className="mx-auto max-w-content px-8 py-16">
@@ -240,11 +240,11 @@ export function ComponentGallery() {
           <li>{posts.length} live posts (Spring Festival guide auto-hidden)</li>
           <li>{programs.length} programs</li>
           <li>{alerts.length} live alerts</li>
-          <li>{events.length} event dates in the next 60 days, from 5 records</li>
+          <li>{events.length} event dates in the next 60 days, from 2 records</li>
         </ul>
-        <State label="Golden Rollers: one record, expanded">
+        <State label="Ride to the Future: one record, expanded">
           <ul className="m-0 list-none p-0 font-mono text-data tabular">
-            {goldenRollers.map((o) => (
+            {rideToTheFuture.map((o) => (
               <li key={o.start.toISOString()}>{when.format(o.start)}</li>
             ))}
           </ul>

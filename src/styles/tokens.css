@@ -114,3 +114,40 @@
     --motion-panel: 0ms;
   }
 }
+
+/* Blog and event pages (Figma "Article/blog Master template" 980:1883 / 981:2335
+   and "Community Event Detail Template" 1014:2549 / 1015:277). These follow the
+   Figma frames exactly (393px phone, 1440px desktop), unlike the scaled-down
+   set above. Phone values first; 768px and up use the desktop values. */
+:root {
+  /* Side margin (.px-article): 24px on phones, 48px on tablets, and on wide
+     screens whatever centers a 1184px column (= 128px at 1440, as in Figma). */
+  --a-gutter: 24px;
+  --a-column: 1184px;
+  /* Hero photo height. Shorter than Figma's 220 / 480px (Joy, 2026-11-12: it took up too much space). */
+  --a-hero: 200px;
+  --a-title: clamp(44px, 4.2vw + 12px, 72px);
+  --a-title-event: clamp(40px, 4.2vw + 12px, 72px);
+  --a-lead: 17px;
+  --a-lead-event: 18px;
+  --a-meta: 13px;
+  --a-h2-event: 26px;
+  --a-section: 32px; /* "Keep reading" */
+  --a-section-event: 32px; /* "More events" */
+  --a-cta: 36px;
+  --a-cta-text: 16px;
+}
+@media (min-width: 768px) {
+  :root {
+    --a-gutter: 48px;
+    --a-hero: 360px;
+    --a-lead: 22px;
+    --a-lead-event: 22px;
+    --a-meta: 14px;
+    --a-h2-event: 32px;
+    --a-section: 42px;
+    --a-section-event: 48px;
+    --a-cta: 52px;
+    --a-cta-text: 18px;
+  }
+}

@@ -123,6 +123,8 @@ export function PlaceCombobox({
           'relative flex h-[62px] items-start gap-3 border px-[14px] py-[10px]',
           tone === 'white' ? 'border-white bg-bg' : 'border-line bg-field',
           selected && 'outline outline-2 -outline-offset-2 outline-focus',
+          // The input hides its own outline, so the whole field shows keyboard focus.
+          'focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-focus',
         )}
       >
         <img

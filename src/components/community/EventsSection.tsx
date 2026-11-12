@@ -3,7 +3,7 @@ import type { Occurrence } from '../../data';
 import { asset } from '../../lib/asset';
 import { dateRail, nextText, recurrenceText } from '../../lib/eventText';
 import { text } from '../../lib/i18n';
-import { track } from '../../lib/track';
+import { PageLink } from '../ui/PageLink';
 
 export interface EventsCopy {
   title: string;
@@ -12,21 +12,12 @@ export interface EventsCopy {
   empty: string;
 }
 
-/** Opens an event's own page in a new tab, and logs the hand-off. */
+/** Opens the event's own page on this site (Figma "Community Event Detail Template"). */
 function EventLink({ o, className, children, label }: { o: Occurrence; className?: string; children: ReactNode; label: string }) {
-  const url = o.event.url;
-  if (!url) return <div className={className}>{children}</div>;
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      onClick={() => track('handoff', { resourceId: `event:${o.event.id}`, from: 'community', href: url })}
-      className={className}
-    >
+    <PageLink to={`/community/events/${o.event.slug}`} className={className} label={label}>
       {children}
-    </a>
+    </PageLink>
   );
 }
 
@@ -72,12 +63,12 @@ export function EventsSection({ events, copy, aside }: { events: Occurrence[]; c
               <p className="m-0 text-copy text-ink-soft">{text(featured.event.blurb)}</p>
               <EventLink
                 o={featured}
-                label={`${copy.linkLabel}: ${text(featured.event.title)}, opens in a new tab`}
+                label={`${copy.linkLabel}: ${text(featured.event.title)}`}
                 className="flex min-h-[56px] items-center gap-2 bg-charcoal px-4 text-fine font-medium text-white transition-opacity duration-hover hover:opacity-90 lg:min-h-[44px] lg:gap-3 lg:px-5 lg:font-semibold"
               >
                 {copy.linkLabel}
                 <span aria-hidden="true" className="text-lead font-normal">
-                  ↗
+                  →
                 </span>
               </EventLink>
             </div>
@@ -96,7 +87,7 @@ export function EventsSection({ events, copy, aside }: { events: Occurrence[]; c
                     <li key={o.event.id}>
                       <EventLink
                         o={o}
-                        label={`${text(o.event.title)}, ${nextText(o.start, o.end)}, opens in a new tab`}
+                        label={`${text(o.event.title)}, ${nextText(o.start, o.end)}`}
                         className="group flex items-start gap-6 border-t border-line py-[22px]"
                       >
                         <span className="flex w-16 shrink-0 flex-col gap-[3px] text-ink-soft" aria-hidden="true">
@@ -116,7 +107,7 @@ export function EventsSection({ events, copy, aside }: { events: Occurrence[]; c
                           <span className="text-fine text-ink-soft">{text(o.event.blurb)}</span>
                         </span>
                         <span aria-hidden="true" className="flex min-h-[44px] items-center text-lead text-ink-soft">
-                          ↗
+                          →
                         </span>
                       </EventLink>
                     </li>

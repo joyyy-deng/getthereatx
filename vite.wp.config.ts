@@ -27,6 +27,8 @@ const TOOL_IMAGES = [
   'images/mascots/mode-bus.svg',
   'images/mascots/mode-bus-walk.svg',
   'images/mascots/mode-drive.svg',
+  // "Ready to plan your trip?" panel on blog pages (the local preview templates).
+  'images/mascots/guides-kangaroo.svg',
   // From / To fields and the swap button.
   'icons/circle-dot.svg',
   'icons/map-pin.svg',

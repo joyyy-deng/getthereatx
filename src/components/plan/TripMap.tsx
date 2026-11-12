@@ -1,6 +1,6 @@
 import 'leaflet/dist/leaflet.css';
-import { divIcon, latLngBounds, type LatLngExpression, type PathOptions } from 'leaflet';
-import { useEffect, useMemo, useState } from 'react';
+import { divIcon, latLngBounds, type LatLngExpression, type LeafletEvent, type LeafletMouseEvent, type Path, type PathOptions } from 'leaflet';
+import { useEffect, useMemo, useRef } from 'react';
 import { CircleMarker, MapContainer, Marker, Polygon, Polyline, TileLayer, Tooltip, useMap } from 'react-leaflet';
 import type { Place } from '../../content/schema';
 import { text } from '../../lib/i18n';
@@ -33,8 +33,6 @@ export interface TripMapProps {
   badge?: string;
   /** Click a neighborhood or pin to fill From, then To. */
   onPick: (place: Place) => void;
-  /** Under the zoom buttons' scale line, e.g. "Straight-line sketch, not a street route". */
-  note: string;
 }
 
 const center = (p: Place): [number, number] => [p.centroid.lat, p.centroid.lng];
@@ -50,17 +48,19 @@ function frame(picked: Place[]) {
 /** Frames the trip (or Austin) whenever From or To changes. */
 function FitTrip({ from, to }: Pick<TripMapProps, 'from' | 'to'>) {
   const map = useMap();
+  const first = useRef(true);
   useEffect(() => {
     const picked = [from, to].filter((p): p is Place => !!p);
+    // The first framing is instant, so a new map opens on the trip instead of
+    // flying in from the default view. Later changes glide.
+    const animate = !first.current && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    first.current = false;
     if (!picked.length) {
-      map.setView(AUSTIN, DEFAULT_ZOOM);
+      map.setView(AUSTIN, DEFAULT_ZOOM, { animate });
       return;
     }
-    map.flyToBounds(frame(picked), {
-      padding: PAD,
-      maxZoom: 14,
-      duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 0.6,
-    });
+    if (animate) map.flyToBounds(frame(picked), { padding: PAD, maxZoom: 14, duration: 0.8, easeLinearity: 0.2 });
+    else map.fitBounds(frame(picked), { padding: PAD, maxZoom: 14, animate: false });
   }, [map, from, to]);
   return null;
 }
@@ -95,8 +95,10 @@ const label = (html: string, className = 'trip-map-label') =>
 
 const escape = (s: string) => s.replace(/[&<>"]/g, (c) => `&#${c.charCodeAt(0)};`);
 
-export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps) {
-  const [hover, setHover] = useState<string>();
+export function TripMap({ places, from, to, badge, onPick }: TripMapProps) {
+  // The latest onPick, so the map's click handlers never need re-binding.
+  const pickRef = useRef(onPick);
+  pickRef.current = onPick;
   const colors = useMemo(
     () => ({
       route: token('--color-route'),
@@ -124,15 +126,46 @@ export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps)
       weight: 1,
       dashArray: '4 4',
       fillColor: colors.idle,
-      fillOpacity: hover === p.id ? 0.15 : 0,
+      fillOpacity: 0,
     };
   }
 
-  const handlers = (p: Place) => ({
-    click: () => onPick(p),
-    mouseover: () => setHover(p.id),
-    mouseout: () => setHover((h) => (h === p.id ? undefined : h)),
-  });
+  // One set of handlers per place, made once. Hover tints the shape directly
+  // (no React state), so moving the mouse never re-renders the map.
+  const selectedIds = useRef<string[]>([]);
+  selectedIds.current = [from?.id, to?.id].filter((id): id is string => !!id);
+  const handlers = useMemo(() => {
+    const tint = (e: LeafletMouseEvent, p: Place, on: boolean) => {
+      if (p.polygon && !selectedIds.current.includes(p.id)) (e.target as Path).setStyle({ fillOpacity: on ? 0.15 : 0 });
+    };
+    return new Map(
+      places.map((p) => [
+        p.id,
+        {
+          click: () => pickRef.current(p),
+          // Shapes are mouse shortcuts (keyboard users pick in the From/To
+          // fields), so they stay out of the Tab order: no invisible stops.
+          add: (e: LeafletEvent) => (e.target as Path).getElement()?.setAttribute('tabindex', '-1'),
+          mouseover: (e: LeafletMouseEvent) => tint(e, p, true),
+          mouseout: (e: LeafletMouseEvent) => tint(e, p, false),
+        },
+      ]),
+    );
+  }, [places]);
+
+  // Marker icons are rebuilt only when their text changes; a new icon object
+  // makes Leaflet replace the marker's element, which looked like flicker.
+  const fromName = from ? text(from.name) : '';
+  const toName = to ? text(to.name) : '';
+  const icons = useMemo(
+    () => ({
+      fromLabel: label(escape(fromName), 'trip-map-label trip-map-label--below'),
+      toLabel: label(escape(toName), 'trip-map-label trip-map-label--above'),
+      toPin: label('B', 'trip-map-pin'),
+      badge: label(escape(badge ?? ''), 'trip-map-badge'),
+    }),
+    [fromName, toName, badge],
+  );
 
   const mid: [number, number] | undefined = trip
     ? [(from.centroid.lat + to.centroid.lat) / 2, (from.centroid.lng + to.centroid.lng) / 2]
@@ -170,7 +203,7 @@ export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps)
             </Tooltip>
           );
           return p.polygon ? (
-            <Polygon key={p.id} positions={p.polygon} pathOptions={style(p)} eventHandlers={handlers(p)}>
+            <Polygon key={p.id} positions={p.polygon} pathOptions={style(p)} eventHandlers={handlers.get(p.id)}>
               {hoverLabel}
             </Polygon>
           ) : (
@@ -180,7 +213,7 @@ export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps)
                 center={center(p)}
                 radius={7}
                 pathOptions={{ ...style(p), dashArray: '', weight: 2, fillColor: colors.white, fillOpacity: 1 }}
-                eventHandlers={handlers(p)}
+                eventHandlers={handlers.get(p.id)}
               >
                 {hoverLabel}
               </CircleMarker>
@@ -208,7 +241,7 @@ export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps)
               position={center(from)}
               interactive={false}
               keyboard={false}
-              icon={label(escape(text(from.name)), 'trip-map-label trip-map-label--below')}
+              icon={icons.fromLabel}
             />
           </>
         )}
@@ -219,25 +252,22 @@ export function TripMap({ places, from, to, badge, onPick, note }: TripMapProps)
               position={center(to)}
               interactive={false}
               keyboard={false}
-              icon={label('B', 'trip-map-pin')}
+              icon={icons.toPin}
             />
             <Marker
               position={center(to)}
               interactive={false}
               keyboard={false}
-              icon={label(escape(text(to.name)), 'trip-map-label trip-map-label--above')}
+              icon={icons.toLabel}
             />
           </>
         )}
         {mid && badge && (
-          <Marker position={mid} interactive={false} keyboard={false} icon={label(escape(badge), 'trip-map-badge')} />
+          <Marker position={mid} interactive={false} keyboard={false} icon={icons.badge} />
         )}
         <FitTrip from={from} to={to} />
         <Controls from={from} to={to} />
       </MapContainer>
-      <p className="pointer-events-none absolute left-2 top-2 z-[500] m-0 max-w-[calc(100%-64px)] bg-bg px-[6px] py-[3px] text-[10px] leading-[1.3] text-map-label">
-        {note}
-      </p>
     </div>
   );
 }

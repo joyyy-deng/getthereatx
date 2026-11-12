@@ -91,14 +91,20 @@ export function planCards(modes: PlanMode[], from: Place, to: Place, prefs: Plan
 /** Fill a resource's deepLink with this trip; falls back to its plain url. */
 export function handoffUrl(
   resource: Resource,
-  trip: { from?: Place; to?: Place; fromText?: string; toText?: string },
+  trip: { from?: Place; to?: Place; fromText?: string; toText?: string; leaveAt?: Date },
   travelmode?: string,
 ): string {
   if (!resource.deepLink) return resource.url;
+  const latLng = (p?: Place) => (p ? `${p.centroid.lat},${p.centroid.lng}` : '');
   const values: Record<string, string> = {
     from: trip.from?.mapsQuery ?? trip.fromText ?? '',
     to: trip.to?.mapsQuery ?? trip.toText ?? '',
     mode: travelmode ?? '',
+    fromLatLng: latLng(trip.from),
+    toLatLng: latLng(trip.to),
+    fromName: trip.from?.mapsQuery ?? '',
+    toName: trip.to?.mapsQuery ?? '',
+    leaveAt: trip.leaveAt ? String(trip.leaveAt.getTime()) : '',
   };
   const url = new URL(resource.deepLink);
   for (const [key, value] of [...url.searchParams]) {

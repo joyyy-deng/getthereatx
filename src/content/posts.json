@@ -15,10 +15,37 @@
       "alt": "Three individuals sitting at a Bus stop bench, smiling at each other."
     },
     "url": "https://www.getthereatx.com/transit-101/",
-    "topics": ["transit"],
+    "categories": ["take-transit"],
     "modes": ["bus", "rail"],
     "audiences": ["new-to-transit", "everyone"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "published": "2024-10-23",
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Transit reduces air pollution and makes everyone healthier! People who use transit get more three times the amount of physical activity per day than those who don’t. Austin is full of frequent transit options that will get you where you are headed. Austin’s convenient bus and train system is continuing to expand with new service areas and stops. Leave the driving to someone else and focus on the fun times at your destination."
+      },
+      {
+        "type": "paragraph",
+        "text": "[CapMetro](https://www.capmetro.org/): Use [CapMetro’s](https://www.capmetro.org/) local routes to get you around Austin during the day and late into the night. Plan your transit trip using CapMetro’s [Trip Planner Tool](https://capmetro.org/planner/). Download the [CapMetro App](https://capmetro.org/app/) to digitally purchase a ticket and follow [@CapMetroATX](https://x.com/CapMetroATX) for the latest updates."
+      },
+      {
+        "type": "paragraph",
+        "text": "[High-Frequency Bus](https://www.capmetro.org/high-frequency): To get you around all parts of Austin fast and conveniently, CapMetro offers 14 routes that operate every 15 minutes between 6 a.m. and 8 p.m. every day of the week. See the [High-Frequency Map](https://www.capmetro.org/docs/default-source/plan-your-trip-docs/destination-schedule-book-docs/high-frequency-map.pdf?sfvrsn=dca6_8)"
+      },
+      {
+        "type": "paragraph",
+        "text": "[CapMetro Rail](https://www.capmetro.org/redline): Use the CapMetro Rail to commute in for work or events —it runs from downtown to Leander. The Downtown Station has opened, situated in front of the Convention Center. Single ride is $3.50, Day Pass is $7."
+      },
+      {
+        "type": "paragraph",
+        "text": "[Park & Rides](https://www.capmetro.org/using-parknrides): Park & Ride facilities covering the North, South, East, and West let you transform a frustrating drive into a relaxing, productive ride. See [Park & Ride Map](https://www.capmetro.org/docs/default-source/plan-your-trip-docs/destination-schedule-book-docs/park-ride-station-locations.pdf?sfvrsn=e6626fba_14)."
+      },
+      {
+        "type": "paragraph",
+        "text": "[Interurban Coach](http://www.ridecarts.com/services/interurban): Intercity [CARTS](http://www.ridecarts.com/) routes provide connections between Austin and select locations — Bastrop, Georgetown, Liberty Hill, Round Rock, Texas State University, Smithville, and more. This service conveniently connects to Greyhound and CapMetro."
+      }
+    ]
   },
   {
     "id": "transit-etiquette-101",
@@ -36,7 +63,7 @@
       "alt": "Lady in pink and white dress smiling making a peace sign with their hand as they board the CapMetro Bus"
     },
     "url": "https://www.getthereatx.com/transit-etiquette-101/",
-    "topics": ["transit"],
+    "categories": ["take-transit"],
     "modes": ["bus", "rail"],
     "audiences": ["new-to-transit", "everyone"],
     "needs": ["learn-how"]
@@ -57,10 +84,34 @@
       "alt": "Individual putting a White Bike on to the Cap Metro Bus Bike Rack"
     },
     "url": "https://www.getthereatx.com/how-to-put-your-bike-on-the-bus/",
-    "topics": ["transit", "bike"],
+    "categories": ["biking-austin", "take-transit"],
     "modes": ["bike", "bus"],
     "audiences": ["new-to-transit", "commuter"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "published": "2024-10-23",
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "If you’ve been too scared to try and put your bike on the bus, this is for you. It’s easier than you think. Here’s a step-by-step on how to do it:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": ["Squeeze the handle to pull the rack down.", "Load your bike (it’s better to load your bike on the closest rack to the bus in case anyone else needs to load after you).", "Pull the handle over the front tire.", "You’re done!"]
+      },
+      {
+        "type": "paragraph",
+        "text": "When you remove your bike, don’t forget to squeeze the handle to put the rack back up. If you need help, never hesitate to ask your bus driver for help!"
+      },
+      {
+        "type": "paragraph",
+        "text": "Check out CapMetro’s website for a [video tutorial](https://www.youtube.com/watch?v=ERDa0_0GiFQ) or [check out our Instagram post](https://www.instagram.com/p/C2iueXyNKf_/?img_index=1) for a photo guide. [Plan your CapMetro trip here](https://www.capmetro.org/planner)."
+      },
+      {
+        "type": "paragraph",
+        "text": "Ride safe, folks! ✨"
+      }
+    ]
   },
   {
     "id": "how-to-put-your-bike-on-the-rail",
@@ -78,7 +129,7 @@
       "alt": "Two people waiting to board the Metro Rail"
     },
     "url": "https://www.getthereatx.com/how-to-put-your-bike-on-the-rail/",
-    "topics": ["transit", "bike"],
+    "categories": ["biking-austin", "take-transit"],
     "modes": ["bike", "rail"],
     "audiences": ["new-to-transit", "commuter"],
     "needs": ["learn-how"]
@@ -99,7 +150,7 @@
       "alt": "Individual standing and smiling in front of the \"How YOU doin\" mural with yellow bike and helmet"
     },
     "url": "https://www.getthereatx.com/biking-101/",
-    "topics": ["bike"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "commuter"],
     "needs": ["learn-how"]
@@ -120,7 +171,7 @@
       "alt": "Protected Intersection"
     },
     "url": "https://www.getthereatx.com/bike-infrastructure/",
-    "topics": ["bike"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "commuter"],
     "needs": ["learn-how", "plan-route"]
@@ -141,7 +192,7 @@
       "alt": "Three individuals smiling as they check out three metro bikes from a bikeshare station"
     },
     "url": "https://www.getthereatx.com/bikeshare-101/",
-    "topics": ["bike"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "visitor", "student"],
     "needs": ["learn-how"]
@@ -162,7 +213,7 @@
       "alt": "Individual putting on a helmet with a blue electric bike in front of the Cap Metro Bike Shelter- Sign reads Metro Bike Card, Keeps your bike safe in this secure facility"
     },
     "url": "https://www.getthereatx.com/bicycle-parking-and-theft/",
-    "topics": ["bike"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "student", "commuter"],
     "needs": ["learn-how"]
@@ -183,10 +234,81 @@
       "alt": "Smiling rider in an orange bike helmet holding up five fingers on a trail in Austin"
     },
     "url": "https://www.getthereatx.com/5-steps-of-a-helmet-fitting/",
-    "topics": ["bike", "families"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["family", "everyone"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "published": "2026-01-01",
+    "video": {
+      "youtubeId": "GdiiVwK9rZg"
+    },
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Wearing a helmet is one of the most important things you can do when riding a bike. A helmet protects your head, and inside your head is your brain — the part of you that controls your thoughts, personality and everything you do. Keeping your brain safe keeps you safe."
+      },
+      {
+        "type": "paragraph",
+        "text": "It is the law in Austin for anyone under 18 to wear a helmet when riding a bike."
+      },
+      {
+        "type": "paragraph",
+        "text": "Follow these steps to make sure your helmet fits the right way."
+      },
+      {
+        "type": "steps",
+        "items": [
+          {
+            "title": "Find the Front of Your Helmet",
+            "text": [
+              "Hold the helmet in front of you at your belly button like a bowl. Make sure the straps are hanging out, not twisted and the front of the helmet is facing your belly button. Then place the helmet on your head."
+            ]
+          },
+          {
+            "title": "Position the Helmet Correctly",
+            "text": [
+              "Your helmet shouldn’t sit too far back or too far forward.",
+              "If it’s too far back, your forehead isn’t protected.",
+              "If it’s too far forward, you can’t see where you’re going.",
+              "To find the right spot, place two fingers above your eyebrows. Lower the helmet until the bottom edge touches your fingers. That’s the correct position."
+            ]
+          },
+          {
+            "title": "Tighten the Back",
+            "text": [
+              "Make a “claw” with three fingers and reach for the adjustment knob on the back of the helmet.",
+              "Turn it clockwise to tighten.",
+              "Turn it counterclockwise to loosen.",
+              "The helmet should feel snug. When you shake your head, it shouldn’t move or fall off."
+            ]
+          },
+          {
+            "title": "Check the Straps",
+            "text": [
+              "Make two peace signs with your hands. Place your fingers around the straps near your ears. The straps should form a “V” shape with your ear in the middle."
+            ]
+          },
+          {
+            "title": "Buckle Up",
+            "text": [
+              "Finally, buckle the chin strap. It should be snug but comfortable — you should be able to fit two fingers between the strap and your chin."
+            ]
+          }
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Check out the videos covering the 5 Steps of Helmet Fitting:"
+      },
+      {
+        "type": "paragraph",
+        "text": "[5 Steps of Helmet Fitting – Ghisallo Cycling Education](https://www.youtube.com/watch?v=GdiiVwK9rZg)"
+      },
+      {
+        "type": "paragraph",
+        "text": "[Get There ATX- Instagram Post](https://www.instagram.com/reel/DTvv2vJkYZC/?igsh=dDByZWE2dHczaGV5)"
+      }
+    ]
   },
   {
     "id": "parent-back-to-school-transportation-guide",
@@ -204,7 +326,7 @@
       "alt": "Middle school student using protected bike lane, school bus in the background going the opposite direction as the student rider"
     },
     "url": "https://www.getthereatx.com/parent-back-to-school-transportation-guide/",
-    "topics": ["families"],
+    "categories": ["culture-events"],
     "modes": ["walk", "bike", "bus"],
     "audiences": ["family"],
     "needs": ["learn-how", "plan-route"]
@@ -225,7 +347,7 @@
       "alt": "Four individuals lined up on bikes as instructor explains the practice scenario"
     },
     "url": "https://www.getthereatx.com/austin-bike-bus-pilot-program/",
-    "topics": ["families", "programs"],
+    "categories": ["biking-austin", "culture-events"],
     "modes": ["bike"],
     "audiences": ["family"],
     "needs": ["join-program"]
@@ -239,14 +361,14 @@
       "en": "Need a Quick Fix? Austin Public Library has Bike Repair Tools!"
     },
     "summary": {
-      "en": "The Austin Public Library and Get There ATX officially launched their brand‑new Bike Tool Loan Program on May 15, 2026 on Bike to Work Day. If you need to pump a tire, tighten a bolt or patch a tube on the fly, all you need is your…"
+      "en": "he Austin Public Library and Get There ATX officially launched their brand‑new Bike Tool Loan Program on May 15, 2026 on Bike to Work Day. If you need to pump a tire, tighten a bolt or patch a tube on the fly, all you need is your…"
     },
     "image": {
       "src": "/images/uploads/2026/07/55283523669_082a384ba7_c.jpg",
       "alt": "Image includes Bike tools, helmet, library card, and bike maps"
     },
     "url": "https://www.getthereatx.com/austin-bike-repair-tool-loan-program/",
-    "topics": ["programs"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone"],
     "needs": ["join-program", "save-money"]
@@ -267,7 +389,7 @@
       "alt": "Image of Bike Maps and Get There ATX Swag"
     },
     "url": "https://www.getthereatx.com/how-to-request-bike-maps/",
-    "topics": ["programs"],
+    "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone"],
     "needs": ["plan-route", "join-program"]
@@ -288,7 +410,7 @@
       "alt": "Crowd gathers on Austin's wishbone bridge moments after its grand opening."
     },
     "url": "https://www.getthereatx.com/wishbone-bridge-poster/",
-    "topics": ["news"],
+    "categories": ["culture-events"],
     "modes": ["walk", "bike"],
     "audiences": ["everyone", "visitor"],
     "needs": ["plan-route"]
@@ -309,7 +431,7 @@
       "alt": "Group of cyclists using a paved path with green space containing wildflowers between them and Mopac traffic"
     },
     "url": "https://www.getthereatx.com/how-traffic-congestion-affects-air-quality-2/",
-    "topics": ["news"],
+    "categories": ["sustainability"],
     "modes": [],
     "audiences": ["everyone", "commuter"],
     "needs": ["learn-how"]
@@ -330,7 +452,7 @@
       "alt": "Two people waiting to board the Metro Rail"
     },
     "url": "https://www.getthereatx.com/spring-festival-season-travel-guide/",
-    "topics": ["news"],
+    "categories": ["biking-austin", "culture-events", "take-transit"],
     "modes": ["walk", "bike", "bus", "rail"],
     "expiresAt": "2026-05-31T23:59:59-05:00",
     "audiences": ["visitor", "everyone"],

@@ -1,42 +1,51 @@
-import type { DirectoryEntry } from '../../content/sheet';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
+import type { DirectoryItem } from '../../lib/directoryItems';
 import { track } from '../../lib/track';
+import { PageLink } from '../ui/PageLink';
 
-// The sheet has no photos, so the Figma image slot shows the mascot for the
-// entry's first matching type (or stays plain sky).
-const MASCOTS: [type: string, src: string][] = [
-  ['Public Transit', '/images/mascots/mode-bus.svg'],
-  ['Biking', '/images/mascots/mode-bike.svg'],
-  ['Walking', '/images/mascots/mode-walk.svg'],
-  ['Carpooling, Van or Car/Rideshare', '/images/mascots/mode-bus-walk.svg'],
-];
+// One card in the Resources directory (a sheet row or a guide, see
+// lib/directoryItems.ts), in the Figma "Community card" (featured) /
+// "Community directory entry" (row) layouts from 787:5267.
 
-function Art({ entry, className }: { entry: DirectoryEntry; className: string }) {
-  const src = MASCOTS.find(([type]) => entry.types.includes(type))?.[1];
+function Art({ art, className }: { art: DirectoryItem['art']; className: string }) {
+  if ('photo' in art) {
+    return <img src={asset(art.photo)} alt="" className={cx('block shrink-0 object-cover', className)} />;
+  }
   return (
     <span aria-hidden="true" className={cx('grid shrink-0 place-items-center bg-sky', className)}>
-      {src && <img src={asset(src)} alt="" className="block h-1/2 w-auto max-w-[60%]" />}
+      {art.mascot && <img src={asset(art.mascot)} alt="" className="block h-1/2 w-auto max-w-[60%]" />}
     </span>
   );
 }
 
 const eyebrow = 'text-caption uppercase tracking-[1.4px] text-charcoal';
+const actionClass = 'inline-flex items-center gap-3 self-start text-fine font-semibold text-charcoal hover:underline';
 
-/** "Visit website ↗": hands off to the entry's own site. */
-function Action({ entry, label }: { entry: DirectoryEntry; label: string }) {
-  if (!entry.url) return null;
-  const url = entry.url;
+/** "Visit website ↗" hands off to another site; "Read the guide →" stays here. */
+function Action({ item }: { item: DirectoryItem }) {
+  const a = item.action;
+  if (!a) return null;
+  if (a.kind === 'in') {
+    return (
+      <PageLink to={a.to} className={actionClass}>
+        {a.label}
+        <span aria-hidden="true" className="text-lead font-normal">
+          →
+        </span>
+      </PageLink>
+    );
+  }
   return (
     <a
-      href={url}
+      href={a.href}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${label}: ${entry.name}, opens in a new tab`}
-      onClick={() => track('handoff', { resourceId: `sheet:${entry.id}`, from: 'resources', href: url })}
-      className="inline-flex items-center gap-3 self-start text-fine font-semibold text-charcoal hover:underline"
+      aria-label={`${a.label}: ${item.title}, opens in a new tab`}
+      onClick={() => track('handoff', { resourceId: a.trackId, from: 'resources', href: a.href })}
+      className={actionClass}
     >
-      {label}
+      {a.label}
       <span aria-hidden="true" className="text-lead font-normal">
         ↗
       </span>
@@ -44,43 +53,28 @@ function Action({ entry, label }: { entry: DirectoryEntry; label: string }) {
   );
 }
 
-/**
- * Figma "Community card" / "Community directory entry" (787:5267), filled
- * with a row from the client's Trip Planning sheet. `featured` is the big
- * photo-led card; otherwise a row with a small image.
- */
-export function DirectoryEntryCard({
-  entry,
-  linkLabel,
-  featured,
-}: {
-  entry: DirectoryEntry;
-  linkLabel: string;
-  featured?: boolean;
-}) {
-  const types = entry.types.join(' · ');
+/** `featured` is the big photo-led card; otherwise a row with a small image. */
+export function DirectoryEntryCard({ item, featured }: { item: DirectoryItem; featured?: boolean }) {
   if (featured) {
     return (
       <article className="flex flex-col gap-3">
-        <Art entry={entry} className="h-[200px] w-full lg:h-[220px]" />
-        {types && <p className={cx('m-0', eyebrow)}>{types}</p>}
-        <h3 className="m-0 text-card font-medium text-ink">{entry.name}</h3>
-        <p className="m-0 text-copy text-ink-soft">{entry.description}</p>
-        <Action entry={entry} label={linkLabel} />
+        <Art art={item.art} className="h-[200px] w-full lg:h-[220px]" />
+        {item.eyebrow && <p className={cx('m-0', eyebrow)}>{item.eyebrow}</p>}
+        <h3 className="m-0 text-card font-medium text-ink">{item.title}</h3>
+        <p className="m-0 text-copy text-ink-soft">{item.description}</p>
+        <Action item={item} />
       </article>
     );
   }
   return (
     <article className="flex items-start gap-5 border-t border-line py-5">
-      <Art entry={entry} className="h-[116px] w-[120px]" />
+      <Art art={item.art} className="h-[116px] w-[120px]" />
       <div className="flex min-w-0 flex-1 flex-col gap-[6px]">
-        {types && <p className={cx('m-0', eyebrow)}>{types}</p>}
-        <h3 className="m-0 text-heading font-medium text-ink">{entry.name}</h3>
-        <p className="m-0 text-fine text-ink-soft">{entry.description}</p>
-        {entry.forWho.length > 0 && (
-          <p className="m-0 text-caption text-ink">{entry.forWho.join(' · ')}</p>
-        )}
-        <Action entry={entry} label={linkLabel} />
+        {item.eyebrow && <p className={cx('m-0', eyebrow)}>{item.eyebrow}</p>}
+        <h3 className="m-0 text-heading font-medium text-ink">{item.title}</h3>
+        <p className="m-0 text-fine text-ink-soft">{item.description}</p>
+        {item.meta && <p className="m-0 text-caption text-ink">{item.meta}</p>}
+        <Action item={item} />
       </div>
     </article>
   );

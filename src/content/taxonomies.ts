@@ -19,10 +19,8 @@ export const AUDIENCES = [
 ] as const;
 export type Audience = (typeof AUDIENCES)[number];
 
-// Topic tags carried over from the current site's posts. Used to group posts
-// (e.g. related posts); no Guides page is built.
-export const POST_TOPICS = ['transit', 'bike', 'families', 'programs', 'news'] as const;
-export type PostTopic = (typeof POST_TOPICS)[number];
+// Post categories are not here: they are getthereatx.com's own blog
+// categories, kept in categories.json because the client may rename or add them.
 
 export const MODE_LABELS: Record<Mode, string> = {
   walk: 'Walk',

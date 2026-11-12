@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { AUDIENCES, MODES, NEEDS, PLACE_CATEGORIES, POST_TOPICS } from './taxonomies';
+import { AUDIENCES, MODES, NEEDS, PLACE_CATEGORIES } from './taxonomies';
 
 // Schemas are the contract. Each one maps 1:1 to a WordPress custom post type
 // plus ACF field group, and later validates admin form input too.
@@ -41,7 +41,12 @@ export const Resource = z.object({
     .min(1)
     .refine((s) => s.trim().split(/\s+/).length <= 15, 'oneLiner must be 15 words or fewer'),
   url: z.string().url(),
-  /** Template with {from} {to}; only where verified to work. */
+  /**
+   * Template filled with the trip; only where verified to work. Fill-ins:
+   * {from} {to} (place mapsQuery), {mode} (Google travelmode), {fromLatLng}
+   * {toLatLng} ("30.26,-97.74"), {fromName} {toName}, {leaveAt} (ms since
+   * 1970; empty = leave now). Empty fill-ins drop their parameter.
+   */
   deepLink: z.string().optional(),
   modes: z.array(Mode).min(1),
   needs: z.array(Need).min(1),
@@ -53,6 +58,50 @@ export const Resource = z.object({
 });
 export type Resource = z.infer<typeof Resource>;
 
+/**
+ * A block of a post's body. Text may contain [label](https://…) links and
+ * **bold**; nothing else. Becomes the post content in WordPress.
+ */
+const PostBlock = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('paragraph'), text: z.string().min(1) }),
+  z.object({ type: z.literal('heading'), text: z.string().min(1) }),
+  z.object({ type: z.literal('list'), ordered: z.boolean(), items: z.array(z.string().min(1)).min(1) }),
+  z.object({ type: z.literal('image'), src: z.string().min(1), alt: z.string().min(1), caption: z.string().optional() }),
+  /** Figma "Article/Tip callout": a mist box with a navy bar. `label` defaults to "Tip". */
+  z.object({ type: z.literal('tip'), label: z.string().min(1).optional(), text: z.string().min(1) }),
+  /** Figma "Article/Step": numbered squares, a title and one or more paragraphs each. */
+  z.object({
+    type: z.literal('steps'),
+    items: z.array(z.object({ title: z.string().min(1), text: z.array(z.string().min(1)).min(1) })).min(1),
+  }),
+  /** Figma facts strip: label / value pairs. Three to a row on desktop; more start a new row. */
+  z.object({
+    type: z.literal('facts'),
+    items: z.array(z.object({ label: z.string().min(1), value: z.string().min(1) })).min(1),
+  }),
+  /** Figma "Article/Table": a caps header row, then rows; the first column is bold. */
+  z.object({
+    type: z.literal('table'),
+    columns: z.array(z.string().min(1)).min(1),
+    rows: z.array(z.array(z.string())).min(1),
+  }),
+  /** Figma "Article/Button primary". */
+  z.object({ type: z.literal('button'), label: z.string().min(1), href: z.string().min(1) }),
+]).refine((b) => b.type !== 'table' || b.rows.every((r) => r.length === b.columns.length), {
+  message: 'every table row needs one cell per column',
+});
+export type PostBlock = z.infer<typeof PostBlock>;
+export { PostBlock };
+
+/**
+ * getthereatx.com's blog categories (Posts → Categories in WP admin), copied
+ * 2026-11-08. The client may rename, add or remove these; in WordPress they
+ * come straight from the site, so only this file changes here.
+ */
+export const Category = z.object({ slug: z.string().regex(/^[a-z0-9-]+$/), name: z.string().min(1) });
+export const Categories = z.array(Category).min(1);
+export type Category = z.infer<typeof Category>;
+
 /** An existing getthereatx.com blog post. Summaries are the post excerpts. */
 export const Post = Meta.extend({
   title: L,
@@ -60,11 +109,22 @@ export const Post = Meta.extend({
   image: Img.optional(),
   /** The live post on getthereatx.com. */
   url: z.string().url(),
-  topics: z.array(z.enum(POST_TOPICS)).min(1),
+  /** The post's categories on getthereatx.com (slugs from categories.json); the first is shown on cards. */
+  categories: z.array(z.string().min(1)).min(1),
   modes: z.array(Mode),
   /** Used by the Resources directory filters, alongside resources. */
   audiences: z.array(Audience).min(1),
   needs: z.array(Need).min(1),
+  /** First published on getthereatx.com. */
+  published: z.string().date().optional(),
+  /** A video shown in the hero instead of the photo. */
+  video: z.object({ youtubeId: z.string().regex(/^[\w-]{11}$/, 'the 11-character id from the YouTube link') }).optional(),
+  /** "By …" in the meta line. Empty = the site name (pages.json guide.defaultAuthor). */
+  author: z.string().min(1).optional(),
+  /** The client wants no date on posts by default. true adds "Updated {month year}" (from lastReviewed). */
+  showDate: z.boolean().optional(),
+  /** The post's text, word for word, without the old pasted styling. Posts without it link to the live post. */
+  body: z.array(PostBlock).optional(),
 });
 export type Post = z.infer<typeof Post>;
 
@@ -85,7 +145,27 @@ export const Event = Meta.extend({
   blurb: L,
   url: z.string().url().optional(),
   recurrence: Recurrence.optional(),
-  gettingThere: z.array(z.object({ mode: Mode, note: L })).optional(),
+  /**
+   * Event page (Figma "Community Event Detail Template"). All optional: a
+   * section or fact only shows when it has text. In WordPress these are The
+   * Events Calendar's own fields (cost, organizer) plus our "Event details"
+   * ACF group.
+   */
+  cost: z.string().min(1).optional(),
+  ages: z.string().min(1).optional(),
+  registration: z.string().min(1).optional(),
+  /** "Hosted by": organizer · partners, then a contact line. */
+  organizer: z.object({ name: z.string().min(1), partners: z.string().min(1).optional() }).optional(),
+  contact: z.string().min(1).optional(),
+  /** "What to bring / What you will gain" bullets. */
+  whatToBring: z.array(z.string().min(1)).min(1).optional(),
+  accessibility: z.string().min(1).optional(),
+  /**
+   * "Getting there": any number of ways, each a label (Bus, Bike, Scooter,
+   * Walk, Parking…) and the details. Figma shows three (BUS, BIKE, PARKING);
+   * staff can add any others. Three to a row on desktop.
+   */
+  gettingThere: z.array(z.object({ label: z.string().min(1), details: z.string().min(1) })).min(1).optional(),
   tags: z.array(z.string()),
 });
 export type Event = z.infer<typeof Event>;
@@ -300,9 +380,6 @@ export const PageContent = z.object({
     selectedLabel: Text,
     /** {minutes} and {to} are filled in: "32 minutes to Mueller". */
     headline: Text,
-    estimateNote: Text,
-    /** Under the map: it draws a straight line, not a street route. */
-    mapNote: Text,
   }),
   resources: z.object({
     hero: z.object({ title: Text, intro: Text, button: z.object({ label: Text, to: PagePath }) }),
@@ -313,6 +390,10 @@ export const PageContent = z.object({
     noResults: Text,
     /** Action on each entry that has a link. */
     linkLabel: Text,
+    /** The filter that shows guides (blog posts), and their card actions. */
+    guidesLabel: Text,
+    readGuide: Text,
+    watchVideo: Text,
   }),
   students: z.object({
     title: Text,
@@ -329,6 +410,38 @@ export const PageContent = z.object({
     }),
     explore: LinkCard,
   }),
+  /** Blog pages (Figma "Article/blog Master template"). {n}, {date} and {author} are filled in. */
+  guide: z.object({
+    backLabel: Text,
+    readTime: Text,
+    updated: Text,
+    byline: Text,
+    defaultAuthor: Text,
+    tipLabel: Text,
+    relatedTitle: Text,
+    cta: z.object({ title: Text, text: Text, button: Text, to: z.string().startsWith('/') }),
+    readFullPost: Text,
+  }),
+  /** Community event pages (Figma "Community Event Detail Template"). */
+  event: z.object({
+    backLabel: Text,
+    bringTitle: Text,
+    hostedTitle: Text,
+    accessibilityTitle: Text,
+    gettingThereTitle: Text,
+    labels: z.object({
+      date: Text,
+      time: Text,
+      location: Text,
+      cost: Text,
+      ages: Text,
+      registration: Text,
+    }),
+    bookButton: Text,
+    calendarButton: Text,
+    moreTitle: Text,
+    viewEvent: Text,
+  }),
   notFound: z.object({ title: Text, intro: Text }),
 });
 export type PageContent = z.infer<typeof PageContent>;
@@ -344,7 +457,15 @@ export const DirectoryTags = z.object({
   forWho: z.object({
     label: Text,
     tags: z
-      .array(z.object({ label: Text, sheetForWho: SheetValues.default([]), sheetType: SheetValues.default([]) }))
+      .array(
+        z.object({
+          label: Text,
+          sheetForWho: SheetValues.default([]),
+          sheetType: SheetValues.default([]),
+          /** Which guide (post) audiences this tag covers. */
+          audiences: z.array(z.enum(AUDIENCES)).default([]),
+        }),
+      )
       .min(1),
   }),
   transportation: z.object({

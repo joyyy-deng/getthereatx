@@ -1,0 +1,125 @@
+{
+ "version": "0.4",
+ "title": "[WKRM] Block – Button",
+ "type": "section",
+ "content": [
+  {
+   "id": "bbffbf1",
+   "elType": "container",
+   "isInner": true,
+   "settings": {
+    "content_width": "full",
+    "flex_direction": "column",
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    },
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px",
+     "size": 0
+    }
+   },
+   "elements": [
+    {
+     "id": "19c0d75",
+     "elType": "container",
+     "isInner": true,
+     "settings": {
+      "content_width": "full",
+      "flex_direction": "column",
+      "padding": {
+       "unit": "px",
+       "top": "8",
+       "right": "0",
+       "bottom": "0",
+       "left": "0",
+       "isLinked": false
+      },
+      "flex_align_items": "flex-start",
+      "flex_align_items_mobile": "stretch",
+      "margin": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "32",
+       "left": "0",
+       "isLinked": false
+      },
+      "margin_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "24",
+       "left": "0",
+       "isLinked": false
+      }
+     },
+     "elements": [
+      {
+       "id": "4764efe",
+       "elType": "widget",
+       "widgetType": "button",
+       "settings": {
+        "text": "Primary action",
+        "link": {
+         "url": "#",
+         "is_external": "",
+         "nofollow": "",
+         "custom_attributes": ""
+        },
+        "background_color": "#74ab60",
+        "button_text_color": "#111111",
+        "hover_color": "#111111",
+        "button_background_hover_color": "#74ab60",
+        "border_radius": {
+         "unit": "px",
+         "top": "0",
+         "right": "0",
+         "bottom": "0",
+         "left": "0",
+         "isLinked": true
+        },
+        "text_padding": {
+         "unit": "px",
+         "top": "16",
+         "right": "20",
+         "bottom": "16",
+         "left": "20",
+         "isLinked": false
+        },
+        "typography_typography": "custom",
+        "typography_font_family": "ff-real-text-pro",
+        "typography_font_weight": "700",
+        "typography_font_size": {
+         "unit": "px",
+         "size": 16,
+         "sizes": []
+        },
+        "typography_font_size_tablet": {
+         "unit": "px",
+         "size": 16,
+         "sizes": []
+        },
+        "typography_font_size_mobile": {
+         "unit": "px",
+         "size": 16,
+         "sizes": []
+        },
+        "_css_classes": "gtatx-arrow gtatx-arrow-spread",
+        "align_mobile": "justify"
+       },
+       "elements": []
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

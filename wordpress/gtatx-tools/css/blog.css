@@ -1,0 +1,868 @@
+/*
+ * GetThereATX blog posts and community events (Figma "Article/blog Master
+ * template" and "Community Event Detail Template").
+ *
+ * Loaded on single posts and events only, and everything is scoped:
+ *   .gtatx-blog .gtatx-classic   Option B: posts written in the regular editor,
+ *                                inside our Elementor Single Post template.
+ *   .gtatx-bullets, .gtatx-table Small pieces the Elementor blocks reuse.
+ *   .gtatx-page                  The local-testing templates (includes/local-templates.php).
+ * Nothing here applies to any other page.
+ *
+ * Phone values first; 768px and up use the desktop values. Colors match
+ * src/content/theme.json in the prototype.
+ */
+
+.gtatx-blog,
+.gtatx-page,
+.gtatx-table,
+.gtatx-bullets,
+.gtatx-arrow,
+.gtatx-steps,
+.gtatx-facts {
+	--gtatx-ink: #111111;
+	--gtatx-ink-soft: #3a3a3a;
+	--gtatx-charcoal: #2b2b2b;
+	--gtatx-navy: #17324d;
+	--gtatx-sky: #d9e8f4;
+	--gtatx-mist: #f0f4f8;
+	--gtatx-leaf: #74ab60;
+	--gtatx-leaf-deep: #63ac56;
+	--gtatx-font: 'ff-real-text-pro', 'Geist Sans', system-ui, sans-serif;
+}
+
+/* ---------- Option B: the regular editor's text in Figma's styles ---------- */
+
+.gtatx-classic {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	font-family: var(--gtatx-font);
+	color: var(--gtatx-charcoal);
+}
+.gtatx-classic > * {
+	margin: 0;
+}
+.gtatx-classic p,
+.gtatx-classic li {
+	font-size: 18px;
+	line-height: 1.6;
+}
+.gtatx-classic h2 {
+	padding-top: 8px;
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+	color: var(--gtatx-ink);
+}
+.gtatx-classic h3 {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	color: var(--gtatx-ink);
+}
+.gtatx-classic ul,
+.gtatx-classic ol {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding-left: 24px;
+}
+.gtatx-classic a {
+	color: #1268b3;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+/* Images and [caption] figures: full width, 13px caption under. */
+.gtatx-classic img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+/* Never stretched or enlarged: at most the picture's own size, at most 400px
+   tall (Figma's media box), centered, whole picture visible. */
+.gtatx-classic figure img,
+.gtatx-classic .wp-caption img {
+	width: auto;
+	max-height: 400px;
+	margin-inline: auto;
+	object-fit: contain;
+}
+.gtatx-classic figure,
+.gtatx-classic .wp-caption {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	width: 100% !important;
+	max-width: 100%;
+}
+.gtatx-classic figcaption,
+.gtatx-classic .wp-caption-text {
+	margin: 0;
+	font-size: 13px;
+	color: var(--gtatx-ink-soft);
+}
+/* A quote (the editor's quote button) becomes the Tip callout. */
+.gtatx-classic blockquote {
+	margin: 0;
+	padding: 20px 24px;
+	border-left: 4px solid var(--gtatx-navy);
+	background: var(--gtatx-mist);
+	font-style: normal;
+}
+.gtatx-classic blockquote::before {
+	content: attr(data-label);
+	text-transform: uppercase;
+	display: block;
+	margin-bottom: 6px;
+	font-size: 12px;
+	letter-spacing: 0.117em;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-classic blockquote:not([data-label])::before {
+	content: 'TIP';
+}
+.gtatx-classic blockquote p {
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--gtatx-ink);
+}
+/* A link with the class "button" (or a link alone in its paragraph, marked by
+   the editor's "button" style) becomes the green button. */
+.gtatx-classic a.button {
+	display: inline-flex;
+	align-items: center;
+	gap: 32px;
+	padding: 16px 20px;
+	background: var(--gtatx-leaf);
+	color: var(--gtatx-ink);
+	font-size: 16px;
+	font-weight: 700;
+	text-decoration: none;
+}
+.gtatx-classic a.button::after,
+.gtatx-arrow::after {
+	content: '';
+	width: 16px;
+	height: 16px;
+	background: no-repeat center / 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 13L13 3M13 11V3H5' stroke-width='2' stroke-linecap='square' stroke='%23111111'/%3E%3C/svg%3E");
+}
+
+/* Steps and facts (Post body blocks): Figma "Article/Step" and the facts strip. */
+ol.gtatx-steps {
+	margin: 0;
+	font-family: var(--gtatx-font);
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 0;
+	list-style: none;
+}
+.gtatx-steps li {
+	display: flex;
+	gap: 20px;
+}
+.gtatx-step-number {
+	display: flex;
+	flex: 0 0 40px;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	background: var(--gtatx-navy);
+	color: #fff;
+	font-size: 18px;
+	font-weight: 700;
+}
+.gtatx-steps div {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+.gtatx-steps h3 {
+	margin: 0;
+	font-family: var(--gtatx-font);
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	color: var(--gtatx-ink);
+}
+.gtatx-steps p {
+	margin: 0;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-classic dl.gtatx-facts,
+.gtatx-classic .gtatx-fact dd {
+	margin: 0;
+}
+
+/* Screen-reader-only text (themes usually define this; not every one does). */
+.gtatx-classic .screen-reader-text,
+.gtatx-page .screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+/* Tables (Option B tables, and the Table block's Text Editor): Figma "Article/Table". */
+.gtatx-classic table,
+.gtatx-table table,
+table.gtatx-table {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	font-family: var(--gtatx-font);
+}
+.gtatx-classic th,
+.gtatx-classic td,
+.gtatx-table th,
+.gtatx-table td {
+	padding: 16px 8px;
+	border: 0;
+	border-bottom: 1px solid var(--gtatx-sky);
+	text-align: left;
+	vertical-align: top;
+	overflow-wrap: break-word;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-classic tr > :first-child,
+.gtatx-table tr > :first-child {
+	padding-left: 16px;
+	font-weight: 700;
+	color: var(--gtatx-ink);
+}
+.gtatx-classic tr > :last-child,
+.gtatx-table tr > :last-child {
+	padding-right: 16px;
+}
+.gtatx-classic thead th,
+.gtatx-classic thead td,
+.gtatx-table thead th,
+.gtatx-table thead td {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	border-bottom: 2px solid var(--gtatx-ink);
+	font-size: 12px;
+	font-weight: 400;
+	letter-spacing: 0.117em;
+	text-transform: uppercase;
+	color: var(--gtatx-ink-soft);
+}
+
+/* Elementor buttons and headings with the CSS class gtatx-arrow get Figma's
+   arrow after the text; add gtatx-arrow-light on black buttons, and
+   gtatx-arrow-spread to push the arrow to the right edge (full-width buttons). */
+.gtatx-arrow .elementor-button-content-wrapper,
+.gtatx-arrow .elementor-heading-title {
+	display: flex;
+	align-items: center;
+	gap: 32px;
+}
+.gtatx-arrow .elementor-heading-title {
+	gap: 8px;
+	justify-content: flex-end;
+}
+.gtatx-arrow-spread .elementor-button {
+	width: 100%;
+}
+.gtatx-arrow-spread .elementor-button-content-wrapper {
+	justify-content: space-between;
+}
+.gtatx-arrow .elementor-button-content-wrapper::after,
+.gtatx-arrow .elementor-heading-title::after {
+	content: '';
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	background: no-repeat center / 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 13L13 3M13 11V3H5' stroke-width='2' stroke-linecap='square' stroke='%23111111'/%3E%3C/svg%3E");
+}
+.gtatx-arrow-light .elementor-button-content-wrapper::after {
+	filter: invert(1);
+}
+/* The back link: Figma's angled arrow, mirrored, before the text. */
+.gtatx-back-link .elementor-button-content-wrapper::before {
+	content: '';
+	flex: 0 0 18px;
+	width: 18px;
+	height: 16px;
+	margin-right: 15px;
+	background: no-repeat center / 18px 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='19' viewBox='0 0 20.1642 19.1642' fill='none'%3E%3Cpath d='M1.41421 17.75L17.1642 2M17.1642 17.1442V2H2.01998' stroke-width='4' stroke='black'/%3E%3C/svg%3E");
+	transform: scaleX(-1);
+}
+.gtatx-back-link .elementor-button-content-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+/* Elementor text inside our templates: no theme margins under the last
+   paragraph or around headings, so the only spacing is the blocks' own. */
+.gtatx-blog .elementor-widget-text-editor > :last-child,
+.gtatx-blog .elementor-widget-text-editor p:last-child,
+.gtatx-blog .elementor-widget-text-editor table {
+	margin-bottom: 0;
+}
+.gtatx-blog .elementor-heading-title {
+	margin: 0;
+}
+
+/* Images in our Elementor templates are never stretched: photos in fixed-height
+   slots (hero, cards) crop to fit, everything else keeps its whole shape. */
+.gtatx-blog .elementor-widget-image img {
+	object-fit: contain;
+}
+.gtatx-blog .elementor-widget-theme-post-featured-image img,
+.gtatx-blog .gtatx-cover img {
+	width: 100%;
+	object-fit: cover;
+}
+/* The Image block: Figma's media box, up to 400px tall, never enlarged. */
+.gtatx-media img {
+	width: auto !important;
+	max-width: 100% !important;
+	height: auto !important;
+	max-height: 400px;
+	object-fit: contain;
+}
+
+/* "What to bring" bullets (the Event: what to bring dynamic tag). */
+.gtatx-bullets {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.gtatx-bullets li {
+	display: flex;
+	gap: 12px;
+	font-size: 18px;
+	line-height: 1.6;
+	color: var(--gtatx-charcoal, #2b2b2b);
+}
+.gtatx-bullets li::before {
+	content: '•';
+}
+
+/* ---------- The local-testing templates (.gtatx-page) ---------- */
+
+.gtatx-page {
+	font-family: var(--gtatx-font);
+	color: var(--gtatx-ink);
+	overflow-x: clip;
+}
+.gtatx-page *,
+.gtatx-page *::before,
+.gtatx-page *::after {
+	box-sizing: border-box;
+}
+.gtatx-page h1,
+.gtatx-page h2,
+.gtatx-page h3,
+.gtatx-page p,
+.gtatx-page dl,
+.gtatx-page dd,
+.gtatx-page figure {
+	margin: 0;
+}
+.gtatx-wrap {
+	padding-inline: max(24px, calc((100% - 1184px) / 2));
+}
+.gtatx-hero {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 200px; /* shorter than Figma's 220 / 480 (Joy, 2026-11-12) */
+	overflow: hidden;
+	background: var(--gtatx-sky);
+}
+.gtatx-hero img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.gtatx-hero iframe {
+	height: 100%;
+	aspect-ratio: 16 / 9;
+	max-width: 100%;
+	border: 0;
+}
+/* Stronger than the live site's `.elementor-kit-10 button` rule (16rem padding, green). */
+.gtatx-page .gtatx-hero button.gtatx-video,
+.gtatx-page .gtatx-hero button.gtatx-video:hover,
+.gtatx-page .gtatx-hero button.gtatx-video:focus {
+	position: relative;
+	height: 100%;
+	aspect-ratio: 16 / 9;
+	max-width: 100%;
+	padding: 0;
+	border: 0;
+	background: #2b2b2b;
+	cursor: pointer;
+}
+.gtatx-page .gtatx-video img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.gtatx-page .gtatx-video span {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 64px;
+	height: 64px;
+	border-radius: 999px;
+	background: var(--gtatx-leaf) no-repeat 55% center / 28px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%23111111'/%3E%3C/svg%3E");
+	transform: translate(-50%, -50%);
+}
+.gtatx-video:focus-visible {
+	outline: 2px solid #424a9e;
+	outline-offset: -4px;
+}
+.gtatx-back {
+	display: inline-flex;
+	align-items: center;
+	gap: 15px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--gtatx-ink);
+	text-decoration: none;
+}
+.gtatx-back::before {
+	content: '';
+	width: 18px;
+	height: 16px;
+	background: no-repeat center / 18px 16px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='19' viewBox='0 0 20.1642 19.1642' fill='none'%3E%3Cpath d='M1.41421 17.75L17.1642 2M17.1642 17.1442V2H2.01998' stroke-width='4' stroke='black'/%3E%3C/svg%3E");
+	transform: scaleX(-1);
+}
+.gtatx-header {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding-block: 24px;
+}
+.gtatx-page--blog .gtatx-back {
+	display: none; /* Figma: no back link on the phone frame */
+}
+.gtatx-header .gtatx-eyebrow-space {
+	height: 15px;
+}
+.gtatx-title {
+	font-size: clamp(44px, 4.2vw + 12px, 72px);
+	font-weight: 700;
+	line-height: 0.98;
+	letter-spacing: -0.04em;
+}
+.gtatx-page--event .gtatx-title {
+	font-size: clamp(40px, 4.2vw + 12px, 72px);
+	line-height: 1.1;
+}
+.gtatx-lead {
+	max-width: 760px;
+	font-size: 17px;
+	line-height: 1.45;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-page--event .gtatx-lead {
+	font-size: 18px;
+}
+.gtatx-meta {
+	font-size: 13px;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-body {
+	padding-bottom: 32px;
+}
+.gtatx-blog .gtatx-classic {
+	gap: 24px;
+}
+
+.gtatx-section {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding-block: 40px;
+	border-top: 1px solid var(--gtatx-sky);
+}
+.gtatx-section-title {
+	font-size: 32px;
+	font-weight: 500;
+	line-height: 1.06;
+	letter-spacing: -0.045em;
+}
+.gtatx-cards {
+	display: grid;
+	gap: 24px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.gtatx-card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background: var(--gtatx-mist);
+	color: var(--gtatx-ink);
+	text-decoration: none;
+}
+.gtatx-card-image {
+	display: block;
+	height: 128px;
+	background: var(--gtatx-sky);
+	overflow: hidden;
+}
+.gtatx-card-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.gtatx-card-text {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 10px;
+	padding: 24px;
+}
+.gtatx-eyebrow {
+	font-size: 12px;
+	letter-spacing: 0.117em;
+	text-transform: uppercase;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-card-title {
+	font-size: 24px;
+	font-weight: 500;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+.gtatx-card-action {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+	margin-top: auto;
+	font-size: 14px;
+	font-weight: 600;
+}
+.gtatx-card:hover .gtatx-card-title {
+	text-decoration: underline;
+}
+
+.gtatx-cta-wrap {
+	padding-bottom: 40px;
+}
+.gtatx-cta {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 32px 24px;
+	background: var(--gtatx-leaf-deep);
+}
+.gtatx-cta-text {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 20px;
+}
+/* Navy, not Figma's white: white on #63ac56 is 2.8:1 (fails WCAG). */
+.gtatx-cta h2 {
+	font-size: 36px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -0.04em;
+	color: var(--gtatx-navy);
+}
+.gtatx-cta p {
+	font-size: 16px;
+	line-height: 1.45;
+	color: var(--gtatx-navy);
+}
+.gtatx-cta-art {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 160px;
+	padding: 16px;
+	background: var(--gtatx-sky);
+}
+.gtatx-cta-art img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.gtatx-button {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 32px;
+	padding: 16px 20px;
+	font-size: 16px;
+	font-weight: 700;
+	text-decoration: none;
+}
+.gtatx-button--green {
+	background: var(--gtatx-leaf);
+	color: var(--gtatx-ink);
+}
+.gtatx-button--outline {
+	border: 2px solid var(--gtatx-ink);
+	background: #fff;
+	color: var(--gtatx-ink);
+}
+.gtatx-button--black {
+	background: var(--gtatx-ink);
+}
+/* Link colors, stronger than the current theme's link rules (e.g. its
+   `body #main article a:not(.btn)`): :not(#gtatx) adds an id's weight. */
+.gtatx-page a.gtatx-button--black:not(#gtatx) {
+	color: #fff;
+}
+.gtatx-page a.gtatx-button--green:not(#gtatx),
+.gtatx-page a.gtatx-button--outline:not(#gtatx),
+.gtatx-page a.gtatx-back:not(#gtatx),
+.gtatx-page a.gtatx-card:not(#gtatx) {
+	color: var(--gtatx-ink);
+	text-decoration: none;
+}
+.gtatx-classic a.button:not(#gtatx) {
+	color: var(--gtatx-ink, #111);
+	text-decoration: none;
+}
+.gtatx-button--black.gtatx-arrow::after {
+	filter: invert(1);
+}
+
+/* Event layout */
+.gtatx-event-body {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	padding-bottom: 40px;
+}
+.gtatx-event-main {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 40px;
+	min-width: 0;
+	padding-top: 8px;
+}
+.gtatx-event-section {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.gtatx-event-section h2 {
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+}
+.gtatx-event-section p {
+	font-size: 18px;
+	line-height: 1.6;
+	color: var(--gtatx-charcoal);
+}
+.gtatx-facts {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 20px;
+	background: var(--gtatx-mist);
+}
+.gtatx-facts,
+.gtatx-facts dd {
+	margin: 0;
+}
+.gtatx-fact {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+.gtatx-fact dt {
+	font-size: 11px;
+	letter-spacing: 0.117em;
+	text-transform: uppercase;
+	color: var(--gtatx-ink-soft);
+}
+.gtatx-fact dd {
+	overflow-wrap: break-word;
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+}
+.gtatx-details {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 24px;
+	background: var(--gtatx-mist);
+}
+.gtatx-details dl {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+.gtatx-divider {
+	height: 1px;
+	background: var(--gtatx-sky);
+}
+.gtatx-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.gtatx-more {
+	background: var(--gtatx-leaf);
+}
+.gtatx-more .gtatx-section-title {
+	font-weight: 700; /* ink, not Figma's white: white on #74ab60 is 2.7:1 */
+}
+.gtatx-more .gtatx-cards {
+	gap: 16px;
+}
+.gtatx-more .gtatx-card-image {
+	height: 160px;
+}
+
+.gtatx-page a:focus-visible,
+.gtatx-page button:focus-visible {
+	outline: 2px solid #424a9e;
+	outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+	.gtatx-wrap {
+		padding-inline: max(48px, calc((100% - 1184px) / 2));
+	}
+	.gtatx-hero {
+		height: 360px;
+	}
+	.gtatx-header {
+		gap: 20px;
+		padding-block: 40px 56px;
+	}
+	.gtatx-page--blog .gtatx-back {
+		display: inline-flex;
+	}
+	.gtatx-page--event .gtatx-header {
+		gap: 59px;
+		padding-bottom: 30px;
+	}
+	.gtatx-header-text {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+	.gtatx-lead,
+	.gtatx-page--event .gtatx-lead {
+		font-size: 22px;
+	}
+	.gtatx-meta {
+		font-size: 14px;
+	}
+	.gtatx-body {
+		padding-block: 16px 64px;
+	}
+	.gtatx-classic,
+	.gtatx-blog .gtatx-classic {
+		gap: 32px;
+	}
+	.gtatx-classic h2 {
+		padding-top: 24px;
+	}
+	.gtatx-section {
+		gap: 40px;
+		padding-block: 80px;
+	}
+	.gtatx-section-title {
+		font-size: 42px;
+	}
+	.gtatx-more .gtatx-section-title {
+		font-size: 48px;
+	}
+	.gtatx-cards,
+	.gtatx-more .gtatx-cards {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 24px;
+	}
+	.gtatx-card-image {
+		height: 160px;
+	}
+	.gtatx-cta-wrap {
+		padding-bottom: 80px;
+	}
+	.gtatx-cta h2 {
+		font-size: 52px;
+	}
+	.gtatx-cta p {
+		font-size: 18px;
+	}
+	.gtatx-cta .gtatx-button {
+		align-self: flex-start;
+	}
+	.gtatx-event-section h2 {
+		font-size: 32px;
+	}
+	.gtatx-facts {
+		flex-direction: row;
+		gap: 24px;
+		padding: 24px;
+	}
+	.gtatx-facts > * {
+		flex: 1;
+	}
+	/* Any number of facts: three to a row, fewer share the row equally. */
+	.gtatx-facts {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.gtatx-facts--n1 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.gtatx-facts--n2 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+@media (min-width: 1024px) {
+	.gtatx-cta {
+		flex-direction: row;
+		align-items: center;
+		gap: 48px;
+		padding: 56px;
+	}
+	.gtatx-cta-art {
+		flex: 0 0 320px;
+		height: 240px;
+	}
+	.gtatx-event-body {
+		flex-direction: row;
+		align-items: flex-start;
+		gap: 80px;
+		padding-block: 16px 64px;
+	}
+	.gtatx-event-main {
+		order: -1;
+		gap: 48px;
+		padding-top: 0;
+	}
+	.gtatx-details {
+		flex: 0 0 384px;
+		gap: 25px;
+		padding: 32px;
+	}
+	.gtatx-details dl {
+		gap: 25px;
+	}
+}

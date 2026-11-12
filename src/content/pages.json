@@ -101,9 +101,7 @@
     "updateButton": "Update trip",
     "compareTitle": "Compare ways to get there",
     "selectedLabel": "Selected route",
-    "headline": "{minutes} minutes to {to}",
-    "estimateNote": "Times are estimates. Check the planner for live times.",
-    "mapNote": "Straight-line sketch, not a street route"
+    "headline": "{minutes} minutes to {to}"
   },
   "resources": {
     "hero": {
@@ -118,7 +116,10 @@
     "allLabel": "All Resources",
     "everyoneLabel": "Everyone",
     "noResults": "Nothing matches those filters.",
-    "linkLabel": "Visit website"
+    "linkLabel": "Visit website",
+    "guidesLabel": "Guides",
+    "readGuide": "Read the guide",
+    "watchVideo": "Watch the video"
   },
   "students": {
     "title": "How can I get around as a student?",
@@ -150,6 +151,41 @@
       ],
       "to": "/plan"
     }
+  },
+  "guide": {
+    "backLabel": "Back to Resources",
+    "readTime": "{n} min read",
+    "updated": "Updated {date}",
+    "byline": "By {author}",
+    "defaultAuthor": "Get There ATX",
+    "tipLabel": "Tip",
+    "relatedTitle": "Keep reading",
+    "cta": {
+      "title": "Ready to plan your trip?",
+      "text": "Tell us where you are going and we will show you the best ways to get there.",
+      "button": "Plan my trip",
+      "to": "/plan"
+    },
+    "readFullPost": "Read the full post on getthereatx.com"
+  },
+  "event": {
+    "backLabel": "Back to Community",
+    "bringTitle": "What to bring/What you will gain",
+    "hostedTitle": "Hosted by",
+    "accessibilityTitle": "Accessibility",
+    "gettingThereTitle": "Getting there",
+    "labels": {
+      "date": "Date",
+      "time": "Time",
+      "location": "Location",
+      "cost": "Cost",
+      "ages": "Ages",
+      "registration": "Registration"
+    },
+    "bookButton": "Book now",
+    "calendarButton": "Add to calendar",
+    "moreTitle": "More events",
+    "viewEvent": "View event"
   },
   "notFound": {
     "title": "Page not found",

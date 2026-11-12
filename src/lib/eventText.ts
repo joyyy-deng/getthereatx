@@ -49,3 +49,21 @@ export function dateRail(start: Date): { month: string; day: string; weekday: st
   const p = Object.fromEntries(railParts.formatToParts(start).map((x) => [x.type, x.value]));
   return { month: p.month.toUpperCase(), day: p.day, weekday: p.weekday.toUpperCase() };
 }
+
+const longDate = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', timeZone: TZ });
+const clock = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: TZ });
+
+/** Event page DATE fact (Figma "Day, Month DD, YYYY"): "Saturday, September 12, 2026". */
+export function longDateText(start: Date): string {
+  return longDate.format(start);
+}
+
+/** Event page TIME fact (Figma "Start – End"): "1:00 PM – 5:00 PM". */
+export function startEndText(start: Date, end: Date): string {
+  return `${clock.format(start)} – ${clock.format(end)}`;
+}
+
+/** "More events" card eyebrow: "Sat, Sep 12" (shown in caps). */
+export function cardDateText(start: Date): string {
+  return day.format(start);
+}

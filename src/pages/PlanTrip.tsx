@@ -157,7 +157,7 @@ export function PlanTrip() {
         <>
           <p className="m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
           <div className="h-[420px] lg:h-[560px]">
-            <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} note={copy.mapNote} />
+            <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} />
           </div>
         </>
       )}
@@ -186,7 +186,6 @@ export function PlanTrip() {
                 </li>
               ))}
             </ul>
-            <p className="m-0 text-caption text-ink-muted">{copy.estimateNote}</p>
           </section>
 
           {/* Selected route detail. Phones: text, map, steps, button. Desktop: text column + map. */}
@@ -216,7 +215,6 @@ export function PlanTrip() {
                 to={to}
                 badge={`${minutes} min`}
                 onPick={pickOnMap}
-                note={copy.mapNote}
               />
             </div>
             <ol className="m-0 flex list-none flex-col gap-3 p-0 text-fine text-ink">
@@ -231,7 +229,7 @@ export function PlanTrip() {
                 {text(trip.to.name)}
               </li>
             </ol>
-            <HandoffButton picked={picked} trip={trip} resources={data.resources} />
+            <HandoffButton picked={picked} trip={{ ...trip, leaveAt: leave ? leaveAt : undefined }} resources={data.resources} />
           </section>
         </>
       )}
@@ -246,7 +244,7 @@ function HandoffButton({
   resources,
 }: {
   picked: NonNullable<ReturnType<typeof planCards>[number]>;
-  trip: { from: Place; to: Place };
+  trip: { from: Place; to: Place; leaveAt?: Date };
   resources: Map<string, import('../content/schema').Resource>;
 }) {
   const { mode } = picked;

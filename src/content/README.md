@@ -13,7 +13,8 @@ Everything the site says lives in this folder as JSON. To change wording, a link
 | A row in the Resources directory | The client's Google Sheet ("Website Content", tab "Trip Planning"). See "Updating the Resources directory" below |
 | The Resources filter list (Public Transit, Biking…) and the "For who?" menu, and which of the sheet's "Type" / "For Who?" words each covers | `directory-tags.json` |
 | Links used on Plan Your Trip, the Student page and the Students / Seniors / Families cards | `resources.json` |
-| The blog posts behind the Home "New to this?" rows | `posts.json` |
+| The blog posts (guides) behind the Home "New to this?" rows and the Resources "Guides" filter | `posts.json` |
+| Blog category names (Take Transit, Biking Austin…), shown on guide cards and used for "Keep reading" | `categories.json`: copied from getthereatx.com (Posts → Categories), 2026-11-08. **The client may rename or change these**; edit this file to match, and a post's `categories` use the `slug`s here. In WordPress they come from the site itself. |
 | The site map and test tasks (/dev/sitemap) | `sheets/site-map.csv`, `sheets/site-map-tasks.csv` |
 | An upcoming event (Community) | `events.json` |
 | Student Carpooling / Senior Citizens / Families cards ("Get there together") | `connect-cards.json` |

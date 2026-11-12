@@ -3,13 +3,15 @@ import type { Img } from '../../content/schema';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { LinkOut } from '../ui';
+import { PageLink } from '../ui/PageLink';
 
 export interface GuideItem {
   id: string;
   title: string;
   body: string;
   image?: Img;
-  link: { href: string; label: string; provider: string; resourceId: string };
+  /** `to`: a guide page on this site. `href`: another site (a registry tool). */
+  link: { to: string; label: string } | { href: string; label: string; provider: string; resourceId: string };
 }
 
 /**
@@ -55,13 +57,20 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
                 {item.body}
               </p>
               <p className="m-0 text-fine">
-                <LinkOut
-                  href={item.link.href}
-                  provider={item.link.provider}
-                  label={item.link.label}
-                  resourceId={item.link.resourceId}
-                  from="home"
-                />
+                {'to' in item.link ? (
+                  <PageLink to={item.link.to} className="text-link underline decoration-1 underline-offset-4 hover:decoration-2">
+                    {item.link.label}
+                    <span aria-hidden="true">&nbsp;→</span>
+                  </PageLink>
+                ) : (
+                  <LinkOut
+                    href={item.link.href}
+                    provider={item.link.provider}
+                    label={item.link.label}
+                    resourceId={item.link.resourceId}
+                    from="home"
+                  />
+                )}
               </p>
             </div>
           </div>

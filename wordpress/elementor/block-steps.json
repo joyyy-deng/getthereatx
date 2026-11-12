@@ -1,0 +1,79 @@
+{
+ "version": "0.4",
+ "title": "[WKRM] Block – Steps",
+ "type": "section",
+ "content": [
+  {
+   "id": "32216c2",
+   "elType": "container",
+   "isInner": true,
+   "settings": {
+    "content_width": "full",
+    "flex_direction": "column",
+    "padding": {
+     "unit": "px",
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "0",
+     "isLinked": true
+    },
+    "flex_gap": {
+     "column": "0",
+     "row": "0",
+     "isLinked": true,
+     "unit": "px",
+     "size": 0
+    }
+   },
+   "elements": [
+    {
+     "id": "36a9bd6",
+     "elType": "widget",
+     "widgetType": "gtatx-steps",
+     "settings": {
+      "steps": [
+       {
+        "_id": "f302199",
+        "title": "Find a station",
+        "text": "Open the map or app to see nearby bikes and open docks."
+       },
+       {
+        "_id": "603ed61",
+        "title": "Unlock a bike",
+        "text": "Scan the code or enter your account details at the dock."
+       },
+       {
+        "_id": "506defa",
+        "title": "Ride to your stop",
+        "text": "Use bike lanes and trails when you can, and follow traffic signals."
+       },
+       {
+        "_id": "b7955c7",
+        "title": "Return it",
+        "text": "Dock the bike at any open station and check that it locked."
+       }
+      ],
+      "_margin": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "32",
+       "left": "0",
+       "isLinked": false
+      },
+      "_margin_mobile": {
+       "unit": "px",
+       "top": "0",
+       "right": "0",
+       "bottom": "24",
+       "left": "0",
+       "isLinked": false
+      }
+     },
+     "elements": []
+    }
+   ]
+  }
+ ]
+}

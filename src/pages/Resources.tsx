@@ -4,16 +4,19 @@ import { DirectoryEntryCard } from '../components/resources/DirectoryEntryCard';
 import { PageLoading, Pagination } from '../components/ui';
 import { FilterSelect } from '../components/ui/FilterSelect';
 import { PageLink } from '../components/ui/PageLink';
-import { getDirectory, getDirectoryTags, getPageContent } from '../data';
+import { getCategoryNames, getDirectory, getDirectoryTags, getPageContent, getPosts } from '../data';
 import { asset } from '../lib/asset';
 import { cx } from '../lib/cx';
-import { filterDirectory } from '../lib/directory';
+import { filterDirectory, filterGuides } from '../lib/directory';
+import { guideItem, sheetItem } from '../lib/directoryItems';
 import { useContent } from '../lib/useContent';
 
 // Resources (Figma desktop 783:25613, mobile 865:6071): photo hero, then the
 // directory. The directory is the client's "Trip Planning" Google Sheet
 // (content/sheets/trip-planning.csv); the Figma activity list becomes the
 // sheet's Transportation types, and the area menu becomes "For who?".
+// Guides (blog posts) are mixed in after the sheet's rows under "All", and
+// have their own filter (mode=Guides); each opens its guide page.
 // Filters and the page live in the URL: /resources?mode=Biking&who=Commuter&page=2
 
 function oneOf<T extends string>(list: readonly T[], value: string | null): T | undefined {
@@ -27,13 +30,20 @@ const FEATURED = 2;
 
 export function Resources() {
   const data = useContent(async () => {
-    const [entries, tags, copy] = await Promise.all([getDirectory(), getDirectoryTags(), getPageContent()]);
-    return { entries, tags, copy: copy.resources };
+    const [entries, tags, copy, posts, categoryNames] = await Promise.all([
+      getDirectory(),
+      getDirectoryTags(),
+      getPageContent(),
+      getPosts(),
+      getCategoryNames(),
+    ]);
+    return { entries, tags, copy: copy.resources, posts, categoryNames };
   });
   const [params, setParams] = useSearchParams();
   const directoryRef = useRef<HTMLElement>(null);
 
-  const modes = data?.tags.transportation.options.map((o) => o.label) ?? [];
+  const guidesLabel = data?.copy.guidesLabel ?? 'Guides';
+  const modes = [guidesLabel, ...(data?.tags.transportation.options.map((o) => o.label) ?? [])];
   const who = oneOf(data?.tags.forWho.tags.map((t) => t.label) ?? [], params.get('who'));
   const mode = oneOf(modes, params.get('mode'));
 
@@ -51,10 +61,15 @@ export function Resources() {
     );
   }
 
-  const results = useMemo(
-    () => (data ? filterDirectory(data.entries, { who, mode, q: '' }, data.tags) : []),
-    [data, who, mode],
-  );
+  const results = useMemo(() => {
+    if (!data) return [];
+    const { copy } = data;
+    const labels = { guide: copy.guidesLabel, readGuide: copy.readGuide, watchVideo: copy.watchVideo };
+    const guides = filterGuides(data.posts, who, data.tags).map((p) => guideItem(p, labels, data.categoryNames));
+    if (mode === guidesLabel) return guides;
+    const sheet = filterDirectory(data.entries, { who, mode, q: '' }, data.tags).map((e) => sheetItem(e, copy.linkLabel));
+    return mode ? sheet : [...sheet, ...guides];
+  }, [data, who, mode, guidesLabel]);
 
   if (!data) return <PageLoading />;
   const { copy } = data;
@@ -160,14 +175,14 @@ export function Resources() {
                 <>
                   <div className="grid gap-6 sm:grid-cols-2 lg:gap-8">
                     {shown.slice(0, FEATURED).map((e) => (
-                      <DirectoryEntryCard key={e.id} entry={e} linkLabel={copy.linkLabel} featured />
+                      <DirectoryEntryCard key={e.id} item={e} featured />
                     ))}
                   </div>
                   {shown.length > FEATURED && (
                     <ul className="m-0 list-none border-b border-line p-0">
                       {shown.slice(FEATURED).map((e) => (
                         <li key={e.id}>
-                          <DirectoryEntryCard entry={e} linkLabel={copy.linkLabel} />
+                          <DirectoryEntryCard item={e} />
                         </li>
                       ))}
                     </ul>

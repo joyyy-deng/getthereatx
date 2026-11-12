@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       GetThereATX Tools
- * Description:       The GetThereATX trip planner and resources directory. Shortcodes: [gtatx_trip_planner] and [gtatx_resources].
- * Version:           0.1.0
+ * Description:       The GetThereATX trip planner and resources directory (shortcodes [gtatx_trip_planner] and [gtatx_resources]), plus the fields and Elementor dynamic tags for blog posts and community events.
+ * Version:           0.2.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            WKRM (UT Austin) for Austin Transportation and Public Works
@@ -14,7 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const GTATX_TOOLS_VERSION = '0.1.0';
+const GTATX_TOOLS_VERSION = '0.2.0';
+const GTATX_TOOLS_FILE    = __FILE__;
 const GTATX_TOOLS_HANDLE  = 'gtatx-tools';
 
 /**
@@ -109,3 +110,37 @@ function gtatx_tools_resources_shortcode( $atts ) {
 	return gtatx_tools_mount( 'resources', gtatx_tools_width_attr( $atts, 'gtatx_resources' ) );
 }
 add_shortcode( 'gtatx_resources', 'gtatx_tools_resources_shortcode' );
+
+/* Blog posts and community events: fields, helpers, styles (includes/content.php). */
+require_once __DIR__ . '/includes/content.php';
+
+/* Elementor dynamic tags: "GetThereATX text" and "GetThereATX link". */
+add_action(
+	'elementor/dynamic_tags/register',
+	function ( $tags ) {
+		require_once __DIR__ . '/includes/elementor-tags.php';
+		\Elementor\Plugin::$instance->dynamic_tags->register_group( 'gtatx', array( 'title' => 'GetThereATX' ) );
+		$tags->register( new GTATX_Text_Tag() );
+		$tags->register( new GTATX_Url_Tag() );
+	}
+);
+
+/* Elementor widgets: Facts strip, Steps, Table (includes/elementor-widgets.php), under "GetThereATX". */
+add_action(
+	'elementor/elements/categories_registered',
+	function ( $manager ) {
+		$manager->add_category( 'gtatx', array( 'title' => 'GetThereATX', 'icon' => 'fa fa-plug' ) );
+	}
+);
+add_action(
+	'elementor/widgets/register',
+	function ( $widgets ) {
+		require_once __DIR__ . '/includes/elementor-widgets.php';
+		$widgets->register( new GTATX_Facts_Widget() );
+		$widgets->register( new GTATX_Steps_Widget() );
+		$widgets->register( new GTATX_Table_Widget() );
+	}
+);
+
+/* Local testing only: page templates for when Elementor Pro isn't installed (includes/local-templates.php). */
+require_once __DIR__ . '/includes/local-templates.php';

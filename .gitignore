@@ -36,3 +36,11 @@ docs/
 
 # Copies of the live site's CSS for local testing only
 wordpress/local-dev/live-css/
+
+# Tests
+test-results
+playwright-report
+e2e/__screenshots__
+wordpress/local-dev/seed-data.json
+wordpress/local-dev/plugins/
+wordpress/.wp-env.override.json
