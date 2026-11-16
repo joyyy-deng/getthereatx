@@ -105,7 +105,7 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
         {featured && (
           <article className="flex flex-col md:flex-row md:items-stretch">
             <div className="h-[220px] bg-sky md:h-auto md:min-h-[236px] md:flex-1">
-              <img
+              <img loading="lazy" decoding="async"
                 src={asset(featured.event.image!.src)}
                 alt={featured.event.image!.alt}
                 className="block size-full object-cover"

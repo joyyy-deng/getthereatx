@@ -85,7 +85,7 @@ export function TogetherBand({
                   className={cx('group flex w-full overflow-hidden border border-sky bg-white', size.card)}
                 >
                   <span className={cx('block overflow-hidden bg-sky', size.pic)}>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={asset(c.image.src)}
                       alt={c.image.alt}
                       className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"

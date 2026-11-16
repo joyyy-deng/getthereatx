@@ -1,0 +1,1018 @@
+{
+  "imported": "2026-11-16",
+  "groups": [
+    {
+      "id": "mode",
+      "label": "Ways of getting around",
+      "tags": [
+        {
+          "tag": "Rideshare/ride-hailing/taxi",
+          "label": "Rideshare / ride-hailing / taxi"
+        },
+        {
+          "tag": "Walking",
+          "label": "Walking"
+        },
+        {
+          "tag": "Rolling",
+          "label": "Rolling",
+          "children": [
+            {
+              "tag": "Biking",
+              "label": "Biking"
+            },
+            {
+              "tag": "Bikeshare",
+              "label": "Bikeshare"
+            },
+            {
+              "tag": "Scooters",
+              "label": "Scooters"
+            },
+            {
+              "tag": "E-scooters",
+              "label": "E-scooters"
+            }
+          ]
+        },
+        {
+          "tag": "Publictransit",
+          "label": "Public transit",
+          "children": [
+            {
+              "tag": "bus",
+              "label": "Bus"
+            },
+            {
+              "tag": "CapMetro",
+              "label": "CapMetro"
+            },
+            {
+              "tag": "Parkandride",
+              "label": "Park and ride"
+            }
+          ]
+        },
+        {
+          "tag": "driving",
+          "label": "Driving",
+          "children": [
+            {
+              "tag": "Carpool",
+              "label": "Carpool"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "who",
+      "label": "Who are you?",
+      "tags": [
+        {
+          "tag": "Commuter",
+          "label": "Commuter"
+        },
+        {
+          "tag": "employers/organizations",
+          "label": "Employers / organizations"
+        },
+        {
+          "tag": "Families/youth",
+          "label": "Families / youth"
+        },
+        {
+          "tag": "GreaterAustin",
+          "label": "Greater Austin"
+        },
+        {
+          "tag": "Seniors",
+          "label": "Seniors"
+        },
+        {
+          "tag": "Students",
+          "label": "Students"
+        },
+        {
+          "tag": "visitors",
+          "label": "Visitors"
+        }
+      ]
+    },
+    {
+      "id": "type",
+      "label": "Type of info",
+      "tags": [
+        {
+          "tag": "Article",
+          "label": "Article"
+        },
+        {
+          "tag": "Accessibility",
+          "label": "Accessibility"
+        },
+        {
+          "tag": "Community/gettinginvolved",
+          "label": "Community / getting involved"
+        },
+        {
+          "tag": "Financial",
+          "label": "Financial"
+        },
+        {
+          "tag": "fun",
+          "label": "Fun"
+        },
+        {
+          "tag": "HappeninginAustin",
+          "label": "Happening in Austin"
+        },
+        {
+          "tag": "Howtos/guides",
+          "label": "How-tos / guides"
+        },
+        {
+          "tag": "Maps/directions",
+          "label": "Maps / directions"
+        },
+        {
+          "tag": "Safety",
+          "label": "Safety"
+        },
+        {
+          "tag": "sustainability",
+          "label": "Sustainability"
+        }
+      ]
+    }
+  ],
+  "tagAliases": {
+    "Carpool/vanpool": "Carpool"
+  },
+  "resources": [
+    {
+      "id": "acl-mobility-guide",
+      "title": "ACL Mobility Guide",
+      "url": "https://experience.arcgis.com/experience/ebf5da1be2464916b70916644d8d363d",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin"
+      ]
+    },
+    {
+      "id": "apl-central-bike-repair-clinic",
+      "title": "APL Central bike repair clinic",
+      "url": "https://austinyellowbike.org/diy-bike-repairs-at-central-library/",
+      "tags": [
+        "Biking",
+        "Howtos/guides",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "atx-go",
+      "title": "ATX Go!",
+      "url": "https://atxgo.org/",
+      "tags": [
+        "Accessibility"
+      ],
+      "description": "Helps visitors with disabilities explore Austin’s cultural attractions by offering destination listings, accessibility contacts, and planning resources. The site is expanding to include venue‑specific accessibility details, with additional guidance available through the ADA Toolkit."
+    },
+    {
+      "id": "austin-bike-streets",
+      "title": "Austin Bike Streets",
+      "url": "https://bikestreets.com/tx/austin/",
+      "tags": [
+        "Biking",
+        "Maps/directions",
+        "Rolling"
+      ],
+      "description": "Get chill routes between any two points in Austin using our community-created Austin Bike Map."
+    },
+    {
+      "id": "austin-downtown-to-airport-shuttle",
+      "title": "Austin Downtown to Airport Shuttle",
+      "url": "https://www.capmetro.org/airport",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin",
+        "CapMetro"
+      ]
+    },
+    {
+      "id": "austin-moves",
+      "title": "Austin Moves",
+      "url": "https://www.healthyplaceshealthypeople.org/getactive/austin-moves/",
+      "tags": [
+        "Community/gettinginvolved",
+        "Walking"
+      ]
+    },
+    {
+      "id": "austin-shared-mobility",
+      "title": "Austin shared mobility",
+      "url": "https://www.austintexas.gov/transportation-public-works/divisions/shared-mobility",
+      "tags": [
+        "Rolling",
+        "Bikeshare",
+        "driving"
+      ]
+    },
+    {
+      "id": "austin-youth-fitness-biking-clubs",
+      "title": "Austin Youth Fitness Biking Clubs",
+      "url": "https://www.austinyouthfitness.com/after-school-program-biking",
+      "tags": [
+        "Biking",
+        "Community/gettinginvolved",
+        "Families/youth"
+      ]
+    },
+    {
+      "id": "bicycle-registry",
+      "title": "Bicycle Registry",
+      "url": "https://www.austintexas.gov/services/register-your-bike",
+      "tags": [
+        "Biking",
+        "Howtos/guides",
+        "Safety"
+      ]
+    },
+    {
+      "id": "bicycling-laws-and-safety",
+      "title": "Bicycling laws and safety",
+      "url": "https://www.austintexas.gov/transportation-public-works/programs/bicycle-program",
+      "tags": [
+        "Biking",
+        "Rolling",
+        "Safety"
+      ]
+    },
+    {
+      "id": "bike-story-night",
+      "title": "Bike Story Night",
+      "url": "https://www.bikestorynight.com/",
+      "tags": [
+        "Biking",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "black-girls-do-bike",
+      "title": "Black Girls Do Bike",
+      "url": "https://www.facebook.com/groups/BlackGirlsDoBikeAustin/",
+      "tags": [
+        "Biking",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "black-history-bike-ride",
+      "title": "Black History Bike Ride",
+      "url": "https://blackhistorybikeride.com/",
+      "tags": [
+        "Biking",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "capmetro-access",
+      "title": "CapMetro Access",
+      "url": "https://www.capmetro.org/access",
+      "tags": [
+        "Accessibility",
+        "Seniors",
+        "Publictransit",
+        "CapMetro",
+        "Rideshare/ride-hailing/taxi"
+      ],
+      "description": "Access is a demand-response, shared-ride service for people whose disabilities prevent them from riding our other bus and rail services. Access service complies with the Americans with Disabilities Act of 1990 (ADA)."
+    },
+    {
+      "id": "capmetro-accessibility-info",
+      "title": "CapMetro accessibility info",
+      "url": "https://www.capmetro.org/accessibility",
+      "tags": [
+        "CapMetro",
+        "Accessibility",
+        "Publictransit"
+      ],
+      "description": "CapMetro buses and trains offer accessible boarding through kneeling buses, ramps, lifts, and level rail platforms. All accessible vehicles and materials display the international access symbol to support riders with disabilities."
+    },
+    {
+      "id": "capmetro-bikeshare",
+      "title": "CapMetro bikeshare",
+      "url": "https://www.capmetro.org/bikeshare",
+      "tags": [
+        "Biking",
+        "Bikeshare",
+        "Rolling"
+      ],
+      "description": "Bikeshare is a CapMetro operated system of electric bikes that get you around central Austin without having to buy a bike of your own! Must be 18 years or older and have a credit card to rent."
+    },
+    {
+      "id": "capmetro-bus",
+      "title": "CapMetro bus",
+      "url": "https://www.capmetro.org/bus",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "bus"
+      ],
+      "description": "Neighborhood routes with frequent stops, these routes to get you just about anywhere you need to go. With 11 High-Frequency routes, CapMetro provides reliable connections throughout Austin."
+    },
+    {
+      "id": "capmetro-express",
+      "title": "CapMetro express",
+      "url": "https://www.capmetro.org/express",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "Parkandride",
+        "Commuter"
+      ],
+      "description": "Express routes offer commuter service from North Austin and nearby areas, using Park & Rides and MoPac Express Lanes to bypass traffic. Buses include Wi‑Fi, comfortable seating, and bike space, with routes serving Northwest Austin, Leander, Tech Ridge, Elgin, and Manor. Project Connect will expand service to Del Valle, Four Points, Loop 360, South MoPac/Circle C, and Oak Hill."
+    },
+    {
+      "id": "capmetro-for-seniors",
+      "title": "CapMetro for Seniors",
+      "url": "https://www.capmetro.org/rfid",
+      "tags": [
+        "Seniors",
+        "CapMetro",
+        "Publictransit",
+        "Financial",
+        "Accessibility"
+      ]
+    },
+    {
+      "id": "capmetro-for-students",
+      "title": "CapMetro for students",
+      "url": "https://www.capmetro.org/higher-education",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "Students",
+        "Financial"
+      ]
+    },
+    {
+      "id": "capmetro-guaranteed-ride-home",
+      "title": "CapMetro guaranteed ride home",
+      "url": "https://www.capmetro.org/guaranteed",
+      "tags": [
+        "Publictransit",
+        "CapMetro",
+        "Financial"
+      ]
+    },
+    {
+      "id": "capmetro-how-to-ride",
+      "title": "CapMetro How to ride",
+      "url": "https://www.capmetro.org/how-to-ride",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "Howtos/guides"
+      ]
+    },
+    {
+      "id": "capmetro-kids-teens",
+      "title": "CapMetro Kids & Teens",
+      "url": "https://www.capmetro.org/how-to-ride/riding-with-kids",
+      "tags": [
+        "Families/youth",
+        "Publictransit",
+        "CapMetro"
+      ]
+    },
+    {
+      "id": "capmetro-rail",
+      "title": "CapMetro rail",
+      "url": "https://www.capmetro.org/rail",
+      "tags": [
+        "CapMetro",
+        "Publictransit"
+      ],
+      "description": "Skip traffic and use your time how you want. Rail’s 32‑mile line connects Downtown, North Austin, and Leander, offering a comfortable, reliable ride to every station—including Q2 Stadium."
+    },
+    {
+      "id": "capmetro-rapid",
+      "title": "CapMetro rapid",
+      "url": "https://www.capmetro.org/rapid",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "bus"
+      ],
+      "description": "Rapid gets you where you’re going fast, with buses every 15–30 minutes, transit‑priority lanes, and jump‑start signals. Local fare: $1.25 per ride or $2.50 for the whole day"
+    },
+    {
+      "id": "capmetro-ride-planner",
+      "title": "CapMetro ride planner",
+      "url": "https://www.capmetro.org/ride/plan/plan",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "Maps/directions"
+      ]
+    },
+    {
+      "id": "capmetro-vanpool",
+      "title": "CapMetro Vanpool",
+      "url": "https://www.capmetro.org/services/popular-services/vanpool",
+      "tags": [
+        "Rideshare/ride-hailing/taxi",
+        "Carpool/vanpool",
+        "CapMetro"
+      ],
+      "description": "Save on gas and car costs by sharing the ride. CapMetro helps you find or form carpools, provides vehicles, and subsidizes groups in its service area."
+    },
+    {
+      "id": "carts",
+      "title": "CARTS",
+      "url": "https://www.ridecarts.com/",
+      "tags": [
+        "Location-specific",
+        "GreaterAustin",
+        "bus"
+      ],
+      "description": "Regional transportation for the non-urbanized areas of Bastrop, Blanco, Burnet, Caldwell, Fayette, Hays, Lee, Llano, Travis, and Williamson counties."
+    },
+    {
+      "id": "charterup",
+      "title": "CharterUP",
+      "url": "https://www.charterup.com/charter-bus-rentals/austin-charter-bus-rental/",
+      "tags": [
+        "employers/organizations"
+      ],
+      "description": "CharterUP provides customized shuttle solutions for corporate campuses, shift workers, and remote sites, creating schedules and routes that fit your organization’s specific needs."
+    },
+    {
+      "id": "commute-hub-by-ride-amigos",
+      "title": "Commute Hub by Ride Amigos",
+      "url": "https://commutehub.com/",
+      "tags": [
+        "employers/organizations"
+      ],
+      "description": "CommuteHub by RideAmigos is the centralized platform that powers the worlds most advanced public and private parking and transportation demand management programs. Turn even the most complex programs into personalized and easy-to-use support for everyone you serve, and get the data and insights you need to plan for the future."
+    },
+    {
+      "id": "connectsmart-metropia",
+      "title": "ConnectSmart (Metropia)",
+      "url": "https://www.connectsmartmobility.com/austin",
+      "tags": [
+        "employers/organizations"
+      ],
+      "description": "ConnectSmart, a free Metropia app for Central Texans, makes it easy to form or join carpools, arrange trips, and manage preferences. For organizations, Metropia’s Employer Commute Suite supports private carpool groups and tracks sustainability goals. A TxDot project."
+    },
+    {
+      "id": "drivetexas",
+      "title": "DriveTexas",
+      "url": "https://drivetexas.org/",
+      "tags": [
+        "driving",
+        "Maps/directions"
+      ]
+    },
+    {
+      "id": "earn-money-with-ctx-go",
+      "title": "Earn money with CTX Go",
+      "url": "https://www.getthereatx.com/ready/",
+      "tags": [
+        "Financial"
+      ]
+    },
+    {
+      "id": "ecab",
+      "title": "eCab",
+      "url": "https://ecabna.com/austin%2C-tx",
+      "tags": [
+        "Rideshare/ride-hailing/taxi"
+      ],
+      "description": "Is a low-speed, last-mile Transit option. Electric Cab provides efficient, zero emission micro transit services to dense urban cores, corporate campuses, and master planned communities."
+    },
+    {
+      "id": "f1-know-before-you-go",
+      "title": "F1 Know before you go",
+      "url": "https://circuitoftheamericas.com/event/f1/know-before-you-go/",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin"
+      ]
+    },
+    {
+      "id": "f1-shuttles",
+      "title": "F1 Shuttles",
+      "url": "https://www.austintexas.gov/ace/events/formula-1-united-states-grand-prix-shuttles",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin"
+      ]
+    },
+    {
+      "id": "fetii",
+      "title": "Fetii",
+      "url": "https://fetii.com/",
+      "tags": [
+        "employers/organizations",
+        "Rideshare/ride-hailing/taxi",
+        "Students"
+      ],
+      "description": "Fetii offers group ridesharing solutions through its user-friendly app. Groups, commuters, and corporations can order a Fetii vehicle on-demand or pre-scheduled to fulfill their transportation needs. Fetii utilizes a UPC check-in system that allows users to split the fare when boarding."
+    },
+    {
+      "id": "flexigo",
+      "title": "Flexigo",
+      "url": "https://www.flexigo.com/en/flexicarpool",
+      "tags": [
+        "Carpool",
+        "driving",
+        "Commuter"
+      ],
+      "description": "Flexigo helps employees find and create ideal carpool connections with our mutual-matching technology, which ensures that all members of a carpool are interested in riding with one another before any matches are recommended."
+    },
+    {
+      "id": "ghisallo-cycling-initiative",
+      "title": "Ghisallo Cycling Initiative",
+      "url": "https://ghisallo.org/",
+      "tags": [
+        "Biking",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "golden-rollers",
+      "title": "Golden Rollers",
+      "url": "https://ghisallo.org/programs/golden-rollers/",
+      "tags": [
+        "Rolling",
+        "Seniors",
+        "Community/gettinginvolved",
+        "Biking"
+      ]
+    },
+    {
+      "id": "google-maps",
+      "title": "Google Maps",
+      "url": "https://www.google.com/maps",
+      "tags": [
+        "Maps/directions"
+      ]
+    },
+    {
+      "id": "greater-austin-transportation-services-and-senior-ride-guide",
+      "title": "Greater Austin Transportation Services and Senior Ride Guide",
+      "url": "https://mytxride.com/docs/Transportation-Services-Guide.pdf",
+      "tags": [
+        "Seniors"
+      ]
+    },
+    {
+      "id": "league-of-american-cyclists",
+      "title": "League of American Cyclists",
+      "url": "https://bikeleague.org/",
+      "tags": [
+        "Biking",
+        "Howtos/guides",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "liftango",
+      "title": "Liftango",
+      "url": "https://www.liftango.com/carpool",
+      "tags": [
+        "Carpool",
+        "driving"
+      ],
+      "description": "Instantly match with other carpoolers or send a private message to connect with friends."
+    },
+    {
+      "id": "lime-bikes-and-scooters",
+      "title": "Lime bikes and scooters",
+      "url": "https://www.li.me/vehicles/electric-bike",
+      "tags": [
+        "Biking",
+        "Rolling",
+        "Bikeshare",
+        "Scooters",
+        "E-scooters"
+      ],
+      "description": "Lime electric bikes are available through the Lime app. Must be 18 years or older to operate."
+    },
+    {
+      "id": "mobility-camps",
+      "title": "Mobility Camps",
+      "url": "https://movabilitytx.org/mobility-camps",
+      "tags": [
+        "Community/gettinginvolved",
+        "employers/organizations"
+      ]
+    },
+    {
+      "id": "moody-center-mobility-guide",
+      "title": "Moody Center Mobility Guide",
+      "url": "https://moodycenteratx.com/plan-my-trip/",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin"
+      ]
+    },
+    {
+      "id": "onecommute",
+      "title": "OneCommute",
+      "url": "https://onecommute.com/",
+      "tags": [
+        "Carpool",
+        "driving",
+        "Commuter"
+      ],
+      "description": "OneCommute’s Ride Matching and Ride Share Programs assist commuters in finding a carpool solution that suits their needs, providing them with the confidence that they can always secure a ride."
+    },
+    {
+      "id": "pedestrian-and-bicycle-information-center",
+      "title": "Pedestrian and Bicycle Information Center",
+      "url": "https://www.pedbikeinfo.org/",
+      "tags": [
+        "Rolling",
+        "Walking",
+        "Biking"
+      ]
+    },
+    {
+      "id": "pedestrian-program",
+      "title": "Pedestrian Program",
+      "url": "https://www.austintexas.gov/transportation-public-works/programs/pedestrian-program",
+      "tags": [
+        "Walking",
+        "Community/gettinginvolved",
+        "Safety"
+      ]
+    },
+    {
+      "id": "pfetch-a-ride",
+      "title": "Pfetch a Ride",
+      "url": "https://www.pflugervilletx.gov/pfetch-a-ride",
+      "tags": [
+        "GreaterAustin",
+        "Rideshare/ride-hailing/taxi",
+        "Financial"
+      ],
+      "description": "Anyone can use a monthly voucher program to access discounted rides within the City limits, to and from Pflugerville to the Tech Ridge Park and Ride or to Three Points Plaza, may download the Uber app and then visit the website to download ten vouchers for $10 off an Uber ride."
+    },
+    {
+      "id": "pickup-by-capmetro",
+      "title": "Pickup by CapMetro",
+      "url": "https://www.capmetro.org/pickup",
+      "tags": [
+        "Rideshare/ride-hailing/taxi",
+        "CapMetro",
+        "Families/youth"
+      ],
+      "description": "Pickup is a shared shuttle serving limited zones. Use the app to book on‑demand rides to nearby stops, stores, and appointments for just $1.25—kids ride free."
+    },
+    {
+      "id": "quantum-mobility",
+      "title": "Quantum Mobility",
+      "url": "https://qmcarsharing.com/",
+      "tags": [
+        "employers/organizations"
+      ],
+      "description": "Quantum Mobility is a carsharing service and platform that adds an exclusive amenity to residential communities, luxury hotels, and workplaces. The vehicles are easily accessible on the property with dedicated parking spaces and can be reserved through the Quantum Mobility carsharing app."
+    },
+    {
+      "id": "ride-with-gps",
+      "title": "Ride with GPS",
+      "url": "https://ridewithgps.com/regions/north_america/us/19-austin-texas-usa",
+      "tags": [
+        "Biking",
+        "Rolling",
+        "Maps/directions"
+      ]
+    },
+    {
+      "id": "round-rock-rides",
+      "title": "Round Rock Rides",
+      "url": "https://book.roundrock.rideco.com/login",
+      "tags": [
+        "Rideshare/ride-hailing/taxi",
+        "GreaterAustin"
+      ],
+      "description": "Round Rock Rides offers low‑cost transit in a defined service area, with app, web, or phone booking and shared pickups and drop‑offs at designated spots for efficient travel."
+    },
+    {
+      "id": "safe-routes-to-school",
+      "title": "Safe Routes to School",
+      "url": "https://www.austintexas.gov/transportation-public-works/programs/safe-routes-school",
+      "tags": [
+        "Families/youth",
+        "Community/gettinginvolved",
+        "Safety"
+      ]
+    },
+    {
+      "id": "scoop",
+      "title": "Scoop",
+      "url": "https://www.scoopcommute.com/about",
+      "tags": [
+        "Carpool",
+        "driving",
+        "Commuter"
+      ],
+      "description": "Scoop connects co-workers and neighbors going the same way in safe, reliable carpools."
+    },
+    {
+      "id": "sidewalk-program",
+      "title": "Sidewalk Program",
+      "url": "https://www.austintexas.gov/transportation-public-works/programs/sidewalk-program",
+      "tags": [
+        "Rolling",
+        "Walking"
+      ]
+    },
+    {
+      "id": "sxsw-mobility-guide",
+      "title": "SXSW Mobility Guide",
+      "url": "https://experience.arcgis.com/experience/119f8c50fe65408584f8150d2702d5fb/page/Mobility-Guide/",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin"
+      ]
+    },
+    {
+      "id": "the-peddler-bike-shop-rides",
+      "title": "The Peddler Bike Shop Rides",
+      "url": "https://www.peddlerbike.com/articles/local-rides-clubs-pg195.htm",
+      "tags": [
+        "Biking",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "uber-for-teens",
+      "title": "Uber for Teens",
+      "url": "https://www.uber.com/us/en/ride/teens/",
+      "tags": [
+        "Families/youth",
+        "Rideshare/ride-hailing/taxi"
+      ],
+      "description": "Teen accounts give your teenager the freedom to request their own rides and order their own meals, all under your supervision. Plus, with live safety features and real-time updates, you can follow along from pickup to drop-off."
+    },
+    {
+      "id": "uber-kyle",
+      "title": "Uber Kyle",
+      "url": "https://www.cityofkyle.gov/city-services/transportation-and-public-works/traffic-and-transportation/uber-kyle/",
+      "tags": [
+        "Rideshare/ride-hailing/taxi",
+        "Location-specific"
+      ],
+      "description": "The Uber Kyle $3.14 program is a partnership with the Uber rideshare platform to provide transportation options to all Kyle residents and visitors."
+    },
+    {
+      "id": "urban-trails",
+      "title": "Urban Trails",
+      "url": "https://www.austintexas.gov/transportation-public-works/urban-trails",
+      "tags": [
+        "Walking",
+        "Rolling",
+        "Maps/directions"
+      ]
+    },
+    {
+      "id": "ut-austins-orange-bike-project",
+      "title": "UT Austin's Orange Bike Project",
+      "url": "https://parking.utexas.edu/bike/orange-bike-project",
+      "tags": [
+        "Students",
+        "Biking",
+        "Howtos/guides"
+      ]
+    },
+    {
+      "id": "ut-event-parking",
+      "title": "UT Event Parking",
+      "url": "https://parking.utexas.edu/parking/events",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin",
+        "Students",
+        "driving"
+      ]
+    },
+    {
+      "id": "ut-football-mobility-guide",
+      "title": "UT Football Mobility Guide",
+      "url": "https://texaslonghorns.com/sports/2026/2/10/football-fan-guide",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin",
+        "Students"
+      ]
+    },
+    {
+      "id": "ut-pts-carpool",
+      "title": "UT PTS Carpool",
+      "url": "https://parking.utexas.edu/transportation/carpool",
+      "tags": [
+        "Carpool/vanpool",
+        "driving",
+        "Students"
+      ]
+    },
+    {
+      "id": "ut-transportation-info",
+      "title": "UT Transportation Info",
+      "url": "https://parking.utexas.edu/transportation",
+      "tags": [
+        "visitors",
+        "Maps/directions",
+        "HappeninginAustin",
+        "Students"
+      ]
+    },
+    {
+      "id": "waymo",
+      "title": "Waymo",
+      "url": "https://waymo.com/",
+      "tags": [
+        "Rideshare/ride-hailing/taxi"
+      ],
+      "description": "Waymo provides the world’s first autonomous ride-hailing service."
+    },
+    {
+      "id": "yellow-bike-project",
+      "title": "Yellow Bike Project",
+      "url": "https://austinyellowbike.org/",
+      "tags": [
+        "Biking",
+        "Howtos/guides",
+        "Community/gettinginvolved"
+      ]
+    },
+    {
+      "id": "zoox",
+      "title": "Zoox",
+      "url": "https://zoox.com/",
+      "tags": [
+        "Rideshare/ride-hailing/taxi"
+      ],
+      "description": "Coming soon: It’s not a car. It’s a robotaxi designed around you."
+    }
+  ],
+  "guides": [
+    {
+      "title": "5 Steps of a Helmet Fitting",
+      "url": "https://www.getthereatx.com/5-steps-of-a-helmet-fitting/",
+      "tags": [
+        "Biking",
+        "Safety",
+        "Howtos/guides",
+        "Article"
+      ]
+    },
+    {
+      "title": "Austin Bike Bus program",
+      "url": "https://www.getthereatx.com/austin-bike-bus-pilot-program/",
+      "tags": [
+        "Families/youth",
+        "Rolling",
+        "Biking",
+        "bus",
+        "Safety",
+        "Community/gettinginvolved",
+        "Article"
+      ]
+    },
+    {
+      "title": "Bicycle Parking and Theft",
+      "url": "https://www.getthereatx.com/bicycle-parking-and-theft/",
+      "tags": [
+        "Article",
+        "Biking",
+        "Safety"
+      ]
+    },
+    {
+      "title": "Bike Infrastructure",
+      "url": "https://www.getthereatx.com/bike-infrastructure/",
+      "tags": [
+        "Article",
+        "Howtos/guides",
+        "Biking",
+        "Safety"
+      ]
+    },
+    {
+      "title": "Bikeshare 101",
+      "url": "https://www.getthereatx.com/bikeshare-101/",
+      "tags": [
+        "Howtos/guides",
+        "Biking",
+        "Bikeshare"
+      ]
+    },
+    {
+      "title": "Biking 101",
+      "url": "https://www.getthereatx.com/biking-101/",
+      "tags": [
+        "Biking",
+        "Howtos/guides",
+        "Article"
+      ]
+    },
+    {
+      "title": "How Traffic Congestion Affects Air Quality",
+      "url": "https://www.getthereatx.com/how-traffic-congestion-affects-air-quality-2/",
+      "tags": [
+        "driving",
+        "Article",
+        "sustainability"
+      ]
+    },
+    {
+      "title": "How to Put Your Bike on the Rail",
+      "url": "https://www.getthereatx.com/how-to-put-your-bike-on-the-rail/",
+      "tags": [
+        "Biking",
+        "Publictransit",
+        "Howtos/guides",
+        "CapMetro",
+        "Article"
+      ]
+    },
+    {
+      "title": "How to Request Bike Maps",
+      "url": "https://www.getthereatx.com/how-to-request-bike-maps/",
+      "tags": [
+        "Biking",
+        "Maps/directions",
+        "Article",
+        "Howtos/guides"
+      ]
+    },
+    {
+      "title": "How to put your bike on a bus",
+      "url": "https://www.getthereatx.com/how-to-put-your-bike-on-the-bus/",
+      "tags": [
+        "CapMetro",
+        "Biking",
+        "bus",
+        "Publictransit",
+        "Howtos/guides",
+        "Article"
+      ]
+    },
+    {
+      "title": "Parent Back-To-School Transportation Guide",
+      "url": "https://www.getthereatx.com/parent-back-to-school-transportation-guide/",
+      "tags": [
+        "Families/youth",
+        "Article"
+      ]
+    },
+    {
+      "title": "Spring Festival Season Travel Guide",
+      "url": "https://www.getthereatx.com/spring-festival-season-travel-guide/",
+      "tags": [
+        "visitors",
+        "Article"
+      ]
+    },
+    {
+      "title": "Transit 101",
+      "url": "https://www.getthereatx.com/transit-101/",
+      "tags": [
+        "CapMetro",
+        "Publictransit",
+        "Howtos/guides",
+        "Article"
+      ]
+    },
+    {
+      "title": "Transit Etiquette 101",
+      "url": "https://www.getthereatx.com/transit-etiquette-101/",
+      "tags": [
+        "CapMetro",
+        "Howtos/guides",
+        "Article"
+      ]
+    },
+    {
+      "title": "Wishbone Bridge and Unity Underpass Poster",
+      "url": "https://www.getthereatx.com/wishbone-bridge-poster/",
+      "tags": [
+        "Article",
+        "fun"
+      ]
+    }
+  ]
+}

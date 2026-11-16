@@ -4,7 +4,8 @@ import { useMediaQuery } from '../../lib/useMediaQuery';
 
 // Figma Resources filters (783:25613 desktop, 865:6071 phone): a Search box,
 // then three checkbox groups that open and close: "Ways of getting around"
-// (open at first), "Who are you?" and "Type of info".
+// (open at first), "Who are you?" and "Type of info". Children of a parent tag
+// (Biking under Rolling) are indented under it. A group that is open takes the full width on phones.
 //   Desktop: a 240px column. Search 16/24 on mist; group titles 22/28 Regular
 //   with a chevron; options 16/24 with a 16px checkbox; rules between groups.
 //   Phone: Search full width; each group is an outlined box with an 11/16
@@ -13,7 +14,8 @@ import { useMediaQuery } from '../../lib/useMediaQuery';
 export interface FilterGroup {
   key: string;
   label: string;
-  options: { value: string; label: string }[];
+  /** `indent` = a child tag, shown under its parent. */
+  options: { value: string; label: string; indent?: boolean }[];
   selected: string[];
 }
 
@@ -30,7 +32,7 @@ function Group({ group, onToggle, startOpen, className }: { group: FilterGroup; 
   const id = useId();
   const count = group.selected.length;
   return (
-    <div className={cx('min-w-0 lg:border-b lg:border-line', className)}>
+    <div className={cx('min-w-0 lg:border-b lg:border-line', open && 'max-lg:col-span-2', className)}>
       <button
         type="button"
         aria-expanded={open}
@@ -48,7 +50,7 @@ function Group({ group, onToggle, startOpen, className }: { group: FilterGroup; 
         <legend className="sr-only">{group.label}</legend>
         <ul className="m-0 flex list-none flex-col gap-1 px-3 py-2 lg:gap-0 lg:px-[10px] lg:pb-4 lg:pt-0">
           {group.options.map((o) => (
-            <li key={o.value}>
+            <li key={o.value} className={o.indent ? 'pl-6' : undefined}>
               <label className="flex min-h-[40px] cursor-pointer items-center gap-3 text-[14px] leading-[20px] text-ink lg:min-h-[32px] lg:text-[16px] lg:leading-[24px] lg:tracking-[0.01em]">
                 <input
                   type="checkbox"

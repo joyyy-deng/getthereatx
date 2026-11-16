@@ -48,7 +48,7 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
             </h3>
             <div id={panelId} hidden={!open} className={cx('flex-col gap-4 bg-sky p-4 lg:p-6', open && 'flex')}>
               {item.image && (
-                <img
+                <img loading="lazy" decoding="async"
                   src={asset(item.image.src)}
                   alt={item.image.alt}
                   className="block h-[150px] w-full object-cover lg:h-[180px] lg:border lg:border-sky"

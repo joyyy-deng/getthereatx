@@ -13,7 +13,7 @@ import tasksCsv from '../content/sheets/site-map-tasks.csv?raw';
 import siteMapCsv from '../content/sheets/site-map.csv?raw';
 import tripPlanningCsv from '../content/sheets/trip-planning.csv?raw';
 import { PLACE_CATEGORIES, PLACE_CATEGORY_LABELS } from '../content/taxonomies';
-import { getDirectory, getDirectoryTags, getPlanConfig, getStudentTabs } from '../data';
+import { getPlanConfig, getResourceList, getStudentTabs } from '../data';
 import { AB_TESTS } from '../lib/abTests';
 import { text } from '../lib/i18n';
 import { isIssue, pageColors, readSiteAreas, readSiteMap, readSiteMapTasks, sitePages } from '../lib/sitemap';
@@ -41,7 +41,7 @@ const SECTIONS = [
     id: 'labels',
     title: 'Labels and tags',
     intro:
-      'The words people filter and navigate by. The Resources tags use our labels, mapped onto the words in the client’s Trip Planning sheet.',
+      'The words people filter and navigate by. The Resources filters are the owner’s tag hierarchy, imported from her resource list.',
   },
   {
     id: 'journeys',
@@ -99,13 +99,8 @@ function Section({
 
 export function SiteMap() {
   const data = useContent(async () => {
-    const [entries, tags, tabs, plan] = await Promise.all([
-      getDirectory(),
-      getDirectoryTags(),
-      getStudentTabs(),
-      getPlanConfig(),
-    ]);
-    return { entries, tags, tabs, prefs: plan.preferences };
+    const [list, tabs, plan] = await Promise.all([getResourceList(), getStudentTabs(), getPlanConfig()]);
+    return { list, tabs, prefs: plan.preferences };
   });
   if (!data) return <PageLoading />;
 
@@ -113,8 +108,8 @@ export function SiteMap() {
   const stats: [string, number | string][] = [
     ['Pages', pages.length],
     ['Buttons and links', rows.length],
-    ['Resources in the directory', data.entries.length],
-    ['Tags + Transportation options', `${data.tags.forWho.tags.length} + ${data.tags.transportation.options.length}`],
+    ['Resources in the directory', data.list.resources.length],
+    ['Filter tags', data.list.groups.reduce((n, g) => n + g.tags.reduce((m, t) => m + 1 + (t.children?.length ?? 0), 0), 0)],
     ['A/B tests', Object.keys(AB_TESTS).length],
     ['Broken or placeholder', rows.filter(isIssue).length],
   ];
@@ -122,8 +117,7 @@ export function SiteMap() {
     structure: <SiteStructure rows={rows} areas={areas} />,
     labels: (
       <TagSystem
-        entries={data.entries}
-        tags={data.tags}
+        list={data.list}
         otherSets={[
           { name: 'Student tabs', where: 'Student resources', labels: data.tabs.map((t) => text(t.label)) },
           {

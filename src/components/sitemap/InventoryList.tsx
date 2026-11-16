@@ -69,7 +69,7 @@ export function InventoryList({ rows }: { rows: SiteMapRow[] }) {
                 {p.name === 'Every page' ? 'Nav and footer (every page)' : p.name}
               </h3>
               {p.url.startsWith('/') && (
-                <Link to={p.url} target="_blank" className="text-small text-link underline underline-offset-4">
+                <Link to={p.url} target="_blank" rel="noopener" className="text-small text-link underline underline-offset-4">
                   Open {p.url} ↗
                 </Link>
               )}

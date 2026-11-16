@@ -37,7 +37,7 @@ if (!IMAGES) {
   console.error('Usage: npm run build:elementor:templates -- --images=<web address of wordpress/elementor/images>');
   process.exit(1);
 }
-const PAGES = { plan: '/plan-your-trip/', community: '/community/#events', resources: '/resources/?type=guides#directory' };
+const PAGES = { plan: '/plan-your-trip/', community: '/community/#events', resources: '/resources/#directory' };
 
 // ---------- content ----------
 type GuideCopy = { backLabel: string; tipLabel: string; relatedTitle: string; cta: { title: string; text: string; button: string } };

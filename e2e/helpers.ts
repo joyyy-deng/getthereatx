@@ -63,6 +63,8 @@ export async function expectFocusRings(page: Page, stops = 25) {
  */
 export async function expectImagesNotStretched(page: Page) {
   await page.evaluate(async () => {
+    // Lazy images below the fold would never load on their own here.
+    for (const img of document.images) img.loading = 'eager';
     await Promise.all([...document.images].map((img) => (img.complete ? null : new Promise((r) => img.addEventListener('load', r, { once: true })))));
   });
   const problems = await page.evaluate(() =>

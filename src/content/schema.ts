@@ -106,7 +106,17 @@ export const Categories = z.array(Category).min(1);
  * Each Resources link's own link-preview picture (its og:image), saved in
  * public/images/resources/sites/ by `npm run fetch-share-images`. Keyed by the link.
  */
-export const ShareImages = z.record(z.string().url(), z.object({ src: z.string().startsWith('/images/'), from: z.string().url(), fetched: z.string().date() }));
+export const ShareImages = z.record(
+  z.string().url(),
+  z.object({
+    src: z.string().startsWith('/images/'),
+    /** Where the picture came from: the site's preview picture, or the page a screenshot was taken of. */
+    from: z.string().url(),
+    fetched: z.string().date(),
+    /** "preview" = the site's own og:image; "screenshot" = a picture of the page. */
+    kind: z.enum(['preview', 'screenshot']).default('preview'),
+  }),
+);
 export type ShareImages = z.infer<typeof ShareImages>;
 export type Category = z.infer<typeof Category>;
 
@@ -303,7 +313,7 @@ export type StudentTab = z.infer<typeof StudentTab>;
 export const ResourceModeCard = z.object({
   mode: z.enum(MODES),
   title: L,
-  /** The Transportation option this card selects (directory-tags.json). */
+  /** The Transportation option this card selects (resource-list.json). */
   transportation: z.string().min(1),
   image: Img.optional(),
 });
@@ -315,7 +325,7 @@ export const Persona = z
     id: z.string().min(1),
     title: L,
     body: L,
-    /** Either go to a page, or set directory filters (tag / Transportation labels from directory-tags.json). */
+    /** Either go to a page, or set directory filters (tags from resource-list.json). */
     to: z.string().startsWith('/').optional(),
     filter: z.object({ who: z.string().min(1).optional(), mode: z.string().min(1).optional() }).optional(),
   })
@@ -407,18 +417,15 @@ export const PageContent = z.object({
   resources: z.object({
     hero: z.object({ title: Text, intro: Text, button: z.object({ label: Text, to: PagePath }) }),
     title: Text,
-    /** Figma's filter column: Search, then three checkbox groups. */
+    /** Figma's filter column: Search, then the list's three checkbox groups (their labels come from the list). */
     searchLabel: Text,
-    filters: z.object({ mode: Text, who: Text, type: Text, guides: Text, websites: Text, events: Text, programs: Text }),
-    /** Card eyebrows and actions for community events and programs in the directory. */
-    eventLabel: Text,
+    /** Action on a community event's card. */
     eventAction: Text,
-    programLabel: Text,
     clearFilters: Text,
     noResults: Text,
     /** Action on each entry that has a link. */
     linkLabel: Text,
-    /** The filter that shows guides (blog posts), and their card actions. */
+    /** Eyebrow of a guide the list has no tags for, and the guide card actions. */
     guidesLabel: Text,
     readGuide: Text,
     watchVideo: Text,
@@ -477,34 +484,37 @@ export const PageContent = z.object({
 });
 export type PageContent = z.infer<typeof PageContent>;
 
-const SheetValues = z.array(Text);
-
 /**
- * The Resources filters. The client's sheet has its own "For Who?" and "Type"
- * words; this says which of them each site tag and Transportation option covers,
- * so the site can use its own labels without changing the sheet.
+ * The owner's resource list (an Obsidian folder), imported by
+ * `npm run import-resource-list`: the Resources directory entries, the filter
+ * groups (the tag hierarchy) and the tags of the existing blog posts.
  */
-export const DirectoryTags = z.object({
-  forWho: z.object({
-    label: Text,
-    tags: z
-      .array(
-        z.object({
-          label: Text,
-          sheetForWho: SheetValues.default([]),
-          sheetType: SheetValues.default([]),
-          /** Which guide (post) audiences this tag covers. */
-          audiences: z.array(z.enum(AUDIENCES)).default([]),
-        }),
-      )
-      .min(1),
-  }),
-  transportation: z.object({
-    label: Text,
-    options: z.array(z.object({ label: Text, sheetType: SheetValues.min(1) })).min(1),
-  }),
+const ListTag = z.object({ tag: z.string().min(1), label: z.string().min(1) });
+export const ResourceList = z.object({
+  imported: z.string().date(),
+  groups: z
+    .array(
+      z.object({
+        id: z.enum(['mode', 'who', 'type']),
+        label: z.string().min(1),
+        tags: z.array(ListTag.extend({ children: z.array(ListTag).optional() })).min(1),
+      }),
+    )
+    .length(3),
+  /** Tags used on notes that count as another tag in the filters. */
+  tagAliases: z.record(z.string(), z.string()).default({}),
+  resources: z.array(
+    z.object({
+      id: z.string().regex(/^[a-z0-9-]+$/),
+      title: z.string().min(1),
+      url: z.string().url(),
+      tags: z.array(z.string().min(1)),
+      description: z.string().min(1).optional(),
+    }),
+  ),
+  guides: z.array(z.object({ title: z.string().min(1), url: z.string().url(), tags: z.array(z.string().min(1)) })),
 });
-export type DirectoryTags = z.infer<typeof DirectoryTags>;
+export type ResourceList = z.infer<typeof ResourceList>;
 
 /**
  * Colors and fonts (theme.json). Each color key is a CSS variable name without

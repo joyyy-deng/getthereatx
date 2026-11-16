@@ -4,8 +4,6 @@ export {
   getAlerts,
   getCategoryNames,
   getConnectCards,
-  getDirectory,
-  getDirectoryTags,
   getEvent,
   getEvents,
   getExplorePlaces,
@@ -17,6 +15,7 @@ export {
   getPrograms,
   getResource,
   getResources,
+  getResourceList,
   getResourcesPage,
   getShareImages,
   getStudentTabs,
@@ -26,4 +25,3 @@ export {
 } from './local';
 export type { DateRange, PostFilter, ResourceFilter } from './local';
 export type { Occurrence } from '../lib/recurrence';
-export type { DirectoryEntry } from '../content/sheet';

@@ -5,6 +5,10 @@
  * Elementor Pro Single template (wordpress/elementor/single-event.json) does this.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 gtatx_local_page_start( 'event' );
 while ( have_posts() ) :
 	the_post();

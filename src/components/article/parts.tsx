@@ -30,7 +30,7 @@ export function BackLink({ to, label, className }: { to: string; label: string; 
     <PageLink to={to} className={cx('flex items-center gap-[15px] self-start text-a-back font-semibold text-ink hover:underline', className)}>
       {/* The 18×16 frame; the drawing overflows it a little, as in Figma. */}
       <span aria-hidden="true" className="relative block h-4 w-[18px] shrink-0 -scale-x-100">
-        <img
+        <img loading="lazy" decoding="async"
           src={asset('/images/icons/arrow-back.svg')}
           alt=""
           width={20.1642}
@@ -128,7 +128,7 @@ export function ArticleFigure({ src, alt, caption }: { src: string; alt: string;
       {/* Figma's media box, up to 400px tall. The whole picture shows, never cropped (posts use posters and
           maps), never stretched and never enlarged past its own size. */}
       <div className="flex w-full justify-center bg-sky">
-        <img src={asset(src)} alt={alt} className="block h-auto max-h-[400px] w-auto max-w-full object-contain" />
+        <img loading="lazy" decoding="async" src={asset(src)} alt={alt} className="block h-auto max-h-[400px] w-auto max-w-full object-contain" />
       </div>
       {caption && <figcaption className="text-a-caption text-ink-soft">{caption}</figcaption>}
     </figure>
@@ -266,7 +266,7 @@ export function RelatedCard({
     <PageLink to={to} className="group flex h-full min-w-0 flex-col bg-mist">
       <span className={cx('block w-full overflow-hidden bg-sky', imageClass)}>
         {image && (
-          <img src={asset(image.src)} alt="" className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]" />
+          <img loading="lazy" decoding="async" src={asset(image.src)} alt="" className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]" />
         )}
       </span>
       <span className="flex flex-1 flex-col gap-[10px] p-6">

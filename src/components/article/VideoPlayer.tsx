@@ -15,6 +15,7 @@ export function VideoPlayer({ youtubeId, title }: { youtubeId: string; title: st
           title={`Video: ${title}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           referrerPolicy="strict-origin-when-cross-origin"
+          sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox"
           className="absolute inset-0 size-full border-0"
         />
       ) : (

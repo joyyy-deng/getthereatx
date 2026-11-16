@@ -5,47 +5,42 @@ import { DirectoryFilters } from '../components/resources/DirectoryFilters';
 import { PageLoading, Pagination } from '../components/ui';
 import { Arrow } from '../components/ui/Arrow';
 import { PageLink } from '../components/ui/PageLink';
-import { getCategoryNames, getConnectCards, getDirectory, getDirectoryTags, getEvents, getPageContent, getPosts, getResources, getShareImages } from '../data';
+import { getConnectCards, getEvents, getPageContent, getPosts, getResourceList, getResources, getShareImages } from '../data';
 import { cardDateText } from '../lib/eventText';
 import { asset } from '../lib/asset';
-import { filterDirectory, filterGuides } from '../lib/directory';
-import { eventItem, guideItem, programItem, sheetItem } from '../lib/directoryItems';
+import { groupTags, matchesQuery, matchesTags, type FilterGroupId } from '../lib/directory';
+import { eventItem, guideItem, listItem, programItem, type DirectoryItem } from '../lib/directoryItems';
 import { useContent } from '../lib/useContent';
 
 // Resources (Figma desktop 783:25613, mobile 865:6071): photo hero, then the
-// directory. The directory is the client's "Trip Planning" Google Sheet
-// (content/sheets/trip-planning.csv) plus the guides (blog posts), filtered by
-// Figma's column: Search, "Ways of getting around" (the sheet's transportation
-// types), "Who are you?" (its For who? tags) and "Type of info" (Guides or
-// Websites). Several ticks in a group = any of them.
-// Filters and the page live in the URL:
-//   /resources?q=bike&mode=Biking|Walking&who=Commuter&type=guides&page=2
-// (| between values: some sheet labels have commas, e.g. "Carpooling, Van or Car/Rideshare")
-
-const TYPES = ['websites', 'programs', 'events', 'guides'] as const;
+// directory. The directory is the owner's resource list (content/resource-list.json,
+// imported from her Obsidian folder) plus guides (blog posts), community events and
+// community programs. The filters are the list's tag hierarchy as Figma's column:
+// Search, "Ways of getting around", "Who are you?" and "Type of info". A parent tag
+// (Rolling) also finds anything tagged with its children (Biking, Bikeshare, ...).
+// Several ticks in a group = any of them. Filters and the page live in the URL:
+//   /resources?q=bike&mode=Rolling|bus&who=Students&type=Article&page=2
 
 /** How far ahead community events are listed. */
 const EVENT_DAYS = 120;
 
 /** A |-separated list from the URL, keeping only values that exist. */
-function listParam<T extends string>(allowed: readonly T[], raw: string | null): T[] {
-  return (raw ?? '').split('|').filter((v): v is T => (allowed as readonly string[]).includes(v));
+function listParam(allowed: readonly string[], raw: string | null): string[] {
+  return (raw ?? '').split('|').filter((v) => allowed.includes(v));
 }
 
-/** Entries per page (Figma: two photo-led cards, then two rows). */
-const PAGE_SIZE = 4;
+/** Entries per page: two photo-led cards (Figma), then rows. The list has ~100 entries, so more rows than Figma's two. */
+const PAGE_SIZE = 8;
 /** How many entries on each page get the big photo-led card before the list rows. */
 const FEATURED = 2;
 
 export function Resources() {
   const data = useContent(async () => {
     const now = new Date();
-    const [entries, tags, copy, posts, categoryNames, cards, resources, occurrences, shareImages] = await Promise.all([
-      getDirectory(),
-      getDirectoryTags(),
+    const [list, copy, posts, cards, resources, occurrences, shareImages] = await Promise.all([
+      getResourceList(),
       getPageContent(),
       getPosts(),
-      getCategoryNames(),
       getConnectCards(),
       getResources(),
       getEvents({ from: now, to: new Date(now.getTime() + EVENT_DAYS * 86_400_000) }),
@@ -54,25 +49,23 @@ export function Resources() {
     // One card per event: its next date.
     const seen = new Set<string>();
     const events = occurrences.filter((o) => !seen.has(o.event.id) && seen.add(o.event.id));
-    return { entries, tags, copy: copy.resources, posts, categoryNames, cards, resources, events, shareImages };
+    return { list, copy: copy.resources, posts, cards, resources, events, shareImages };
   });
   const [params, setParams] = useSearchParams();
   const directoryRef = useRef<HTMLElement>(null);
   const { hash } = useLocation();
 
-  // /resources?type=events#directory (Community's "Explore Austin"): jump to the directory.
+  // /resources?type=HappeninginAustin#directory (Community's "Explore Austin"): jump to the directory.
   useEffect(() => {
     if (data && hash === '#directory') directoryRef.current?.scrollIntoView();
   }, [data, hash]);
 
-  const modeLabels = data?.tags.transportation.options.map((o) => o.label) ?? [];
-  const whoLabels = data?.tags.forWho.tags.map((t) => t.label) ?? [];
-  const mode = listParam(modeLabels, params.get('mode'));
-  const who = listParam(whoLabels, params.get('who'));
-  const types = listParam(TYPES, params.get('type'));
+  const mode = listParam(data ? groupTags(data.list, 'mode') : [], params.get('mode'));
+  const who = listParam(data ? groupTags(data.list, 'who') : [], params.get('who'));
+  const type = listParam(data ? groupTags(data.list, 'type') : [], params.get('type'));
   const q = params.get('q') ?? '';
 
-  function setFilter(key: 'who' | 'mode' | 'type' | 'q' | 'page', value: string | undefined) {
+  function setFilter(key: FilterGroupId | 'q' | 'page', value: string | undefined) {
     setParams(
       (prev) => {
         const p = new URLSearchParams(prev);
@@ -86,7 +79,7 @@ export function Resources() {
     );
   }
 
-  function toggle(key: 'who' | 'mode' | 'type', value: string) {
+  function toggle(key: FilterGroupId, value: string) {
     const now = params.get(key)?.split('|').filter(Boolean) ?? [];
     const next = now.includes(value) ? now.filter((v) => v !== value) : [...now, value];
     setFilter(key, next.join('|') || undefined);
@@ -94,46 +87,37 @@ export function Resources() {
 
   const modeKey = mode.join('|');
   const whoKey = who.join('|');
-  const typeKey = types.join('|');
+  const typeKey = type.join('|');
+  // Every card, A-Z by title (resources first, then programs, events and guides).
+  const items = useMemo(() => {
+    if (!data) return [];
+    const { copy, list } = data;
+    const byTitle = (a: DirectoryItem, b: DirectoryItem) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base' });
+    const sites = list.resources.map((r) => listItem(list, r, copy.linkLabel, data.shareImages[r.url])).sort(byTitle);
+    const programs = data.cards.flatMap((c) => {
+      const r = data.resources.find((x) => x.id === c.resourceId);
+      return r ? [programItem(list, c, r)] : [];
+    });
+    const events = data.events.map((o) => eventItem(list, o, copy.eventAction, cardDateText(o.start)));
+    const labels = { guide: copy.guidesLabel, readGuide: copy.readGuide, watchVideo: copy.watchVideo };
+    const guides = data.posts.map((p) => guideItem(list, p, labels));
+    return [...sites, ...programs.sort(byTitle), ...events, ...guides.sort(byTitle)];
+  }, [data]);
+
   const results = useMemo(() => {
     if (!data) return [];
-    const { copy } = data;
-    const labels = { guide: copy.guidesLabel, readGuide: copy.readGuide, watchVideo: copy.watchVideo };
-    const modes = modeKey ? modeKey.split('|') : [];
-    const whos = whoKey ? whoKey.split('|') : [];
-    const kinds = typeKey ? typeKey.split('|') : [];
-    const show = (kind: string) => !kinds.length || kinds.includes(kind);
-    const matches = (...fields: string[]) => !q.trim() || fields.some((s) => s.toLowerCase().includes(q.trim().toLowerCase()));
-    // Only websites have a transportation type, so a "Ways of getting around" tick shows only websites.
-    const noModes = !modes.length;
-    const sheet = show('websites') ? filterDirectory(data.entries, { who: whos, mode: modes, q }, data.tags).map((e) => sheetItem(e, copy.linkLabel, e.url ? data.shareImages[e.url] : undefined)) : [];
-    const guides = show('guides') && noModes ? filterGuides(data.posts, whos, data.tags, q).map((p) => guideItem(p, labels, data.categoryNames)) : [];
-    // Programs: "Who are you?" matches their program's audiences.
-    const chosen = data.tags.forWho.tags.filter((t) => whos.includes(t.label));
-    const programs =
-      show('programs') && noModes
-        ? data.cards.flatMap((c) => {
-            const r = data.resources.find((x) => x.id === c.resourceId);
-            if (!r || !matches(c.title.en, c.body.en, r.oneLiner)) return [];
-            if (chosen.length && !chosen.some((t) => r.audiences.some((a) => t.audiences.includes(a)))) return [];
-            return [programItem(c, r, copy.programLabel)];
-          })
-        : [];
-    // Events have no audience or transportation type: they show unless one of those filters is on.
-    const events =
-      show('events') && noModes && !whos.length
-        ? data.events
-            .filter((o) => matches(o.event.title.en, o.event.blurb.en, o.event.venue.name))
-            .map((o) => eventItem(o, { eyebrow: copy.eventLabel, action: copy.eventAction }, cardDateText(o.start)))
-        : [];
-    return [...sheet, ...programs, ...events, ...guides];
-  }, [data, modeKey, whoKey, typeKey, q]);
+    const f = { mode: modeKey ? modeKey.split('|') : [], who: whoKey ? whoKey.split('|') : [], type: typeKey ? typeKey.split('|') : [] };
+    return items.filter((i) => matchesTags(data.list, i.tags, f) && matchesQuery(q, i.title, i.description, ...i.tagLabels));
+  }, [data, items, modeKey, whoKey, typeKey, q]);
 
   if (!data) return <PageLoading />;
   const { copy } = data;
   const pages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
   const page = Math.min(pages, Math.max(1, Number(params.get('page')) || 1));
-  const shown = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const onPage = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  // The two large cards are picture-led, so entries with a picture go there first.
+  const withPhoto = onPage.filter((e) => !!e.photo).slice(0, FEATURED);
+  const shown = [...withPhoto, ...onPage.filter((e) => !withPhoto.includes(e))];
 
   return (
     <>
@@ -176,22 +160,16 @@ export function Resources() {
               query={q}
               onQuery={(v) => setFilter('q', v || undefined)}
               searchLabel={copy.searchLabel}
-              onToggle={(key, value) => toggle(key as 'who' | 'mode' | 'type', value)}
-              groups={[
-                { key: 'mode', label: copy.filters.mode, options: modeLabels.map((m) => ({ value: m, label: m })), selected: mode },
-                { key: 'who', label: copy.filters.who, options: whoLabels.map((w) => ({ value: w, label: w })), selected: who },
-                {
-                  key: 'type',
-                  label: copy.filters.type,
-                  options: [
-                    { value: 'websites', label: copy.filters.websites },
-                    { value: 'programs', label: copy.filters.programs },
-                    { value: 'events', label: copy.filters.events },
-                    { value: 'guides', label: copy.filters.guides },
-                  ],
-                  selected: types,
-                },
-              ]}
+              onToggle={(key, value) => toggle(key as FilterGroupId, value)}
+              groups={data.list.groups.map((g) => ({
+                key: g.id,
+                label: g.label,
+                options: g.tags.flatMap((t) => [
+                  { value: t.tag, label: t.label },
+                  ...(t.children ?? []).map((c) => ({ value: c.tag, label: c.label, indent: true })),
+                ]),
+                selected: { mode, who, type }[g.id],
+              }))}
             />
 
             <div className="flex min-w-0 flex-1 flex-col gap-6 lg:gap-8" aria-live="polite">

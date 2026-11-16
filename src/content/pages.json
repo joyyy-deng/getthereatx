@@ -98,8 +98,8 @@
     "leaveLabel": "When do you want to leave?",
     "timing": "Leave {leave} · arrive about {arrive}",
     "updateButton": "Update trip",
-      "goButton": "Go",
-      "transportLabel": "Transport type",
+    "goButton": "Go",
+    "transportLabel": "Transport type",
     "compareTitle": "Compare ways to get there",
     "selectedLabel": "Selected route",
     "headline": "{minutes} minutes to {to}"
@@ -115,18 +115,7 @@
     },
     "title": "Resources",
     "searchLabel": "Search",
-    "filters": {
-      "mode": "Ways of getting around",
-      "who": "Who are you?",
-      "type": "Type of info",
-      "guides": "Guides",
-      "websites": "Websites",
-      "events": "Community events",
-      "programs": "Community programs"
-    },
-    "eventLabel": "Community event",
     "eventAction": "View event",
-    "programLabel": "Community program",
     "clearFilters": "Clear filters",
     "noResults": "Nothing matches those filters.",
     "linkLabel": "Visit website",
@@ -175,7 +164,7 @@
         "Explore",
         "Austin"
       ],
-      "to": "/resources?type=events#directory"
+      "to": "/resources?type=HappeninginAustin#directory"
     }
   },
   "guide": {

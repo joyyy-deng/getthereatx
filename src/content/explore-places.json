@@ -4,7 +4,7 @@
     "name": { "en": "Zilker Park" },
     "categories": ["parks"],
     "image": {
-      "src": "/images/community/explore-zilker.png",
+      "src": "/images/community/explore-zilker.webp",
       "alt": "People relaxing on the Zilker Park lawn with the downtown skyline behind them"
     },
     "url": "https://www.austintexas.gov/department/zilker-metropolitan-park",
@@ -15,7 +15,7 @@
     "name": { "en": "South Congress" },
     "categories": ["shopping", "food", "arts"],
     "image": {
-      "src": "/images/community/explore-soco.png",
+      "src": "/images/community/explore-soco.webp",
       "alt": "The green 'i love you so much' mural on South Congress"
     },
     "url": "https://www.austintexas.org/explore/entertainment-districts/south-congress/",
@@ -25,7 +25,7 @@
     "id": "barton-springs",
     "name": { "en": "Barton Springs Pool" },
     "categories": ["parks"],
-    "image": { "src": "/images/community/explore-barton.png", "alt": "People on a grassy hillside under shade trees" },
+    "image": { "src": "/images/community/explore-barton.webp", "alt": "People on a grassy hillside under shade trees" },
     "url": "https://www.austintexas.gov/department/barton-springs-pool",
     "provider": "City of Austin"
   },

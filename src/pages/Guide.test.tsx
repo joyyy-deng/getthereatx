@@ -28,7 +28,7 @@ describe('blog template', () => {
 
   it('back link goes to the guides in Resources', () => {
     view(samplePost);
-    expect(screen.getByRole('link', { name: 'Back to Resources' })).toHaveAttribute('href', '/resources?type=guides#directory');
+    expect(screen.getByRole('link', { name: 'Back to Resources' })).toHaveAttribute('href', '/resources#directory');
   });
 
   it('renders each block as the right element', () => {

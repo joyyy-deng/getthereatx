@@ -20,6 +20,9 @@ export function RichText({ text, from = 'guide' }: { text: string; from?: string
           {label}
         </PageLink>,
       );
+    } else if (!/^(https?:\/\/|mailto:|tel:)/i.test(href)) {
+      // Anything that is not a web, email or phone link stays plain text.
+      out.push(label);
     } else {
       out.push(
         <a

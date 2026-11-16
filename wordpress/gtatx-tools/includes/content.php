@@ -196,11 +196,27 @@ add_action(
 /** The same fields in the REST API, so the prototype's data layer can read them (docs/cms-plan.md). */
 function gtatx_register_meta() {
 	foreach ( array( 'gtatx_show_date' => 'boolean', 'gtatx_author_label' => 'string', 'gtatx_hero_video' => 'string' ) as $key => $type ) {
-		register_post_meta( 'post', $key, array( 'type' => $type, 'single' => true, 'show_in_rest' => true ) );
+		register_post_meta( 'post', $key, gtatx_meta_args( $type, 'boolean' === $type ? 'rest_sanitize_boolean' : 'sanitize_text_field' ) );
 	}
 	foreach ( gtatx_event_field_names() as $name ) {
-		register_post_meta( 'tribe_events', 'gtatx_event_' . $name, array( 'type' => 'string', 'single' => true, 'show_in_rest' => true ) );
+		register_post_meta( 'tribe_events', 'gtatx_event_' . $name, gtatx_meta_args( 'string', 'sanitize_textarea_field' ) );
 	}
+}
+
+/**
+ * Settings for a field that the REST API can read and write: the value is
+ * cleaned on the way in, and only someone who may edit that post can change it.
+ */
+function gtatx_meta_args( $type, $sanitize ) {
+	return array(
+		'type'              => $type,
+		'single'            => true,
+		'show_in_rest'      => true,
+		'sanitize_callback' => $sanitize,
+		'auth_callback'     => function ( $allowed, $meta_key, $post_id ) {
+			return current_user_can( 'edit_post', $post_id );
+		},
+	);
 }
 add_action( 'init', 'gtatx_register_meta' );
 
@@ -433,7 +449,7 @@ function gtatx_register_resource_type() {
 		)
 	);
 	foreach ( array( 'url', 'provider', 'action', 'one_liner', 'last_checked' ) as $key ) {
-		register_post_meta( 'gtatx_resource', 'gtatx_' . $key, array( 'type' => 'string', 'single' => true, 'show_in_rest' => true ) );
+		register_post_meta( 'gtatx_resource', 'gtatx_' . $key, gtatx_meta_args( 'string', 'url' === $key ? 'esc_url_raw' : 'sanitize_text_field' ) );
 	}
 }
 add_action( 'init', 'gtatx_register_resource_type' );
@@ -673,6 +689,10 @@ function gtatx_render_body_block( $b ) {
 /** Add the blocks after the post's text (before the .gtatx-classic wrapper at priority 20). */
 function gtatx_append_body_blocks( $content ) {
 	if ( ! is_singular( 'post' ) || ! in_the_loop() || ! is_main_query() ) {
+		return $content;
+	}
+	// A password-protected post shows only the password form until it is unlocked.
+	if ( post_password_required() ) {
 		return $content;
 	}
 	$html = implode( "\n", array_map( 'gtatx_render_body_block', gtatx_body_blocks( get_the_ID() ) ) );

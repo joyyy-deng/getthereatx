@@ -5,6 +5,10 @@
  * Pro Single Post template (wordpress/elementor/single-post.json) does this.
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 gtatx_local_page_start( 'blog' );
 while ( have_posts() ) :
 	the_post();
@@ -26,7 +30,7 @@ while ( have_posts() ) :
 		<?php endif; ?>
 
 		<header class="gtatx-wrap gtatx-header">
-			<a class="gtatx-back" href="<?php echo esc_url( home_url( '/resources/?type=guides#directory' ) ); ?>">Back to Resources</a>
+			<a class="gtatx-back" href="<?php echo esc_url( home_url( '/resources/#directory' ) ); ?>">Back to Resources</a>
 			<div class="gtatx-header-text" style="display:flex;flex-direction:column;gap:inherit">
 				<div class="gtatx-eyebrow-space" aria-hidden="true"></div>
 				<h1 class="gtatx-title"><?php the_title(); ?></h1>

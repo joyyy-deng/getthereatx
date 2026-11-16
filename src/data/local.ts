@@ -2,12 +2,9 @@
 // reading /wp-json/wp/v2/... and /wp-json/tribe/events/v1/events.
 
 import { CONTENT_FILES, type ContentFile, type ContentOf } from '../content/registry';
-import { readTripPlanningSheet, type DirectoryEntry } from '../content/sheet';
-import tripPlanningCsv from '../content/sheets/trip-planning.csv?raw';
 import type {
   Alert,
   ConnectCard,
-  DirectoryTags,
   ExplorePlace,
   Meta,
   PageContent,
@@ -18,6 +15,7 @@ import type {
   Post,
   Program,
   Resource,
+  ResourceList,
   ResourceModeCard,
   StudentTab,
   Theme,
@@ -51,10 +49,8 @@ const explorePlaces = load('explore-places');
 const studentTabs = load('student-tabs');
 const resourceModes = load('resource-modes');
 const personas = load('personas');
-const directoryTags = load('directory-tags');
+const resourceList = load('resource-list');
 const theme = load('theme');
-// Rows with errors are left out; `npm run validate-content` reports them.
-const directory = readTripPlanningSheet(tripPlanningCsv).entries.filter((e) => e.name && e.description);
 
 /** `?preview=1` shows drafts, so the future admin "Preview" button just works. */
 function isPreview(): boolean {
@@ -184,14 +180,9 @@ export async function getResourcesPage(): Promise<{ modes: ResourceModeCard[]; p
   return { modes: resourceModes, personas };
 }
 
-/** The Resources directory: every row of the client's "Trip Planning" sheet. */
-export async function getDirectory(): Promise<DirectoryEntry[]> {
-  return directory;
-}
-
-/** The Resources filter tags and Transportation options (directory-tags.json). */
-export async function getDirectoryTags(): Promise<DirectoryTags> {
-  return directoryTags;
+/** The owner's resource list: directory entries, filter groups (tag hierarchy) and blog-post tags. */
+export async function getResourceList(): Promise<ResourceList> {
+  return resourceList;
 }
 
 /** Headings, intros and labels for every page (pages.json). */

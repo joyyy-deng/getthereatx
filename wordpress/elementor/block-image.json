@@ -4,7 +4,7 @@
  "type": "section",
  "content": [
   {
-   "id": "600a89e",
+   "id": "439c4c9",
    "elType": "container",
    "isInner": true,
    "settings": {
@@ -28,7 +28,7 @@
    },
    "elements": [
     {
-     "id": "c6dbea6",
+     "id": "0f48ed5",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -68,7 +68,7 @@
      },
      "elements": [
       {
-       "id": "324e73d",
+       "id": "924107b",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -88,12 +88,12 @@
        },
        "elements": [
         {
-         "id": "14c71af",
+         "id": "dbb8710",
          "elType": "widget",
          "widgetType": "image",
          "settings": {
           "image": {
-           "url": "http://wordpress/wp-content/uploads/gtatx-sample/images/first-bus-ride.jpg",
+           "url": "https://raw.githubusercontent.com/joyyy-deng/getthereatx/main/wordpress/elementor/images/first-bus-ride.jpg",
            "id": "",
            "alt": "Describe the picture for people who can’t see it",
            "source": "library"
@@ -108,7 +108,7 @@
        ]
       },
       {
-       "id": "98628fe",
+       "id": "5d299e8",
        "elType": "widget",
        "widgetType": "text-editor",
        "settings": {

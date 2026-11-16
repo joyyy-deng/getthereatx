@@ -127,7 +127,7 @@ export function Home() {
                     to={c.to}
                     className="group relative flex h-[200px] items-end justify-between overflow-hidden border border-sky p-4 lg:h-[218px] lg:border-white"
                   >
-                    <img
+                    <img loading="lazy" decoding="async"
                       src={asset(c.image.src)}
                       alt={c.image.alt}
                       className="absolute inset-0 size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"

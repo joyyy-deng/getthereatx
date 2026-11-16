@@ -10,8 +10,7 @@ Everything the site says lives in this folder as JSON. To change wording, a link
 | **A color or the font** | **`theme.json`** (see "Changing colors" below) |
 | The Home "New to this?" rows (CapMetro Bus, Bike, Walk…) | `pages.json` → `home.guides.items`. Each row points at a post (`postSlug`) or a resource (`resourceId`) |
 | The Home "See what's going on" photos and the Explore More / See all guides cards | `pages.json` → `home.discover`, `home.guides.seeAll` |
-| A row in the Resources directory | The client's Google Sheet ("Website Content", tab "Trip Planning"). See "Updating the Resources directory" below |
-| The Resources filter list (Public Transit, Biking…) and the "For who?" menu, and which of the sheet's "Type" / "For Who?" words each covers | `directory-tags.json` |
+| The Resources directory and its filters (the owner's resource list: resources, tag hierarchy, blog-post tags; re-import with `npm run import-resource-list -- "<folder>"`) | `resource-list.json` |
 | Links used on Plan Your Trip, the Student page and the Students / Seniors / Families cards | `resources.json` |
 | The blog posts (guides) behind the Home "New to this?" rows and the Resources "Guides" filter | `posts.json` |
 | Blog category names (Take Transit, Biking Austin…), shown on guide cards and used for "Keep reading" | `categories.json`: copied from getthereatx.com (Posts → Categories), 2026-11-08. **The client may rename or change these**; edit this file to match, and a post's `categories` use the `slug`s here. In WordPress they come from the site itself. |
@@ -45,11 +44,13 @@ When the site moves to WordPress, `theme.json` becomes a settings page in WP adm
 
 ## Updating the Resources directory
 
-The directory is the client's Google Sheet, copied in as is.
+The directory is the owner's resource list (an Obsidian folder with `Resources/`, `blogs/` and `Tag hierarchy.md`), copied in as is.
 
-1. In Google Sheets: **File → Download → Microsoft Excel (.xlsx)**. Don't use the CSV download: it drops the web address behind each link and keeps only its title.
-2. Run `npm run import-sheet -- "path/to/Website Content.xlsx"`. It copies the "Trip Planning" tab into `sheets/trip-planning.csv`, with each Link cell turned into its web address.
-3. Run `npm run validate-content`. It lists anything to fix in the sheet (empty "For Who?", duplicate names, missing links).
+1. Run `npm run import-resource-list -- "path/to/GetThereATX Resource list"`. It writes `resource-list.json` (resources, filter groups, blog-post tags) and prints anything odd (tags missing from the hierarchy, notes without a link).
+2. Run `npm run validate-content`.
+3. Run `npm run fetch-share-images` to save a picture of each new link (its link-preview picture, else a screenshot of the page) in `public/images/resources/sites/`.
+
+Descriptions are only copied from the old Trip Planning sheet (`sheets/trip-planning.csv`) when a link matches; nothing is written by us.
 
 ## How records point at each other
 

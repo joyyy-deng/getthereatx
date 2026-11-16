@@ -7,7 +7,7 @@
  },
  "content": [
   {
-   "id": "f409578",
+   "id": "aa6179f",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -32,7 +32,7 @@
    },
    "elements": [
     {
-     "id": "6643f66",
+     "id": "6a74515",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -75,7 +75,7 @@
      },
      "elements": [
       {
-       "id": "ffa902d",
+       "id": "30fc115",
        "elType": "widget",
        "widgetType": "theme-post-featured-image",
        "settings": {
@@ -102,7 +102,7 @@
      ]
     },
     {
-     "id": "9a2752e",
+     "id": "dd77073",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -145,14 +145,14 @@
      },
      "elements": [
       {
-       "id": "1c79488",
+       "id": "4290535",
        "elType": "widget",
        "widgetType": "video",
        "settings": {
         "video_type": "youtube",
         "youtube_url": "",
         "__dynamic__": {
-         "youtube_url": "[elementor-tag id=\"139bb44\" name=\"acf-url\" settings=\"%7B%22key%22%3A%22field_gtatx_hero_video%3Agtatx_hero_video%22%7D\"]"
+         "youtube_url": "[elementor-tag id=\"5d58938\" name=\"acf-url\" settings=\"%7B%22key%22%3A%22field_gtatx_hero_video%3Agtatx_hero_video%22%7D\"]"
         },
         "aspect_ratio": "169",
         "yt_privacy": "yes",
@@ -168,7 +168,7 @@
      ]
     },
     {
-     "id": "e5b8af3",
+     "id": "68165f3",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -198,13 +198,13 @@
      },
      "elements": [
       {
-       "id": "0aa1055",
+       "id": "9ba07f0",
        "elType": "widget",
        "widgetType": "button",
        "settings": {
         "text": "Back to Resources",
         "link": {
-         "url": "/resources/?type=guides#directory",
+         "url": "/resources/#directory",
          "is_external": "",
          "nofollow": "",
          "custom_attributes": ""
@@ -253,7 +253,7 @@
        "elements": []
       },
       {
-       "id": "ed34863",
+       "id": "d71506d",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -284,7 +284,7 @@
        },
        "elements": [
         {
-         "id": "74dec0f",
+         "id": "f9cc890",
          "elType": "widget",
          "widgetType": "spacer",
          "settings": {
@@ -297,7 +297,7 @@
          "elements": []
         },
         {
-         "id": "eb211b5",
+         "id": "a52b743",
          "elType": "widget",
          "widgetType": "theme-post-title",
          "settings": {
@@ -335,7 +335,7 @@
          "elements": []
         },
         {
-         "id": "0ef10d9",
+         "id": "d8e0ea6",
          "elType": "widget",
          "widgetType": "theme-post-excerpt",
          "settings": {
@@ -377,7 +377,7 @@
          "elements": []
         },
         {
-         "id": "4ebafea",
+         "id": "a88a2fe",
          "elType": "widget",
          "widgetType": "heading",
          "settings": {
@@ -403,7 +403,7 @@
            "sizes": []
           },
           "__dynamic__": {
-           "title": "[elementor-tag id=\"338a700\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22blog_meta%22%7D\"]"
+           "title": "[elementor-tag id=\"94191c7\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22blog_meta%22%7D\"]"
           }
          },
          "elements": []
@@ -413,7 +413,7 @@
      ]
     },
     {
-     "id": "1bcfc73",
+     "id": "6608a53",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -443,7 +443,7 @@
      },
      "elements": [
       {
-       "id": "1eed73b",
+       "id": "c076892",
        "elType": "widget",
        "widgetType": "theme-post-content",
        "settings": {
@@ -477,7 +477,7 @@
      ]
     },
     {
-     "id": "76a2934",
+     "id": "4b8296e",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -532,7 +532,7 @@
      },
      "elements": [
       {
-       "id": "55a5979",
+       "id": "9545aa9",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -571,7 +571,7 @@
        "elements": []
       },
       {
-       "id": "936cecd",
+       "id": "f666a12",
        "elType": "widget",
        "widgetType": "loop-grid",
        "settings": {
@@ -605,7 +605,7 @@
      ]
     },
     {
-     "id": "c53fccf",
+     "id": "69fe4ee",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -635,7 +635,7 @@
      },
      "elements": [
       {
-       "id": "1afe813",
+       "id": "587afa9",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -688,7 +688,7 @@
        },
        "elements": [
         {
-         "id": "50aede6",
+         "id": "b2e507e",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -716,7 +716,7 @@
          },
          "elements": [
           {
-           "id": "74be41d",
+           "id": "9137447",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -755,7 +755,7 @@
            "elements": []
           },
           {
-           "id": "ed44d95",
+           "id": "ce60955",
            "elType": "widget",
            "widgetType": "text-editor",
            "settings": {
@@ -788,7 +788,7 @@
            "elements": []
           },
           {
-           "id": "da2a7a8",
+           "id": "607bec1",
            "elType": "widget",
            "widgetType": "button",
            "settings": {
@@ -845,7 +845,7 @@
          ]
         },
         {
-         "id": "fb0782e",
+         "id": "ef29dd6",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -886,12 +886,12 @@
          },
          "elements": [
           {
-           "id": "7ba6769",
+           "id": "4bdf932",
            "elType": "widget",
            "widgetType": "image",
            "settings": {
             "image": {
-             "url": "http://wordpress/wp-content/uploads/gtatx-sample/images/guides-kangaroo.svg",
+             "url": "https://raw.githubusercontent.com/joyyy-deng/getthereatx/main/wordpress/elementor/images/guides-kangaroo.svg",
              "id": "",
              "alt": "",
              "source": "library"

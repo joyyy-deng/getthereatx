@@ -7,7 +7,7 @@
  },
  "content": [
   {
-   "id": "975930a",
+   "id": "fbe90e9",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -28,7 +28,7 @@
      "nofollow": ""
     },
     "__dynamic__": {
-     "link": "[elementor-tag id=\"3d35ee3\" name=\"post-url\" settings=\"%7B%7D\"]"
+     "link": "[elementor-tag id=\"bc9131c\" name=\"post-url\" settings=\"%7B%7D\"]"
     },
     "background_background": "classic",
     "background_color": "#f0f4f8",
@@ -46,7 +46,7 @@
    },
    "elements": [
     {
-     "id": "5df24e9",
+     "id": "c49bd5b",
      "elType": "widget",
      "widgetType": "theme-post-featured-image",
      "settings": {
@@ -71,7 +71,7 @@
      "elements": []
     },
     {
-     "id": "a1be3fb",
+     "id": "c8f047e",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -96,7 +96,7 @@
      },
      "elements": [
       {
-       "id": "a42cfd5",
+       "id": "4b0ac10",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -128,13 +128,13 @@
         },
         "typography_text_transform": "uppercase",
         "__dynamic__": {
-         "title": "[elementor-tag id=\"55e57f9\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_date_short%22%7D\"]"
+         "title": "[elementor-tag id=\"509839b\" name=\"gtatx-text\" settings=\"%7B%22field%22%3A%22event_date_short%22%7D\"]"
         }
        },
        "elements": []
       },
       {
-       "id": "6a149cd",
+       "id": "d97259e",
        "elType": "widget",
        "widgetType": "theme-post-title",
        "settings": {
@@ -172,7 +172,7 @@
        "elements": []
       },
       {
-       "id": "dbd8ca5",
+       "id": "f4e03f9",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {

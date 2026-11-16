@@ -4,7 +4,6 @@ import {
   Categories,
   ShareImages,
   ConnectCards,
-  DirectoryTags,
   Events,
   ExplorePlaces,
   PageContent,
@@ -12,6 +11,7 @@ import {
   Places,
   PlanModes,
   PlanPreferences,
+  ResourceList,
   Posts,
   Programs,
   ResourceModeCards,
@@ -26,7 +26,7 @@ import {
  */
 export const CONTENT_FILES = {
   pages: PageContent,
-  'directory-tags': DirectoryTags,
+  'resource-list': ResourceList,
   resources: Resources,
   posts: Posts,
   categories: Categories,

@@ -8,7 +8,7 @@
       "en": "Ride with students"
     },
     "image": {
-      "src": "/images/home/card-students.png",
+      "src": "/images/home/card-students.webp",
       "alt": "Illustration: Carpool program only takes 2"
     },
     "resourceId": "ut-carpool"
@@ -36,7 +36,7 @@
       "en": "Biking groups"
     },
     "image": {
-      "src": "/images/home/card-families.png",
+      "src": "/images/home/card-families.webp",
       "alt": "Kids in helmets riding bikes together on a street"
     },
     "resourceId": "bike-bus"

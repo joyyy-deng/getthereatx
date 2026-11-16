@@ -30,7 +30,7 @@ function gtatx_tools_register_assets() {
 		: GTATX_TOOLS_VERSION;
 
 	wp_register_style( GTATX_TOOLS_HANDLE, $base . 'build/gtatx-tools.css', array(), $ver );
-	wp_register_script( GTATX_TOOLS_HANDLE, $base . 'build/gtatx-tools.js', array(), $ver, true );
+	wp_register_script( GTATX_TOOLS_HANDLE, $base . 'build/gtatx-tools.js', array(), $ver, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 
 	/**
 	 * Links from the tools to other GetThereATX pages. Change these with the
@@ -142,5 +142,11 @@ add_action(
 	}
 );
 
-/* Local testing only: page templates for when Elementor Pro isn't installed (includes/local-templates.php). */
-require_once __DIR__ . '/includes/local-templates.php';
+/*
+ * Local testing only: page templates for when Elementor Pro isn't installed
+ * (includes/local-templates.php). Loaded only where the site turns it on
+ * (wordpress/.wp-env.json); the uploaded zip leaves these files out.
+ */
+if ( defined( 'GTATX_LOCAL_TEMPLATES' ) && GTATX_LOCAL_TEMPLATES && file_exists( __DIR__ . '/includes/local-templates.php' ) ) {
+	require_once __DIR__ . '/includes/local-templates.php';
+}

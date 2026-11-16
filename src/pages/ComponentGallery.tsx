@@ -206,7 +206,7 @@ export function ComponentGallery() {
           {carpool && (
             <EditorialCard
               title="Students"
-              image={{ src: '/images/home/card-students.png', alt: 'Carpool program only takes 2' }}
+              image={{ src: '/images/home/card-students.webp', alt: 'Carpool program only takes 2' }}
               body="The University of Texas at Austin carpool program supports efforts to reduce traffic congestion and curb vehicle pollution in Austin. Students can share the commute with a fellow Longhorn and get around Austin."
               action={
                 <LinkOut

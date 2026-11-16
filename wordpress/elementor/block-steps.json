@@ -4,7 +4,7 @@
  "type": "section",
  "content": [
   {
-   "id": "447f014",
+   "id": "f85af62",
    "elType": "container",
    "isInner": true,
    "settings": {
@@ -28,28 +28,28 @@
    },
    "elements": [
     {
-     "id": "ebabace",
+     "id": "0628de9",
      "elType": "widget",
      "widgetType": "gtatx-steps",
      "settings": {
       "steps": [
        {
-        "_id": "4224325",
+        "_id": "f63cedf",
         "title": "Find a station",
         "text": "Open the map or app to see nearby bikes and open docks."
        },
        {
-        "_id": "bea5d94",
+        "_id": "a4f9676",
         "title": "Unlock a bike",
         "text": "Scan the code or enter your account details at the dock."
        },
        {
-        "_id": "338d9df",
+        "_id": "21f753c",
         "title": "Ride to your stop",
         "text": "Use bike lanes and trails when you can, and follow traffic signals."
        },
        {
-        "_id": "b163d3f",
+        "_id": "dc660cd",
         "title": "Return it",
         "text": "Dock the bike at any open station and check that it locked."
        }

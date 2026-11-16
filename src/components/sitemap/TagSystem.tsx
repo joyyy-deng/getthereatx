@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
-import type { DirectoryTags } from '../../content/schema';
-import type { DirectoryEntry } from '../../content/sheet';
-import { filterDirectory } from '../../lib/directory';
+import type { ResourceList } from '../../content/schema';
+import { FILTER_GROUP_IDS, groupTags, matchesTags, type FilterGroupId } from '../../lib/directory';
 import { Eyebrow } from '../ui';
 
-const linkTo = (key: 'who' | 'mode', label: string) => `/resources?${key}=${encodeURIComponent(label)}`;
+const linkTo = (key: FilterGroupId, tag: string) => `/resources?${key}=${encodeURIComponent(tag)}`;
 
 function TagTable({
   title,
@@ -26,7 +25,7 @@ function TagTable({
       </div>
       <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1fr)] gap-4 border-b border-border pb-2 md:grid">
         <Eyebrow>Site label</Eyebrow>
-        <Eyebrow>Client sheet words it covers</Eyebrow>
+        <Eyebrow>Tags it also finds</Eyebrow>
         <Eyebrow>Resources it finds (of {total})</Eyebrow>
       </div>
       <ul className="m-0 list-none p-0">
@@ -37,7 +36,7 @@ function TagTable({
           >
             <Link
               to={r.href}
-              target="_blank"
+              target="_blank" rel="noopener"
               className="w-fit rounded-pill border border-border-strong px-3 py-1 text-ink hover:bg-surface-muted"
             >
               {r.label}
@@ -63,67 +62,49 @@ function TagTable({
 }
 
 /**
- * The labeling system: the Resources tags and Transportation options, which of
- * the client's sheet words each covers, how many resources each finds, and the
- * other label sets on the site. Sheet words nothing covers are flagged.
+ * The labeling system: the Resources filters (the owner's tag hierarchy), the tags
+ * each also finds, how many resources each finds, and the other label sets on the
+ * site. Tags used on notes but missing from the hierarchy are flagged.
  */
-export function TagSystem({
-  entries,
-  tags,
-  otherSets,
-}: {
-  entries: DirectoryEntry[];
-  tags: DirectoryTags;
-  otherSets: { name: string; where: string; labels: string[] }[];
-}) {
-  const total = entries.length;
-  const sheetWho = [...new Set(entries.flatMap((e) => e.forWho))];
-  const sheetTypes = [...new Set(entries.flatMap((e) => e.types))];
-  const coveredWho = new Set(tags.forWho.tags.flatMap((t) => t.sheetForWho));
-  const coveredTypes = new Set([...tags.forWho.tags, ...tags.transportation.options].flatMap((x) => x.sheetType));
-  const uncovered = [
-    ...sheetWho.filter((v) => !coveredWho.has(v)).map((v) => `“${v}” (For Who?)`),
-    ...sheetTypes.filter((v) => !coveredTypes.has(v)).map((v) => `“${v}” (Type)`),
-  ];
-  const noTag = entries.filter(
-    (e) => !tags.forWho.tags.some((t) => filterDirectory([e], { who: t.label, q: '' }, tags).length),
-  );
+export function TagSystem({ list, otherSets }: { list: ResourceList; otherSets: { name: string; where: string; labels: string[] }[] }) {
+  const total = list.resources.length;
+  const empty = { mode: [], who: [], type: [] } as Record<FilterGroupId, string[]>;
+  const inHierarchy = new Set(FILTER_GROUP_IDS.flatMap((id) => groupTags(list, id)));
+  const unknown = [...new Set([...list.resources, ...list.guides].flatMap((r) => r.tags).filter((t) => !inHierarchy.has(t)))];
+  const noTag = list.resources.filter((r) => !r.tags.some((t) => inHierarchy.has(t) || inHierarchy.has(list.tagAliases[t] ?? '')));
 
   return (
     <div className="flex flex-col gap-10">
-      <TagTable
-        title={`“${tags.forWho.label}” tags`}
-        intro="Chips above the Resources directory. Click a tag to open the directory filtered by it."
-        total={total}
-        rows={tags.forWho.tags.map((t) => ({
-          label: t.label,
-          covers: [...t.sheetForWho, ...t.sheetType.map((v) => `${v} (Type)`)],
-          count: filterDirectory(entries, { who: t.label, q: '' }, tags).length,
-          href: linkTo('who', t.label),
-        }))}
-      />
-      <TagTable
-        title={`“${tags.transportation.label}” dropdown`}
-        intro="Mode options next to the search box. The Bus / Bike / Carpool / Walk cards also set it."
-        total={total}
-        rows={tags.transportation.options.map((o) => ({
-          label: o.label,
-          covers: o.sheetType,
-          count: filterDirectory(entries, { mode: o.label, q: '' }, tags).length,
-          href: linkTo('mode', o.label),
-        }))}
-      />
+      {list.groups.map((g) => (
+        <TagTable
+          key={g.id}
+          title={`“${g.label}” filter`}
+          intro="A checkbox group above the Resources directory. Click a tag to open the directory filtered by it. A parent tag also finds everything tagged with its children."
+          total={total}
+          rows={g.tags.flatMap((t) => [
+            {
+              label: t.label,
+              covers: (t.children ?? []).map((c) => c.label),
+              count: list.resources.filter((r) => matchesTags(list, r.tags, { ...empty, [g.id]: [t.tag] })).length,
+              href: linkTo(g.id, t.tag),
+            },
+            ...(t.children ?? []).map((c) => ({
+              label: `${t.label} › ${c.label}`,
+              covers: [],
+              count: list.resources.filter((r) => matchesTags(list, r.tags, { ...empty, [g.id]: [c.tag] })).length,
+              href: linkTo(g.id, c.tag),
+            })),
+          ])}
+        />
+      ))}
 
-      {(uncovered.length > 0 || noTag.length > 0) && (
+      {(unknown.length > 0 || noTag.length > 0) && (
         <div className="flex flex-col gap-2 border-l-4 border-alert-disruption-border bg-alert-disruption-bg p-4 text-small text-alert-disruption-ink">
           <p className="m-0 font-medium">Gaps in the tags</p>
-          {uncovered.length > 0 && (
-            <p className="m-0">Client sheet words no tag or option covers: {uncovered.join(', ')}.</p>
-          )}
+          {unknown.length > 0 && <p className="m-0">Tags on notes that are not in the tag hierarchy: {unknown.map((t) => `#${t}`).join(', ')}.</p>}
           {noTag.length > 0 && (
             <p className="m-0">
-              {noTag.length} of {total} resources match no “{tags.forWho.label}” tag, so picking any tag hides them:{' '}
-              {noTag.map((e) => e.name).join(', ')}.
+              {noTag.length} of {total} resources have no filterable tag, so any tick hides them: {noTag.map((e) => e.title).join(', ')}.
             </p>
           )}
         </div>

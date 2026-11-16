@@ -76,34 +76,45 @@ test('phone menu: opens full screen, focus on the first link, Escape closes and 
   await expect(page.locator('#mobile-menu')).toHaveCount(0);
 });
 
-test('Resources filters: search, checkboxes across groups, all in the address', async ({ page }) => {
+test('Resources filters: the list\'s tag groups, parents contain their children, all in the address', async ({ page }) => {
   await open(page, '/resources', DESKTOP);
-  // "Ways of getting around" starts open on desktop.
-  await page.getByRole('checkbox', { name: 'Biking' }).click();
+  // "Ways of getting around" starts open on desktop; children sit under their parent.
+  await expect(page.getByRole('checkbox', { name: 'Rolling', exact: true })).toBeVisible();
+  const countFor = async () => page.locator('#directory article').count();
+  await page.getByRole('checkbox', { name: 'Biking', exact: true }).click();
   await expect(page).toHaveURL(/mode=Biking/);
-  await expect(page.getByRole('checkbox', { name: 'Biking' })).toBeChecked();
-  // A label with a comma in it works too.
-  await page.getByRole('checkbox', { name: 'Carpooling, Van or Car/Rideshare' }).click();
-  await expect(page.getByRole('checkbox', { name: 'Carpooling, Van or Car/Rideshare' })).toBeChecked();
-  await expect(page.getByRole('checkbox', { name: 'Biking' })).toBeChecked();
-  await page.getByRole('checkbox', { name: 'Carpooling, Van or Car/Rideshare' }).click();
-  const eyebrows = await page.locator('#directory article p').filter({ hasText: /^[A-Z]/ }).allTextContents();
-  expect(eyebrows.length).toBeGreaterThan(0);
-  // Type of info → Guides only: a Ways-of-getting-around tick shows no guides, so clear it first.
-  await page.getByRole('checkbox', { name: 'Biking' }).click();
-  await expect(page.getByRole('checkbox', { name: 'Biking' })).not.toBeChecked();
-  await page.getByRole('button', { name: /Type of info/ }).click();
-  await page.getByRole('checkbox', { name: 'Guides' }).click();
-  await expect(page).toHaveURL(/type=guides/);
-  await expect(page.getByRole('link', { name: /Read the guide|Watch the video/ }).first()).toBeVisible();
-  await expect(page.getByRole('link', { name: /Visit website/ })).toHaveCount(0);
+  await expect(page.getByRole('checkbox', { name: 'Biking', exact: true })).toBeChecked();
+  await page.getByRole('searchbox', { name: 'Search' }).fill('yellow bike');
+  await expect(page.getByRole('heading', { name: 'Yellow Bike Project' })).toBeVisible();
+  await page.getByRole('searchbox', { name: 'Search' }).fill('');
+  // The parent also finds what is tagged with its children: Rolling includes everything Biking has.
+  await page.getByRole('checkbox', { name: 'Biking', exact: true }).click();
+  await page.getByRole('checkbox', { name: 'Rolling', exact: true }).click();
+  await expect(page).toHaveURL(/mode=Rolling/);
+  expect(await countFor()).toBeGreaterThan(0);
+  // Eyebrows are the tag labels joined with a dot.
+  await expect(page.locator('#directory article p').filter({ hasText: /^(Biking|Rolling|Bikeshare)/ }).first()).toBeVisible();
+  await page.getByRole('searchbox', { name: 'Search' }).fill('capmetro bikeshare');
+  await expect(page.getByRole('heading', { name: 'CapMetro bikeshare' })).toBeVisible();
+  await page.getByRole('searchbox', { name: 'Search' }).fill('');
+  // A second group narrows further.
+  await page.getByRole('button', { name: /Who are you/ }).click();
+  await page.getByRole('checkbox', { name: 'Seniors', exact: true }).click();
+  await expect(page).toHaveURL(/who=Seniors/);
+  await expect(page.getByRole('heading', { name: 'Golden Rollers' })).toBeVisible();
   // Search narrows further and is kept in the address.
-  await page.getByRole('searchbox', { name: 'Search' }).fill('helmet');
-  await expect(page).toHaveURL(/q=helmet/);
-  await expect(page.getByRole('heading', { name: '5 Steps of a Helmet Fitting' })).toBeVisible();
+  await page.getByRole('searchbox', { name: 'Search' }).fill('golden');
+  await expect(page).toHaveURL(/q=golden/);
+  await expect(page.getByRole('heading', { name: 'Golden Rollers' })).toBeVisible();
   // A shared link opens with the same filters.
   await page.reload();
-  await expect(page.getByRole('searchbox', { name: 'Search' })).toHaveValue('helmet');
+  await expect(page.getByRole('searchbox', { name: 'Search' })).toHaveValue('golden');
+});
+
+test('Resources: guides carry the list\'s tags', async ({ page }) => {
+  await open(page, '/resources?type=Howtos%2Fguides&q=helmet', DESKTOP);
+  await expect(page.getByRole('heading', { name: '5 Steps of a Helmet Fitting' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Read the guide|Watch the video/ }).first()).toBeVisible();
 });
 
 test('Community filters: Event type, Date, Location', async ({ page }) => {
@@ -117,27 +128,36 @@ test('Community filters: Event type, Date, Location', async ({ page }) => {
   await expect(page.getByText('Bicycle Repair Clinic @ Central APL')).toHaveCount(0);
 });
 
-test('Explore Austin opens Resources filtered to community events', async ({ page }) => {
+test('Explore Austin opens Resources filtered to Happening in Austin (community events)', async ({ page }) => {
   await open(page, '/community', DESKTOP);
   await page.getByRole('link', { name: /Explore\s*Austin/ }).click();
-  await expect(page).toHaveURL(/\/resources\?type=events#directory$/);
+  await expect(page).toHaveURL(/\/resources\?type=HappeninginAustin#directory$/);
   await page.getByRole('button', { name: /Type of info/ }).click();
-  await expect(page.getByRole('checkbox', { name: 'Community events' })).toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'Happening in Austin' })).toBeChecked();
+  // Events follow the listed resources (A-Z), so search for the one still running.
+  await page.getByRole('searchbox', { name: 'Search' }).fill('repair clinic');
   const viewEvent = page.getByRole('link', { name: /View event/ }).first();
   await expect(viewEvent).toBeVisible();
-  await expect(page.getByRole('link', { name: /Visit website/ })).toHaveCount(0);
   await viewEvent.click();
   await expect(page).toHaveURL(/\/community\/events\//);
 });
 
-test('Resources: community programs (Ride with seniors, …) are a type of resource', async ({ page }) => {
-  await open(page, '/resources?type=programs', DESKTOP);
-  for (const t of ['Student Carpooling', 'Senior Citizens', 'Families']) await expect(page.getByRole('heading', { name: t })).toBeVisible();
+test('Resources: community programs (Ride with seniors, …) are tagged Community / getting involved', async ({ page }) => {
+  await open(page, '/resources?type=Community%2Fgettinginvolved&q=Citizens', DESKTOP);
+  await expect(page.getByRole('heading', { name: 'Senior Citizens' })).toBeVisible();
 });
 
-test('Resources: external links show their own share image where the site has one', async ({ page }) => {
-  await open(page, '/resources?type=websites', DESKTOP);
-  await expect(page.locator('#directory img[src*="/images/resources/sites/"]').first()).toBeVisible();
+test('Resources: every card shows a picture of the site or a plain panel, never a mascot', async ({ page }) => {
+  for (const [size, url] of [[DESKTOP, '/resources'], [PHONE, '/resources?page=3']] as const) {
+    await open(page, url, size);
+    const srcs = await page.locator('#directory article img').evaluateAll((els) => els.map((e) => (e as HTMLImageElement).getAttribute('src') ?? ''));
+    for (const src of srcs) expect(src).not.toContain('/images/mascots/');
+  }
+  await open(page, '/resources?q=waymo', DESKTOP);
+  const img = page.locator('#directory img[src*="/images/resources/sites/"]').first();
+  await expect(img).toBeVisible();
+  await expect(img).toHaveAttribute('loading', 'lazy');
+  await expect(img).toHaveAttribute('alt', '');
 });
 
 test('Plan: Figma\'s five cards with cost pills, "Go" on desktop', async ({ page }) => {

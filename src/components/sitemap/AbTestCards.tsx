@@ -23,7 +23,7 @@ export function AbTestCards() {
                 <Link
                   key={v}
                   to={`/${id}=${v}`}
-                  target="_blank"
+                  target="_blank" rel="noopener"
                   className="border border-ink px-3 py-1 font-mono text-data text-ink hover:bg-ink hover:text-white"
                 >
                   /{id}={v} ↗
