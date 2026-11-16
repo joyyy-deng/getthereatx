@@ -72,13 +72,13 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
         </h2>
 
         {all.length > 0 && (
-          <div role="group" aria-label="Filter events" className="flex flex-wrap gap-2">
+          <div role="group" aria-label="Filter events" className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap">
             <FilterSelect
               label={f.type}
               value={type}
               onChange={setType}
               options={[{ value: '', label: f.type }, ...types.map((t) => ({ value: t, label: t }))]}
-              className="w-auto min-w-[110px]"
+              size="sm" className="min-w-0 sm:w-auto sm:min-w-[120px]"
             />
             <FilterSelect
               label={f.date}
@@ -90,41 +90,42 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
                 { value: 'month', label: f.thisMonth },
                 { value: 'next30', label: f.nextMonth },
               ]}
-              className="w-auto min-w-[90px]"
+              size="sm" className="min-w-0 sm:w-auto sm:min-w-[100px]"
             />
             <FilterSelect
               label={f.location}
               value={place}
               onChange={setPlace}
               options={[{ value: '', label: f.location }, ...places.map((p) => ({ value: p, label: p }))]}
-              className="w-auto min-w-[110px]"
+              size="sm" className="min-w-0 sm:w-auto sm:min-w-[120px]"
             />
           </div>
         )}
 
         {featured && (
           <article className="flex flex-col md:flex-row md:items-stretch">
-            <div className="h-[240px] bg-sky md:h-auto md:min-h-[332px] md:flex-1">
+            <div className="h-[220px] bg-sky md:h-auto md:min-h-[236px] md:flex-1">
               <img
                 src={asset(featured.event.image!.src)}
                 alt={featured.event.image!.alt}
                 className="block size-full object-cover"
               />
             </div>
-            <div className="flex flex-col items-start gap-[18px] bg-mist p-6 md:flex-1 lg:p-9">
-              <p className="m-0 text-[12px] uppercase leading-[15px] tracking-[1.4px] text-ink">{copy.featuredLabel}</p>
-              <h3 className="m-0 text-fluid font-medium leading-[1.08] tracking-[-0.03em] text-ink [--d:22] [--m:36] lg:font-semibold lg:leading-[28px] lg:tracking-normal">
+            {/* Figma "Featured event details" (787:5356): no label, title 22/28 Regular, date 14/20,
+                text 16/24 muted, a green RSVP button (ink, not Figma's white: white on #74ab60 is 2.7:1). */}
+            <div className="flex flex-col items-start gap-[18px] p-6 md:flex-1 lg:p-9">
+              <h3 className="m-0 text-fluid font-medium leading-[1.08] tracking-[-0.03em] text-ink [--d:22] [--m:36] lg:font-normal lg:leading-[28px] lg:tracking-normal">
                 {text(featured.event.title)}
               </h3>
               <p className="m-0 text-[14px] leading-[1.5] text-ink lg:leading-[20px] lg:tracking-[0.01em]">
                 {nextText(featured.start, featured.end)}
                 {recurrenceText(featured.event) && <> · {recurrenceText(featured.event)}</>}
               </p>
-              <p className="m-0 text-fluid leading-[1.5] text-ink-soft [--d:14] [--m:16] lg:leading-[20px] lg:tracking-[0.01em]">{text(featured.event.blurb)}</p>
+              <p className="m-0 text-[16px] leading-[1.5] tracking-[0.01em] text-ink-muted lg:leading-[24px]">{text(featured.event.blurb)}</p>
               <EventLink
                 o={featured}
                 label={`${copy.linkLabel}: ${text(featured.event.title)}`}
-                className="flex min-h-[44px] items-center gap-3 bg-charcoal px-4 text-[14px] font-semibold leading-[20px] text-white transition-opacity duration-hover hover:opacity-90 lg:px-5"
+                className="flex min-h-[44px] items-center gap-3 bg-leaf px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90"
               >
                 {copy.linkLabel}
                 <Arrow className="size-3" strokeWidth={2.5} />
@@ -138,7 +139,7 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
             <p className="m-0 border-t border-line py-6 text-[16px] text-ink-muted lg:w-[46%]">{all.length ? copy.noMatch : copy.empty}</p>
           ) : (
             agenda.length > 0 && (
-              <ul className="m-0 flex list-none flex-col p-0 lg:w-[46%] lg:shrink-0 lg:gap-[13px]">
+              <ul className="m-0 flex list-none flex-col p-0 lg:w-[44%] lg:shrink-0 lg:gap-[13px]">
                 {agenda.map((o) => {
                   const rail = dateRail(o.start);
                   return (
@@ -146,23 +147,19 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
                       <EventLink
                         o={o}
                         label={`${text(o.event.title)}, ${nextText(o.start, o.end)}`}
-                        className="group flex items-start gap-6 border-t border-line py-[22px]"
+                        className="group flex items-start gap-6 border-t border-surface-muted py-[22px]"
                       >
-                        <span className="flex w-16 shrink-0 flex-col gap-[3px] text-ink-soft" aria-hidden="true">
-                          <span className="text-[11px] leading-[16px] tracking-[0.01em] lg:font-semibold">{rail.month}</span>
-                          <span className="text-fluid leading-[1] text-charcoal [--d:45] [--m:44] lg:font-semibold lg:leading-[1.05] lg:tracking-[-0.01em]">{rail.day}</span>
-                          <span className="text-[11px] leading-[16px] tracking-[0.01em] lg:font-semibold">{rail.weekday}</span>
+                        <span className="flex w-16 shrink-0 flex-col gap-[3px]" aria-hidden="true">
+                          <span className="text-[12px] font-semibold leading-[16px] tracking-[0.01em] text-ink">{rail.month}</span>
+                          <span className="text-fluid font-semibold leading-[1.05] tracking-[-0.01em] text-ink [--d:45] [--m:44]">{rail.day}</span>
+                          <span className="text-[12px] font-semibold leading-[16px] tracking-[0.01em] text-ink-muted">{rail.weekday}</span>
                         </span>
                         <span className="flex min-w-0 flex-1 flex-col gap-[7px]">
-                          {o.event.tags[0] && (
-                            <span className="text-[12px] uppercase leading-[15px] tracking-[1.4px] text-ink-soft">
-                              {o.event.tags[0]}
-                            </span>
-                          )}
                           <span className="text-fluid font-medium leading-[1.06] tracking-[-0.8px] text-ink group-hover:underline [--d:22] [--m:28] lg:font-normal lg:leading-[28px] lg:tracking-normal">
                             {text(o.event.title)}
                           </span>
-                          <span className="text-[14px] leading-[1.5] text-ink-soft lg:leading-[20px] lg:tracking-[0.01em]">{text(o.event.blurb)}</span>
+                          <span className="text-[14px] leading-[20px] tracking-[0.01em] text-ink">{nextText(o.start, o.end)}</span>
+                          <span className="text-[16px] leading-[24px] tracking-[0.01em] text-ink-muted">{text(o.event.blurb)}</span>
                         </span>
                         <span className="flex min-h-[44px] items-center text-ink-soft">
                           <Arrow />

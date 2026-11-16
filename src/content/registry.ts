@@ -2,6 +2,7 @@ import type { z } from 'zod';
 import {
   Alerts,
   Categories,
+  ShareImages,
   ConnectCards,
   DirectoryTags,
   Events,
@@ -29,6 +30,7 @@ export const CONTENT_FILES = {
   resources: Resources,
   posts: Posts,
   categories: Categories,
+  'share-images': ShareImages,
   events: Events,
   programs: Programs,
   alerts: Alerts,

@@ -23,13 +23,14 @@ for (const path of PAGES) {
   }
 }
 
-test('nav: Figma page-frame tabs (22/28px, current page sky), 76px tall, no rule', async ({ page }) => {
+test('nav: Figma Nav component (16px Demibold tabs, current page sky), 72px tall, no rule', async ({ page }) => {
   await open(page, '/resources', DESKTOP);
   const nav = page.getByRole('navigation', { name: 'Main' });
-  expect((await box(nav)).height).toBe(76);
+  expect((await box(nav)).height).toBe(72);
   const current = nav.getByRole('link', { name: 'Resources' });
-  expect(await css(current, 'font-size')).toBe('22px');
-  expect(await css(current, 'background-color')).toBe('rgb(191, 227, 248)');
+  expect(await css(current, 'font-size')).toBe('16px');
+  expect(await css(current, 'font-weight')).toBe('600');
+  expect(await css(current, 'background-color')).toBe('rgb(217, 232, 244)');
   await expect(nav.getByRole('link', { name: 'Plan your trip' })).toBeVisible();
 });
 
@@ -44,9 +45,10 @@ test('footer: 32px invitation, 22px Demibold links; Contact and Privacy go to ge
   await expect(footer.getByRole('link', { name: /Privacy Policy/ })).toHaveAttribute('href', 'https://www.getthereatx.com/privacy-policy/');
 });
 
-test('Figma type sizes: Home poster 128 / 45, Resources and Community titles 36 / 28', async ({ page }) => {
+test('Figma type sizes: Home poster 96 / 45, Resources and Community titles 36 / 28', async ({ page }) => {
   await open(page, '/', DESKTOP);
-  expect(await css(page.locator('h1'), 'font-size')).toBe('128px');
+  expect(await css(page.locator('h1'), 'font-size')).toBe('96px');
+  expect(await page.locator('h1').textContent()).toBe('Austin, your way.');
   await open(page, '/', PHONE);
   expect(await css(page.locator('h1'), 'font-size')).toBe('45px');
   await open(page, '/resources', DESKTOP);
@@ -108,7 +110,48 @@ test('Community filters: Event type, Date, Location', async ({ page }) => {
   await open(page, '/community', DESKTOP);
   const filters = page.getByRole('group', { name: 'Filter events' });
   await expect(filters.getByRole('combobox')).toHaveCount(3);
-  await filters.getByRole('combobox', { name: 'Location' }).selectOption('Yellow Bike Project');
-  await expect(page.getByText('Ride to the Future: Youth Bike Mechanic Program')).toBeVisible();
+  // Events come and go with the calendar; the one still running is the repair clinic.
+  await filters.getByRole('combobox', { name: 'Date' }).selectOption('next30');
+  await expect(page.getByText('Bicycle Repair Clinic @ Central APL')).toBeVisible();
+  await filters.getByRole('combobox', { name: 'Date' }).selectOption('week');
   await expect(page.getByText('Bicycle Repair Clinic @ Central APL')).toHaveCount(0);
+});
+
+test('Explore Austin opens Resources filtered to community events', async ({ page }) => {
+  await open(page, '/community', DESKTOP);
+  await page.getByRole('link', { name: /Explore\s*Austin/ }).click();
+  await expect(page).toHaveURL(/\/resources\?type=events#directory$/);
+  await page.getByRole('button', { name: /Type of info/ }).click();
+  await expect(page.getByRole('checkbox', { name: 'Community events' })).toBeChecked();
+  const viewEvent = page.getByRole('link', { name: /View event/ }).first();
+  await expect(viewEvent).toBeVisible();
+  await expect(page.getByRole('link', { name: /Visit website/ })).toHaveCount(0);
+  await viewEvent.click();
+  await expect(page).toHaveURL(/\/community\/events\//);
+});
+
+test('Resources: community programs (Ride with seniors, …) are a type of resource', async ({ page }) => {
+  await open(page, '/resources?type=programs', DESKTOP);
+  for (const t of ['Student Carpooling', 'Senior Citizens', 'Families']) await expect(page.getByRole('heading', { name: t })).toBeVisible();
+});
+
+test('Resources: external links show their own share image where the site has one', async ({ page }) => {
+  await open(page, '/resources?type=websites', DESKTOP);
+  await expect(page.locator('#directory img[src*="/images/resources/sites/"]').first()).toBeVisible();
+});
+
+test('Plan: Figma\'s five cards with cost pills, "Go" on desktop', async ({ page }) => {
+  await open(page, '/plan?from=downtown&to=mueller&mode=bike', DESKTOP);
+  const cards = page.getByRole('region', { name: /Compare ways/ }).getByRole('button');
+  await expect(cards).toHaveCount(5);
+  await expect(cards.first()).toContainText('Walking');
+  await expect(page.getByText('$1.25 fare', { exact: true }).first()).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Go' })).toBeVisible();
+});
+
+test('guides: the live articles are copied in full', async ({ page }) => {
+  await open(page, '/guides/biking-101', DESKTOP);
+  await expect(page.getByRole('link', { name: /Read the full post on getthereatx.com/ })).toHaveCount(0);
+  await open(page, '/guides/parent-back-to-school-transportation-guide', DESKTOP);
+  await expect(page.getByRole('heading', { name: 'Carpooling' })).toBeVisible();
 });

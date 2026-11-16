@@ -95,7 +95,7 @@ export function DirectoryFilters({
           onChange={(e) => onQuery(e.target.value)}
           placeholder={searchLabel}
           // 16px on every screen so iOS doesn't zoom in when the field is focused.
-          className="h-12 w-full border-0 bg-mist pl-[10px] pr-10 text-[16px] leading-[24px] text-ink placeholder:text-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
+          className="h-12 w-full border border-border-control bg-bg pl-[10px] pr-10 text-[16px] leading-[24px] text-ink placeholder:text-ink-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus"
         />
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-ink">
           <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" strokeWidth="2" />

@@ -1,4 +1,4 @@
-import { cpSync, mkdirSync, rmSync } from 'node:fs';
+import { readFileSync, cpSync, mkdirSync, rmSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
@@ -91,6 +91,17 @@ function widthQueriesToContainer(scope: string, name: string): PostcssPlugin {
       },
     },
   };
+}
+
+/** The Resources links' own preview pictures (share-images.json), shown on directory cards. */
+for (const { src } of Object.values(JSON.parse(readFileSync(resolve(__dirname, 'src/content/share-images.json'), 'utf8')) as Record<string, { src: string }>)) {
+  TOOL_IMAGES.push(src.replace(/^\//, ''));
+}
+
+/** Community programs and events in the Resources directory show their own photos. */
+const json = (file: string) => JSON.parse(readFileSync(resolve(__dirname, `src/content/${file}.json`), 'utf8'));
+for (const item of [...json('connect-cards'), ...json('events')] as { image?: { src: string } }[]) {
+  if (item.image) TOOL_IMAGES.push(item.image.src.replace(/^\//, ''));
 }
 
 /** Copies TOOL_IMAGES into the plugin's assets/ after the build. */

@@ -18,6 +18,7 @@ export {
   getResource,
   getResources,
   getResourcesPage,
+  getShareImages,
   getStudentTabs,
   getTheme,
   getThemeNow,

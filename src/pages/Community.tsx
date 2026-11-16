@@ -47,6 +47,7 @@ export function Community() {
         resources={data.resources}
         from="community"
         variant="community"
+        bodies={copy.together.cardBodies}
         headingLevel={1}
       />
       <EventsSection

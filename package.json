@@ -19,7 +19,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "build:elementor:templates": "tsx scripts/build-elementor-templates.ts",
-    "seed:wp": "tsx scripts/build-wp-seed.ts && cd wordpress && npx @wordpress/env run cli wp eval-file wp-content/gtatx-local-dev/seed.php"
+    "seed:wp": "tsx scripts/build-wp-seed.ts && cd wordpress && npx @wordpress/env run cli wp eval-file wp-content/gtatx-local-dev/seed.php",
+    "fetch-share-images": "tsx scripts/fetch-share-images.ts"
   },
   "dependencies": {
     "@fontsource/geist-mono": "^5.2.5",

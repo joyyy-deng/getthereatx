@@ -11,7 +11,7 @@ import { asset } from '../lib/asset';
 import { departureOptions, departureTime, formatTime } from '../lib/departure';
 import { text } from '../lib/i18n';
 import { indexBy } from '../lib/indexBy';
-import { handoffUrl, isAirportTrip, planCards, routeMiles, typicalMinutes } from '../lib/trip';
+import { cardKey, handoffUrl, isAirportTrip, planCards, routeMiles, typicalMinutes } from '../lib/trip';
 import { useContent } from '../lib/useContent';
 
 // Plan Your Trip (Figma desktop 775:3820 "V3", mobile 865:5838), built phone-first:
@@ -68,7 +68,7 @@ export function PlanTrip() {
   const cards = trip ? planCards(data.modes, trip.from, trip.to, []) : [];
   const miles = trip ? routeMiles(trip.from, trip.to) : 0;
   // The picked card (?mode=), or the first one.
-  const picked = cards.find((c) => c.mode.id === params.get('mode')) ?? cards[0];
+  const picked = cards.find((c) => cardKey(c.mode) === params.get('mode')) ?? cards[0];
   const minutes = picked ? typicalMinutes(picked.minutes) : 0;
   const leaveAt = departureTime(leave || null);
   const arriveAt = new Date(leaveAt.getTime() + minutes * 60_000);
@@ -99,6 +99,7 @@ export function PlanTrip() {
       side={side}
       googleMaps={data.resources.get('google-maps')}
       onChange={(p) => update({ [side]: p ?? null })}
+      chevron={false}
       className="min-w-0 flex-1"
     />
   );
@@ -138,17 +139,24 @@ export function PlanTrip() {
                 : []),
               ...leaveOptions,
             ]}
-            className="min-w-0 flex-1 lg:h-[62px] lg:w-[180px] lg:flex-none"
+            className="min-w-0 flex-1 lg:hidden"
+          />
+          {/* Desktop (Figma 775:3820): "Transport type" in place of the departure time; it picks a card. */}
+          <FilterSelect
+            label={copy.transportLabel}
+            value={picked && params.get('mode') ? cardKey(picked.mode) : ''}
+            onChange={(v) => update({ mode: v })}
+            options={[{ value: '', label: copy.transportLabel }, ...cards.map((c) => ({ value: cardKey(c.mode), label: text(c.mode.title) }))]}
+            className="hidden lg:flex lg:h-[62px] lg:w-[180px] lg:flex-none"
           />
           <button
             type="submit"
             disabled={!trip}
-            className="flex min-h-[48px] items-center gap-2 bg-charcoal px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px]"
+            className="flex min-h-[48px] items-center gap-2 bg-charcoal px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:bg-leaf lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px] lg:text-ink"
           >
-            {copy.updateButton}
-            <span aria-hidden="true" className="text-lead font-normal">
-              ↓
-            </span>
+            {/* Figma: "Update trip ↓" on phones, "Go" on desktop. */}
+            <span className="lg:hidden">{copy.updateButton}</span>
+            <span className="hidden lg:inline">{copy.goButton}</span>
           </button>
         </div>
       </form>
@@ -176,12 +184,12 @@ export function PlanTrip() {
             </h2>
             <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:gap-4">
               {cards.map((c) => (
-                <li key={c.mode.id}>
+                <li key={cardKey(c.mode)}>
                   <ModeCard
                     card={c}
                     miles={miles}
                     selected={c === picked}
-                    onSelect={() => update({ mode: c.mode.id })}
+                    onSelect={() => update({ mode: cardKey(c.mode) })}
                   />
                 </li>
               ))}
@@ -195,7 +203,7 @@ export function PlanTrip() {
           >
             <div className="flex flex-col gap-4 lg:pt-2">
               <p className="m-0 text-caption font-semibold uppercase text-charcoal">
-                {text(picked.mode.title)} · {copy.selectedLabel}
+                {text(picked.mode.title)}
               </p>
               <h2
                 id="route-title"
@@ -206,7 +214,7 @@ export function PlanTrip() {
               <p className="m-0 text-copy text-ink-soft">
                 {text(picked.mode.eyebrow)}. {text(picked.mode.effort)}.
               </p>
-              <p className="m-0 text-fine font-medium text-ink">{timing}</p>
+              <p className="m-0 text-fine font-medium text-ink lg:hidden">{timing}</p>
             </div>
             <div className="h-[300px] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:h-[386px]">
               <TripMap
@@ -217,14 +225,16 @@ export function PlanTrip() {
                 onPick={pickOnMap}
               />
             </div>
-            <ol className="m-0 flex list-none flex-col gap-3 p-0 text-fine text-ink">
+            {/* Figma: A, a line down to B, B. */}
+            <ol className="m-0 flex list-none flex-col p-0 text-lead text-ink">
               <li className="flex gap-4">
-                <span aria-hidden="true">A</span>
+                <span aria-hidden="true" className="w-3 text-fine">A</span>
                 <span className="sr-only">From </span>
                 {text(trip.from.name)}
               </li>
+              <li aria-hidden="true" className="ml-[5px] h-6 w-px bg-ink" />
               <li className="flex gap-4">
-                <span aria-hidden="true">B</span>
+                <span aria-hidden="true" className="w-3 text-fine">B</span>
                 <span className="sr-only">To </span>
                 {text(trip.to.name)}
               </li>
@@ -257,7 +267,7 @@ function HandoffButton({
   const r = resources.get(link.resourceId);
   if (!r) return null;
   return (
-    <div className="lg:self-start">
+    <div>
       <LinkOut
         as="button"
         href={handoffUrl(r, trip, link.travelmode)}
@@ -266,7 +276,7 @@ function HandoffButton({
         resourceId={r.id}
         from="plan"
         mode={mode.id}
-        className="flex min-h-[56px] w-full items-center justify-between !rounded-none !border-charcoal !bg-charcoal px-5 text-fine !text-white hover:opacity-90 lg:min-h-[48px] lg:font-semibold"
+        className="flex min-h-[56px] w-full items-center justify-between !rounded-none !border-charcoal !bg-charcoal px-5 text-fine !text-white hover:opacity-90 lg:min-h-[48px] lg:!border-leaf lg:!bg-leaf lg:font-semibold lg:!text-ink"
       />
     </div>
   );

@@ -1,14 +1,15 @@
-import { useMemo, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo, useRef } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { DirectoryEntryCard } from '../components/resources/DirectoryEntryCard';
 import { DirectoryFilters } from '../components/resources/DirectoryFilters';
 import { PageLoading, Pagination } from '../components/ui';
 import { Arrow } from '../components/ui/Arrow';
 import { PageLink } from '../components/ui/PageLink';
-import { getCategoryNames, getDirectory, getDirectoryTags, getPageContent, getPosts } from '../data';
+import { getCategoryNames, getConnectCards, getDirectory, getDirectoryTags, getEvents, getPageContent, getPosts, getResources, getShareImages } from '../data';
+import { cardDateText } from '../lib/eventText';
 import { asset } from '../lib/asset';
 import { filterDirectory, filterGuides } from '../lib/directory';
-import { guideItem, sheetItem } from '../lib/directoryItems';
+import { eventItem, guideItem, programItem, sheetItem } from '../lib/directoryItems';
 import { useContent } from '../lib/useContent';
 
 // Resources (Figma desktop 783:25613, mobile 865:6071): photo hero, then the
@@ -21,7 +22,10 @@ import { useContent } from '../lib/useContent';
 //   /resources?q=bike&mode=Biking|Walking&who=Commuter&type=guides&page=2
 // (| between values: some sheet labels have commas, e.g. "Carpooling, Van or Car/Rideshare")
 
-const TYPES = ['guides', 'websites'] as const;
+const TYPES = ['websites', 'programs', 'events', 'guides'] as const;
+
+/** How far ahead community events are listed. */
+const EVENT_DAYS = 120;
 
 /** A |-separated list from the URL, keeping only values that exist. */
 function listParam<T extends string>(allowed: readonly T[], raw: string | null): T[] {
@@ -35,17 +39,31 @@ const FEATURED = 2;
 
 export function Resources() {
   const data = useContent(async () => {
-    const [entries, tags, copy, posts, categoryNames] = await Promise.all([
+    const now = new Date();
+    const [entries, tags, copy, posts, categoryNames, cards, resources, occurrences, shareImages] = await Promise.all([
       getDirectory(),
       getDirectoryTags(),
       getPageContent(),
       getPosts(),
       getCategoryNames(),
+      getConnectCards(),
+      getResources(),
+      getEvents({ from: now, to: new Date(now.getTime() + EVENT_DAYS * 86_400_000) }),
+      getShareImages(),
     ]);
-    return { entries, tags, copy: copy.resources, posts, categoryNames };
+    // One card per event: its next date.
+    const seen = new Set<string>();
+    const events = occurrences.filter((o) => !seen.has(o.event.id) && seen.add(o.event.id));
+    return { entries, tags, copy: copy.resources, posts, categoryNames, cards, resources, events, shareImages };
   });
   const [params, setParams] = useSearchParams();
   const directoryRef = useRef<HTMLElement>(null);
+  const { hash } = useLocation();
+
+  // /resources?type=events#directory (Community's "Explore Austin"): jump to the directory.
+  useEffect(() => {
+    if (data && hash === '#directory') directoryRef.current?.scrollIntoView();
+  }, [data, hash]);
 
   const modeLabels = data?.tags.transportation.options.map((o) => o.label) ?? [];
   const whoLabels = data?.tags.forWho.tags.map((t) => t.label) ?? [];
@@ -84,12 +102,31 @@ export function Resources() {
     const modes = modeKey ? modeKey.split('|') : [];
     const whos = whoKey ? whoKey.split('|') : [];
     const kinds = typeKey ? typeKey.split('|') : [];
-    // Guides have no transportation type, so a "Ways of getting around" tick shows only websites.
-    const showGuides = (!kinds.length || kinds.includes('guides')) && !modes.length;
-    const showSites = !kinds.length || kinds.includes('websites');
-    const guides = showGuides ? filterGuides(data.posts, whos, data.tags, q).map((p) => guideItem(p, labels, data.categoryNames)) : [];
-    const sheet = showSites ? filterDirectory(data.entries, { who: whos, mode: modes, q }, data.tags).map((e) => sheetItem(e, copy.linkLabel)) : [];
-    return [...sheet, ...guides];
+    const show = (kind: string) => !kinds.length || kinds.includes(kind);
+    const matches = (...fields: string[]) => !q.trim() || fields.some((s) => s.toLowerCase().includes(q.trim().toLowerCase()));
+    // Only websites have a transportation type, so a "Ways of getting around" tick shows only websites.
+    const noModes = !modes.length;
+    const sheet = show('websites') ? filterDirectory(data.entries, { who: whos, mode: modes, q }, data.tags).map((e) => sheetItem(e, copy.linkLabel, e.url ? data.shareImages[e.url] : undefined)) : [];
+    const guides = show('guides') && noModes ? filterGuides(data.posts, whos, data.tags, q).map((p) => guideItem(p, labels, data.categoryNames)) : [];
+    // Programs: "Who are you?" matches their program's audiences.
+    const chosen = data.tags.forWho.tags.filter((t) => whos.includes(t.label));
+    const programs =
+      show('programs') && noModes
+        ? data.cards.flatMap((c) => {
+            const r = data.resources.find((x) => x.id === c.resourceId);
+            if (!r || !matches(c.title.en, c.body.en, r.oneLiner)) return [];
+            if (chosen.length && !chosen.some((t) => r.audiences.some((a) => t.audiences.includes(a)))) return [];
+            return [programItem(c, r, copy.programLabel)];
+          })
+        : [];
+    // Events have no audience or transportation type: they show unless one of those filters is on.
+    const events =
+      show('events') && noModes && !whos.length
+        ? data.events
+            .filter((o) => matches(o.event.title.en, o.event.blurb.en, o.event.venue.name))
+            .map((o) => eventItem(o, { eyebrow: copy.eventLabel, action: copy.eventAction }, cardDateText(o.start)))
+        : [];
+    return [...sheet, ...programs, ...events, ...guides];
   }, [data, modeKey, whoKey, typeKey, q]);
 
   if (!data) return <PageLoading />;
@@ -147,8 +184,10 @@ export function Resources() {
                   key: 'type',
                   label: copy.filters.type,
                   options: [
-                    { value: 'guides', label: copy.filters.guides },
                     { value: 'websites', label: copy.filters.websites },
+                    { value: 'programs', label: copy.filters.programs },
+                    { value: 'events', label: copy.filters.events },
+                    { value: 'guides', label: copy.filters.guides },
                   ],
                   selected: types,
                 },

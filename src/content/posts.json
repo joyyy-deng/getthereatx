@@ -66,7 +66,33 @@
     "categories": ["take-transit"],
     "modes": ["bus", "rail"],
     "audiences": ["new-to-transit", "everyone"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Ever wonder what you can and can’t do on the bus or rail, or just common etiquette when riding? Here’s a quick 101 on transit etiquette:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Let folks exit the vehicle before you board.",
+          "Scan or pay your fare at the front when boarding.",
+          "If you have a mobile pass, scan your pass at the reader at the front (you often have to hold it further away from the camera than you think).",
+          "You can also swipe a physical transit card or pay with exact change (this is near the bus driver in front of their separator.",
+          "Always leave the front seats for those who need them, including folks with disabilities and seniors. If you feel it’s a full bus and you feel it’s appropriate, offer your seat to someone who needs it more than you.",
+          "Keep your things in your lap.",
+          "Don’t eat or drink (other than water) on the vehicles. If you have food or drink, make sure it’s in a spill-proof container.",
+          "When boarding and exiting, watch your step and do not cross in front of the vehicle.",
+          "Yes, the train has WiFi! It’s free and available to all riders.",
+          "Pets, emotional support and comfort animals are not allowed on CapMetro vehicles. Service animals are permitted."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Check out the [full bus rules and etiquette on the CapMetro website here](https://www.capmetro.org/rules)."
+      }
+    ]
   },
   {
     "id": "how-to-put-your-bike-on-the-bus",
@@ -132,7 +158,27 @@
     "categories": ["biking-austin", "take-transit"],
     "modes": ["bike", "rail"],
     "audiences": ["new-to-transit", "commuter"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Want to try putting your bike on the train? It’s nice for a commute or even just a bike ride by the lake. Here’s how:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "Board the train with your bike.",
+          "You can either stand with your bike out of the way of folks or hang your bike’s front wheel on the hooks beside the entrance.",
+          "Make sure your bottom wheel is inserted in the slot below the hook.",
+          "You’re done!"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "You can plan your CapMetro Rail trip with the [CapMetro trip planner](https://www.capmetro.org/planner). Try it and let us know what you think!"
+      }
+    ]
   },
   {
     "id": "biking-101",
@@ -153,7 +199,21 @@
     "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "commuter"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "body": [
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Take your bike’s “ABC Quick Check” – check the **A**ir, **B**rakes, **C**ranks and **C**hains, and quick releases.",
+          "Inspect your helmet for a proper fit and strap fit. The unbuttoned helmet should be level and two fingers wide above the eyebrows, with only a small movement when shaking from side to side. The side straps should come to a point just below the ears. The chin strap should reach approximately one-half inch below the chin with the mouth closed.",
+          "Wear clothing that can protect you from the elements, be seen by drivers, and fits snugly to prevent skin irritation and chain snagging.",
+          "Adjust the height, angle and handlebar of the bike seat for comfort.",
+          "Learn to change gears in various degrees and to make driving easier. Always shift into a comfortable starting gear before stopping.",
+          "Use good bicycle manners: announce as you pass; yield when entering and crossing; Stay to the right; pass by the left; the hand signal turns and stops; and use lights at night."
+        ]
+      }
+    ]
   },
   {
     "id": "bike-infrastructure",
@@ -174,7 +234,61 @@
     "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "commuter"],
-    "needs": ["learn-how", "plan-route"]
+    "needs": ["learn-how", "plan-route"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Navigate Austin’s bike lanes like a pro!"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/one-way-protected-bike-lane_12-2024_1200.webp",
+        "alt": "One-Way Protected Bike Lane",
+        "caption": "One-Way Protected Bike Lane"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/two-way-protected-bike-lane_12-2024_1200.webp",
+        "alt": "Two-Way Protected Bike Lane",
+        "caption": "Two-Way Protected Bike Lane"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/striped-bike-lane_12-2024_1200.webp",
+        "alt": "Striped Bike Lane",
+        "caption": "Striped Bike Lane"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/urban-trail_12-2024_1200.webp",
+        "alt": "Urban Trail",
+        "caption": "Urban Trail"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/shared-use-path_12-2024_1200.webp",
+        "alt": "Shared-Use Path",
+        "caption": "Shared-Use Path"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/protected-interersection_12-2024_1200.webp",
+        "alt": "Protected Intersection",
+        "caption": "Protected Intersection"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/shared-street_12-2024_1200.webp",
+        "alt": "Shared Street",
+        "caption": "Shared Street"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/12/neighborhood-bikeway_12-2024_1200.webp",
+        "alt": "Neighborhood Bikeway",
+        "caption": "Neighborhood Bikeway"
+      }
+    ]
   },
   {
     "id": "bikeshare-101",
@@ -195,7 +309,49 @@
     "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "visitor", "student"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "body": [
+      {
+        "type": "heading",
+        "text": "ANYONE CAN BIKE IN AUSTIN"
+      },
+      {
+        "type": "paragraph",
+        "text": "CapMetro Bikeshare (formerly MetroBike) is Austin’s affordable and sustainable bikeshare system consisting of a fleet of 100% electric bikes at more than 75 stations available 24/7 that connect to CapMetro’s bus and rail routes. Rent out a Bikeshare at one station, ride it around town, and then check it back in at any other location. Use the [CapMetro Bikeshare app](https://capmetro.org/app/) or check the [bikeshare stations map](https://www.capmetro.org/bikeshare-stations) for the nearest stations to you. This program is owned and operated by CapMetro and the City of Austin."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Rent",
+          "Before you get riding you’ll need to purchase a pass or membership through one of our many options.",
+          "CapMetro Bikeshare App: [iPhone](https://apps.apple.com/us/app/capmetro-bikeshare-app/id6535647192) | [Android](https://play.google.com/store/apps/details?id=com.lyft.android.austinapp)",
+          "[Apply for a Student Pass](https://app.capmetro.org/BikeSharePassUTAndHT?_ga=2.160557053.1969918355.1729643941-1421482511.1728047205)",
+          "University of Texas at Austin students and staff: $12 per year",
+          "Huston-Tillotson University student and staff: Free",
+          "The kiosks",
+          "Ride",
+          "Checkout a bike from any station around town and feel the breeze in your hair!",
+          "[Station map](https://www.capmetro.org/bikeshare-stations)",
+          "Use any of the following to checkout our bike:",
+          "CapMetro Bikeshare App: [iPhone](https://apps.apple.com/us/app/capmetro-bikeshare-app/id6535647192) | [Android](https://play.google.com/store/apps/details?id=com.lyft.android.austinapp)",
+          "The kiosk",
+          "RFID card",
+          "Return",
+          "In order to end your current trip you MUST return the bicycle to a dock without exception.",
+          "Single-use pass holders will need to purchase another pass in order to checkout another bicycle. To stop the clock, dock!",
+          "Multi-use pass or membership holders can continue to checkout bikes until their access to the system expires. To reset the clock, dock!",
+          "When returning a bicycle you will hear the dock beep letting you know the locks are engaging. Once beeps finish pull on the bike to ensure it is secure.",
+          "If you have trouble with a dock accepting the bike, try a different available dock.",
+          "Station full? Go to the kiosk, click start, then click more options, then click full station. This will add ride time giving you just enough time to find another station with available docks.",
+          "Repeat",
+          "Depending on your pass or membership level, most users have an unlimited number of 60 minute trips included for the length of their access period.",
+          "Single-use passes have no limit on trip length but require that you purchase another pass once you have ended your current trip.",
+          "Multi-use pass or membership holders may use the kiosk or CapMetro Bikeshare app to checkout bikes for additional trips.",
+          "The bike from your most recent trip MUST be returned properly before the system will allow you to checkout another bike."
+        ]
+      }
+    ]
   },
   {
     "id": "bicycle-parking-and-theft",
@@ -216,7 +372,71 @@
     "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone", "student", "commuter"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "body": [
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/03/DSC_1038-edited-scaled.webp",
+        "alt": "Individual putting on a helmet with a blue electric bike in front of the Cap Metro Bike Shelter- Sign reads Metro Bike Card, Keeps your bike safe in this secure facility"
+      },
+      {
+        "type": "paragraph",
+        "text": "We want to make it easier for you to start your first bike trip, and that means making the end just as easy. Parking your bike and feeling confident that it is securely stored is crucial for an enjoyable trip."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Preventing theft:**"
+      },
+      {
+        "type": "paragraph",
+        "text": "Bike theft is a problem in many cities and we’re here to provide tips on how to secure your precious wheels."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Park in an area where there is heavy foot traffic and eyes on the bike rack.",
+          "Lock your frame and the front wheel to the rack using a U-lock. Bonus points if you have a cable to also lock your rear wheel.",
+          "If leaving your bike for an extended period of time, find a secured facility. Your apartment or workplace may have a secured bike facility that is only accessible to people with access to the building."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Parking your bike:**"
+      },
+      {
+        "type": "paragraph",
+        "text": "The City of Austin requires many new developments to provide bike parking. If you find a location in need of bike parking, you can help get the wheels turning."
+      },
+      {
+        "type": "paragraph",
+        "text": "The City of Austin’s [Active Transportation Program](http://austintexas.gov/activetransportation) helps install free bike parking within the public right of way."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "U-racks can be installed onto existing concrete within the right of way. A U-rack can provide parking for up to two bicycles.",
+          "Bike corrals repurpose a vehicle parallel parking spot with an on-street bicycle parking facility. Bike corrals may accommodate 6-14 bicycles."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The City of Austin is taking applications for additional bicycle locations throughout Austin’s core. Please read and follow the guidelines, then download and fill out an application."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Bicycle parking guidelines](https://www.austintexas.gov/sites/default/files/files/Transportation/Bicycle_Parking_FAQ.pdf) (PDF)",
+          "[Bicycle parking digital application](https://atd.knack.com/atd-forms#bike-parking-application/)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Requests are evaluated based upon available right of way space, bicycle parking demand and availability of nearby bicycle parking. If you are a resident requesting bicycle parking, you must obtain support from the business owner and provide contact information. Requested locations will be evaluated by City of Austin staff. Bicycle parking is installed at selected locations in the public right of way and at no cost to the business owner."
+      }
+    ]
   },
   {
     "id": "5-steps-of-a-helmet-fitting",
@@ -329,7 +549,341 @@
     "categories": ["culture-events"],
     "modes": ["walk", "bike", "bus"],
     "audiences": ["family"],
-    "needs": ["learn-how", "plan-route"]
+    "needs": ["learn-how", "plan-route"],
+    "body": [
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/08/54584475952_7d520d18c3_c.webp",
+        "alt": "Middle school student using protected bike lane, school bus in the background going the opposite direction as the student rider"
+      },
+      {
+        "type": "paragraph",
+        "text": "As the new school year begins, many families are adjusting their daily routines to fit in school drop-offs and pick-ups. Whether you’re juggling work schedules, extracurriculars, or just trying to beat the morning rush, figuring out the best way to get your kids to school can often feel like a puzzle. To make things easier, we’ve created a quick guide to **help you explore safe, sustainable, and timely transportation option**s for your family. But this isn’t just about logistics—it’s about creating healthier communities, happier kids, and smoother mornings for everyone."
+      },
+      {
+        "type": "paragraph",
+        "text": "Beyond getting your kids to school, the transportation options listed below offer additional benefits, including:"
+      },
+      {
+        "type": "heading",
+        "text": "Reducing traffic congestion and vehicle speed near schools"
+      },
+      {
+        "type": "paragraph",
+        "text": "Minimizing cars and speed to under 25 miles per an hour around campuses creates safer streets for students, reduces drop-off delays, and calms the neighborhood traffic."
+      },
+      {
+        "type": "heading",
+        "text": "Decreasing air pollution and greenhouse gas emissions"
+      },
+      {
+        "type": "paragraph",
+        "text": "Fewer vehicles idling around a school for drop-off or pick-ups helps to improve local air quality and protects students from high levels of exposure to vehicle emissions."
+      },
+      {
+        "type": "heading",
+        "text": "Enhancing academic performance and behavior"
+      },
+      {
+        "type": "paragraph",
+        "text": "The brain is the muscle that benefits the most from biking or walking in the morning, whether it is a 20-minute walk or a 3-minute race to school, students feel better prepared to start the day!"
+      },
+      {
+        "type": "heading",
+        "text": "Promoting peer and social interaction"
+      },
+      {
+        "type": "paragraph",
+        "text": "Whether it’s riding the bus, walking, or carpooling with friends, being with others encourages students to disconnect from technology and reconnect with their peers."
+      },
+      {
+        "type": "heading",
+        "text": "Teaching safe walking, biking, and transit habits"
+      },
+      {
+        "type": "paragraph",
+        "text": "Just like learning how to walk and talk is a learned skill, **knowing what safe traveling habits are— needs to be taught and practiced.**"
+      },
+      {
+        "type": "heading",
+        "text": "Fostering neighborhood connections and community building"
+      },
+      {
+        "type": "paragraph",
+        "text": "By ensuring our students are able to safely navigate their neighborhood, we are able to prioritize using human-power, making their space safe for them and everyone in the neighborhood."
+      },
+      {
+        "type": "heading",
+        "text": "Encouraging independence and self-confidence in students"
+      },
+      {
+        "type": "paragraph",
+        "text": "Using active or shared transportation can improve mood, self-esteem, and reduce the stress on both the parent and students."
+      },
+      {
+        "type": "heading",
+        "text": "Growing an active and healthy lifestyle"
+      },
+      {
+        "type": "paragraph",
+        "text": "Students who use active transportation or park and walk/roll methods begin to form regular physical activity habits— that start to lead them to choose to walk, bike, carpooling, and/or public transit as they grow."
+      },
+      {
+        "type": "heading",
+        "text": "Transportation Options for School Aged Children and Teens"
+      },
+      {
+        "type": "heading",
+        "text": "Walking, Biking, or Scooting"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/08/54503498866_41f16e2db2_c.webp",
+        "alt": "Group of elementary student riders using the protected bike lanes during Purple Sages's Bike to School Day"
+      },
+      {
+        "type": "heading",
+        "text": "Tips:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "For younger students, plan and practice a route with your child beforehand. Confidence in navigating a route to school is built over time and is a learned behavior.",
+          "Teach your student [safe riding](https://www.youtube.com/watch?v=dkoVxBnnGko) and [street crossing](https://www.youtube.com/watch?v=gSlkn21915M) techniques. Check the weather to make sure your student is appropriately dressed and hydrated.",
+          "Pack sunscreen in your student’s backpack for reapplication for the way home."
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Resources:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[**Austin Bike Map**](https://austin.maps.arcgis.com/apps/webappviewer/index.html?id=c7fecf32a2d946fabdf062285d58d40c&extent=3052120.7123%2C10036958.1486%2C3179054.0456%2C10097891.4819%2C102739) – Bike routes by comfort level",
+          "[**Austin Energy E-Ride Rebate**](https://austinenergy.com/green-power/plug-in-austin/more-ways-to-go-electric/e-ride-rebate) – Program for Austin Energy customers looking to buy an e-bike or e-scooter",
+          "[**Safe Routes to School Program**](https://www.austintexas.gov/saferoutes) – City of Austin program that helps elementary and middle school students walk, bike, and roll safely",
+          "[**Yellow Bike Project**](https://austinyellowbike.org/our-mission/) – non-profit bike shop that offers programs, classes, and workshops"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Riding the School Bus or CapMetro Bus"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2024/03/yeet.webp",
+        "alt": "Parent and child getting off a Cap Metro Bus, two cyclists using the red bike lane."
+      },
+      {
+        "type": "heading",
+        "text": "Tips:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Review AISD school bus routes and CapMetro bus routes to determine the best route for your child.",
+          "If your child has never ridden a school bus before, take them to the bus stop before school starts to familiarize them with the pick-up and drop-off location.",
+          "If your child has never ridden a CapMetro bus before, practice their route with them before school starts. Get on with them at the bus stop and get off at their destination. Take the route the opposite way to practice the trip home.",
+          "**Kids age 18 and younger ride CapMetro for free!** Children 10 years and younger must be accompanied by someone 12 or older.",
+          "Remind your child not to run or play while they are waiting for the bus.",
+          "Always plan to arrive five minutes before the bus is scheduled to arrive.",
+          "Review school bus safety rules and public transit etiquette with your child.",
+          "Consider taking turns chaperoning the bus stop with other parents."
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Resources"
+      },
+      {
+        "type": "paragraph",
+        "text": "[**AISD School Bus Behavior Rules**](https://www.austinisd.org/transportation/guidelines#:~:text=Behavior%20Rules%3A%20Respect%20Self%2C%20Others,assign%20seats%20at%20any%20time) – School bus rules and disciplinary action"
+      },
+      {
+        "type": "paragraph",
+        "text": "**[AISD School Bus Finder](https://austinbusstopfinder.tripsparkhost.com/)** – School bus finder by address"
+      },
+      {
+        "type": "paragraph",
+        "text": "**[AISD](https://www.austinisd.org/transportation) [Transportation Page](https://www.austinisd.org/transportation)** – Information and updates on AISD transportation resources"
+      },
+      {
+        "type": "paragraph",
+        "text": "[**CapMetro Fare Passes**](https://www.capmetro.org/fares-passes) – Details on CapMetro fares, passes, and programs"
+      },
+      {
+        "type": "paragraph",
+        "text": "**[How to Ride CapMetro](https://www.capmetro.org/how-to-ride#:~:text=Make%20sure%20you%20buy%20the%20right%20pass.&text=Kids%20ages%2018%20and%20younger,by%20someone%2012%20or%20older.)** – Information on how to ride the bus (ex: signs, bikes, transferring, etc.)"
+      },
+      {
+        "type": "heading",
+        "text": "Carpooling"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/08/Screenshot_15-8-2025_84334_live.staticflickr.com_.webp",
+        "alt": "Parents and students using a cross walk with the Safe Routes to School Crossing Guard stopping the oncoming traffic"
+      },
+      {
+        "type": "heading",
+        "text": "Tips:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Talk to other parents at your kid’s school to discuss carpooling opportunities"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Organize a carpool, including dates, times, pickup/drop off locations"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Ensure you and your student(s) are ready on time for the carpool"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Provide advanced notice if things change"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Be courteous and respectful of others"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Always plan to arrive five minutes before the bus is scheduled to arrive.",
+          "Remind your student(s) not to leave trash or your belongings in another person’s vehicle"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Resources"
+      },
+      {
+        "type": "paragraph",
+        "text": "**[SchoolPool](https://movabilitytx.org/schoolpool)** – Grant program that offers carpool, bikepool, and walkpool matching tools, marketing, and financial incentives to help parents and caregivers save time and money, help schools reduce congestion, and help the region protect air quality by reducing pick-up and drop-off lines at schools across the region."
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "If you’re interested in starting a SchoolPool at your school, please contact Bill Schnell at [bill@movabilitytx.org](mailto:bill@movabilitytx.org)."
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Elementary Schools**:"
+      },
+      {
+        "type": "paragraph",
+        "text": "AISD – Ridgetop"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Natalie Messer – [natalie@gmail.com](mailto:natalie@gmail.com)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "AISD – Travis Heights"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Arlin Fernandez – [arlin.fernandez@gmail.com](mailto:arlin.fernandez@gmail.com)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Hays – Sunfield"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Cristyn Cordova – [president@sunfieldelementarypta.org](mailto:president@sunfieldelementarypta.org)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Middle Schools**:"
+      },
+      {
+        "type": "paragraph",
+        "text": "AISD – General Marshall"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bobby Sandoval – [bobby.quindlensandoval@austinisd.org](mailto:bobby.quindlensandoval@austinisd.org)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "AISD – Kealing MS"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Tiffany Cross – [president@kealingpta.org](mailto:president@kealingpta.org)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**High School:**"
+      },
+      {
+        "type": "paragraph",
+        "text": "AISD – Garza Independent High School"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Drew Nichols – [drew.m.nichols@austinisd.org](mailto:drew.m.nichols@austinisd.org)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "**Charter Schools:**"
+      },
+      {
+        "type": "paragraph",
+        "text": "Nyos Charter"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "James Douglas – [jdouglas@nyos.org](mailto:jdouglas@nyos.org)"
+        ]
+      }
+    ]
   },
   {
     "id": "austin-bike-bus-pilot-program",
@@ -350,7 +904,487 @@
     "categories": ["biking-austin", "culture-events"],
     "modes": ["bike"],
     "audiences": ["family"],
-    "needs": ["join-program"]
+    "needs": ["join-program"],
+    "body": [
+      {
+        "type": "heading",
+        "text": "Austin’s New Bike Bus Program"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/08/54503498866_41f16e2db2_c.webp",
+        "alt": "Group of elementary student riders using the protected bike lanes during Purple Sages's Bike to School Day"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/08/54071234872_1e8015d408_c.webp",
+        "alt": "Blurred photo of student rider in front of a group students participating in a Bike Bus"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/08/54584475952_7d520d18c3_c.webp",
+        "alt": "Middle school student using protected bike lane, school bus in the background going the opposite direction as the student rider"
+      },
+      {
+        "type": "heading",
+        "text": "Austin Bike Bus Program – Overview"
+      },
+      {
+        "type": "paragraph",
+        "text": "Austin’s Bike Bus Program is a fun, safe, and community-powered way for students to bike to school in guided group rides led by trained adults. These rides help students build healthy habits, improve focus, gain independence, reduce traffic congestion, and strengthen connections within their school communities. The program is a partnership between [Safe Routes to School (SRTS)](https://www.austintexas.gov/saferoutes), [Get There ATX](https://www.austintexas.gov/department/transportation-demand-management), and [Ghisallo Cycling Initiative](https://ghisallo.org/)."
+      },
+      {
+        "type": "heading",
+        "text": "What is a Bike Bus?"
+      },
+      {
+        "type": "paragraph",
+        "text": "A Bike Bus is a group ride to and/or from school made up of students, families, and community members, traveling together along a fixed route. **Key roles for adults supporting a Bike Bus:**"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Front Leader – sets the pace and navigates the route",
+          "Sweep Leader – monitors safety and watches for gaps",
+          "Rear Leader – keeps the group together and supports join-in riders"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "The 3 Cs of a Bike Bus​"
+      },
+      {
+        "type": "paragraph",
+        "text": "Bike Buses are unique to each school community. The 3 Cs of a Bike Bus are at the core of launching a successful bike bus program. Keep these core principles in mind as you plan your school’s bike bus. ​"
+      },
+      {
+        "type": "heading",
+        "text": "Community: The Foundation of Bike Buses. ​"
+      },
+      {
+        "type": "paragraph",
+        "text": "Who will form your core planning team? Consider the following for your core team:​"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Parents, guardians, and students.​",
+          "Who already bikes to school? ​",
+          "Teachers, PE coaches, and administration. ​",
+          "PTA and community partners."
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "​Communication: Talk the Talk, before Biking the Bike.​"
+      },
+      {
+        "type": "paragraph",
+        "text": "Communication helps you recruit your core team, engage others, and understand the needs of students and families. ​"
+      },
+      {
+        "type": "paragraph",
+        "text": "Questions to consider: ​"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "How will the core team communicate? ​",
+          "Who will lead outreach? ​",
+          "How does your school community share information? ​",
+          "Does your PTA have a communication platform?"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Consistency: Creating a Bike Culture​"
+      },
+      {
+        "type": "paragraph",
+        "text": "Bike Buses that run consistently help bring neighbors together regularly. So, no matter how often, a regularly scheduled group ride can become a neighborhood social asset. ​"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Daily, weekly, monthly, or once a semester. ​",
+          "Create the schedule that works for your community.​"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Bike Buses Come in Different Formats:"
+      },
+      {
+        "type": "heading",
+        "text": "Morning Only"
+      },
+      {
+        "type": "paragraph",
+        "text": "Operates before school"
+      },
+      {
+        "type": "heading",
+        "text": "Daily"
+      },
+      {
+        "type": "paragraph",
+        "text": "Round-trip service on school days"
+      },
+      {
+        "type": "heading",
+        "text": "Seasonal"
+      },
+      {
+        "type": "paragraph",
+        "text": "Runs in fall and spring"
+      },
+      {
+        "type": "heading",
+        "text": "Year Round"
+      },
+      {
+        "type": "paragraph",
+        "text": "Operates most of the school year, weather permitting"
+      },
+      {
+        "type": "heading",
+        "text": "Bike Bus Stop"
+      },
+      {
+        "type": "paragraph",
+        "text": "A predetermined location that is either at the start of the route or a fixed point along the route."
+      },
+      {
+        "type": "heading",
+        "text": "Join-in Style"
+      },
+      {
+        "type": "paragraph",
+        "text": "Students join the ride as it passes their location"
+      },
+      {
+        "type": "heading",
+        "text": "How to Start a Bike Bus at Your School"
+      },
+      {
+        "type": "heading",
+        "text": "Phase 0: Community Needs Assessment"
+      },
+      {
+        "type": "paragraph",
+        "text": "Starting a bike bus is like planning the cake for a birthday party. You have an idea of what the birthday cake will look like, but you need to start by knowing what you have to work with. ​"
+      },
+      {
+        "type": "paragraph",
+        "text": "We know that not all schools are equal; there are different needs within each community. By assessing your community’s needs, you can determine which resources are required to launch a bike bus. ​"
+      },
+      {
+        "type": "heading",
+        "text": "Shopping List"
+      },
+      {
+        "type": "paragraph",
+        "text": "Student needs may include:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Helmets",
+          "Functional Bike",
+          "Learning how to ride a bike (3rd- 8th grade)"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Community Education about Bike Buses is needed."
+      },
+      {
+        "type": "heading",
+        "text": "Ingredients"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Some established Bike Lanes, Shared Streets, and/or Trails​",
+          "High number of student who own helmet and/or bikes​",
+          "Desire within the PTA to start a Bike Bus ​"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Cake and Icing"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Protected Bike Lanes, Shared Streets, and/ or Trails lead to School",
+          "High number of students and families biking to school",
+          "Bike culture is present with the school community"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Phase 1: Determine your Style"
+      },
+      {
+        "type": "heading",
+        "text": "Daily Bike Bus:"
+      },
+      {
+        "type": "paragraph",
+        "text": "The Safe Routes to School Crossing Guard Program is hiring Bike Bus Leaders only for schools that operate daily, mornings and afternoons, following the school’s schedule. Paid Bike Bus Leaders to have a criminal background check and complete Bike Bus Leader training."
+      },
+      {
+        "type": "heading",
+        "text": "Volunteer Bike Bus:"
+      },
+      {
+        "type": "paragraph",
+        "text": "More flexibility, choose the style of Bike Bus that works for your school’s community. Whether weekly or monthly, consistency is key to starting a Bike Bus."
+      },
+      {
+        "type": "heading",
+        "text": "Phase 2: Recruit Leaders"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Recruit at least three committed adults:",
+          "Lead Rider",
+          "Sweep Rider",
+          "Rear Rider",
+          "Daily Bike Bus Leaders must complete a criminal background check before being hired and trained."
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Phase 3: Plan the Route"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Map student locations",
+          "Choose safe, low-traffic streets",
+          "Test ride and adjust for safety"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Phase 4: Prepare for Launch"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Train leaders and prepare students/guardians",
+          "Collect waivers and emergency contacts",
+          "Establish communication channel (Google Groups, Discord, WhatsApp, PTA)",
+          "Promote via flyers, school channels, and parent groups",
+          "Request free safety gear from Get There ATX and SRTS"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Phase 5: Launch & Operate"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Soft launch 1–2 weeks before First Ride Day",
+          "Keep rides fun and consistent schedule",
+          "Maintain communication and follow weather policy"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Phase 6: Evaluate & Grow"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Collect feedback after launch",
+          "Adjust routes and expand as needed",
+          "Recruit more leaders and volunteers",
+          "Ongoing Bike Bus Leader training clinics available"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/11/54902356750_1db6aae71b_c.jpg",
+        "alt": "Four individuals lined up on bikes as instructor explains the practice scenario"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/12/54902356725_b497b77493_b.jpg",
+        "alt": "Three Bike Bus Trainees test the brakes on student rider's bike"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2025/12/54901178447_0cfeea7962_b.jpg",
+        "alt": "Bike Bus Trainees putting on Helmets"
+      },
+      {
+        "type": "heading",
+        "text": "Bike Bus Training Clinics"
+      },
+      {
+        "type": "paragraph",
+        "text": "Curious about leading a Bike Bus or just want to learn more about safe group biking? Join one of our free, hands-on training clinics—they’re fun, informative, and open to anyone who wants to support active transportation in Austin schools."
+      },
+      {
+        "type": "paragraph",
+        "text": "These clinics are made possible by [Get There ATX](https://www.austintexas.gov/department/transportation-demand-management), [Safe Routes to School (SRTS)](https://www.austintexas.gov/saferoutes), and [Ghisallo Cycling Initiative](https://ghisallo.org/)."
+      },
+      {
+        "type": "paragraph",
+        "text": "What you’ll learn:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "The ABCs of bike safety",
+          "How to properly fit a helmet (yes, there’s a 5-step method!)",
+          "What each Bike Bus Leader does—Lead, Sweep, and Rear",
+          "How to communicate while riding (like calling out turns or stops)",
+          "Practice ride with role rotation",
+          "Q&A with City of Austin staff about the Bike Bus Pilot"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Who should come? Parents, teachers, school staff, and community members who love biking and want to help students ride safely to school."
+      },
+      {
+        "type": "paragraph",
+        "text": "**Heads up:** Attending a clinic doesn’t automatically make you a paid Bike Bus Leader. To be hired, you’ll need to apply through the Safe Routes to School Crossing Guard program, pass a background check, and complete onboarding."
+      },
+      {
+        "type": "heading",
+        "text": "Get Involved & Learn More"
+      },
+      {
+        "type": "heading",
+        "text": "Interest Form:"
+      },
+      {
+        "type": "paragraph",
+        "text": "Sign up to become a Bike Bus Leader or attend a training clinic."
+      },
+      {
+        "type": "paragraph",
+        "text": "**[Learn More.](https://forms.office.com/Pages/ResponsePage.aspx?id=9hleXKumRUux0L5GCKmmf8oO7YIEyz5MncA2dh0g0TJURUY1V04xWlBRRUMySEFaNTcwNzJUMTVWWS4u)**"
+      },
+      {
+        "type": "heading",
+        "text": "Resources:"
+      },
+      {
+        "type": "paragraph",
+        "text": "Parent guide, Code of Conduct, bike safety (English/Spanish), and outreach materials."
+      },
+      {
+        "type": "paragraph",
+        "text": "[**Learn More.**](https://drive.google.com/drive/folders/1DQQP7qmm1bFyWvNw0-oerdVVKkBq3l2k?usp=sharing)"
+      },
+      {
+        "type": "heading",
+        "text": "Bike Bus Resources"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "[Starting a Bike Bus](https://www.bikebuspdx.org/starting-a-bike-bus)",
+          "[Start a Bike Bus — Bike Bus World](https://bikebus.world/how-to-start-a-bike-bus)",
+          "[How to Start a Bike Bus: A Step-by-Step Guide for Families and Schools | PeopleForBikes](https://www.peopleforbikes.org/news/how-to-start-a-bike-bus-a-step-by-step-guide-for-f)",
+          "[Oregon Safe Routes to School Bike Bus Toolkit](https://oregonsaferoutes.org/wp-content/uploads/2025/06/ODOT-SRTS-Bike-Bus-Toolkit_v8.pdf)"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Frequently Asked Questions"
+      },
+      {
+        "type": "heading",
+        "text": "What are the benefits?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Improved health, focus, confidence, and reduced traffic around schools."
+      },
+      {
+        "type": "heading",
+        "text": "Who can be a Bike Bus Leader?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Anyone with a bike and helmet! Paid leaders must pass a background check, attend training, and support morning and afternoons rides following their school’s schedule."
+      },
+      {
+        "type": "heading",
+        "text": "Can my school participate?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Yes — with at least 3–5 leaders and support from school staff and PTA. We offer support to Volunteer and Daily Bike Buses."
+      },
+      {
+        "type": "heading",
+        "text": "Do I need to apply to attend training?"
+      },
+      {
+        "type": "paragraph",
+        "text": "No. Clinics are open to all, but paid leaders must apply through SRTS Crossing Guard Program."
+      },
+      {
+        "type": "heading",
+        "text": "Why apply through SRTS?"
+      },
+      {
+        "type": "paragraph",
+        "text": "It’s the current pathway for paid Bike Bus Leaders. Future processes may change."
+      },
+      {
+        "type": "heading",
+        "text": "Can my school request safety materials without a Bike Bus Leader?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Yes! Email [GetThereATX@AustinTexas.gov](mailto:GetThereATX@AustinTexas.gov) for bike maps, lights, and stickers."
+      },
+      {
+        "type": "heading",
+        "text": "When can my child ride alone?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Riding independence grows as experience and confidence grows. K–2 students should begin by riding with a guardian. Older students may ride independently."
+      },
+      {
+        "type": "heading",
+        "text": "Questions or want to learn more?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Email [GetThereATX@austintexas.gov](mailto:GetThereATX@austintexas.gov) for details or help getting started."
+      },
+      {
+        "type": "paragraph",
+        "text": "[Facebook-f](https://www.facebook.com/GetThereAustin/) [Instagram](https://www.instagram.com/getthereatx/) [Telegram](https://getthereatx.us3.list-manage.com/subscribe?u=da7c8480d321984a479109412&id=3f5a1e38e1)"
+      }
+    ]
   },
   {
     "id": "austin-bike-repair-tool-loan-program",
@@ -371,7 +1405,392 @@
     "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone"],
-    "needs": ["join-program", "save-money"]
+    "needs": ["join-program", "save-money"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "he Austin Public Library and Get There ATX officially launched their brand‑new **Bike Tool Loan Program** on **May 15, 2026** on **Bike to Work Day**. If you need to pump a tire, tighten a bolt or patch a tube on the fly, all you need is your library card to access your new favorite library perk."
+      },
+      {
+        "type": "paragraph",
+        "text": "The Austin Public Library and Get There ATX — the transportation demand management program of Austin Transportation and Public Works — collaborated to make this pilot possible. Over the next year, the team will track how the tools are used, host community events like Bike Fix‑It Clinics, and explore whether the service should expand to additional branches."
+      },
+      {
+        "type": "paragraph",
+        "text": "The Bike Tool Loan Program is at nine locations and will be equipped with everything you need for quick fixes and everyday maintenance. Pumps and patch kits will also be available, making it easy to keep your ride rolling smoothly."
+      },
+      {
+        "type": "paragraph",
+        "text": "It’s a simple idea with a big community payoff: give people the tools they need, remove barriers to biking, and help Austin stay active and connected. All tools, locks and bike pumps are for on-site use only."
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2026/07/55283699990_07532ebaff_z.jpg",
+        "alt": ""
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2026/07/55283523969_961febf235_c.jpg",
+        "alt": "Man using Bike Repair Stand"
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2026/07/55283297096_8233c2ce3e_c.jpg",
+        "alt": "Man using a Bike Pump"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Toolkits include:**"
+      },
+      {
+        "type": "paragraph",
+        "text": "Folding Hex Wrench Set, #2 Phillips screwdriver, 6 mm Flat Blade, Pedal Wrench, Tire Lever Set, Folding Torx Compatible Wrench Set, 3-Way Socket Wrench, 15 mm wrench"
+      },
+      {
+        "type": "heading",
+        "text": "Central Branch– [710 W Cesar Chavez St](https://maps.app.goo.gl/85VrvdFu5s84K2Gx9)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand with tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Cepeda Branch– [651 N Pleasant Valley Rd](https://maps.app.goo.gl/7Q7RjNdu2tpRrSKE7)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand without tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Hampton Branch – [5125 Convict Hill Rd, Austin](https://maps.app.goo.gl/B3zYGpAZV3bJk3fP9)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand without tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Howson Branch – [2500 Exposition Blvd, Austin](https://maps.app.goo.gl/c5MLcL2CqCkiew9u6)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand with tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Pleasant Branch – [211 E William Cannon Dr](https://maps.app.goo.gl/3ntFdKXjATBgGCbh7)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand without tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Spicewood Spring Branch – [8637 Spicewood Springs Rd](https://maps.app.goo.gl/5joMuT46teax1Cvq9)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand without tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Twin Oaks Branch – [1800 S 5th St, Austin](https://maps.app.goo.gl/MwhJFdvEmTJ7h2NT7)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand without tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "John Gillum Branch – [2505 Steck Ave, Austin](https://maps.app.goo.gl/cZLgp2DM8usd359Y9)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "No Bike Repair Stand"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Windsor Branch – [5833 Westminster Dr, Austin](https://maps.app.goo.gl/X7r8qjTHtvCmLYVn9)"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "1 U-Lock (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Repair Stand without tools"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Toolkit (2 hour check out)"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Pump"
+        ]
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Bike Tire Patches"
+        ]
+      }
+    ]
   },
   {
     "id": "how-to-request-bike-maps",
@@ -392,7 +1811,49 @@
     "categories": ["biking-austin"],
     "modes": ["bike"],
     "audiences": ["everyone"],
-    "needs": ["plan-route", "join-program"]
+    "needs": ["plan-route", "join-program"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Planning a bike ride in Austin is simple with the city’s official Austin Bike Map. The map shows recommended bike routes all over the city (and beyond) and sorts them by how comfortable they are to ride. This helps you choose the route that matches your skill level and what you enjoy."
+      },
+      {
+        "type": "heading",
+        "text": "Online Access"
+      },
+      {
+        "type": "paragraph",
+        "text": "You can find the Austin Bike Map [online](https://austin.maps.arcgis.com/apps/webappviewer/index.html?id=c7fecf32a2d946fabdf062285d58d40c&extent=3052120.7123%2C10036958.1486%2C3179054.0456%2C10097891.4819%2C102739), and it’s updated regularly when new routes or improvements are added. The digital map makes it easy to look at different options before you start your ride, whether you’re going to work, getting some exercise or just having fun."
+      },
+      {
+        "type": "paragraph",
+        "text": "[Austin Bike Routes](https://austin.maps.arcgis.com/apps/webappviewer/index.html?id=c7fecf32a2d946fabdf062285d58d40c&extent=3052120.7123%2C10036958.1486%2C3179054.0456%2C10097891.4819%2C102739)"
+      },
+      {
+        "type": "paragraph",
+        "text": "Please email bicycle@austintexas.gov if you have any questions."
+      },
+      {
+        "type": "heading",
+        "text": "Request Bike Maps"
+      },
+      {
+        "type": "paragraph",
+        "text": "If you prefer a paper map, you can pick up a free printed Austin Bike Map at Austin City Hall. Each map has a QR code that links to the online version, so you can always check for changes along routes."
+      },
+      {
+        "type": "paragraph",
+        "text": "You can request a bulk order by emailing [**GetThereATX@austintexas.gov**](mailto:GetThereATX@austintexas.gov)."
+      },
+      {
+        "type": "paragraph",
+        "text": "This is helpful whether you’re new to biking in Austin or planning your next big ride."
+      },
+      {
+        "type": "paragraph",
+        "text": "Disclaimer: This map illustrates popular bicycle routes that have been identified by the City of Austin. The City of Austin assumes no liability for bicyclists traveling on these routes and therefore bicyclists assume a risk while using these routes identical to the risks assumed on all other roadways."
+      }
+    ]
   },
   {
     "id": "wishbone-bridge-poster",
@@ -413,7 +1874,57 @@
     "categories": ["culture-events"],
     "modes": ["walk", "bike"],
     "audiences": ["everyone", "visitor"],
-    "needs": ["plan-route"]
+    "needs": ["plan-route"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Austin proudly unveils the Wishbone Bridge and Unity Underpass, completing the lake-level loop of the Ann & Roy Butler Hike-and-Bike Trail. This milestone connects East Austin neighborhoods with scenic views, safe pathways, and vibrant public art. Below is a link to the custom 12″ x 18″ poster celebrating the event."
+      },
+      {
+        "type": "image",
+        "src": "/images/uploads/2026/02/wishbone_bridge_poster_image.jpg",
+        "alt": "Poster celebrating the opening of Austin's wishbone bridge and unity underpass.",
+        "caption": "Poster celebrating the opening of Austin’s wishbone bridge and unity underpass."
+      },
+      {
+        "type": "heading",
+        "text": "[Download the poster](https://www.getthereatx.com/wishbone-bridge-poster/wishbone_bridge_poster_12x18-compressed_2026-02-07/)"
+      },
+      {
+        "type": "heading",
+        "text": "Wishbone Bridge:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Austin’s first three-legged pedestrian bridge",
+          "1,087 feet long—longer than three football fields",
+          "Y-shaped design offering panoramic skyline and lake views"
+        ]
+      },
+      {
+        "type": "heading",
+        "text": "Unity Underpass:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Expands access 30x larger than the old culvert",
+          "Features “Absolute Equality: Unity Tunnel” artwork by Reginald C. Adams, spanning 5,000 sq. ft. with mosaics and murals",
+          "Reflects East Austin’s diversity and history"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "The completion of the Wishbone Bridge and Unity Underpass represents a major step forward in Austin’s commitment to connectivity, equity, and sustainability. Funded through the 2020 Mobility Bond and supported by a $4.1 million federal earmark secured by Rep. Greg Casar, this project closes a critical gap in the Ann & Roy Butler Hike-and-Bike Trail, creating a safe, scenic and accessible route for pedestrians and cyclists. Linking East Austin neighborhoods to the broader trail network promotes active transportation, health and community engagement while reducing reliance on cars. The project was delivered four months ahead of schedule and on budget, demonstrating efficient use of public resources."
+      },
+      {
+        "type": "paragraph",
+        "text": "Beyond functionality, it elevates the experience with art and design that reflect East Austin’s rich cultural heritage, and includes enhancements such as the Skyline Overlook, opening soon. Together, these features make the Wishbone Bridge and Unity Underpass not just infrastructure, but a symbol of progress and unity for all Austinites."
+      }
+    ]
   },
   {
     "id": "how-traffic-congestion-affects-air-quality",
@@ -434,7 +1945,124 @@
     "categories": ["sustainability"],
     "modes": [],
     "audiences": ["everyone", "commuter"],
-    "needs": ["learn-how"]
+    "needs": ["learn-how"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "Mental fatigue, irritability and increased stress are not the only"
+      },
+      {
+        "type": "paragraph",
+        "text": "side effect of sitting in traffic"
+      },
+      {
+        "type": "paragraph",
+        "text": ". In its 2024 Annual Report,"
+      },
+      {
+        "type": "paragraph",
+        "text": "Movability"
+      },
+      {
+        "type": "paragraph",
+        "text": "– Central Texas’ Transportation Management Association – found traffic congestion costs a driver"
+      },
+      {
+        "type": "paragraph",
+        "text": "$698 and 39 hours of sitting in traffic every year."
+      },
+      {
+        "type": "paragraph",
+        "text": "When there’s traffic congestion, cars slowly crawling along roadways — or not moving at all — there’s idling cars still running their engines. An idling vehicle emits pollutants such as carbon monoxide, nitrogen oxides and tiny particles that can harm our lungs and impact air quality."
+      },
+      {
+        "type": "paragraph",
+        "text": "Studies"
+      },
+      {
+        "type": "paragraph",
+        "text": "have found that the vehicle technology put in place to prevent harmful pollutants from being released as exhaust. The type of vehicle and its age can change what kind of pollutants are being released into the air from the car’s exhaust. Some of the pollutants that impact air quality, like dust or soot (black exhaust), can get deep into our lungs. Even on clear days, some exhaust pollutants remain invisible to the eye but still impact our health. When sitting in traffic, you expose yourself to exhaust pollutions that over time increase your risk of developing asthma and breathing problems, heart disease, lung cancer, stroke or premature death."
+      },
+      {
+        "type": "heading",
+        "text": "Who are most at risk?"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Commuters sitting in their idling vehicles",
+          "Professional drivers, like truck drivers and bus drivers",
+          "People who live or work near major highways or busy roads",
+          "Children, seniors, and those who are most sensitive to pollution"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Is this the new normal? Is poor air quality inevitable?"
+      },
+      {
+        "type": "paragraph",
+        "text": "This is Austin, we are meant to be weird!"
+      },
+      {
+        "type": "paragraph",
+        "text": "So, let’s not let poor air quality be normal. We might not get rid of vehicle exhaust overnight, but we can reimagine how we commute!"
+      },
+      {
+        "type": "paragraph",
+        "text": "Reducing transportation emissions by building a more multimodal travel culture is certainly the ultimate solution to"
+      },
+      {
+        "type": "paragraph",
+        "text": "traffic congestion pollution"
+      },
+      {
+        "type": "paragraph",
+        "text": "and improving local air quality. When you switch your commute to walking, biking, scooting, carpooling and using public transit, you save money, enjoy your commute more, reduce traffic congestion and contribute to cleaner air!"
+      },
+      {
+        "type": "paragraph",
+        "text": "Start small. Use resources like Get There ATX (GTATX) and"
+      },
+      {
+        "type": "paragraph",
+        "text": "Movability"
+      },
+      {
+        "type": "paragraph",
+        "text": "to see what options work for you. They offer help planning solutions to help make your commute a little weirder, like:"
+      },
+      {
+        "type": "list",
+        "ordered": false,
+        "items": [
+          "Carpooling with a coworker on days when you’re working the same hours",
+          "Riding your bike on a short trip close to your home two times a week – short 1-3 mile trips are the majority of trips in Central Texas – Every non-driving trip not taken is fewer emissions",
+          "Taking public transit three times per month to events, appointments, or to work or school"
+        ]
+      },
+      {
+        "type": "paragraph",
+        "text": "Find out how much"
+      },
+      {
+        "type": "paragraph",
+        "text": "you can save"
+      },
+      {
+        "type": "paragraph",
+        "text": "and reduce emissions on the GTATX Trip Planner! These resources are supported by"
+      },
+      {
+        "type": "paragraph",
+        "text": "MyCommute Solutions"
+      },
+      {
+        "type": "paragraph",
+        "text": "."
+      }
+    ]
   },
   {
     "id": "spring-festival-season-travel-guide",
@@ -456,6 +2084,27 @@
     "modes": ["walk", "bike", "bus", "rail"],
     "expiresAt": "2026-05-31T23:59:59-05:00",
     "audiences": ["visitor", "everyone"],
-    "needs": ["plan-route"]
+    "needs": ["plan-route"],
+    "body": [
+      {
+        "type": "paragraph",
+        "text": "We’ve got your one-stop shop for getting around during the Spring Festival Season! Check out this [interactive map](https://experience.arcgis.com/experience/119f8c50fe65408584f8150d2702d5fb/page/Mobility-Guide/) highlighting rideshare drop-off and pickup locations, detours, bike parking areas, public restrooms, and more."
+      },
+      {
+        "type": "paragraph",
+        "text": "Want some quick tips? Here’s how to beat traffic during Austin’s Spring Festival Season, whether you’re a local or you’re in town for the festival:"
+      },
+      {
+        "type": "list",
+        "ordered": true,
+        "items": [
+          "Work from home if possible to avoid traffic, especially if you work downtown.",
+          "Avoid [pedestrian-only zones](https://experience.arcgis.com/experience/119f8c50fe65408584f8150d2702d5fb/page/Mobility-Guide/) if you’re driving a car, riding a bike or using a scooter.",
+          "Follow scooter etiquette, such as parking in designated areas and picking up any knocked-over devices. Brush up on etiquette [here](https://www.austintexas.gov/page/bicycle-and-micromobility-laws-and-safety).",
+          "Take the [CapMetro Rail](https://www.capmetro.org/rail) or [Bus](https://www.capmetro.org/ourservices/busroutes) downtown instead of driving, as parking is expensive and hard to find. Plan your CapMetro trip [here](https://www.capmetro.org/planner).",
+          "Don’t drink and drive. The City of Austin offers safe ride options and parking ticket forgiveness. Learn more options to get home safe [here](https://www.austintexas.gov/gethomesafely)."
+        ]
+      }
+    ]
   }
 ]

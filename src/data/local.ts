@@ -39,6 +39,7 @@ const pages = load('pages');
 const resources = load('resources');
 const posts = load('posts');
 const categories = load('categories');
+const shareImages = load('share-images');
 const events = load('events');
 const programs = load('programs');
 const alerts = load('alerts');
@@ -205,4 +206,9 @@ export function getThemeNow(): Theme {
 
 export async function getTheme(): Promise<Theme> {
   return theme;
+}
+
+/** Each Resources link's own preview picture (share-images.json), keyed by the link. */
+export async function getShareImages(): Promise<Record<string, string>> {
+  return Object.fromEntries(Object.entries(shareImages).map(([url, v]) => [url, v.src]));
 }

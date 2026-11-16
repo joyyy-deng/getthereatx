@@ -5,7 +5,7 @@ import { Arrow } from '../ui/Arrow';
 import { PlaceCombobox } from '../plan/PlaceCombobox';
 
 /**
- * Figma "Trip planner" card on Home (787:6480): sky card with one rounded
+ * Figma "Trip planner" card on Home (desktop 775:3259, phone 865:5600): sky card with one rounded
  * corner, From / To fields and a round navy button. Submitting opens
  * /plan?from=…&to=… (either can be empty).
  */
@@ -39,7 +39,7 @@ export function HeroTripForm({
   return (
     <form
       aria-labelledby="hero-trip-title"
-      className="flex w-full flex-col gap-[14px] rounded-tr-poster bg-sky p-4 lg:gap-5 lg:rounded-tr-[37px] lg:px-5 lg:pb-6 lg:pt-5"
+      className="flex w-full flex-col gap-[14px] rounded-tr-[30px] bg-sky p-4 lg:gap-5 lg:rounded-tr-[37px] lg:px-5 lg:pb-8 lg:pt-5"
       onSubmit={(e) => {
         e.preventDefault();
         planTrip();
@@ -47,11 +47,11 @@ export function HeroTripForm({
     >
       <h2
         id="hero-trip-title"
-        className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-navy [--d:48] [--m:32] lg:font-bold lg:leading-[1.05] lg:tracking-[-2px]"
+        className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-navy [--d:57] [--m:32] lg:leading-[1.05] lg:text-ink"
       >
         {title}
       </h2>
-      <div className="flex flex-col gap-[14px] sm:flex-row sm:items-center sm:gap-6">
+      <div className="flex flex-col gap-[14px] lg:flex-row lg:items-center lg:gap-6">
         <div className="flex flex-1 flex-col gap-[14px] lg:gap-6">
           <PlaceCombobox
             label="From"
@@ -64,6 +64,7 @@ export function HeroTripForm({
             googleMaps={googleMaps}
             onChange={setFrom}
             tone="white"
+            chevron={false}
           />
           <PlaceCombobox
             label="To"
@@ -76,6 +77,7 @@ export function HeroTripForm({
             googleMaps={googleMaps}
             onChange={setTo}
             tone="white"
+            chevron={false}
           />
         </div>
         <button

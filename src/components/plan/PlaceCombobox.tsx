@@ -20,6 +20,8 @@ export interface PlaceComboboxProps {
   onChange: (place: Place | undefined) => void;
   /** `white` on the Home trip card; `field` (light grey) on Plan Your Trip. */
   tone?: 'white' | 'field';
+  /** Figma's Home trip card has no chevron; the field still opens its list on click. */
+  chevron?: boolean;
   /** Plan Your Trip: this is the field map clicks will fill. */
   selected?: boolean;
   /** Called when the field is clicked or focused. */
@@ -54,6 +56,7 @@ export function PlaceCombobox({
   googleMaps,
   onChange,
   tone = 'field',
+  chevron = true,
   selected = false,
   onActivate,
   className = 'w-full',
@@ -121,7 +124,7 @@ export function PlaceCombobox({
       <div
         className={cx(
           'relative flex h-[62px] items-start gap-3 border px-[14px] py-[10px]',
-          tone === 'white' ? 'border-white bg-bg' : 'border-line bg-field',
+          tone === 'white' ? 'border-white bg-bg' : 'border-line bg-field lg:border-border-control lg:bg-bg',
           selected && 'outline outline-2 -outline-offset-2 outline-focus',
           // The input hides its own outline, so the whole field shows keyboard focus.
           'focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-focus',
@@ -134,10 +137,10 @@ export function PlaceCombobox({
           height={18}
           className="mt-0 block size-[18px] shrink-0"
         />
-        <div className="flex min-w-0 flex-1 flex-col gap-[3px] pr-8 leading-[1.3]">
+        <div className={cx('flex min-w-0 flex-1 flex-col gap-[3px] leading-[1.3]', chevron && 'pr-8')}>
           <label
             htmlFor={`${id}-input`}
-            className={cx('text-caption font-bold uppercase', tone === 'white' ? 'text-navy' : 'text-ink-soft')}
+            className={cx('uppercase', tone === 'white' ? 'text-[12px] leading-[16px] tracking-[0.01em] text-ink-muted lg:text-[14px] lg:font-semibold lg:leading-[20px] lg:text-ink' : 'text-caption font-bold text-ink-soft')}
           >
             {label}
           </label>
@@ -153,6 +156,7 @@ export function PlaceCombobox({
             aria-activedescendant={open && active >= 0 ? optionId(ordered[active]) : undefined}
             placeholder={placeholder}
             value={shown}
+            onClick={() => setOpen(true)}
             onFocus={(e) => {
               onActivate?.();
               e.currentTarget.select();
@@ -165,7 +169,7 @@ export function PlaceCombobox({
             }}
             onKeyDown={onKeyDown}
             // 16px so iOS doesn't zoom in on focus; Figma's 15px is close enough.
-            className="w-full truncate border-0 bg-transparent p-0 text-[16px] leading-[1.3] text-ink outline-none"
+            className={cx('w-full truncate border-0 bg-transparent p-0 text-[16px] leading-[1.3] text-ink outline-none', tone === 'white' && 'placeholder:text-ink-muted')}
           />
         </div>
         <button
@@ -180,7 +184,7 @@ export function PlaceCombobox({
             inputRef.current?.focus();
             setOpen((o) => !o);
           }}
-          className="absolute inset-y-0 right-2 grid w-8 place-items-center text-ink-muted transition-colors duration-hover hover:text-ink"
+          className={cx('absolute inset-y-0 right-2 w-8 place-items-center text-ink-muted transition-colors duration-hover hover:text-ink', chevron ? 'grid' : 'hidden')}
         >
           <svg
             aria-hidden="true"

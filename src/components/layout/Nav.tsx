@@ -6,9 +6,9 @@ import { Logo } from './Logo';
 import { MobileMenu } from './MobileMenu';
 import { NAV_LINKS } from './siteLinks';
 
-// Figma "Nav" (desktop instance in every page frame, e.g. 860:1672): 76px
-// tall, logo at 16px from the edge, three tabs of 22/28px Real Text Regular
-// with 24px padding and 4px apart, the current page tinted sky. No rule under it.
+// Figma "Nav" component (860:1645): 72px tall, logo 188 × 36 at 16px from the
+// edge, three tabs of 16/24px Real Text Demibold with 24px padding and 4px
+// apart, the current page tinted sky (#d9e8f4). No rule under it.
 // Phones and tablets (Figma "Mobile navigation" 865:6072): 80px bar, 24px side
 // padding, 1px rule, logo and the menu icon; the menu opens a full panel (MobileMenu).
 
@@ -22,10 +22,10 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-[1100] bg-bg">
-      <nav aria-label="Main" className="flex h-[80px] items-center justify-between border-b border-rule px-6 py-2 lg:h-[76px] lg:border-b-0 lg:p-0">
+      <nav aria-label="Main" className="flex h-[80px] items-center justify-between border-b border-rule px-6 py-2 lg:h-[72px] lg:border-b-0 lg:p-0">
         <Link to="/" aria-label="Get There ATX home" className="block lg:px-4">
           <Logo className="w-[210px] lg:hidden" />
-          <Logo crop="nav" className="hidden w-[278px] lg:block" />
+          <Logo crop="nav" className="hidden w-[188px] lg:block" />
         </Link>
         <ul className="m-0 hidden h-full list-none items-stretch gap-1 p-0 lg:flex">
           {NAV_LINKS.map((l) => (
@@ -34,8 +34,8 @@ export function Nav() {
                 to={l.to}
                 className={({ isActive }) =>
                   cx(
-                    'flex h-full items-center whitespace-nowrap p-6 text-[22px] font-normal leading-[28px] text-rule transition-colors duration-hover',
-                    isActive ? 'bg-sky-nav' : 'hover:bg-mist',
+                    'flex h-full items-center whitespace-nowrap p-6 text-[16px] font-semibold leading-[24px] text-ink transition-colors duration-hover',
+                    isActive ? 'bg-sky' : 'hover:bg-mist',
                   )
                 }
               >

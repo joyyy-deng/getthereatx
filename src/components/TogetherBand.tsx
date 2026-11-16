@@ -7,13 +7,26 @@ import { Arrow } from './ui/Arrow';
 import { PageLink } from './ui/PageLink';
 
 /**
- * Figma's exact sizes (phone 393 / desktop 1440): Home "Community invitation"
- * (title 32/72, button 14/16, card title 24/36, card text 16/21) and Community
- * (title 48/45, button 14/14, card title 24/28, card text 16/16).
+ * Figma's exact sizes (phone 393 / desktop 1440): Home v1 "Community invitation"
+ * (775:3329 / 865:5778: title 32/57, white button on desktop, cards 395 tall with
+ * a 230px picture) and Community (860:1755: title 48/45, green button, cards
+ * 295 tall). Card details: 165px, 24 padding, title 24/28, text 16/24.
  */
 const SIZES = {
-  home: { pad: 'px-page', col: 'lg:w-[32%]', title: '[--m:32] [--d:72] leading-[0.98]', button: '[--m:14] [--d:16]', card: '[--m:24] [--d:36] leading-[1.1]', body: '[--m:16] [--d:21] leading-[1.3]' },
-  community: { pad: 'px-article', col: 'lg:w-[44%]', title: '[--m:48] [--d:45] leading-[1.05]', button: '[--m:14] [--d:14]', card: '[--m:24] [--d:28] leading-[1.15]', body: '[--m:16] [--d:16] leading-[1.5]' },
+  home: {
+    title: '[--m:32] [--d:57] leading-[1.15] lg:leading-[1.05]',
+    button: 'bg-leaf lg:bg-white',
+    card: 'flex-row sm:flex-col lg:h-[395px]',
+    pic: 'h-[131px] min-w-0 flex-1 sm:h-[200px] sm:flex-none lg:h-[230px]',
+    details: 'w-[240px] shrink-0 sm:w-auto',
+  },
+  community: {
+    title: '[--m:48] [--d:45] leading-[1.05]',
+    button: 'bg-leaf',
+    card: 'flex-row sm:flex-col lg:h-[295px]',
+    pic: 'w-[76px] shrink-0 sm:h-[200px] sm:w-auto lg:h-auto lg:min-h-0 lg:flex-1',
+    details: 'justify-center sm:justify-start',
+  },
 };
 
 /**
@@ -29,8 +42,11 @@ export function TogetherBand({
   from,
   headingLevel = 2,
   variant = 'home',
+  bodies,
 }: {
   variant?: keyof typeof SIZES;
+  /** Card lines that differ on this page (connect-card id → text). */
+  bodies?: Record<string, string>;
   title: string;
   button: { label: string; to: string };
   cards: ConnectCard[];
@@ -41,15 +57,15 @@ export function TogetherBand({
   const Heading = headingLevel === 1 ? 'h1' : 'h2';
   const size = SIZES[variant];
   return (
-    <section className={cx('bg-navy py-10 lg:py-16', size.pad)}>
+    <section className="bg-navy px-article py-10 lg:py-16">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-16">
-        <div className={cx('flex flex-col items-start gap-6 lg:shrink-0', size.col)}>
-          <Heading className={cx('m-0 text-fluid font-semibold tracking-[-0.04em] text-mist', size.title)}>
+        <div className="flex flex-col items-start gap-6 lg:w-[38.6%] lg:shrink-0">
+          <Heading className={cx('m-0 text-fluid font-semibold tracking-[-0.01em] text-sky lg:text-white', size.title)}>
             {title}
           </Heading>
           <PageLink
             to={button.to}
-            className={cx('flex min-h-[56px] items-center gap-7 bg-leaf px-5 text-fluid font-bold leading-[20px] text-ink transition-opacity duration-hover hover:opacity-90', size.button)}
+            className={cx('flex min-h-[56px] items-center gap-7 px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90', size.button)}
           >
             {button.label}
             <Arrow className="size-3" strokeWidth={2.5} />
@@ -66,23 +82,20 @@ export function TogetherBand({
                   rel="noopener noreferrer"
                   aria-label={r ? `${text(c.title)}: ${r.action}, opens ${r.provider} in a new tab` : undefined}
                   onClick={() => r && track('handoff', { resourceId: r.id, from, provider: r.provider, href: r.url })}
-                  className="group flex w-full flex-col overflow-hidden border border-sky bg-mist"
+                  className={cx('group flex w-full overflow-hidden border border-sky bg-white', size.card)}
                 >
-                  <span className="block h-[200px] overflow-hidden bg-sky">
+                  <span className={cx('block overflow-hidden bg-sky', size.pic)}>
                     <img
                       src={asset(c.image.src)}
                       alt={c.image.alt}
                       className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
                     />
                   </span>
-                  <span className="flex flex-col gap-[10px] p-6">
-                    <span className={cx('text-fluid font-bold tracking-[-0.03em] text-ink', size.card)}>
+                  <span className={cx('flex flex-col gap-[10px] p-6 lg:h-[165px] lg:shrink-0', size.details)}>
+                    <span className="text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:28] [--m:24]">
                       {text(c.title)}
                     </span>
-                    <span className={cx('flex items-center gap-2 text-fluid text-navy', size.body)}>
-                      {text(c.body)}
-                      <Arrow className="size-3" />
-                    </span>
+                    <span className="text-[16px] leading-[24px] tracking-[0.01em] text-navy">{bodies?.[c.id] ?? text(c.body)}</span>
                   </span>
                 </a>
               </li>

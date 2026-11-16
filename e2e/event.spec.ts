@@ -123,9 +123,10 @@ test('real event shows only the facts the live calendar has', async ({ page }) =
 
 test('Community links to the event pages', async ({ page }) => {
   await open(page, '/community', DESKTOP);
-  await page.getByRole('link', { name: /Ride to the Future/ }).first().click();
-  await expect(page).toHaveURL(/\/community\/events\/ride-to-the-future$/);
-  await expect(page.locator('h1')).toHaveText('Ride to the Future: Youth Bike Mechanic Program');
+  // Ride to the Future ended Nov 14, 2026; the repair clinic runs through Dec 31.
+  await page.getByRole('link', { name: /RSVP: Bicycle Repair Clinic/ }).first().click();
+  await expect(page).toHaveURL(/\/community\/events\/bicycle-repair-clinic$/);
+  await expect(page.locator('h1')).toHaveText('Bicycle Repair Clinic @ Central APL');
 });
 
 test('keyboard: every tab stop shows a focus ring', async ({ page }) => {

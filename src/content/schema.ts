@@ -66,7 +66,8 @@ const PostBlock = z.discriminatedUnion('type', [
   z.object({ type: z.literal('paragraph'), text: z.string().min(1) }),
   z.object({ type: z.literal('heading'), text: z.string().min(1) }),
   z.object({ type: z.literal('list'), ordered: z.boolean(), items: z.array(z.string().min(1)).min(1) }),
-  z.object({ type: z.literal('image'), src: z.string().min(1), alt: z.string().min(1), caption: z.string().optional() }),
+  /** alt may be empty only when the live post has none (copied as is; flagged for the client). */
+  z.object({ type: z.literal('image'), src: z.string().min(1), alt: z.string(), caption: z.string().optional() }),
   /** Figma "Article/Tip callout": a mist box with a navy bar. `label` defaults to "Tip". */
   z.object({ type: z.literal('tip'), label: z.string().min(1).optional(), text: z.string().min(1) }),
   /** Figma "Article/Step": numbered squares, a title and one or more paragraphs each. */
@@ -100,6 +101,13 @@ export { PostBlock };
  */
 export const Category = z.object({ slug: z.string().regex(/^[a-z0-9-]+$/), name: z.string().min(1) });
 export const Categories = z.array(Category).min(1);
+
+/**
+ * Each Resources link's own link-preview picture (its og:image), saved in
+ * public/images/resources/sites/ by `npm run fetch-share-images`. Keyed by the link.
+ */
+export const ShareImages = z.record(z.string().url(), z.object({ src: z.string().startsWith('/images/'), from: z.string().url(), fetched: z.string().date() }));
+export type ShareImages = z.infer<typeof ShareImages>;
 export type Category = z.infer<typeof Category>;
 
 /** An existing getthereatx.com blog post. Summaries are the post excerpts. */
@@ -226,6 +234,12 @@ export type HandoffLink = z.infer<typeof HandoffLink>;
 /** One comparison card on Plan Your Trip (Bike, Bus + walk, ...). */
 export const PlanMode = z.object({
   id: z.enum(MODES),
+  /** The card's own id when two cards share a mode (Figma's "Bus" and "Bus + walk"); defaults to `id`. In the URL as ?mode=. */
+  key: z.string().regex(/^[a-z-]+$/).optional(),
+  /** Figma's cost pill under the distance on desktop: "No cost", "$1.25 fare", "Gas + parking". */
+  chip: z.object({ label: L, tone: z.enum(['free', 'fare', 'drive']) }).optional(),
+  /** Scales the mode's time estimate (a bus straight there is quicker than bus + walk). */
+  minutesFactor: z.number().positive().optional(),
   title: L,
   image: Img.optional(),
   /** Trait shown above the time, e.g. "Less effort, more waiting". */
@@ -317,7 +331,12 @@ const Lines = z.array(Text).min(1);
 /** A big colored card that links somewhere ("See all guides", "Explore More"). */
 const LinkCard = z.object({ title: Lines, to: PagePath });
 /** "Get there together." band (Home and Community). Its cards are connect-cards.json. */
-const Together = z.object({ title: Text, button: z.object({ label: Text, to: PagePath }) });
+const Together = z.object({
+  title: Text,
+  button: z.object({ label: Text, to: PagePath }),
+  /** This page's own card lines where its Figma frame words them differently (by connect-card id). */
+  cardBodies: z.record(z.string(), Text).optional(),
+});
 
 /**
  * The wording on each page: headings, intros and labels. Lists that have
@@ -375,6 +394,10 @@ export const PageContent = z.object({
     /** Under the route headline. {leave} is "now" or a time, {arrive} a time. */
     timing: Text,
     updateButton: Text,
+    /** Figma desktop button label ("Go"); phones show updateButton. */
+    goButton: Text,
+    /** Desktop search row: Figma's "Transport type" menu (picks a card). */
+    transportLabel: Text,
     compareTitle: Text,
     /** Eyebrow after the mode name: "BIKING · SELECTED ROUTE". */
     selectedLabel: Text,
@@ -386,7 +409,11 @@ export const PageContent = z.object({
     title: Text,
     /** Figma's filter column: Search, then three checkbox groups. */
     searchLabel: Text,
-    filters: z.object({ mode: Text, who: Text, type: Text, guides: Text, websites: Text }),
+    filters: z.object({ mode: Text, who: Text, type: Text, guides: Text, websites: Text, events: Text, programs: Text }),
+    /** Card eyebrows and actions for community events and programs in the directory. */
+    eventLabel: Text,
+    eventAction: Text,
+    programLabel: Text,
     clearFilters: Text,
     noResults: Text,
     /** Action on each entry that has a link. */

@@ -2,8 +2,7 @@
   "home": {
     "hero": {
       "title": [
-        "AUSTIN,",
-        "YOUR WAY."
+        "Austin, your way."
       ],
       "planTitle": "Plan a trip",
       "button": "Plan your trip",
@@ -28,7 +27,7 @@
           "postSlug": "transit-101",
           "body": "Find your stop, check the fare and signal before you get off.",
           "image": {
-            "src": "/images/home/first-bus-ride.jpg",
+            "src": "/images/home/first-bus-ride-bw.jpg",
             "alt": "A blue CapMetro bus on a downtown Austin street"
           },
           "linkLabel": "Read the first-time bus guide"
@@ -77,7 +76,7 @@
       ],
       "explore": {
         "title": [
-          "Explore More"
+          "Explore more"
         ],
         "to": "/community"
       }
@@ -99,6 +98,8 @@
     "leaveLabel": "When do you want to leave?",
     "timing": "Leave {leave} · arrive about {arrive}",
     "updateButton": "Update trip",
+      "goButton": "Go",
+      "transportLabel": "Transport type",
     "compareTitle": "Compare ways to get there",
     "selectedLabel": "Selected route",
     "headline": "{minutes} minutes to {to}"
@@ -106,7 +107,7 @@
   "resources": {
     "hero": {
       "title": "What kind of commuter are you?",
-      "intro": "Find the best way to get where you're going. Take our quick quiz to discover your commute style and get personalized travel recommendations.",
+      "intro": "Take our quick quiz to discover your commute style and get personalized travel recommendations.",
       "button": {
         "label": "Find My Commute Style",
         "to": "#directory"
@@ -119,8 +120,13 @@
       "who": "Who are you?",
       "type": "Type of info",
       "guides": "Guides",
-      "websites": "Websites"
+      "websites": "Websites",
+      "events": "Community events",
+      "programs": "Community programs"
     },
+    "eventLabel": "Community event",
+    "eventAction": "View event",
+    "programLabel": "Community program",
     "clearFilters": "Clear filters",
     "noResults": "Nothing matches those filters.",
     "linkLabel": "Visit website",
@@ -140,6 +146,10 @@
   "community": {
     "together": {
       "title": "Get there together.",
+      "cardBodies": {
+        "seniors": "Get out and about Austin",
+        "families": "Kid-friendly events and activities"
+      },
       "button": {
         "label": "Find your community",
         "to": "#events"
@@ -148,7 +158,7 @@
     "events": {
       "title": "Trade a little screen time for outside time.",
       "featuredLabel": "Featured",
-      "linkLabel": "Get event details",
+      "linkLabel": "RSVP",
       "empty": "No upcoming events right now.",
       "noMatch": "No events match these filters.",
       "filters": {
@@ -165,7 +175,7 @@
         "Explore",
         "Austin"
       ],
-      "to": "/plan"
+      "to": "/resources?type=events#directory"
     }
   },
   "guide": {

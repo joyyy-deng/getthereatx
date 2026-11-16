@@ -1,14 +1,19 @@
-import { Fragment, type CSSProperties } from 'react';
+import { Fragment, type CSSProperties, type ReactNode } from 'react';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { Arrow } from './Arrow';
 import { PageLink } from './PageLink';
 
 /**
- * Big colored link card with a mascot: Figma "See all guides" (Home),
- * "Explore More" (Home) and "Explore Austin" (Community).
- * `stacked`: the mascot sits under the title on desktop (See all guides).
- * `side`: the mascot sits to the right and runs off the card's edge.
+ * Big colored link card with a mascot: Figma "See all guides" and "Explore
+ * more" (Home v1 775:3277 / 775:3323, phone 865:5730 / 1024:3670) and
+ * Community's green card (787:5466).
+ *   Phones (both layouts): a row, 24px padding: the title with a 24px arrow
+ *   under it on the left, a small mascot on the right.
+ *   Desktop `stacked` (See all guides, 468px tall): the mascot (236 × 276)
+ *   under the title, a 40px arrow bottom right.
+ *   Desktop `side` (Explore more): title top left, arrow bottom left, the
+ *   mascot (310 × 252) bottom right running off the card's edge.
  */
 export function MascotCard({
   title,
@@ -17,7 +22,7 @@ export function MascotCard({
   mascot,
   layout,
   className,
-  titleSize = [28, 52],
+  titleSize = [28, 45],
 }: {
   title: string[];
   to: string;
@@ -26,32 +31,30 @@ export function MascotCard({
   mascot: { src: string; flip?: boolean };
   layout: 'stacked' | 'side';
   className?: string;
-  /** Figma title size, phone / desktop px: Home cards 28 / 52, Community "Explore Austin" 36 / 45. */
+  /** Figma title size, phone / desktop px. */
   titleSize?: [number, number];
 }) {
-  // Navy, not white, on the leaf green: white is 2.7:1 there (fails WCAG AA), navy 4.8:1.
-  const ink = 'text-navy';
-  const art = (
-    <img
-      src={asset(mascot.src)}
-      alt=""
-      className={cx('block max-w-none', mascot.flip && '-scale-x-100')}
-    />
+  // Navy, not Figma's white, on the leaf green: white is 2.7:1 there (fails WCAG AA), navy 4.8:1.
+  const art = <img src={asset(mascot.src)} alt="" className={cx('block size-full max-w-none', mascot.flip && '-scale-x-100')} />;
+  const arrow = (cls: string): ReactNode => (
+    <span className={cx('block transition-transform duration-hover group-hover:-translate-y-0.5 group-hover:translate-x-0.5', cls)}>
+      <Arrow className="size-6 lg:size-10" strokeWidth={2.2} />
+    </span>
   );
 
   return (
     <PageLink
       to={to}
       className={cx(
-        'group relative flex overflow-hidden p-6 lg:border lg:border-sky lg:p-9',
-        tone === 'leaf' ? 'bg-leaf' : 'bg-sky-strong',
-        layout === 'stacked' ? 'h-[250px] lg:h-[468px]' : 'h-[260px] lg:h-auto lg:min-h-[303px]',
+        'group relative flex justify-between gap-4 overflow-hidden p-6 text-navy lg:p-9',
+        tone === 'leaf' ? 'bg-leaf' : 'bg-sky',
+        layout === 'stacked' ? 'lg:h-[468px]' : 'lg:min-h-[303px]',
         className,
       )}
     >
-      <span className={cx('relative z-10 flex flex-col justify-between self-stretch', ink)}>
+      <span className={cx('relative z-10 flex shrink-0 flex-col justify-between gap-4 lg:w-auto', layout === 'side' ? 'min-w-[170px] whitespace-nowrap lg:whitespace-normal' : 'w-[170px]')}>
         <span
-          className={cx('block text-fluid leading-[1] tracking-[-0.04em]', tone === 'leaf' ? 'font-semibold' : 'font-bold')}
+          className="block text-fluid font-semibold leading-[1.15] tracking-[-0.01em] lg:leading-[1.05]"
           style={{ '--m': titleSize[0], '--d': titleSize[1] } as CSSProperties}
         >
           {title.map((line, i) => (
@@ -61,23 +64,16 @@ export function MascotCard({
             </Fragment>
           ))}
         </span>
-        <span className={cx('block transition-transform duration-hover group-hover:-translate-y-0.5 group-hover:translate-x-0.5', layout === 'stacked' && 'lg:hidden')}>
-          <Arrow className="size-10" strokeWidth={2.2} />
-        </span>
+        {layout === 'stacked' && <span className="hidden h-[276px] w-[236px] lg:block">{art}</span>}
+        {arrow(layout === 'stacked' ? 'lg:hidden' : '')}
       </span>
-
       {layout === 'stacked' ? (
         <>
-          {/* Phones: beside the title. Desktop: under it, arrow bottom right. */}
-          <span className="absolute left-[155px] top-9 h-[199px] w-[170px] lg:left-9 lg:top-auto lg:bottom-9 lg:h-[276px] lg:w-[236px] [&_img]:size-full">
-            {art}
-          </span>
-          <span className={cx('absolute bottom-9 right-9 hidden transition-transform duration-hover group-hover:-translate-y-0.5 group-hover:translate-x-0.5 lg:block', ink)}>
-            <Arrow className="size-10" strokeWidth={2.2} />
-          </span>
+          <span className="block h-[117px] w-[100px] shrink-0 self-center lg:hidden">{art}</span>
+          {arrow('hidden self-end lg:block')}
         </>
       ) : (
-        <span className="absolute left-[185px] top-[62px] h-[190px] w-[235px] lg:bottom-9 lg:left-auto lg:right-[-96px] lg:top-auto lg:h-[246px] lg:w-[304px] [&_img]:size-full">
+        <span className="block h-[97px] w-[120px] shrink-0 self-center lg:absolute lg:bottom-9 lg:right-[-80px] lg:h-[252px] lg:w-[310px]">
           {art}
         </span>
       )}

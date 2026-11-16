@@ -22,7 +22,10 @@ for (const file of FILES) {
     continue;
   }
   // Most files are lists; pages.json is a single object.
-  const records = (Array.isArray(result.data) ? result.data : [result.data]) as { id?: string; slug?: string }[];
+  // Plan cards may share a mode (Figma's "Bus" and "Bus + walk"): their own `key` must be unique instead.
+  const records = (Array.isArray(result.data) ? result.data : [result.data]).map((r) =>
+    file === 'plan-modes' ? { id: (r as { key?: string; id: string }).key ?? (r as { id: string }).id } : r,
+  ) as { id?: string; slug?: string }[];
 
   for (const key of ['id', 'slug'] as const) {
     const seen = new Set<string>();

@@ -1,0 +1,62 @@
+{
+  "https://agilemile.com/": {
+    "src": "/images/resources/sites/agilemile-com-vju141.png",
+    "from": "https://agilemile.com/nuride/assets/retailer/403/40330/F4033009.png",
+    "fetched": "2026-11-13"
+  },
+  "https://bikestreets.com/tx/austin/": {
+    "src": "/images/resources/sites/bikestreets-com-1vek6q5.png",
+    "from": "https://bikestreets.com/tx/austin/meta-image/",
+    "fetched": "2026-11-13"
+  },
+  "https://commutehub.com/": {
+    "src": "/images/resources/sites/commutehub-com-1x6nvsb.webp",
+    "from": "https://commutehub.com/wp-content/uploads/2024/10/what-is-commutehub-illustration.webp",
+    "fetched": "2026-11-13"
+  },
+  "https://ecabna.com/austin%2C-tx": {
+    "src": "/images/resources/sites/ecabna-com-1ni2nd.jpg",
+    "from": "https://isteam.wsimg.com/ip/7b6b2612-32f8-45a8-8f24-fff75b964e77/217fb48a-ef87-4fa8-9912-4dfaab6af355.jpg",
+    "fetched": "2026-11-13"
+  },
+  "https://fetii.com/": {
+    "src": "/images/resources/sites/fetii-com-7wuxod.png",
+    "from": "https://fetii.com/fetii-thumbnail.png",
+    "fetched": "2026-11-13"
+  },
+  "https://onecommute.com/": {
+    "src": "/images/resources/sites/onecommute-com-79a0vm.png",
+    "from": "https://onecommute.com/wp-content/uploads/2026/03/Ordinance-8-scaled.png",
+    "fetched": "2026-11-13"
+  },
+  "https://waymo.com/": {
+    "src": "/images/resources/sites/waymo-com-1ssyo0x.jpg",
+    "from": "https://lh3.googleusercontent.com/bnfvXFtZDG0u6Pen-d7RGFIOWMXGHG7xyeqyzvcN9NiulLwWN6HZfN5lwc2LxgLzGBweXalEZ0dB8dgQlCvPwQV5rWss9tm0Ui4",
+    "fetched": "2026-11-13"
+  },
+  "https://www.cityofkyle.gov/city-services/transportation-and-public-works/traffic-and-transportation/uber-kyle/": {
+    "src": "/images/resources/sites/cityofkyle-gov-15xdw5s.png",
+    "from": "https://media-002-us.cdn.govstack.com/cityofkyle-us/media/zn3jbv4f/uber-kyle-3.png",
+    "fetched": "2026-11-13"
+  },
+  "https://www.liftango.com/carpool": {
+    "src": "/images/resources/sites/liftango-com-pb2sgx.png",
+    "from": "https://cdn.prod.website-files.com/5e31243b83dd6635c2522716/6763fa7441be4956f3c4ff1d_og-liftango.png",
+    "fetched": "2026-11-13"
+  },
+  "https://www.scoopcommute.com/about": {
+    "src": "/images/resources/sites/scoopcommute-com-tdjq48.png",
+    "from": "https://cdn.prod.website-files.com/5f539493aafc2aa1455bc5b3/605e7d35343bd7c170544a0c_teamphoto%20(1).png",
+    "fetched": "2026-11-13"
+  },
+  "https://www.uber.com/us/en/ride/teens/": {
+    "src": "/images/resources/sites/uber-com-1niz92b.jpg",
+    "from": "https://www.uber.com/_static/fb5b3f0afc38af28.jpg",
+    "fetched": "2026-11-13"
+  },
+  "https://zoox.com/": {
+    "src": "/images/resources/sites/zoox-com-t1oma0.jpg",
+    "from": "https://zoox.com/assets/1772650418-sf-202408-zoox-robotaxi-sf-skyline-16x9.png?auto=compress&fit=crop&fm=jpg&h=630&q=90&w=1200",
+    "fetched": "2026-11-13"
+  }
+}

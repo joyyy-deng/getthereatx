@@ -6,7 +6,7 @@
     },
     "image": {
       "src": "/images/mascots/mode-walk.svg",
-      "alt": "A kangaroo riding a scooter"
+      "alt": "A dog riding a skateboard"
     },
     "eyebrow": {
       "en": "No cost, no waiting"
@@ -32,7 +32,13 @@
         }
       }
     ],
-    "ctxGo": true
+    "ctxGo": true,
+    "chip": {
+      "label": {
+        "en": "No cost"
+      },
+      "tone": "free"
+    }
   },
   {
     "id": "bike",
@@ -41,7 +47,7 @@
     },
     "image": {
       "src": "/images/mascots/mode-bike.svg",
-      "alt": "A bird riding a blue bike"
+      "alt": "A bat riding a bike"
     },
     "eyebrow": {
       "en": "Fast for short trips"
@@ -79,16 +85,23 @@
         "en": "Bring your bike on the bus"
       }
     },
-    "ctxGo": true
+    "ctxGo": true,
+    "chip": {
+      "label": {
+        "en": "No cost"
+      },
+      "tone": "free"
+    }
   },
   {
     "id": "bus",
+    "key": "bus-direct",
     "title": {
-      "en": "Bus + walk"
+      "en": "Bus"
     },
     "image": {
-      "src": "/images/mascots/mode-bus-walk.svg",
-      "alt": "A dog riding a skateboard"
+      "src": "/images/mascots/mode-bus.svg",
+      "alt": "A sloth riding a bus"
     },
     "eyebrow": {
       "en": "Less effort, more waiting"
@@ -126,7 +139,67 @@
         }
       }
     ],
-    "ctxGo": true
+    "ctxGo": true,
+    "chip": {
+      "label": {
+        "en": "$1.25 fare"
+      },
+      "tone": "fare"
+    },
+    "minutesFactor": 0.93
+  },
+  {
+    "id": "bus",
+    "title": {
+      "en": "Bus + walk"
+    },
+    "image": {
+      "src": "/images/mascots/mode-bus-walk.svg",
+      "alt": "A sloth riding a bus"
+    },
+    "eyebrow": {
+      "en": "Less effort, more waiting"
+    },
+    "effort": {
+      "en": "Less physical effort"
+    },
+    "cost": {
+      "en": "$1.25 fare · free with UT ID"
+    },
+    "primary": {
+      "resourceId": "capmetro-planner",
+      "label": {
+        "en": "Plan on CapMetro"
+      }
+    },
+    "airportPrimary": {
+      "resourceId": "capmetro-airport",
+      "label": {
+        "en": "Take Route 20 to the airport"
+      }
+    },
+    "secondary": [
+      {
+        "resourceId": "google-maps",
+        "label": {
+          "en": "Transit directions in Google Maps"
+        },
+        "travelmode": "transit"
+      },
+      {
+        "resourceId": "capmetro-how-to-ride",
+        "label": {
+          "en": "First time riding?"
+        }
+      }
+    ],
+    "ctxGo": true,
+    "chip": {
+      "label": {
+        "en": "$1.25 fare"
+      },
+      "tone": "fare"
+    }
   },
   {
     "id": "drive",
@@ -135,7 +208,7 @@
     },
     "image": {
       "src": "/images/mascots/mode-drive.svg",
-      "alt": "A bird riding a blue bike"
+      "alt": "A car"
     },
     "eyebrow": {
       "en": "More time needed to park"
@@ -167,6 +240,12 @@
         }
       }
     ],
-    "ctxGo": false
+    "ctxGo": false,
+    "chip": {
+      "label": {
+        "en": "Gas + parking"
+      },
+      "tone": "drive"
+    }
   }
 ]

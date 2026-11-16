@@ -7,7 +7,6 @@ import type { Mode } from '../content/taxonomies';
 /** Streets aren't straight: route distance ≈ straight line × this. */
 const DETOUR = 1.3;
 
-const WALK_MAX_MI = 2;
 const BIKE_MAX_MI = 8;
 
 export function straightMiles(a: Place, b: Place): number {
@@ -48,6 +47,11 @@ export function typicalMinutes([lo, hi]: [number, number]): number {
   return Math.round((lo + hi) / 2);
 }
 
+/** A card's id in the URL (?mode=): its own key, else its mode. */
+export function cardKey(mode: PlanMode): string {
+  return mode.key ?? mode.id;
+}
+
 export function isAirportTrip(from: Place, to: Place): boolean {
   return from.id === 'airport' || to.id === 'airport';
 }
@@ -68,13 +72,16 @@ export function planCards(modes: PlanMode[], from: Place, to: Place, prefs: Plan
   const mi = routeMiles(from, to);
   const airport = isAirportTrip(from, to);
 
+  // Figma shows every way, in content order (walk, bike, bus, bus + walk, drive).
+  // Only biking to the airport is left out (no safe bike route).
   const cards = modes
-    .filter((m) => {
-      if (m.id === 'walk') return mi <= WALK_MAX_MI;
-      if (m.id === 'bike') return !airport;
-      return true;
-    })
-    .map((m) => ({ mode: m, minutes: estimateMinutes(m.id, mi), longRide: m.id === 'bike' && mi > BIKE_MAX_MI }));
+    .filter((m) => !(m.id === 'bike' && airport))
+    .map((m) => {
+      const [lo, hi] = estimateMinutes(m.id, mi);
+      const f = m.minutesFactor ?? 1;
+      const minutes: [number, number] = f === 1 ? [lo, hi] : [Math.max(5, Math.round((lo * f) / 5) * 5), Math.max(10, Math.round((hi * f) / 5) * 5)];
+      return { mode: m, minutes, longRide: m.id === 'bike' && mi > BIKE_MAX_MI };
+    });
 
   const prefScore = (c: CardPlan) =>
     prefs.reduce((sum, p) => {

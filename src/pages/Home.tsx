@@ -12,7 +12,7 @@ import { text } from '../lib/i18n';
 import { indexBy } from '../lib/indexBy';
 import { useContent } from '../lib/useContent';
 
-// Home (Figma desktop 787:6463, mobile 865:5590), built phone-first:
+// Home (Figma desktop "home v1" 775:3242, mobile 865:5590), built phone-first:
 // masthead + trip card → "New to this?" guides → "See what's going on" → Get there together.
 // Wording comes from content/pages.json ("home").
 
@@ -54,7 +54,7 @@ export function Home() {
         ];
       return [];
     });
-    return { copy: copy.home, places, resources: byId, cards, guides };
+    return { copy: copy.home, places, resources: byId, cards, guides, cardBodies: copy.community.together.cardBodies };
   });
 
   if (!data) return <PageLoading />;
@@ -62,18 +62,18 @@ export function Home() {
 
   return (
     <>
-      {/* Civic masthead */}
-      <section className="border-b border-navy px-page py-8 lg:py-12">
-        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-stretch lg:gap-10">
-          <div className="flex min-w-0 flex-col gap-6 lg:justify-end">
-            <h1 className="m-0 text-fluid font-bold leading-[1.05] tracking-[-0.01em] text-ink [--d:128] [--m:45] lg:leading-[0.98] lg:tracking-[-0.04em]">
-              {copy.hero.title.map((line, i) => (
-                <Fragment key={i}>
-                  {i > 0 && <br />}
-                  {line}
-                </Fragment>
-              ))}
-            </h1>
+      {/* Civic masthead (desktop 775:3255, phone 865:5598). Desktop: headline and trip
+          card on the left, the 451 × 448 picture on the right, bottoms aligned.
+          Phones: headline beside a small picture, the trip card under them. */}
+      <section className="border-b border-navy px-article py-8 lg:border-ink lg:py-16">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:gap-10">
+          <div className="flex min-w-0 flex-col gap-6 lg:flex-1">
+            <div className="flex items-start gap-1">
+              <h1 className="m-0 min-w-0 max-w-[203px] flex-1 text-fluid font-semibold leading-[1.05] tracking-[-0.01em] text-ink [--d:96] [--m:45] lg:max-w-[489px]">
+                {copy.hero.title.join(' ')}
+              </h1>
+              <CapitolIllustration alt={copy.hero.illustrationAlt} className="ml-auto w-[min(138px,40%)] shrink-0 lg:hidden" />
+            </div>
             <HeroTripForm
               title={copy.hero.planTitle}
               buttonLabel={copy.hero.button}
@@ -83,24 +83,15 @@ export function Home() {
               googleMaps={data.resources.get('google-maps')}
             />
           </div>
-          {/* Desktop: the picture fits inside a box as tall as the headline + trip card
-              (a size container), so it never makes the hero taller, keeps its shape,
-              and "New to this?" shows below the hero. */}
-          <div className="lg:relative">
-            <div className="lg:absolute lg:inset-0 lg:flex lg:items-end lg:justify-end lg:[container-type:size]">
-              <CapitolIllustration
-                alt={copy.hero.illustrationAlt}
-                className="mx-auto w-full max-w-[480px] lg:mx-0 lg:w-[min(100cqw,calc(100cqh*560/688))] lg:max-w-none"
-              />
-            </div>
-          </div>
+          <CapitolIllustration alt={copy.hero.illustrationAlt} className="hidden w-[min(451px,38%)] shrink-0 lg:block" />
         </div>
       </section>
 
-      {/* New to this? We got you. Phones: title, guides, card. Desktop: title + card left, guides right. */}
-      <section className="px-page py-10 lg:py-16">
-        <div className="grid gap-6 lg:grid-cols-[minmax(240px,28%)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-[clamp(32px,6vw,96px)] lg:gap-y-6">
-          <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:64] [--m:32] lg:leading-[0.98] lg:tracking-[-0.04em]">
+      {/* New to this? We got you. (desktop 775:3274, phone 865:5702). Phones: title,
+          guides, card. Desktop: title + 400px card left, guides right, 40 apart. */}
+      <section className="px-article py-10 lg:py-16">
+        <div className="grid gap-6 lg:grid-cols-[minmax(280px,400px)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-10 lg:gap-y-6">
+          <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:57] [--m:32] lg:leading-[1.05]">
             {copy.guides.title.map((line, i) => (
               <Fragment key={i}>
                 {i > 0 && <br />}
@@ -122,10 +113,10 @@ export function Home() {
         </div>
       </section>
 
-      {/* See what's going on in Austin. */}
-      <section className="border-y border-rule px-page py-10 lg:py-16">
+      {/* See what's going on in Austin. (desktop 775:3311, phone 865:5749) */}
+      <section className="border-y border-ink px-article py-10 lg:py-16">
         <div className="flex flex-col gap-6 lg:gap-10">
-          <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:80] [--m:32] lg:leading-[0.98] lg:tracking-[-0.04em]">
+          <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:57] [--m:32] lg:leading-[1.05]">
             {copy.discover.title}
           </h2>
           <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
@@ -134,7 +125,7 @@ export function Home() {
                 <li key={c.title}>
                   <PageLink
                     to={c.to}
-                    className="group relative flex h-[200px] items-end justify-between overflow-hidden border border-sky p-4 lg:h-[218px]"
+                    className="group relative flex h-[200px] items-end justify-between overflow-hidden border border-sky p-4 lg:h-[218px] lg:border-white"
                   >
                     <img
                       src={asset(c.image.src)}
@@ -142,8 +133,8 @@ export function Home() {
                       className="absolute inset-0 size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
                     />
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-[rgb(0_0_0/0.7)]" />
-                    <span className="relative text-fluid font-bold tracking-[-0.04em] text-white [--d:28] [--m:24]">{c.title}</span>
-                    <Arrow className="relative size-5 text-white" />
+                    <span className="relative text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-white [--d:28] [--m:24]">{c.title}</span>
+                    <Arrow className="relative size-4 text-white" strokeWidth={2.5} />
                   </PageLink>
                 </li>
               ))}
@@ -154,7 +145,7 @@ export function Home() {
               tone="sky"
               layout="side"
               mascot={{ src: '/images/mascots/austin-dog.svg', flip: true }}
-              className="lg:w-[36%] lg:shrink-0"
+              className="lg:w-[41%] lg:shrink-0"
             />
           </div>
         </div>
@@ -167,6 +158,7 @@ export function Home() {
         resources={data.resources}
         from="home"
         variant="home"
+        bodies={data.cardBodies}
       />
     </>
   );
