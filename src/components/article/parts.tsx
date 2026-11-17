@@ -1,4 +1,5 @@
-import { Children, type ReactNode } from 'react';
+import { Children, type MouseEvent, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { PostBlock } from '../../content/schema';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
@@ -25,9 +26,22 @@ export function ArrowIcon({ light = false }: { light?: boolean }) {
 }
 
 /** Figma 1008:2355: the angled arrow, mirrored to point back, then the label. */
+/**
+ * "Back": returns to the page the reader came from on this site (Home,
+ * Resources, Community…); `to` is used when they arrived from outside.
+ */
 export function BackLink({ to, label, className }: { to: string; label: string; className?: string }) {
+  const navigate = useNavigate();
+  const goBack = (e: MouseEvent<HTMLAnchorElement>) => {
+    // React Router counts in-app pages in history.state.idx; 0 means this was the first page.
+    const idx = (window.history.state as { idx?: number } | null)?.idx ?? 0;
+    if (idx > 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey) {
+      e.preventDefault();
+      navigate(-1);
+    }
+  };
   return (
-    <PageLink to={to} className={cx('flex items-center gap-[15px] self-start text-a-back font-semibold text-ink hover:underline', className)}>
+    <PageLink to={to} onClick={goBack} className={cx('flex items-center gap-[15px] self-start text-a-back font-semibold text-ink hover:underline', className)}>
       {/* The 18×16 frame; the drawing overflows it a little, as in Figma. */}
       <span aria-hidden="true" className="relative block h-4 w-[18px] shrink-0 -scale-x-100">
         <img loading="lazy" decoding="async"

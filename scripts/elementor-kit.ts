@@ -58,7 +58,8 @@ export const gapv = (n: number) => ({ column: String(n), row: String(n), isLinke
 
 /** Prototype route (/plan, /community#events) → WordPress page address. */
 export function href(to: string): string {
-  const [path, rest = ''] = to.split(/(?=[?#])/);
+  const cut = to.search(/[?#]/);
+  const [path, rest] = cut === -1 ? [to, ''] : [to.slice(0, cut), to.slice(cut)];
   const map: Record<string, string> = { '/plan': PAGES.plan, '/community': PAGES.community, '/resources': PAGES.resources };
   return (map[path] ?? path) + rest;
 }
@@ -274,9 +275,6 @@ export function together(copy: TogetherCopy, variant: 'home' | 'community'): El 
         ...wd('33%', '33%', '100%'),
         background_background: 'classic',
         background_color: '#ffffff',
-        border_border: 'solid',
-        border_width: box(1),
-        border_color: c('color-sky'),
         overflow: 'hidden',
         html_tag: 'a',
         link: { url: r.url, is_external: 'on', nofollow: '', custom_attributes: '' },

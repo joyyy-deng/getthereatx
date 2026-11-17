@@ -60,6 +60,7 @@ export function Footer() {
             <li key={s.label}>
               <a
                 href={s.href}
+                {...(s.href.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
                 className={cx(
                   linkClass,
                   'flex min-h-[44px] items-center gap-[5px] text-[12px] leading-[16px] tracking-[0.01em] text-navy lg:h-[44px] lg:gap-2 lg:text-[14px] lg:font-semibold lg:leading-[20px]',

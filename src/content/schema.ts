@@ -413,6 +413,10 @@ export const PageContent = z.object({
     selectedLabel: Text,
     /** {minutes} and {to} are filled in: "32 minutes to Mueller". */
     headline: Text,
+    /** Bus cards: {routes} is "7", or "803 → 320" with a transfer (bus-routes.json). */
+    busRoute: Text,
+    /** UT shuttle option: {routes} is "670". */
+    utShuttle: Text,
   }),
   resources: z.object({
     hero: z.object({ title: Text, intro: Text, button: z.object({ label: Text, to: PagePath }) }),
@@ -517,6 +521,34 @@ export const ResourceList = z.object({
 export type ResourceList = z.infer<typeof ResourceList>;
 
 /**
+ * The Resources directory as WordPress sends it (gtatx-tools plugin,
+ * includes/directory.php): the tag tree from the "Directory tags" taxonomy
+ * and one entry per External resource, blog post and upcoming event. When the
+ * plugin sends this, it replaces the built-in resource list, posts and events.
+ */
+export const WpDirectory = z.object({
+  groups: ResourceList.shape.groups,
+  entries: z.array(
+    z.object({
+      id: z.string().min(1),
+      kind: z.enum(['site', 'guide', 'event']),
+      title: z.string().min(1),
+      url: z.string().min(1),
+      tags: z.array(z.string()),
+      description: z.string().optional(),
+      /** A Media Library URL, or a picture bundled with the plugin ("/images/…"). */
+      photo: z.string().optional(),
+      /** Guides with a hero video say "Watch the video". */
+      video: z.boolean().optional(),
+      /** Events: start date-time (ISO 8601) and venue name. */
+      start: z.string().optional(),
+      venue: z.string().optional(),
+    }),
+  ),
+});
+export type WpDirectory = z.infer<typeof WpDirectory>;
+
+/**
  * Colors and fonts (theme.json). Each color key is a CSS variable name without
  * the leading `--`; `use` tells an editor where it shows up. The site applies
  * these at load, so changing one value here (or in WordPress later) recolors
@@ -546,6 +578,19 @@ export const ResourceModeCards = z.array(ResourceModeCard);
 export const Personas = z.array(Persona);
 export const Places = z.array(Place);
 export const PlanModes = z.array(PlanMode);
+
+/** CapMetro route numbers per Plan trip, built from CapMetro's GTFS feed by scripts/build-bus-routes.py. */
+export const BusRoutes = z.object({
+  source: z.string(),
+  note: z.string(),
+  /** Route number → CapMetro's route name, e.g. "7" → "7-Duval / Dove Springs". */
+  routes: z.record(z.string(), z.string()),
+  /** "fromId>toId" → the routes to ride, in order (two means one transfer). */
+  trips: z.record(z.string(), z.array(z.string()).min(1).max(2)),
+  /** "fromId>toId" → a direct UT shuttle (riders need a UT ID). */
+  utTrips: z.record(z.string(), z.array(z.string()).length(1)).default({}),
+});
+export type BusRoutes = z.infer<typeof BusRoutes>;
 export const PlanPreferences = z.array(PlanPreference);
 export const Posts = z.array(Post);
 export const Events = z.array(Event);

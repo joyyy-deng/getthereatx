@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import '../styles/index.css';
 import './wp.css';
-import { getThemeNow } from '../data';
+import { getThemeNow, setWpDirectory } from '../data';
 import { setAssetBase } from '../lib/asset';
 import { setPageUrls, type PageUrls } from '../lib/pageLinks';
 import { applyTheme } from '../lib/theme';
@@ -20,6 +20,8 @@ interface WpConfig {
   assetBase: string;
   /** WordPress URL for each prototype page, for links between pages. */
   pages: PageUrls;
+  /** The Resources directory from WP admin (includes/directory.php); absent until the starter import has run. */
+  directory?: unknown;
 }
 
 declare global {
@@ -39,6 +41,7 @@ const DEFAULT_PAGES: PageUrls = {
 const config = window.gtatxTools ?? {};
 if (config.assetBase) setAssetBase(config.assetBase);
 setPageUrls({ ...DEFAULT_PAGES, ...config.pages });
+if (config.directory) setWpDirectory(config.directory);
 
 const TOOLS: Record<string, () => ReactNode> = {
   plan: () => <PlanTrip />,

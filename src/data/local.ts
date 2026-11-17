@@ -19,7 +19,9 @@ import type {
   ResourceModeCard,
   StudentTab,
   Theme,
+  WpDirectory,
 } from '../content/schema';
+import { WpDirectory as WpDirectorySchema } from '../content/schema';
 import type { Audience, Mode, Need } from '../content/taxonomies';
 import { expandEvent, type Occurrence } from '../lib/recurrence';
 
@@ -44,6 +46,7 @@ const alerts = load('alerts');
 const places = load('places');
 const planModes = load('plan-modes');
 const planPreferences = load('plan-preferences');
+const busRoutes = load('bus-routes');
 const connectCards = load('connect-cards');
 const explorePlaces = load('explore-places');
 const studentTabs = load('student-tabs');
@@ -157,6 +160,20 @@ export async function getPlaces(): Promise<Place[]> {
   return places;
 }
 
+export interface BusLeg {
+  number: string;
+  name: string;
+}
+
+/** CapMetro routes for a trip, in riding order, plus a UT shuttle when one runs direct ([] when none is known). */
+export async function getBusRoutes(): Promise<(fromId: string, toId: string) => { legs: BusLeg[]; ut: BusLeg[] }> {
+  const legs = (numbers: string[] = []) => numbers.map((number) => ({ number, name: busRoutes.routes[number] ?? number }));
+  return (fromId, toId) => ({
+    legs: legs(busRoutes.trips[`${fromId}>${toId}`]),
+    ut: legs(busRoutes.utTrips[`${fromId}>${toId}`]),
+  });
+}
+
 /** Mode cards and "What matters to you?" chips for Plan Your Trip. */
 export async function getPlanConfig(): Promise<{ modes: PlanMode[]; preferences: PlanPreference[] }> {
   return { modes: planModes, preferences: planPreferences };
@@ -183,6 +200,20 @@ export async function getResourcesPage(): Promise<{ modes: ResourceModeCard[]; p
 /** The owner's resource list: directory entries, filter groups (tag hierarchy) and blog-post tags. */
 export async function getResourceList(): Promise<ResourceList> {
   return resourceList;
+}
+
+let wpDirectory: WpDirectory | null = null;
+
+/** Called by the WordPress entry when the plugin sends the directory (src/wp/main.tsx). */
+export function setWpDirectory(raw: unknown): void {
+  const parsed = WpDirectorySchema.safeParse(raw);
+  if (parsed.success) wpDirectory = parsed.data;
+  else console.warn('GetThereATX: the directory from WordPress did not match, using the built-in list.', parsed.error.issues);
+}
+
+/** The directory from WordPress (resources, posts, events), or null to use the built-in list. */
+export async function getWpDirectory(): Promise<WpDirectory | null> {
+  return wpDirectory;
 }
 
 /** Headings, intros and labels for every page (pages.json). */

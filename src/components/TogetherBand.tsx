@@ -82,7 +82,7 @@ export function TogetherBand({
                   rel="noopener noreferrer"
                   aria-label={r ? `${text(c.title)}: ${r.action}, opens ${r.provider} in a new tab` : undefined}
                   onClick={() => r && track('handoff', { resourceId: r.id, from, provider: r.provider, href: r.url })}
-                  className={cx('group flex w-full overflow-hidden border border-sky bg-white', size.card)}
+                  className={cx('group flex w-full overflow-hidden bg-white', size.card)}
                 >
                   <span className={cx('block overflow-hidden bg-sky', size.pic)}>
                     <img loading="lazy" decoding="async"

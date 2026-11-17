@@ -14,9 +14,15 @@ export function ModeCard({
   miles,
   selected,
   onSelect,
+  route,
+  utShuttle,
 }: {
   card: CardPlan;
   miles: number;
+  /** Bus cards: "Route 7" (CapMetro's GTFS feed via bus-routes.json). */
+  route?: string;
+  /** Bus cards: "UT shuttle 670 · UT ID needed" when a UT shuttle runs direct. */
+  utShuttle?: string;
   selected: boolean;
   onSelect: () => void;
 }) {
@@ -27,32 +33,47 @@ export function ModeCard({
       aria-pressed={selected}
       onClick={onSelect}
       className={cx(
-        'flex h-[132px] w-full items-center gap-3 border p-4 text-left transition-colors duration-hover lg:h-[160px] lg:px-[13px] lg:py-7',
+        'flex h-full min-h-[132px] w-full items-center gap-3 border p-4 text-left transition-colors duration-hover lg:min-h-[160px] lg:px-[13px] lg:py-7',
         selected ? 'border-charcoal bg-surface-muted lg:border-border-control lg:bg-sky lg:text-navy' : 'border-line bg-bg hover:border-ink-muted lg:border-border-control',
       )}
     >
       <span className="flex min-w-0 flex-1 flex-col justify-center gap-1 leading-[1.3]">
         <span className="text-[16px] font-semibold leading-[1.3] tracking-[-0.04em] lg:leading-[24px] lg:tracking-normal">{text(mode.title)}</span>
         <span className="tabular text-time font-medium lg:text-[22px] lg:font-normal lg:leading-[28px]">{typicalMinutes(minutes)} min</span>
-        {/* Figma: phones say "5.2 miles · no cost"; desktop says "5.2 miles" with a cost pill under it. */}
+        {/* "5.2 miles", with the cost as a pill under it (Joy: pills on phones too); modes without a pill keep "· cost". */}
         <span className="text-[12px] leading-[1.3] text-ink-soft lg:text-[14px] lg:leading-[20px] lg:tracking-[0.01em] lg:text-ink-muted">
           {longRide ? (
             'Long ride · try bike + bus'
           ) : (
             <>
               {miles.toFixed(1)} miles
-              <span className={mode.chip ? 'lg:hidden' : undefined}> · {text(mode.cost)}</span>
+              {!mode.chip && <span> · {text(mode.cost)}</span>}
             </>
           )}
         </span>
-        {mode.chip && !longRide && (
-          <span
-            className={cx(
-              'mt-[14px] hidden self-start rounded-pill border bg-bg px-[6px] py-1 text-[11px] leading-[16px] tracking-[0.01em] lg:inline-block',
-              { free: 'border-leaf', fare: 'border-[#fdc601]', drive: 'border-[#e62841]' }[mode.chip.tone],
+        {/* The cost pill and, on bus cards, the route pills beside it (phones too). */}
+        {(mode.chip || route || utShuttle) && !longRide && (
+          <span className="mt-2 flex flex-wrap gap-1 lg:mt-[14px]">
+            {mode.chip && (
+              <span
+                className={cx(
+                  'rounded-pill border bg-bg px-[6px] py-1 text-[11px] leading-[16px] tracking-[0.01em]',
+                  { free: 'border-leaf', fare: 'border-[#fdc601]', drive: 'border-[#e62841]' }[mode.chip.tone],
+                )}
+              >
+                {text(mode.chip.label)}
+              </span>
             )}
-          >
-            {text(mode.chip.label)}
+            {route && (
+              <span className="rounded-pill border border-charcoal bg-bg px-[6px] py-1 text-[11px] font-semibold leading-[16px] tracking-[0.01em] text-ink">
+                {route}
+              </span>
+            )}
+            {utShuttle && (
+              <span className="rounded-pill border border-[#bf5700] bg-bg px-[6px] py-1 text-[11px] font-semibold leading-[16px] tracking-[0.01em] text-ink">
+                {utShuttle}
+              </span>
+            )}
           </span>
         )}
       </span>

@@ -435,17 +435,14 @@ if ( function_exists( 'tribe_events' ) ) {
 	WP_CLI::warning( 'The Events Calendar is not active: no events seeded.' );
 }
 
-// ---------- external resources ----------
-foreach ( $gtatx_data['resources'] as $r ) {
-	$id = gtatx_seed_post( 'resource:' . $r['id'], array( 'post_type' => 'gtatx_resource', 'post_status' => 'publish', 'post_title' => $r['title'] ) );
-	foreach ( array( 'url' => 'url', 'provider' => 'provider', 'action' => 'action', 'one_liner' => 'oneLiner', 'last_checked' => 'lastChecked' ) as $field => $from ) {
-		gtatx_seed_field( 'gtatx_' . $field, $r[ $from ], $id );
-	}
-	foreach ( array( 'modes', 'needs', 'audiences' ) as $f ) {
-		gtatx_seed_field( 'gtatx_' . $f, $r[ $f ], $id );
-	}
+// ---------- Resources directory (External resources + Directory tags) ----------
+// The same starter import as Tools → GetThereATX directory on the live site.
+$gtatx_report = gtatx_directory_import( true );
+if ( is_wp_error( $gtatx_report ) ) {
+	WP_CLI::warning( $gtatx_report->get_error_message() );
+} else {
+	WP_CLI::log( sprintf( 'Directory: %d tags, %d new + %d matched external resources, %d tagged posts', $gtatx_report['tags'], $gtatx_report['resources'], $gtatx_report['updated'], $gtatx_report['guides'] ) );
 }
-WP_CLI::log( count( $gtatx_data['resources'] ) . ' external resources' );
 
 flush_rewrite_rules( false );
 WP_CLI::success( 'Local WordPress seeded. Log in at ' . admin_url() . ' (admin / password).' );

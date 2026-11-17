@@ -18,7 +18,7 @@ test.describe('blog template matches Figma: desktop 1440', () => {
   });
 
   test('header: back link, 72px title at the 128px margin, 22px description, 14px meta with no date', async ({ page }) => {
-    await expect(page.getByRole('link', { name: 'Back to Resources' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back', exact: true })).toBeVisible();
     const h1 = page.locator('h1');
     expect(await css(h1, 'font-size')).toBe('72px');
     expect(await css(h1, 'font-weight')).toBe('700');
@@ -85,7 +85,7 @@ test.describe('blog template matches Figma: phone 375', () => {
 
   test('hero 200px, no back link, 44px title at the 24px margin, 17px description', async ({ page }) => {
     expect((await box(page.locator('article > div').first())).height).toBe(200);
-    await expect(page.getByRole('link', { name: 'Back to Resources' })).toBeHidden();
+    await expect(page.getByRole('link', { name: 'Back', exact: true })).toBeHidden();
     const h1 = page.locator('h1');
     expect(await css(h1, 'font-size')).toBe('44px');
     expect((await box(h1)).x).toBe(24);

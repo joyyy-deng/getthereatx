@@ -5,11 +5,11 @@ import { DirectoryFilters } from '../components/resources/DirectoryFilters';
 import { PageLoading, Pagination } from '../components/ui';
 import { Arrow } from '../components/ui/Arrow';
 import { PageLink } from '../components/ui/PageLink';
-import { getConnectCards, getEvents, getPageContent, getPosts, getResourceList, getResources, getShareImages } from '../data';
+import { getConnectCards, getEvents, getPageContent, getPosts, getResourceList, getResources, getShareImages, getWpDirectory } from '../data';
 import { cardDateText } from '../lib/eventText';
 import { asset } from '../lib/asset';
 import { groupTags, matchesQuery, matchesTags, type FilterGroupId } from '../lib/directory';
-import { eventItem, guideItem, listItem, programItem, type DirectoryItem } from '../lib/directoryItems';
+import { eventItem, guideItem, listItem, programItem, wpItem, type DirectoryItem } from '../lib/directoryItems';
 import { useContent } from '../lib/useContent';
 
 // Resources (Figma desktop 783:25613, mobile 865:6071): photo hero, then the
@@ -37,7 +37,7 @@ const FEATURED = 2;
 export function Resources() {
   const data = useContent(async () => {
     const now = new Date();
-    const [list, copy, posts, cards, resources, occurrences, shareImages] = await Promise.all([
+    const [builtIn, copy, posts, cards, resources, occurrences, shareImages, wp] = await Promise.all([
       getResourceList(),
       getPageContent(),
       getPosts(),
@@ -45,11 +45,14 @@ export function Resources() {
       getResources(),
       getEvents({ from: now, to: new Date(now.getTime() + EVENT_DAYS * 86_400_000) }),
       getShareImages(),
+      getWpDirectory(),
     ]);
+    // Inside WordPress, after the starter import: the tag tree and entries come from WP admin.
+    const list = wp ? { ...builtIn, groups: wp.groups, tagAliases: {}, resources: [], guides: [] } : builtIn;
     // One card per event: its next date.
     const seen = new Set<string>();
     const events = occurrences.filter((o) => !seen.has(o.event.id) && seen.add(o.event.id));
-    return { list, copy: copy.resources, posts, cards, resources, events, shareImages };
+    return { list, copy: copy.resources, posts, cards, resources, events, shareImages, wp };
   });
   const [params, setParams] = useSearchParams();
   const directoryRef = useRef<HTMLElement>(null);
@@ -93,13 +96,23 @@ export function Resources() {
     if (!data) return [];
     const { copy, list } = data;
     const byTitle = (a: DirectoryItem, b: DirectoryItem) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base' });
-    const sites = list.resources.map((r) => listItem(list, r, copy.linkLabel, data.shareImages[r.url])).sort(byTitle);
     const programs = data.cards.flatMap((c) => {
       const r = data.resources.find((x) => x.id === c.resourceId);
       return r ? [programItem(list, c, r)] : [];
     });
-    const events = data.events.map((o) => eventItem(list, o, copy.eventAction, cardDateText(o.start)));
     const labels = { guide: copy.guidesLabel, readGuide: copy.readGuide, watchVideo: copy.watchVideo };
+    if (data.wp) {
+      const wpLabels = { ...labels, linkLabel: copy.linkLabel, eventAction: copy.eventAction };
+      const of = (kind: string) => data.wp!.entries.filter((e) => e.kind === kind);
+      const sites = of('site').map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
+      // Events come sorted by date from WordPress.
+      const events = of('event').map((e) => wpItem(list, e, wpLabels, e.start ? cardDateText(new Date(e.start)) : undefined));
+      const guides = of('guide').map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
+      // Programs are External resources in WordPress too (tagged Community / getting involved).
+      return [...sites, ...events, ...guides];
+    }
+    const sites = list.resources.map((r) => listItem(list, r, copy.linkLabel, data.shareImages[r.url])).sort(byTitle);
+    const events = data.events.map((o) => eventItem(list, o, copy.eventAction, cardDateText(o.start)));
     const guides = data.posts.map((p) => guideItem(list, p, labels));
     return [...sites, ...programs.sort(byTitle), ...events, ...guides.sort(byTitle)];
   }, [data]);

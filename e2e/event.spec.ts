@@ -12,7 +12,7 @@ test.describe('event template matches Figma: desktop 1440', () => {
 
   test('hero 360px; back link; 72px title; 22px description', async ({ page }) => {
     expect((await box(page.locator('article > div').first())).height).toBe(360);
-    await expect(page.getByRole('link', { name: 'Back to Community' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back', exact: true })).toBeVisible();
     expect(await css(page.locator('h1'), 'font-size')).toBe('72px');
     expect((await box(page.locator('h1'))).x).toBe(128);
     expect(await css(page.getByText('Description', { exact: true }), 'font-size')).toBe('22px');

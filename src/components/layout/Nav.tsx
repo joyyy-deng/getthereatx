@@ -34,8 +34,11 @@ export function Nav() {
                 to={l.to}
                 className={({ isActive }) =>
                   cx(
-                    'flex h-full items-center whitespace-nowrap p-6 text-[16px] font-semibold leading-[24px] text-ink transition-colors duration-hover',
-                    isActive ? 'bg-sky' : 'hover:bg-mist',
+                    'relative isolate flex h-full items-center overflow-hidden whitespace-nowrap p-6 text-[16px] font-semibold leading-[24px] text-ink',
+                    // Hover: leaf green sweeps up from the bottom (Elementor header: pointer background, sweep-up).
+                    isActive
+                      ? 'bg-sky'
+                      : "before:absolute before:inset-0 before:-z-10 before:origin-bottom before:scale-y-0 before:bg-leaf before:transition-transform before:duration-panel before:ease-out before:content-[''] hover:before:scale-y-100 focus-visible:before:scale-y-100 motion-reduce:before:transition-none",
                   )
                 }
               >

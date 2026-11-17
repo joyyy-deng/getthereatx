@@ -1,0 +1,427 @@
+{
+  "source": "CapMetro GTFS feed (data.texas.gov r4v4-vz24), version 261110_1310, valid 20261110 to 20270109",
+  "note": "Best direct route, else one transfer, between stops in each place. Built by scripts/build-bus-routes.py; do not edit by hand.",
+  "routes": {
+    "2": "2- Rosewood/Cesar Chavez",
+    "4": "4-7th Street",
+    "7": "7-Duval / Dove Springs",
+    "10": "10-South 1st/Red River",
+    "18": "18-Martin Luther King",
+    "20": "20-Riverside",
+    "30": "30-Barton Creek/Bull Creek",
+    "300": "300-Springdale/Oltorf",
+    "320": "320-Manor Road",
+    "322": "322-Chicon/Cherrywood",
+    "335": "335 35th/38th",
+    "337": "337-Koenig/Colony Park",
+    "345": "345-45th",
+    "350": "350-Airport Blvd",
+    "656": "656-Intramural Fields/UT",
+    "663": "663-Lake Austin/UT",
+    "670": "670-North Riverside",
+    "800": "800 PLEASANT VALLEY",
+    "801": "801-N Lamar S Congress",
+    "803": "803-Burnet/S Lamar",
+    "837": "837-EXPO CENTER"
+  },
+  "trips": {
+    "downtown>ut-austin": [
+      "18"
+    ],
+    "downtown>hyde-park": [
+      "7"
+    ],
+    "downtown>north-loop": [
+      "7"
+    ],
+    "downtown>mueller": [
+      "837"
+    ],
+    "downtown>east-austin": [
+      "2"
+    ],
+    "downtown>east-riverside": [
+      "20"
+    ],
+    "downtown>south-congress": [
+      "10"
+    ],
+    "downtown>zilker": [
+      "30"
+    ],
+    "downtown>domain": [
+      "803"
+    ],
+    "downtown>airport": [
+      "20"
+    ],
+    "ut-austin>downtown": [
+      "18"
+    ],
+    "ut-austin>hyde-park": [
+      "7"
+    ],
+    "ut-austin>north-loop": [
+      "7"
+    ],
+    "ut-austin>mueller": [
+      "837"
+    ],
+    "ut-austin>east-austin": [
+      "18"
+    ],
+    "ut-austin>east-riverside": [
+      "20"
+    ],
+    "ut-austin>south-congress": [
+      "20"
+    ],
+    "ut-austin>zilker": [
+      "18",
+      "30"
+    ],
+    "ut-austin>domain": [
+      "803"
+    ],
+    "ut-austin>airport": [
+      "20"
+    ],
+    "hyde-park>downtown": [
+      "7"
+    ],
+    "hyde-park>ut-austin": [
+      "7"
+    ],
+    "hyde-park>north-loop": [
+      "7"
+    ],
+    "hyde-park>mueller": [
+      "350"
+    ],
+    "hyde-park>east-austin": [
+      "350",
+      "18"
+    ],
+    "hyde-park>east-riverside": [
+      "7"
+    ],
+    "hyde-park>south-congress": [
+      "7"
+    ],
+    "hyde-park>zilker": [
+      "335",
+      "30"
+    ],
+    "hyde-park>domain": [
+      "335",
+      "803"
+    ],
+    "hyde-park>airport": [
+      "350",
+      "20"
+    ],
+    "north-loop>downtown": [
+      "7"
+    ],
+    "north-loop>ut-austin": [
+      "7"
+    ],
+    "north-loop>hyde-park": [
+      "7"
+    ],
+    "north-loop>mueller": [
+      "350"
+    ],
+    "north-loop>east-austin": [
+      "350",
+      "18"
+    ],
+    "north-loop>east-riverside": [
+      "7"
+    ],
+    "north-loop>south-congress": [
+      "7"
+    ],
+    "north-loop>zilker": [
+      "7",
+      "30"
+    ],
+    "north-loop>domain": [
+      "7",
+      "803"
+    ],
+    "north-loop>airport": [
+      "350",
+      "20"
+    ],
+    "mueller>downtown": [
+      "837"
+    ],
+    "mueller>ut-austin": [
+      "320"
+    ],
+    "mueller>hyde-park": [
+      "335"
+    ],
+    "mueller>north-loop": [
+      "350"
+    ],
+    "mueller>east-austin": [
+      "350",
+      "18"
+    ],
+    "mueller>east-riverside": [
+      "800"
+    ],
+    "mueller>south-congress": [
+      "10"
+    ],
+    "mueller>zilker": [
+      "320",
+      "30"
+    ],
+    "mueller>domain": [
+      "335",
+      "803"
+    ],
+    "mueller>airport": [
+      "350",
+      "20"
+    ],
+    "east-austin>downtown": [
+      "2"
+    ],
+    "east-austin>ut-austin": [
+      "18"
+    ],
+    "east-austin>hyde-park": [
+      "18",
+      "801"
+    ],
+    "east-austin>north-loop": [
+      "18",
+      "350"
+    ],
+    "east-austin>mueller": [
+      "322",
+      "320"
+    ],
+    "east-austin>east-riverside": [
+      "4",
+      "800"
+    ],
+    "east-austin>south-congress": [
+      "18",
+      "20"
+    ],
+    "east-austin>zilker": [
+      "18",
+      "30"
+    ],
+    "east-austin>domain": [
+      "18",
+      "803"
+    ],
+    "east-austin>airport": [
+      "18",
+      "20"
+    ],
+    "east-riverside>downtown": [
+      "20"
+    ],
+    "east-riverside>ut-austin": [
+      "20"
+    ],
+    "east-riverside>hyde-park": [
+      "7"
+    ],
+    "east-riverside>north-loop": [
+      "7"
+    ],
+    "east-riverside>mueller": [
+      "300"
+    ],
+    "east-riverside>east-austin": [
+      "300",
+      "4"
+    ],
+    "east-riverside>south-congress": [
+      "300"
+    ],
+    "east-riverside>zilker": [
+      "20",
+      "30"
+    ],
+    "east-riverside>domain": [
+      "20",
+      "803"
+    ],
+    "east-riverside>airport": [
+      "20"
+    ],
+    "south-congress>downtown": [
+      "10"
+    ],
+    "south-congress>ut-austin": [
+      "30"
+    ],
+    "south-congress>hyde-park": [
+      "801"
+    ],
+    "south-congress>north-loop": [
+      "801"
+    ],
+    "south-congress>mueller": [
+      "10"
+    ],
+    "south-congress>east-austin": [
+      "20",
+      "18"
+    ],
+    "south-congress>east-riverside": [
+      "20"
+    ],
+    "south-congress>zilker": [
+      "30"
+    ],
+    "south-congress>domain": [
+      "20",
+      "803"
+    ],
+    "south-congress>airport": [
+      "20"
+    ],
+    "zilker>downtown": [
+      "30"
+    ],
+    "zilker>ut-austin": [
+      "30"
+    ],
+    "zilker>hyde-park": [
+      "30",
+      "801"
+    ],
+    "zilker>north-loop": [
+      "30",
+      "801"
+    ],
+    "zilker>mueller": [
+      "30",
+      "837"
+    ],
+    "zilker>east-austin": [
+      "30",
+      "18"
+    ],
+    "zilker>east-riverside": [
+      "30",
+      "20"
+    ],
+    "zilker>south-congress": [
+      "30"
+    ],
+    "zilker>domain": [
+      "30",
+      "803"
+    ],
+    "zilker>airport": [
+      "30",
+      "20"
+    ],
+    "domain>downtown": [
+      "803"
+    ],
+    "domain>ut-austin": [
+      "803",
+      "320"
+    ],
+    "domain>hyde-park": [
+      "803",
+      "345"
+    ],
+    "domain>north-loop": [
+      "803",
+      "337"
+    ],
+    "domain>mueller": [
+      "803",
+      "335"
+    ],
+    "domain>east-austin": [
+      "803",
+      "18"
+    ],
+    "domain>east-riverside": [
+      "803",
+      "20"
+    ],
+    "domain>south-congress": [
+      "803",
+      "20"
+    ],
+    "domain>zilker": [
+      "803",
+      "30"
+    ],
+    "domain>airport": [
+      "803",
+      "20"
+    ],
+    "airport>downtown": [
+      "20"
+    ],
+    "airport>ut-austin": [
+      "20"
+    ],
+    "airport>hyde-park": [
+      "20",
+      "801"
+    ],
+    "airport>north-loop": [
+      "20",
+      "350"
+    ],
+    "airport>mueller": [
+      "20",
+      "350"
+    ],
+    "airport>east-austin": [
+      "20",
+      "18"
+    ],
+    "airport>east-riverside": [
+      "20"
+    ],
+    "airport>south-congress": [
+      "20"
+    ],
+    "airport>zilker": [
+      "20",
+      "30"
+    ],
+    "airport>domain": [
+      "20",
+      "803"
+    ]
+  },
+  "utTrips": {
+    "downtown>ut-austin": [
+      "663"
+    ],
+    "ut-austin>downtown": [
+      "663"
+    ],
+    "ut-austin>hyde-park": [
+      "656"
+    ],
+    "ut-austin>east-riverside": [
+      "670"
+    ],
+    "hyde-park>ut-austin": [
+      "656"
+    ],
+    "east-riverside>ut-austin": [
+      "670"
+    ]
+  }
+}

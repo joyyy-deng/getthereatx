@@ -45,9 +45,9 @@ test('footer: 32px invitation, 22px Demibold links; Contact and Privacy go to ge
   await expect(footer.getByRole('link', { name: /Privacy Policy/ })).toHaveAttribute('href', 'https://www.getthereatx.com/privacy-policy/');
 });
 
-test('Figma type sizes: Home poster 96 / 45, Resources and Community titles 36 / 28', async ({ page }) => {
+test('Type sizes: Home poster 80 / 45 (shortened from Figma 96 at Joy\'s request), Resources and Community titles 36 / 28', async ({ page }) => {
   await open(page, '/', DESKTOP);
-  expect(await css(page.locator('h1'), 'font-size')).toBe('96px');
+  expect(await css(page.locator('h1'), 'font-size')).toBe('80px');
   expect(await page.locator('h1').textContent()).toBe('Austin, your way.');
   await open(page, '/', PHONE);
   expect(await css(page.locator('h1'), 'font-size')).toBe('45px');

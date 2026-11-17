@@ -26,9 +26,9 @@ describe('blog template', () => {
     expect(screen.getByText(/Updated Oct 2026/)).toBeInTheDocument();
   });
 
-  it('back link goes to the guides in Resources', () => {
+  it('back link falls back to the guides in Resources', () => {
     view(samplePost);
-    expect(screen.getByRole('link', { name: 'Back to Resources' })).toHaveAttribute('href', '/resources#directory');
+    expect(screen.getByRole('link', { name: 'Back' })).toHaveAttribute('href', '/resources#directory');
   });
 
   it('renders each block as the right element', () => {

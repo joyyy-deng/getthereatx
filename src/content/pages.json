@@ -18,7 +18,7 @@
           "See all",
           "guides"
         ],
-        "to": "/resources"
+        "to": "/resources?type=Howtos/guides#directory"
       },
       "items": [
         {
@@ -85,7 +85,7 @@
       "title": "Get there together.",
       "button": {
         "label": "Find your community",
-        "to": "/community"
+        "to": "/resources?type=HappeninginAustin#directory"
       }
     }
   },
@@ -102,7 +102,9 @@
     "transportLabel": "Transport type",
     "compareTitle": "Compare ways to get there",
     "selectedLabel": "Selected route",
-    "headline": "{minutes} minutes to {to}"
+    "headline": "{minutes} minutes to {to}",
+    "busRoute": "Route {routes}",
+    "utShuttle": "UT shuttle {routes} · UT ID needed"
   },
   "resources": {
     "hero": {
@@ -141,7 +143,7 @@
       },
       "button": {
         "label": "Find your community",
-        "to": "#events"
+        "to": "/resources?type=HappeninginAustin#directory"
       }
     },
     "events": {
@@ -168,7 +170,7 @@
     }
   },
   "guide": {
-    "backLabel": "Back to Resources",
+    "backLabel": "Back",
     "readTime": "{n} min read",
     "updated": "Updated {date}",
     "byline": "By {author}",
@@ -184,7 +186,7 @@
     "readFullPost": "Read the full post on getthereatx.com"
   },
   "event": {
-    "backLabel": "Back to Community",
+    "backLabel": "Back",
     "bringTitle": "What to bring/What you will gain",
     "hostedTitle": "Hosted by",
     "accessibilityTitle": "Accessibility",

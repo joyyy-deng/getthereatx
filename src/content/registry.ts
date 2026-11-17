@@ -1,6 +1,7 @@
 import type { z } from 'zod';
 import {
   Alerts,
+  BusRoutes,
   Categories,
   ShareImages,
   ConnectCards,
@@ -36,6 +37,7 @@ export const CONTENT_FILES = {
   alerts: Alerts,
   places: Places,
   'plan-modes': PlanModes,
+  'bus-routes': BusRoutes,
   'plan-preferences': PlanPreferences,
   'connect-cards': ConnectCards,
   'explore-places': ExplorePlaces,

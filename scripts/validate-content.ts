@@ -145,6 +145,17 @@ if (list.success) {
   }
 }
 
+// Bus route numbers come from one CapMetro schedule (bus-routes.json). CapMetro changes
+// service in January, May/June and August; past the feed's end date the numbers may be stale.
+{
+  const { source } = load('bus-routes') as { source: string };
+  const end = source.match(/to (\d{4})(\d{2})(\d{2})/);
+  if (end && new Date(`${end[1]}-${end[2]}-${end[3]}T23:59:59`) < new Date())
+    console.warn(
+      `  ! bus-routes: CapMetro's schedule ended ${end[1]}-${end[2]}-${end[3]}. Download the new feed and run scripts/build-bus-routes.py (see its first lines).`,
+    );
+}
+
 if (errors) {
   console.error(`\n${errors} content error${errors === 1 ? '' : 's'}.`);
   process.exit(1);

@@ -302,6 +302,25 @@ function gtatx_enqueue_blog_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'gtatx_enqueue_blog_styles', 30 );
 
+/**
+ * "Back" on posts and events returns to the page the reader came from (Home,
+ * Resources, Community…) when that page is on this site; otherwise the link's
+ * own address (Resources or Community) is used. Works for the plugin templates
+ * (a.gtatx-back) and the Elementor ones (.gtatx-back-link a).
+ */
+function gtatx_enqueue_back_link() {
+	if ( ! is_singular( array( 'post', 'tribe_events' ) ) ) {
+		return;
+	}
+	wp_register_script( 'gtatx-back', false, array(), GTATX_TOOLS_VERSION, array( 'in_footer' => true ) );
+	wp_enqueue_script( 'gtatx-back' );
+	wp_add_inline_script(
+		'gtatx-back',
+		"document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.gtatx-back,.gtatx-back-link a');if(!a||e.metaKey||e.ctrlKey||e.shiftKey)return;var r=document.referrer;try{if(r&&new URL(r).origin===location.origin&&r!==location.href&&history.length>1){e.preventDefault();history.back();}}catch(_){}});"
+	);
+}
+add_action( 'wp_enqueue_scripts', 'gtatx_enqueue_back_link', 30 );
+
 /* -------------------------------------------------------------------------
  * Event helpers (The Events Calendar)
  * ---------------------------------------------------------------------- */
@@ -423,89 +442,8 @@ foreach ( array( 'container', 'widget', 'section', 'column' ) as $gtatx_type ) {
 }
 unset( $gtatx_type );
 
-/* -------------------------------------------------------------------------
- * External resources: links to other sites (CapMetro, DriveTexas, …) that
- * show as ↗ rows in the Resources directory. No page of their own.
- * In the prototype: src/content/resources.json (schema Resource).
- * ---------------------------------------------------------------------- */
-
-function gtatx_register_resource_type() {
-	register_post_type(
-		'gtatx_resource',
-		array(
-			'labels'       => array(
-				'name'          => 'External resources',
-				'singular_name' => 'External resource',
-				'add_new_item'  => 'Add external resource',
-				'edit_item'     => 'Edit external resource',
-				'menu_name'     => 'External resources',
-			),
-			'description'  => 'Links to other sites, shown in the Resources directory.',
-			'public'       => false,
-			'show_ui'      => true,
-			'show_in_rest' => true,
-			'menu_icon'    => 'dashicons-external',
-			'supports'     => array( 'title', 'revisions' ),
-		)
-	);
-	foreach ( array( 'url', 'provider', 'action', 'one_liner', 'last_checked' ) as $key ) {
-		register_post_meta( 'gtatx_resource', 'gtatx_' . $key, gtatx_meta_args( 'string', 'url' === $key ? 'esc_url_raw' : 'sanitize_text_field' ) );
-	}
-}
-add_action( 'init', 'gtatx_register_resource_type' );
-
-/** The directory's filter values (src/content/taxonomies.ts). */
-function gtatx_directory_choices() {
-	return array(
-		'modes'     => array( 'walk' => 'Walk', 'bike' => 'Bike', 'bus' => 'Bus', 'rail' => 'Rail', 'carpool' => 'Carpool', 'drive' => 'Drive' ),
-		'needs'     => array( 'plan-route' => 'Plan a route', 'check-conditions' => 'Check conditions', 'learn-how' => 'Learn how', 'join-program' => 'Join a program', 'save-money' => 'Save money' ),
-		'audiences' => array( 'everyone' => 'Everyone', 'commuter' => 'Commuter', 'student' => 'University Student', 'visitor' => 'Visiting Austin', 'family' => 'Families', 'senior' => 'Seniors', 'new-to-transit' => 'New to transit', 'accessibility' => 'Accessibility' ),
-	);
-}
-
-function gtatx_register_resource_fields() {
-	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
-		return;
-	}
-	acf_add_local_field_group(
-		array(
-			'key'      => 'group_gtatx_resource',
-			'title'    => 'Link',
-			'fields'   => array(
-				array( 'key' => 'field_gtatx_url', 'name' => 'gtatx_url', 'label' => 'Web address', 'type' => 'url', 'required' => 1 ),
-				array( 'key' => 'field_gtatx_provider', 'name' => 'gtatx_provider', 'label' => 'Who runs it', 'type' => 'text', 'required' => 1, 'placeholder' => 'CapMetro' ),
-				array( 'key' => 'field_gtatx_action', 'name' => 'gtatx_action', 'label' => 'Button text', 'type' => 'text', 'required' => 1, 'instructions' => 'Start with a verb: "Find a carpool partner".' ),
-				array( 'key' => 'field_gtatx_one_liner', 'name' => 'gtatx_one_liner', 'label' => 'What you’ll find there', 'type' => 'text', 'required' => 1, 'instructions' => '15 words or fewer.' ),
-				array( 'key' => 'field_gtatx_last_checked', 'name' => 'gtatx_last_checked', 'label' => 'Link last checked', 'type' => 'date_picker', 'return_format' => 'Y-m-d' ),
-			),
-			'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'gtatx_resource' ) ) ),
-		)
-	);
-	// Directory filters, on external resources and blog posts (so blogs show under the same filters).
-	$fields = array();
-	foreach ( gtatx_directory_choices() as $name => $choices ) {
-		$fields[] = array(
-			'key'     => 'field_gtatx_' . $name,
-			'name'    => 'gtatx_' . $name,
-			'label'   => array( 'modes' => 'Ways of getting around', 'needs' => 'Helps people…', 'audiences' => 'For who?' )[ $name ],
-			'type'    => 'checkbox',
-			'choices' => $choices,
-			'layout'  => 'horizontal',
-		);
-	}
-	acf_add_local_field_group(
-		array(
-			'key'      => 'group_gtatx_directory',
-			'title'    => 'Resources directory filters',
-			'fields'   => $fields,
-			'location' => array(
-				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'gtatx_resource' ) ),
-				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ),
-			),
-		)
-	);
-}
-add_action( 'acf/init', 'gtatx_register_resource_fields' );
+/* External resources and the Resources directory: includes/directory.php. */
+require_once __DIR__ . '/directory.php';
 
 /* -------------------------------------------------------------------------
  * Post body blocks (Option B, the "fill in the boxes" way to write a post).

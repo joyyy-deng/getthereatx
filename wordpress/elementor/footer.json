@@ -4,7 +4,7 @@
  "type": "footer",
  "content": [
   {
-   "id": "90a9a5d",
+   "id": "b57b24d",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -88,7 +88,7 @@
    },
    "elements": [
     {
-     "id": "b2c8a2a",
+     "id": "fe43491",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -160,7 +160,7 @@
      },
      "elements": [
       {
-       "id": "79508bd",
+       "id": "5196ce7",
        "elType": "widget",
        "widgetType": "image",
        "settings": {
@@ -198,7 +198,7 @@
        "elements": []
       },
       {
-       "id": "0a98bf3",
+       "id": "b227228",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -259,7 +259,7 @@
      ]
     },
     {
-     "id": "2fca09c",
+     "id": "a181312",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -333,7 +333,7 @@
      },
      "elements": [
       {
-       "id": "df5f20d",
+       "id": "8e45bbc",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -405,7 +405,7 @@
        },
        "elements": [
         {
-         "id": "ea6887e",
+         "id": "f7314c3",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -477,7 +477,7 @@
          },
          "elements": [
           {
-           "id": "c5b5dee",
+           "id": "c5ba644",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -566,7 +566,7 @@
            "elements": []
           },
           {
-           "id": "9fae9c8",
+           "id": "a11e6e6",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -657,7 +657,7 @@
          ]
         },
         {
-         "id": "c7a6999",
+         "id": "5fe60e4",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -729,7 +729,7 @@
          },
          "elements": [
           {
-           "id": "86ddd10",
+           "id": "303d15a",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -818,7 +818,7 @@
            "elements": []
           },
           {
-           "id": "481c399",
+           "id": "5258e6b",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -911,7 +911,7 @@
        ]
       },
       {
-       "id": "9b6f7a3",
+       "id": "e2ae19c",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -983,7 +983,7 @@
        },
        "elements": [
         {
-         "id": "4987925",
+         "id": "c7421e8",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1072,15 +1072,15 @@
           },
           "html_tag": "a",
           "link": {
-           "url": "#facebook",
-           "is_external": "",
+           "url": "https://www.facebook.com/GetThereAustin/",
+           "is_external": "on",
            "nofollow": "",
            "custom_attributes": ""
           }
          },
          "elements": [
           {
-           "id": "f7b50e7",
+           "id": "03cbca4",
            "elType": "widget",
            "widgetType": "icon",
            "settings": {
@@ -1110,7 +1110,7 @@
            "elements": []
           },
           {
-           "id": "0939eb6",
+           "id": "5bf44b8",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1171,7 +1171,7 @@
          ]
         },
         {
-         "id": "9ec64a4",
+         "id": "b239341",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1268,7 +1268,7 @@
          },
          "elements": [
           {
-           "id": "857cddf",
+           "id": "f587f18",
            "elType": "widget",
            "widgetType": "icon",
            "settings": {
@@ -1298,7 +1298,7 @@
            "elements": []
           },
           {
-           "id": "2ce96e0",
+           "id": "4d164af",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1359,7 +1359,7 @@
          ]
         },
         {
-         "id": "d5a8636",
+         "id": "482b835",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1448,15 +1448,15 @@
           },
           "html_tag": "a",
           "link": {
-           "url": "#instagram",
-           "is_external": "",
+           "url": "https://www.instagram.com/getthereatx/",
+           "is_external": "on",
            "nofollow": "",
            "custom_attributes": ""
           }
          },
          "elements": [
           {
-           "id": "3ca0268",
+           "id": "6474e2d",
            "elType": "widget",
            "widgetType": "icon",
            "settings": {
@@ -1486,7 +1486,7 @@
            "elements": []
           },
           {
-           "id": "b9103f1",
+           "id": "cfc130b",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1549,7 +1549,7 @@
        ]
       },
       {
-       "id": "56efbcf",
+       "id": "717fbc3",
        "elType": "widget",
        "widgetType": "divider",
        "settings": {
@@ -1591,7 +1591,7 @@
        "elements": []
       },
       {
-       "id": "dee9c9b",
+       "id": "da8157f",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -1669,7 +1669,7 @@
        },
        "elements": [
         {
-         "id": "d9dba96",
+         "id": "136b0c7",
          "elType": "widget",
          "widgetType": "heading",
          "settings": {
@@ -1728,7 +1728,7 @@
          "elements": []
         },
         {
-         "id": "27bb0dd",
+         "id": "dcce462",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1800,7 +1800,7 @@
          },
          "elements": [
           {
-           "id": "1088bb9",
+           "id": "7eabc1d",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1889,7 +1889,7 @@
            "elements": []
           },
           {
-           "id": "237de40",
+           "id": "377b065",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {

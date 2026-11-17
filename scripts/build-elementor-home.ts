@@ -55,18 +55,19 @@ const illustration = (settings: Settings) =>
     [pic('art-hero-sloth-bus.png', home.hero.illustrationAlt, { w: '100%' })],
   );
 
+// Shorter than Figma so "New to this?" shows on the first screen (Home.tsx, Joy 2026-11-17).
 const masthead = band(
   {
-    ...pad(box(64, 48), box(32, 48), box(32, 24)),
+    ...pad(box(40, 48), box(24, 48), box(24, 24)),
     border_border: 'solid',
     border_width: box(0, 0, 1, 0),
     border_color: c('color-ink'),
   },
   [
     box_({ ...dir('row', 'column', 'column'), ...gap(40, 24, 24), ...align('flex-end', 'stretch', 'stretch') }, [
-      box_({ ...wd('60%', '100%', '100%'), ...gap(24) }, [
+      box_({ ...wd('60%', '100%', '100%'), ...gap(16, 20, 20) }, [
         box_({ ...dir('row'), ...gap(4), ...align('flex-start'), ...justify('space-between') }, [
-          heading(home.hero.title.join(' '), 'h1', c('color-ink'), ty(96, 45, '600', { lh: 1.05, ls: -0.01 }), selfW('489px', '59%', '59%')),
+          heading(home.hero.title.join(' '), 'h1', c('color-ink'), ty(80, 45, '600', { lh: 1.05, ls: -0.01 }), selfW('400px', '59%', '59%')),
           // Phones and tablets: 138px picture beside the headline.
           illustration({ ...wd('138px', '138px', '40%'), ...hide('desktop') }),
         ]),
@@ -150,7 +151,7 @@ const accordion: El = {
 const seeAll = (extra: Settings) =>
   mascotCard({ title: home.guides.seeAll.title, to: home.guides.seeAll.to, tone: 'leaf', art: 'art-guides-kangaroo.png', layout: 'stacked', extra });
 
-const guides = band({ ...dir('row', 'column', 'column'), ...gap(40, 24, 24), ...align('flex-start', 'stretch', 'stretch') }, [
+const guides = band({ ...pad(box(40, 48, 64, 48), box(32, 48, 40, 48), box(32, 24, 40, 24)), ...dir('row', 'column', 'column'), ...gap(40, 24, 24), ...align('flex-start', 'stretch', 'stretch') }, [
   box_({ ...wd('34%', '100%', '100%'), ...gap(24) }, [
     sectionTitle(lines(home.guides.title), c('color-ink')),
     seeAll(hide('tablet', 'mobile')),

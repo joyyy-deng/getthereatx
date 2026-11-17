@@ -23,7 +23,7 @@ const minimal: Event = {
 describe('event template', () => {
   it('header: back to Community, title, description', () => {
     view(sampleEvent);
-    expect(screen.getByRole('link', { name: 'Back to Community' })).toHaveAttribute('href', '/community#events');
+    expect(screen.getByRole('link', { name: 'Back' })).toHaveAttribute('href', '/community#events');
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Event title');
     expect(screen.getByText('Description')).toBeInTheDocument();
   });

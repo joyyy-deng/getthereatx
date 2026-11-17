@@ -8,7 +8,7 @@
  },
  "content": [
   {
-   "id": "439b8a3",
+   "id": "a79c72e",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -90,7 +90,7 @@
    },
    "elements": [
     {
-     "id": "6068ce2",
+     "id": "31096cb",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -165,7 +165,7 @@
      },
      "elements": [
       {
-       "id": "94dbb8c",
+       "id": "954e4d7",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -224,7 +224,7 @@
        "elements": []
       },
       {
-       "id": "1549b02",
+       "id": "748a706",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -315,7 +315,7 @@
         "background_color": "#74ab60",
         "html_tag": "a",
         "link": {
-         "url": "#events",
+         "url": "/resources/?type=HappeninginAustin#directory",
          "is_external": "",
          "nofollow": "",
          "custom_attributes": ""
@@ -323,7 +323,7 @@
        },
        "elements": [
         {
-         "id": "e158b27",
+         "id": "b36db14",
          "elType": "widget",
          "widgetType": "heading",
          "settings": {
@@ -382,7 +382,7 @@
          "elements": []
         },
         {
-         "id": "5b08c44",
+         "id": "ed0a1cf",
          "elType": "widget",
          "widgetType": "image",
          "settings": {
@@ -433,7 +433,7 @@
      ]
     },
     {
-     "id": "7a76a7a",
+     "id": "f4da4a8",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -508,7 +508,7 @@
      },
      "elements": [
       {
-       "id": "47cd5f8",
+       "id": "a95d0c4",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -579,16 +579,6 @@
         "flex_wrap": "nowrap",
         "background_background": "classic",
         "background_color": "#ffffff",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_color": "#d9e8f4",
         "overflow": "hidden",
         "html_tag": "a",
         "link": {
@@ -600,7 +590,7 @@
        },
        "elements": [
         {
-         "id": "f970d27",
+         "id": "e5eb4c1",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -698,7 +688,7 @@
          "elements": []
         },
         {
-         "id": "24be65a",
+         "id": "b820041",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -788,7 +778,7 @@
          },
          "elements": [
           {
-           "id": "cb1fa14",
+           "id": "7559bfe",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -847,7 +837,7 @@
            "elements": []
           },
           {
-           "id": "9ad2722",
+           "id": "d38dcc2",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -910,7 +900,7 @@
        ]
       },
       {
-       "id": "cca2e84",
+       "id": "0d9ef5b",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -981,16 +971,6 @@
         "flex_wrap": "nowrap",
         "background_background": "classic",
         "background_color": "#ffffff",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_color": "#d9e8f4",
         "overflow": "hidden",
         "html_tag": "a",
         "link": {
@@ -1002,7 +982,7 @@
        },
        "elements": [
         {
-         "id": "130ce14",
+         "id": "328917c",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1100,7 +1080,7 @@
          "elements": []
         },
         {
-         "id": "3715bd4",
+         "id": "40e4b9b",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1190,7 +1170,7 @@
          },
          "elements": [
           {
-           "id": "fb1f4e5",
+           "id": "5caed6f",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1249,7 +1229,7 @@
            "elements": []
           },
           {
-           "id": "d86d7e2",
+           "id": "d23fb27",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1312,7 +1292,7 @@
        ]
       },
       {
-       "id": "66aea62",
+       "id": "0e75739",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -1383,16 +1363,6 @@
         "flex_wrap": "nowrap",
         "background_background": "classic",
         "background_color": "#ffffff",
-        "border_border": "solid",
-        "border_width": {
-         "unit": "px",
-         "top": "1",
-         "right": "1",
-         "bottom": "1",
-         "left": "1",
-         "isLinked": true
-        },
-        "border_color": "#d9e8f4",
         "overflow": "hidden",
         "html_tag": "a",
         "link": {
@@ -1404,7 +1374,7 @@
        },
        "elements": [
         {
-         "id": "c4e2182",
+         "id": "aca45b8",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1502,7 +1472,7 @@
          "elements": []
         },
         {
-         "id": "3ffb683",
+         "id": "7061e56",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1592,7 +1562,7 @@
          },
          "elements": [
           {
-           "id": "9203add",
+           "id": "84c5380",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1651,7 +1621,7 @@
            "elements": []
           },
           {
-           "id": "b1455b6",
+           "id": "c85b46f",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1718,7 +1688,7 @@
    ]
   },
   {
-   "id": "91cfcf8",
+   "id": "6af9bd0",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -1796,7 +1766,7 @@
    },
    "elements": [
     {
-     "id": "0324456",
+     "id": "22eb301",
      "elType": "widget",
      "widgetType": "heading",
      "settings": {
@@ -1855,7 +1825,7 @@
      "elements": []
     },
     {
-     "id": "132427b",
+     "id": "f13cc8d",
      "elType": "widget",
      "widgetType": "loop-grid",
      "settings": {
@@ -1887,7 +1857,7 @@
      "elements": []
     },
     {
-     "id": "c832a49",
+     "id": "1e5fc36",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -1979,7 +1949,7 @@
       "background_color": "#74ab60",
       "html_tag": "a",
       "link": {
-       "url": "/resources/?type=HappeninginAustin",
+       "url": "/resources/?type=HappeninginAustin#directory",
        "is_external": "",
        "nofollow": "",
        "custom_attributes": ""
@@ -1987,7 +1957,7 @@
      },
      "elements": [
       {
-       "id": "9dd623f",
+       "id": "09bfcf6",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -2062,7 +2032,7 @@
        },
        "elements": [
         {
-         "id": "39beafe",
+         "id": "214e219",
          "elType": "widget",
          "widgetType": "heading",
          "settings": {
@@ -2121,7 +2091,7 @@
          "elements": []
         },
         {
-         "id": "8997882",
+         "id": "26d8377",
          "elType": "widget",
          "widgetType": "image",
          "settings": {
@@ -2170,7 +2140,7 @@
        ]
       },
       {
-       "id": "4cca1c5",
+       "id": "04b20c5",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -2249,7 +2219,7 @@
        },
        "elements": [
         {
-         "id": "199aee2",
+         "id": "fd8de8e",
          "elType": "widget",
          "widgetType": "image",
          "settings": {
@@ -2286,7 +2256,7 @@
        ]
       },
       {
-       "id": "0a34c83",
+       "id": "aba862c",
        "elType": "widget",
        "widgetType": "image",
        "settings": {

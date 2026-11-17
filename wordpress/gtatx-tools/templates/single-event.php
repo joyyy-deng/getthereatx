@@ -27,7 +27,7 @@ while ( have_posts() ) :
 		<?php endif; ?>
 
 		<header class="gtatx-wrap gtatx-header">
-			<a class="gtatx-back" href="<?php echo esc_url( home_url( '/community/#events' ) ); ?>">Back to Community</a>
+			<a class="gtatx-back" href="<?php echo esc_url( home_url( '/community/#events' ) ); ?>">Back</a>
 			<div class="gtatx-header-text" style="display:flex;flex-direction:column;gap:12px">
 				<h1 class="gtatx-title"><?php the_title(); ?></h1>
 				<?php // Figma "Description": the excerpt, or the event's description text. ?>

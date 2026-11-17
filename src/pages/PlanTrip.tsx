@@ -6,7 +6,7 @@ import { TripMap } from '../components/plan/TripMap';
 import { LinkOut, PageLoading } from '../components/ui';
 import { FilterSelect } from '../components/ui/FilterSelect';
 import type { Place } from '../content/schema';
-import { getPageContent, getPlaces, getPlanConfig, getResources } from '../data';
+import { getBusRoutes, getPageContent, getPlaces, getPlanConfig, getResources } from '../data';
 import { asset } from '../lib/asset';
 import { departureOptions, departureTime, formatTime } from '../lib/departure';
 import { text } from '../lib/i18n';
@@ -21,13 +21,14 @@ import { useContent } from '../lib/useContent';
 
 export function PlanTrip() {
   const data = useContent(async () => {
-    const [copy, places, config, resources] = await Promise.all([
+    const [copy, places, config, resources, busRoutes] = await Promise.all([
       getPageContent(),
       getPlaces(),
       getPlanConfig(),
       getResources(),
+      getBusRoutes(),
     ]);
-    return { copy: copy.plan, places, modes: config.modes, resources: indexBy(resources) };
+    return { copy: copy.plan, places, modes: config.modes, resources: indexBy(resources), busRoutes };
   });
   const [params, setParams] = useSearchParams();
   const compareRef = useRef<HTMLHeadingElement>(null);
@@ -67,6 +68,13 @@ export function PlanTrip() {
   const trip = from && to ? { from, to } : undefined;
   const cards = trip ? planCards(data.modes, trip.from, trip.to, []) : [];
   const miles = trip ? routeMiles(trip.from, trip.to) : 0;
+  // CapMetro route(s) for this trip, shown on the bus cards and in the route detail.
+  const bus = trip ? data.busRoutes(trip.from.id, trip.to.id) : { legs: [], ut: [] };
+  const busLegs = bus.legs;
+  const busRoute = busLegs.length ? copy.busRoute.replace('{routes}', busLegs.map((r) => r.number).join(' → ')) : undefined;
+  const utShuttle = bus.ut.length ? copy.utShuttle.replace('{routes}', bus.ut[0]!.number) : undefined;
+  /** CapMetro's name minus its leading number: "7-Duval / Dove Springs" → "Duval / Dove Springs". */
+  const routeName = (r: { number: string; name: string }) => r.name.replace(new RegExp(`^${r.number}[\\s-]*`), '');
   // The picked card (?mode=), or the first one.
   const picked = cards.find((c) => cardKey(c.mode) === params.get('mode')) ?? cards[0];
   const minutes = picked ? typicalMinutes(picked.minutes) : 0;
@@ -189,6 +197,8 @@ export function PlanTrip() {
                     card={c}
                     miles={miles}
                     selected={c === picked}
+                    route={c.mode.id === 'bus' ? busRoute : undefined}
+                    utShuttle={c.mode.id === 'bus' ? utShuttle : undefined}
                     onSelect={() => update({ mode: cardKey(c.mode) })}
                   />
                 </li>
@@ -232,7 +242,30 @@ export function PlanTrip() {
                 <span className="sr-only">From </span>
                 {text(trip.from.name)}
               </li>
-              <li aria-hidden="true" className="ml-[5px] h-6 w-px bg-ink" />
+              {picked.mode.id === 'bus' && (busLegs.length > 0 || bus.ut.length > 0) ? (
+                <li className="flex gap-4">
+                  <span aria-hidden="true" className="ml-[5px] w-px shrink-0 self-stretch bg-ink" />
+                  <span className="sr-only">By bus: </span>
+                  <span className="ml-[3px] flex flex-col gap-1 py-2 text-copy text-ink-soft">
+                    {busLegs.map((r) => (
+                      <span key={r.number}>
+                        <strong className="font-semibold text-ink">{copy.busRoute.replace('{routes}', r.number)}</strong>
+                        {' · '}
+                        {routeName(r)}
+                      </span>
+                    ))}
+                    {bus.ut.map((r) => (
+                      <span key={`ut-${r.number}`}>
+                        <strong className="font-semibold text-ink">{copy.utShuttle.replace('{routes}', r.number)}</strong>
+                        {' · '}
+                        {routeName(r)}
+                      </span>
+                    ))}
+                  </span>
+                </li>
+              ) : (
+                <li aria-hidden="true" className="ml-[5px] h-6 w-px bg-ink" />
+              )}
               <li className="flex gap-4">
                 <span aria-hidden="true" className="w-3 text-fine">B</span>
                 <span className="sr-only">To </span>

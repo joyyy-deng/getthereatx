@@ -49,8 +49,9 @@ const navMenu = widget('nav-menu', {
   color_menu_item_hover: c('color-ink'),
   color_menu_item_active: c('color-ink'),
   pointer: 'background',
-  animation_background: 'fade',
-  pointer_color_menu_item_hover: c('color-mist'),
+  // Hover: leaf green sweeps up from the bottom (React Nav does the same).
+  animation_background: 'sweep-up',
+  pointer_color_menu_item_hover: c('color-leaf'),
   pointer_color_menu_item_active: c('color-sky'),
   padding_horizontal_menu_item: px(24),
   padding_vertical_menu_item: px(24),
@@ -130,7 +131,7 @@ const socialLink = (s: (typeof SOCIAL)[number]) => {
       ...wd('fit-content'),
       ...minH(44),
       html_tag: 'a',
-      link: { url: s.href, is_external: '', nofollow: '', custom_attributes: '' },
+      link: { url: s.href, is_external: s.href.startsWith('http') ? 'on' : '', nofollow: '', custom_attributes: '' },
     },
     [
       widget('icon', { selected_icon: icon, view: 'default', primary_color: navy, ...rs('size', px(24)), align: 'left' }),

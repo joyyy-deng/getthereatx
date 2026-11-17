@@ -30,7 +30,7 @@ while ( have_posts() ) :
 		<?php endif; ?>
 
 		<header class="gtatx-wrap gtatx-header">
-			<a class="gtatx-back" href="<?php echo esc_url( home_url( '/resources/#directory' ) ); ?>">Back to Resources</a>
+			<a class="gtatx-back" href="<?php echo esc_url( home_url( '/resources/#directory' ) ); ?>">Back</a>
 			<div class="gtatx-header-text" style="display:flex;flex-direction:column;gap:inherit">
 				<div class="gtatx-eyebrow-space" aria-hidden="true"></div>
 				<h1 class="gtatx-title"><?php the_title(); ?></h1>

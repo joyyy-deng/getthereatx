@@ -1,6 +1,6 @@
-import type { ConnectCard, Post, Resource, ResourceList } from '../content/schema';
+import type { ConnectCard, Post, Resource, ResourceList, WpDirectory } from '../content/schema';
 import type { Occurrence } from './recurrence';
-import { guideTags, labelsIn, tagLabels } from './directory';
+import { groupTags, guideTags, labelsIn, tagLabels } from './directory';
 import { text } from './i18n';
 
 // The Resources directory shows four kinds of things as the same card: the
@@ -96,4 +96,27 @@ export function programItem(list: ResourceList, card: ConnectCard, resource: Res
     photo: card.image.src,
     action: { kind: 'out', href: resource.url, label: resource.action, trackId: resource.id },
   };
+}
+
+/**
+ * An entry from WordPress (External resource, blog post or upcoming event).
+ * Guides and events open their WordPress page; sites open in a new tab.
+ */
+export function wpItem(
+  list: ResourceList,
+  e: WpDirectory['entries'][number],
+  labels: { linkLabel: string; guide: string; readGuide: string; watchVideo: string; eventAction: string },
+  date?: string,
+): DirectoryItem {
+  // WordPress lists terms A–Z; put them in the filter tree's order (Rolling · Biking · Bus), as the list does.
+  const tree = [...groupTags(list, 'mode'), ...groupTags(list, 'who'), ...groupTags(list, 'type')];
+  const at = (t: string) => (tree.indexOf(t) + 1 || tree.length + 1);
+  const sorted = [...e.tags].sort((a, b) => at(a) - at(b));
+  const tags = e.kind === 'event' && !sorted.includes(EVENT_TAG) ? [EVENT_TAG, ...sorted] : sorted;
+  const b = base(list, tags);
+  const common = { id: `wp:${e.id}`, ...b, title: e.title, description: e.description || undefined, photo: e.photo };
+  if (e.kind === 'site') return { ...common, action: { kind: 'out', href: e.url, label: labels.linkLabel, trackId: `wp:${e.id}` } };
+  if (e.kind === 'event')
+    return { ...common, eyebrow: [b.eyebrow, date].filter(Boolean).join(' · '), meta: e.venue, action: { kind: 'in', to: e.url, label: labels.eventAction } };
+  return { ...common, eyebrow: b.eyebrow ?? labels.guide, action: { kind: 'in', to: e.url, label: e.video ? labels.watchVideo : labels.readGuide } };
 }

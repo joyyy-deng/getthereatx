@@ -21,9 +21,9 @@ export const DIRECTORY = [
 ] as const;
 
 export const SOCIAL = [
-  { href: '#facebook', icon: '/icons/facebook.svg', label: 'Facebook' },
+  { href: 'https://www.facebook.com/GetThereAustin/', icon: '/icons/facebook.svg', label: 'Facebook' },
   { href: 'mailto:GetThereATX@austintexas.gov', icon: '/icons/email.svg', label: 'Email' },
-  { href: '#instagram', icon: '/icons/instagram.svg', label: 'Instagram' },
+  { href: 'https://www.instagram.com/getthereatx/', icon: '/icons/instagram.svg', label: 'Instagram' },
 ];
 
 /**

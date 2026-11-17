@@ -65,11 +65,13 @@ export function Home() {
       {/* Civic masthead (desktop 775:3255, phone 865:5598). Desktop: headline and trip
           card on the left, the 451 × 448 picture on the right, bottoms aligned.
           Phones: headline beside a small picture, the trip card under them. */}
-      <section className="border-b border-navy px-article py-8 lg:border-ink lg:py-16">
+      {/* Joy (2026-11-17): shorter than Figma so "New to this?" shows at the bottom of the first screen:
+          40px padding (Figma 64), 16px above the trip card, an 80px headline (Figma 96). */}
+      <section className="border-b border-navy px-article py-6 lg:border-ink lg:py-10">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:gap-10">
-          <div className="flex min-w-0 flex-col gap-6 lg:flex-1">
+          <div className="flex min-w-0 flex-col gap-5 lg:flex-1 lg:gap-4">
             <div className="flex items-start gap-1">
-              <h1 className="m-0 min-w-0 max-w-[203px] flex-1 text-fluid font-semibold leading-[1.05] tracking-[-0.01em] text-ink [--d:96] [--m:45] lg:max-w-[489px]">
+              <h1 className="m-0 min-w-0 max-w-[203px] flex-1 text-fluid font-semibold leading-[1.05] tracking-[-0.01em] text-ink [--d:80] [--m:45] lg:max-w-[400px]">
                 {copy.hero.title.join(' ')}
               </h1>
               <CapitolIllustration alt={copy.hero.illustrationAlt} className="ml-auto w-[min(138px,40%)] shrink-0 lg:hidden" />
@@ -89,7 +91,7 @@ export function Home() {
 
       {/* New to this? We got you. (desktop 775:3274, phone 865:5702). Phones: title,
           guides, card. Desktop: title + 400px card left, guides right, 40 apart. */}
-      <section className="px-article py-10 lg:py-16">
+      <section className="px-article pb-10 pt-8 lg:pb-16 lg:pt-10">
         <div className="grid gap-6 lg:grid-cols-[minmax(280px,400px)_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-10 lg:gap-y-6">
           <h2 className="m-0 text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:57] [--m:32] lg:leading-[1.05]">
             {copy.guides.title.map((line, i) => (

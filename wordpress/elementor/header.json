@@ -4,7 +4,7 @@
  "type": "header",
  "content": [
   {
-   "id": "5c4c2a8",
+   "id": "69e86d0",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -130,7 +130,7 @@
    },
    "elements": [
     {
-     "id": "2e8382c",
+     "id": "1ce0f20",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -223,7 +223,7 @@
      },
      "elements": [
       {
-       "id": "674d027",
+       "id": "4978d2c",
        "elType": "widget",
        "widgetType": "image",
        "settings": {
@@ -263,7 +263,7 @@
        "elements": []
       },
       {
-       "id": "053bb98",
+       "id": "1591811",
        "elType": "widget",
        "widgetType": "image",
        "settings": {
@@ -302,7 +302,7 @@
        "elements": []
       },
       {
-       "id": "ba8497e",
+       "id": "16e51e6",
        "elType": "widget",
        "widgetType": "nav-menu",
        "settings": {
@@ -350,8 +350,8 @@
         "color_menu_item_hover": "#111111",
         "color_menu_item_active": "#111111",
         "pointer": "background",
-        "animation_background": "fade",
-        "pointer_color_menu_item_hover": "#f0f4f8",
+        "animation_background": "sweep-up",
+        "pointer_color_menu_item_hover": "#74ab60",
         "pointer_color_menu_item_active": "#d9e8f4",
         "padding_horizontal_menu_item": {
          "unit": "px",

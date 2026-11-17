@@ -176,3 +176,28 @@ test('page addresses: /guides/<name>/ and /community/events/<name>/, old links r
   expect(oldEvent.headers().location).toBe(`${WP}/community/events/ride-to-the-future/`);
   expect((await go('/no-such-post/')).status()).toBe(404);
 });
+
+test('Resources: the directory comes from WP admin (External resources, tagged posts, events)', async ({ page }) => {
+  await page.setViewportSize(DESKTOP);
+  await page.goto(WP + '/resources/?type=HappeninginAustin#directory');
+  const kinds = await page.evaluate(() => {
+    const d = (window as unknown as { gtatxTools?: { directory?: { entries: { kind: string }[] } } }).gtatxTools?.directory;
+    return d ? d.entries.reduce<Record<string, number>>((n, e) => ({ ...n, [e.kind]: (n[e.kind] ?? 0) + 1 }), {}) : null;
+  });
+  // 71 sites from the list + the 3 "Get there together" programs.
+  expect(kinds?.site).toBe(74);
+  expect(kinds?.guide).toBeGreaterThan(0);
+  // A list title, verbatim, and the filter from the address ticked.
+  await expect(page.getByText('ACL Mobility Guide')).toBeVisible();
+  // Groups start closed; the ticked filter shows as a count on its group.
+  await expect(page.getByRole('button', { name: /Type of info \(1\)/ })).toBeVisible();
+  await expectNoSideScroll(page);
+});
+
+test('Resources: the program cards are External resources under Community / getting involved', async ({ page }) => {
+  await page.setViewportSize(DESKTOP);
+  for (const title of ['Student Carpooling', 'Senior Citizens', 'Families']) {
+    await page.goto(WP + `/resources/?type=Community/gettinginvolved&q=${encodeURIComponent(title)}#directory`);
+    await expect(page.getByText(title, { exact: true }).first()).toBeVisible();
+  }
+});
