@@ -22,6 +22,8 @@ export interface PlaceComboboxProps {
   tone?: 'white' | 'field';
   /** Figma's Home trip card has no chevron; the field still opens its list on click. */
   chevron?: boolean;
+  /** Plan Your Trip on desktop: a 52px field instead of 62px, so the map gets the room. */
+  compact?: boolean;
   /** Plan Your Trip: this is the field map clicks will fill. */
   selected?: boolean;
   /** Called when the field is clicked or focused. */
@@ -57,6 +59,7 @@ export function PlaceCombobox({
   onChange,
   tone = 'field',
   chevron = true,
+  compact = false,
   selected = false,
   onActivate,
   className = 'w-full',
@@ -124,6 +127,7 @@ export function PlaceCombobox({
       <div
         className={cx(
           'relative flex h-[62px] items-start gap-3 border px-[14px] py-[10px]',
+          compact && 'lg:h-[52px] lg:py-[6px]',
           tone === 'white' ? 'border-white bg-bg' : 'border-line bg-field lg:border-border-control lg:bg-bg',
           selected && 'outline outline-2 -outline-offset-2 outline-focus',
           // The input hides its own outline, so the whole field shows keyboard focus.

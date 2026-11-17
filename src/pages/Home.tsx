@@ -6,9 +6,10 @@ import { TogetherBand } from '../components/TogetherBand';
 import { MascotCard, PageLoading } from '../components/ui';
 import { Arrow } from '../components/ui/Arrow';
 import { PageLink } from '../components/ui/PageLink';
-import { getConnectCards, getPageContent, getPlaces, getPosts, getResources } from '../data';
+import { getConnectCards, getEvents, getPageContent, getPlaces, getPosts, getResourceList, getResources, getShareImages } from '../data';
 import { asset } from '../lib/asset';
-import { text } from '../lib/i18n';
+import { directoryEntries, happeningItems, newToThisItems } from '../lib/directoryItems';
+import { track } from '../lib/track';
 import { indexBy } from '../lib/indexBy';
 import { useContent } from '../lib/useContent';
 
@@ -18,43 +19,39 @@ import { useContent } from '../lib/useContent';
 
 export function Home() {
   const data = useContent(async () => {
-    const [copy, places, posts, resources, cards] = await Promise.all([
+    const now = new Date();
+    const [copy, places, posts, resources, cards, list, shareImages, occurrences] = await Promise.all([
       getPageContent(),
       getPlaces(),
       getPosts(),
       getResources(),
       getConnectCards(),
+      getResourceList(),
+      getShareImages(),
+      getEvents({ from: now, to: new Date(now.getTime() + 120 * 86_400_000) }),
     ]);
-    const postsBySlug = new Map(posts.map((p) => [p.slug, p]));
     const byId = indexBy(resources);
-    // Each accordion row reads its photo, line and link from a post or a registry resource.
-    const guides = copy.home.guides.items.flatMap((item): GuideItem[] => {
-      const post = item.postSlug ? postsBySlug.get(item.postSlug) : undefined;
-      const r = item.resourceId ? byId.get(item.resourceId) : undefined;
-      if (post)
-        return [
-          {
-            id: item.id,
-            title: item.title,
-            body: item.body ?? text(post.summary),
-            image: item.image ?? post.image,
-            // The guide page in the new design (both templates live there).
-            link: { to: `/guides/${post.slug}`, label: item.linkLabel ?? 'Read the guide' },
-          },
-        ];
-      if (r)
-        return [
-          {
-            id: item.id,
-            title: item.title,
-            body: item.body ?? r.oneLiner,
-            image: item.image,
-            link: { href: r.url, label: item.linkLabel ?? r.action, provider: r.provider, resourceId: r.id },
-          },
-        ];
-      return [];
+    // "New to this?" and "See what's going on" are Resources directory items (lib/directoryItems.ts).
+    const seen = new Set<string>();
+    const events = occurrences.filter((o) => !seen.has(o.event.id) && seen.add(o.event.id));
+    const items = directoryEntries({ list, copy: copy.resources, cards, resources, events, posts, shareImages });
+    const happening = happeningItems(items, copy.home.discover.featured);
+    const guides = newToThisItems(items, copy.home.guides.featured).map(({ pick, item }): GuideItem => {
+      const a = item.action;
+      const label = pick.linkLabel ?? a?.label ?? '';
+      return {
+        id: item.id,
+        title: pick.title,
+        body: pick.body ?? item.description ?? '',
+        image: pick.image ?? (item.photo ? { src: item.photo, alt: '' } : undefined),
+        link:
+          a?.kind === 'out'
+            ? { href: a.href, label, provider: item.title, resourceId: a.trackId }
+            : { to: a?.to ?? '/resources', label },
+      };
     });
-    return { copy: copy.home, places, resources: byId, cards, guides, cardBodies: copy.community.together.cardBodies };
+
+    return { copy: copy.home, places, resources: byId, cards, guides, happening, cardBodies: copy.community.together.cardBodies };
   });
 
   if (!data) return <PageLoading />;
@@ -123,23 +120,47 @@ export function Home() {
           </h2>
           <div className="flex flex-col gap-6 lg:flex-row lg:gap-10">
             <ul className="m-0 flex list-none flex-col gap-6 p-0 lg:flex-1 lg:gap-8">
-              {copy.discover.cards.map((c) => (
-                <li key={c.title}>
-                  <PageLink
-                    to={c.to}
-                    className="group relative flex h-[200px] items-end justify-between overflow-hidden border border-sky p-4 lg:h-[218px] lg:border-white"
-                  >
-                    <img loading="lazy" decoding="async"
-                      src={asset(c.image.src)}
-                      alt={c.image.alt}
-                      className="absolute inset-0 size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
-                    />
+              {/* Directory items tagged Happening in Austin (pages.json "featured", or in WordPress the
+                  "Show on Home" checkbox). A site opens in a new tab; a guide or event opens its page. */}
+              {data.happening.map((item) => {
+                const a = item.action;
+                const cardClass =
+                  'group relative flex h-[200px] items-end justify-between gap-4 overflow-hidden border border-sky bg-sky p-4 lg:h-[218px] lg:border-white';
+                const inner = (
+                  <>
+                    {item.photo && (
+                      <img loading="lazy" decoding="async"
+                        src={asset(item.photo)}
+                        alt=""
+                        className="absolute inset-0 size-full object-cover grayscale transition-transform duration-hover group-hover:scale-[1.02]"
+                      />
+                    )}
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-[rgb(0_0_0/0.7)]" />
-                    <span className="relative text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-white [--d:28] [--m:24]">{c.title}</span>
-                    <Arrow className="relative size-4 text-white" strokeWidth={2.5} />
-                  </PageLink>
-                </li>
-              ))}
+                    <span className="relative text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-white [--d:28] [--m:24]">{item.title}</span>
+                    <Arrow className="relative size-4 shrink-0 text-white" strokeWidth={2.5} />
+                  </>
+                );
+                return (
+                  <li key={item.id}>
+                    {a?.kind === 'out' ? (
+                      <a
+                        href={a.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${item.title}, opens in a new tab`}
+                        onClick={() => track('handoff', { resourceId: a.trackId, from: 'home', href: a.href })}
+                        className={cardClass}
+                      >
+                        {inner}
+                      </a>
+                    ) : (
+                      <PageLink to={a?.to ?? '/resources'} className={cardClass}>
+                        {inner}
+                      </PageLink>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             <MascotCard
               title={copy.discover.explore.title}

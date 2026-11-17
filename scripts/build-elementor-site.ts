@@ -106,8 +106,10 @@ const header = box_(
 // Phones: the same stacked, logo 248 wide, invitation 22px, links 16px, small print 12px.
 const navy = c('color-navy');
 type SiteLink = { label: string } & ({ to: string } | { href: string });
-const linkUrl = (l: SiteLink) => ('to' in l ? href(l.to) : l.href);
-const isExternal = (l: SiteLink) => 'href' in l && l.href.startsWith('http');
+/** getthereatx.com pages (Contact, Privacy Policy) are on this same WordPress site: relative links. */
+const ownSite = /^https?:\/\/(www\.)?getthereatx\.com/;
+const linkUrl = (l: SiteLink) => ('to' in l ? href(l.to) : l.href.replace(ownSite, ''));
+const isExternal = (l: SiteLink) => 'href' in l && l.href.startsWith('http') && !ownSite.test(l.href);
 /** A text link that is 44px tall (tap target) whatever the screen. */
 const textLink = (l: SiteLink, color: string, t: Settings, padY: [number, number]) =>
   heading(l.label, 'p', color, t, {

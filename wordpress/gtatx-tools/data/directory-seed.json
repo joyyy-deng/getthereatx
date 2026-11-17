@@ -475,7 +475,7 @@
     },
     {
       "title": "Earn money with CTX Go",
-      "url": "https://www.getthereatx.com/ready/",
+      "url": "/ready/",
       "tags": [
         "Financial"
       ],
@@ -883,7 +883,7 @@
     {
       "program": "families",
       "title": "Families",
-      "url": "https://www.getthereatx.com/austin-bike-bus-pilot-program/",
+      "url": "/austin-bike-bus-pilot-program/",
       "tags": [
         "Community/gettinginvolved"
       ],
@@ -1036,6 +1036,40 @@
         "Article",
         "fun"
       ]
+    }
+  ],
+  "homeGuides": [
+    {
+      "slug": "transit-101",
+      "title": "CapMetro Bus",
+      "order": 10,
+      "body": "Find your stop, check the fare and signal before you get off.",
+      "linkLabel": "Read the first-time bus guide"
+    },
+    {
+      "slug": "biking-101",
+      "title": "Bike",
+      "order": 20
+    },
+    {
+      "url": "https://www.austintexas.gov/transportation-public-works/urban-trails",
+      "title": "Walk",
+      "order": 30,
+      "body": "The Urban Trails Program creates, promotes, and maintains Austin’s urban trails network."
+    },
+    {
+      "url": "https://www.austintexas.gov/transportation-public-works/divisions/shared-mobility",
+      "title": "Scooter",
+      "order": 40,
+      "body": "Which scooter and e-bike companies operate in Austin, and the rules.",
+      "linkLabel": "Find scooters & e-bikes"
+    },
+    {
+      "url": "https://drivetexas.org/",
+      "title": "Drive",
+      "order": 50,
+      "body": "Live road closures, construction and traffic conditions across Texas.",
+      "linkLabel": "Check traffic & road conditions"
     }
   ]
 }

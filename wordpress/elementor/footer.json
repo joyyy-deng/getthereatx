@@ -4,7 +4,7 @@
  "type": "footer",
  "content": [
   {
-   "id": "b57b24d",
+   "id": "8eda64a",
    "elType": "container",
    "isInner": false,
    "settings": {
@@ -88,7 +88,7 @@
    },
    "elements": [
     {
-     "id": "fe43491",
+     "id": "9aa5821",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -160,7 +160,7 @@
      },
      "elements": [
       {
-       "id": "5196ce7",
+       "id": "87d288b",
        "elType": "widget",
        "widgetType": "image",
        "settings": {
@@ -198,7 +198,7 @@
        "elements": []
       },
       {
-       "id": "b227228",
+       "id": "bf4030c",
        "elType": "widget",
        "widgetType": "heading",
        "settings": {
@@ -259,7 +259,7 @@
      ]
     },
     {
-     "id": "a181312",
+     "id": "01c9d89",
      "elType": "container",
      "isInner": true,
      "settings": {
@@ -333,7 +333,7 @@
      },
      "elements": [
       {
-       "id": "8e45bbc",
+       "id": "37de841",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -405,7 +405,7 @@
        },
        "elements": [
         {
-         "id": "f7314c3",
+         "id": "e9dd9c0",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -477,7 +477,7 @@
          },
          "elements": [
           {
-           "id": "c5ba644",
+           "id": "604c131",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -566,7 +566,7 @@
            "elements": []
           },
           {
-           "id": "a11e6e6",
+           "id": "03b8aa0",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -657,7 +657,7 @@
          ]
         },
         {
-         "id": "5fe60e4",
+         "id": "504229b",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -729,7 +729,7 @@
          },
          "elements": [
           {
-           "id": "303d15a",
+           "id": "00cde7d",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -818,7 +818,7 @@
            "elements": []
           },
           {
-           "id": "5258e6b",
+           "id": "c97c601",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -874,8 +874,8 @@
              "sizes": []
             },
             "link": {
-             "url": "https://www.getthereatx.com/contact/",
-             "is_external": "on",
+             "url": "/contact/",
+             "is_external": "",
              "nofollow": "",
              "custom_attributes": ""
             },
@@ -911,7 +911,7 @@
        ]
       },
       {
-       "id": "e2ae19c",
+       "id": "509966c",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -983,7 +983,7 @@
        },
        "elements": [
         {
-         "id": "c7421e8",
+         "id": "147c36f",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1080,7 +1080,7 @@
          },
          "elements": [
           {
-           "id": "03cbca4",
+           "id": "469b762",
            "elType": "widget",
            "widgetType": "icon",
            "settings": {
@@ -1110,7 +1110,7 @@
            "elements": []
           },
           {
-           "id": "5bf44b8",
+           "id": "9bfd964",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1171,7 +1171,7 @@
          ]
         },
         {
-         "id": "b239341",
+         "id": "039dabe",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1268,7 +1268,7 @@
          },
          "elements": [
           {
-           "id": "f587f18",
+           "id": "3220229",
            "elType": "widget",
            "widgetType": "icon",
            "settings": {
@@ -1298,7 +1298,7 @@
            "elements": []
           },
           {
-           "id": "4d164af",
+           "id": "43b6565",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1359,7 +1359,7 @@
          ]
         },
         {
-         "id": "482b835",
+         "id": "bfde91f",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1456,7 +1456,7 @@
          },
          "elements": [
           {
-           "id": "6474e2d",
+           "id": "54cc69d",
            "elType": "widget",
            "widgetType": "icon",
            "settings": {
@@ -1486,7 +1486,7 @@
            "elements": []
           },
           {
-           "id": "cfc130b",
+           "id": "d108673",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1549,7 +1549,7 @@
        ]
       },
       {
-       "id": "717fbc3",
+       "id": "1e6e532",
        "elType": "widget",
        "widgetType": "divider",
        "settings": {
@@ -1591,7 +1591,7 @@
        "elements": []
       },
       {
-       "id": "da8157f",
+       "id": "e1321a4",
        "elType": "container",
        "isInner": true,
        "settings": {
@@ -1669,7 +1669,7 @@
        },
        "elements": [
         {
-         "id": "136b0c7",
+         "id": "57f713b",
          "elType": "widget",
          "widgetType": "heading",
          "settings": {
@@ -1728,7 +1728,7 @@
          "elements": []
         },
         {
-         "id": "dcce462",
+         "id": "d53473f",
          "elType": "container",
          "isInner": true,
          "settings": {
@@ -1800,7 +1800,7 @@
          },
          "elements": [
           {
-           "id": "7eabc1d",
+           "id": "a049817",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1889,7 +1889,7 @@
            "elements": []
           },
           {
-           "id": "377b065",
+           "id": "3430415",
            "elType": "widget",
            "widgetType": "heading",
            "settings": {
@@ -1945,8 +1945,8 @@
              "sizes": []
             },
             "link": {
-             "url": "https://www.getthereatx.com/privacy-policy/",
-             "is_external": "on",
+             "url": "/privacy-policy/",
+             "is_external": "",
              "nofollow": "",
              "custom_attributes": ""
             },

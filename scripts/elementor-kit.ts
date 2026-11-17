@@ -264,7 +264,7 @@ export interface TogetherCopy {
  */
 export function together(copy: TogetherCopy, variant: 'home' | 'community'): El {
   const cards = load('connect-cards') as Card[];
-  const resources = load('resources') as { id: string; url: string }[];
+  const resources = load('resources') as { id: string; url: string; postSlug?: string }[];
   const home = variant === 'home';
   const card = (cd: Card) => {
     const r = resources.find((x) => x.id === cd.resourceId);
@@ -277,7 +277,8 @@ export function together(copy: TogetherCopy, variant: 'home' | 'community'): El 
         background_color: '#ffffff',
         overflow: 'hidden',
         html_tag: 'a',
-        link: { url: r.url, is_external: 'on', nofollow: '', custom_attributes: '' },
+        // Our own guide (Bike Bus): the post on this site (relative, so staging and live both work).
+        link: r.postSlug ? { url: `/${r.postSlug}/`, is_external: '', nofollow: '', custom_attributes: '' } : { url: r.url, is_external: 'on', nofollow: '', custom_attributes: '' },
       },
       [
         // The picture fills its box, whatever the card's size (a background, so it stretches with the card).

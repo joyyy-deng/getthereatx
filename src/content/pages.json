@@ -20,11 +20,10 @@
         ],
         "to": "/resources?type=Howtos/guides#directory"
       },
-      "items": [
+      "featured": [
         {
-          "id": "bus",
+          "id": "post:transit-101",
           "title": "CapMetro Bus",
-          "postSlug": "transit-101",
           "body": "Find your stop, check the fare and signal before you get off.",
           "image": {
             "src": "/images/home/first-bus-ride-bw.jpg",
@@ -32,48 +31,29 @@
           },
           "linkLabel": "Read the first-time bus guide"
         },
+        { "id": "post:biking-101", "title": "Bike" },
         {
-          "id": "bike",
-          "title": "Bike",
-          "postSlug": "biking-101"
-        },
-        {
-          "id": "walk",
+          "id": "list:urban-trails",
           "title": "Walk",
-          "resourceId": "walking-map"
+          "body": "The Urban Trails Program creates, promotes, and maintains Austin’s urban trails network."
         },
         {
-          "id": "scooter",
+          "id": "list:austin-shared-mobility",
           "title": "Scooter",
-          "resourceId": "shared-mobility"
+          "body": "Which scooter and e-bike companies operate in Austin, and the rules.",
+          "linkLabel": "Find scooters & e-bikes"
         },
         {
-          "id": "drive",
+          "id": "list:drivetexas",
           "title": "Drive",
-          "resourceId": "drivetexas"
+          "body": "Live road closures, construction and traffic conditions across Texas.",
+          "linkLabel": "Check traffic & road conditions"
         }
       ]
     },
     "discover": {
       "title": "See what’s going on in Austin.",
-      "cards": [
-        {
-          "title": "Lady Bird Lake",
-          "image": {
-            "src": "/images/home/lady-bird-lake.jpg",
-            "alt": "The downtown Austin skyline across Lady Bird Lake"
-          },
-          "to": "/community"
-        },
-        {
-          "title": "Mueller Lake Park",
-          "image": {
-            "src": "/images/home/mueller-lake-park.jpg",
-            "alt": "The lake and pavilion at Mueller Lake Park"
-          },
-          "to": "/plan?to=mueller"
-        }
-      ],
+      "featured": [],
       "explore": {
         "title": [
           "Explore more"
@@ -104,7 +84,8 @@
     "selectedLabel": "Selected route",
     "headline": "{minutes} minutes to {to}",
     "busRoute": "Route {routes}",
-    "utShuttle": "UT shuttle {routes} · UT ID needed"
+    "utShuttle": "UT shuttle {routes} · UT ID needed",
+    "utShuttleShort": "UT {routes} · UT ID"
   },
   "resources": {
     "hero": {

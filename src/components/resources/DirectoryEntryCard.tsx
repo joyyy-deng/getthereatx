@@ -18,7 +18,11 @@ function Art({ photo, className }: { photo?: string; className: string }) {
 }
 
 const eyebrow = 'text-[12px] uppercase leading-[15px] tracking-[1.4px] text-charcoal';
-const actionClass = 'inline-flex items-center gap-2 self-start text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-charcoal hover:underline';
+// The action link stretches over its whole card (after:inset-0), so a click anywhere on the card follows it.
+const actionClass =
+  "inline-flex items-center gap-2 self-start text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-charcoal outline-none after:absolute after:inset-0 after:content-[''] group-hover:underline focus-visible:underline";
+/** The whole card lights up on hover or keyboard focus (Joy, 2026-11-17). */
+const cardHover = 'group relative cursor-pointer transition-colors duration-hover hover:bg-mist has-[:focus-visible]:bg-mist has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus';
 
 /** "Visit website" hands off to another site; "Read the guide" stays here. Both use Figma's ↗. */
 function Action({ item }: { item: DirectoryItem }) {
@@ -55,7 +59,7 @@ const descClass = 'm-0 text-fluid leading-[1.5] text-ink-soft [--d:16] [--m:14] 
 export function DirectoryEntryCard({ item, featured }: { item: DirectoryItem; featured?: boolean }) {
   if (featured) {
     return (
-      <article className="flex h-full min-w-0 flex-col gap-3">
+      <article className={cx('-m-3 flex h-[calc(100%+1.5rem)] min-w-0 flex-col gap-3 p-3', cardHover)}>
         <Art photo={item.photo} className="h-[200px] w-full lg:h-[220px]" />
         {item.eyebrow && <p className={cx('m-0', eyebrow)}>{item.eyebrow}</p>}
         <h3 className={titleClass}>{item.title}</h3>
@@ -68,7 +72,7 @@ export function DirectoryEntryCard({ item, featured }: { item: DirectoryItem; fe
     );
   }
   return (
-    <article className="flex items-start gap-4 border-t border-line py-5 sm:gap-5">
+    <article className={cx('-mx-3 flex items-start gap-4 border-t border-line px-3 py-5 sm:gap-5', cardHover)}>
       <Art photo={item.photo} className="h-[96px] w-[104px] sm:h-[116px] sm:w-[120px]" />
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-[6px] self-stretch">
         {item.eyebrow && <p className={cx('m-0', eyebrow)}>{item.eyebrow}</p>}

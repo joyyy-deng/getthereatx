@@ -72,7 +72,7 @@ export function PlanTrip() {
   const bus = trip ? data.busRoutes(trip.from.id, trip.to.id) : { legs: [], ut: [] };
   const busLegs = bus.legs;
   const busRoute = busLegs.length ? copy.busRoute.replace('{routes}', busLegs.map((r) => r.number).join(' → ')) : undefined;
-  const utShuttle = bus.ut.length ? copy.utShuttle.replace('{routes}', bus.ut[0]!.number) : undefined;
+  const utShuttle = bus.ut.length ? copy.utShuttleShort.replace('{routes}', bus.ut[0]!.number) : undefined;
   /** CapMetro's name minus its leading number: "7-Duval / Dove Springs" → "Duval / Dove Springs". */
   const routeName = (r: { number: string; name: string }) => r.name.replace(new RegExp(`^${r.number}[\\s-]*`), '');
   // The picked card (?mode=), or the first one.
@@ -108,12 +108,15 @@ export function PlanTrip() {
       googleMaps={data.resources.get('google-maps')}
       onChange={(p) => update({ [side]: p ?? null })}
       chevron={false}
+      compact
       className="min-w-0 flex-1"
     />
   );
 
   return (
-    <div className="flex flex-col gap-7 px-page py-6 lg:gap-6 lg:py-16">
+    // Desktop: fills the screen under the 72px nav (Joy, 2026-11-17); the map takes what's left, at least 420px tall.
+    // Phones scroll (four cards and a map don't fit on a phone screen).
+    <div className="flex flex-col gap-7 px-page py-6 lg:min-h-[calc(100dvh-72px)] lg:gap-4 lg:py-5">
       <h1 className="sr-only">{copy.title}</h1>
 
       {/* Search recap: stacked on phones, one row on desktop. */}
@@ -155,12 +158,12 @@ export function PlanTrip() {
             value={picked && params.get('mode') ? cardKey(picked.mode) : ''}
             onChange={(v) => update({ mode: v })}
             options={[{ value: '', label: copy.transportLabel }, ...cards.map((c) => ({ value: cardKey(c.mode), label: text(c.mode.title) }))]}
-            className="hidden lg:flex lg:h-[62px] lg:w-[180px] lg:flex-none"
+            className="hidden lg:flex lg:h-[52px] lg:w-[180px] lg:flex-none"
           />
           <button
             type="submit"
             disabled={!trip}
-            className="flex min-h-[48px] items-center gap-2 bg-charcoal px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[62px] lg:bg-leaf lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px] lg:text-ink"
+            className="flex min-h-[48px] items-center gap-2 bg-charcoal px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[52px] lg:bg-leaf lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px] lg:text-ink"
           >
             {/* Figma: "Update trip ↓" on phones, "Go" on desktop. */}
             <span className="lg:hidden">{copy.updateButton}</span>
@@ -172,7 +175,7 @@ export function PlanTrip() {
       {!trip && (
         <>
           <p className="m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
-          <div className="h-[420px] lg:h-[560px]">
+          <div className="h-[420px] lg:h-auto lg:min-h-0 lg:flex-1">
             <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} />
           </div>
         </>
@@ -181,12 +184,12 @@ export function PlanTrip() {
       {trip && picked && (
         <>
           {/* Compare ways to get there */}
-          <section aria-labelledby="compare-title" className="flex flex-col gap-3 lg:gap-4">
+          <section aria-labelledby="compare-title" className="flex flex-col gap-3">
             <h2
               id="compare-title"
               ref={compareRef}
               tabIndex={-1}
-              className="m-0 scroll-mt-[112px] text-title font-semibold text-ink outline-none"
+              className="m-0 scroll-mt-[112px] text-title font-semibold text-ink outline-none lg:text-[28px]"
             >
               {copy.compareTitle}
             </h2>
@@ -209,9 +212,9 @@ export function PlanTrip() {
           {/* Selected route detail. Phones: text, map, steps, button. Desktop: text column + map. */}
           <section
             aria-labelledby="route-title"
-            className="grid gap-5 lg:grid-cols-[minmax(300px,34%)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8"
+            className="grid gap-5 lg:min-h-[420px] lg:flex-1 lg:grid-cols-[minmax(300px,34%)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:gap-y-3"
           >
-            <div className="flex flex-col gap-4 lg:pt-2">
+            <div className="flex flex-col gap-4 lg:gap-2">
               <p className="m-0 text-caption font-semibold uppercase text-charcoal">
                 {text(picked.mode.title)}
               </p>
@@ -222,11 +225,12 @@ export function PlanTrip() {
                 {copy.headline.replace('{minutes}', String(minutes)).replace('{to}', text(trip.to.name))}
               </h2>
               <p className="m-0 text-copy text-ink-soft">
-                {text(picked.mode.eyebrow)}. {text(picked.mode.effort)}.
+                {/* The trip's distance (Joy, 2026-11-17: instead of the mode's effort line). */}
+                {miles.toFixed(1)} miles
               </p>
               <p className="m-0 text-fine font-medium text-ink lg:hidden">{timing}</p>
             </div>
-            <div className="h-[300px] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:h-[386px]">
+            <div className="h-[300px] lg:col-start-2 lg:row-span-3 lg:row-start-1 lg:h-auto lg:min-h-0">
               <TripMap
                 places={data.places}
                 from={from}

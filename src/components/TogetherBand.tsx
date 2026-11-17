@@ -65,7 +65,10 @@ export function TogetherBand({
           </Heading>
           <PageLink
             to={button.to}
-            className={cx('flex min-h-[56px] items-center gap-7 px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90', size.button)}
+            className={cx(
+              'flex min-h-[56px] items-center gap-7 px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90',
+              size.button,
+            )}
           >
             {button.label}
             <Arrow className="size-3" strokeWidth={2.5} />
@@ -76,28 +79,58 @@ export function TogetherBand({
             const r = resources.get(c.resourceId);
             return (
               <li key={c.id} className="flex">
-                <a
-                  href={r?.url ?? '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={r ? `${text(c.title)}: ${r.action}, opens ${r.provider} in a new tab` : undefined}
-                  onClick={() => r && track('handoff', { resourceId: r.id, from, provider: r.provider, href: r.url })}
-                  className={cx('group flex w-full overflow-hidden bg-white', size.card)}
-                >
-                  <span className={cx('block overflow-hidden bg-sky', size.pic)}>
-                    <img loading="lazy" decoding="async"
-                      src={asset(c.image.src)}
-                      alt={c.image.alt}
-                      className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
-                    />
-                  </span>
-                  <span className={cx('flex flex-col gap-[10px] p-6 lg:h-[165px] lg:shrink-0', size.details)}>
-                    <span className="text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:28] [--m:24]">
-                      {text(c.title)}
+                {r?.postSlug ? (
+                  // Our own guide (Bike Bus): its rebuilt guide page on this site, not the old getthereatx.com page.
+                  <PageLink
+                    to={`/guides/${r.postSlug}`}
+                    className={cx('group flex w-full overflow-hidden bg-white', size.card)}
+                  >
+                    <span className={cx('block overflow-hidden bg-sky', size.pic)}>
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={asset(c.image.src)}
+                        alt={c.image.alt}
+                        className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
+                      />
                     </span>
-                    <span className="text-[16px] leading-[24px] tracking-[0.01em] text-navy">{bodies?.[c.id] ?? text(c.body)}</span>
-                  </span>
-                </a>
+                    <span className={cx('flex flex-col gap-[10px] p-6 lg:h-[165px] lg:shrink-0', size.details)}>
+                      <span className="text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:28] [--m:24]">
+                        {text(c.title)}
+                      </span>
+                      <span className="text-[16px] leading-[24px] tracking-[0.01em] text-navy">
+                        {bodies?.[c.id] ?? text(c.body)}
+                      </span>
+                    </span>
+                  </PageLink>
+                ) : (
+                  <a
+                    href={r?.url ?? '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={r ? `${text(c.title)}: ${r.action}, opens ${r.provider} in a new tab` : undefined}
+                    onClick={() => r && track('handoff', { resourceId: r.id, from, provider: r.provider, href: r.url })}
+                    className={cx('group flex w-full overflow-hidden bg-white', size.card)}
+                  >
+                    <span className={cx('block overflow-hidden bg-sky', size.pic)}>
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        src={asset(c.image.src)}
+                        alt={c.image.alt}
+                        className="block size-full object-cover transition-transform duration-hover group-hover:scale-[1.02]"
+                      />
+                    </span>
+                    <span className={cx('flex flex-col gap-[10px] p-6 lg:h-[165px] lg:shrink-0', size.details)}>
+                      <span className="text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-ink [--d:28] [--m:24]">
+                        {text(c.title)}
+                      </span>
+                      <span className="text-[16px] leading-[24px] tracking-[0.01em] text-navy">
+                        {bodies?.[c.id] ?? text(c.body)}
+                      </span>
+                    </span>
+                  </a>
+                )}
               </li>
             );
           })}

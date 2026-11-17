@@ -54,6 +54,8 @@ export const Resource = z.object({
   bestOn: z.enum(['phone', 'desktop', 'any']).optional(),
   /** Lives on getthereatx.com. */
   internal: z.boolean().optional(),
+  /** The resource is one of our own guides (posts.json slug): links go to that guide page, not to `url`. */
+  postSlug: z.string().optional(),
   lastChecked: z.string().date(),
 });
 export type Resource = z.infer<typeof Resource>;
@@ -241,10 +243,10 @@ const HandoffLink = z.object({
 });
 export type HandoffLink = z.infer<typeof HandoffLink>;
 
-/** One comparison card on Plan Your Trip (Bike, Bus + walk, ...). */
+/** One comparison card on Plan Your Trip (Walking, Biking, Bus, Driving). */
 export const PlanMode = z.object({
   id: z.enum(MODES),
-  /** The card's own id when two cards share a mode (Figma's "Bus" and "Bus + walk"); defaults to `id`. In the URL as ?mode=. */
+  /** The card's own id if two cards ever share a mode; defaults to `id`. In the URL as ?mode=. */
   key: z.string().regex(/^[a-z-]+$/).optional(),
   /** Figma's cost pill under the distance on desktop: "No cost", "$1.25 fare", "Gas + parking". */
   chip: z.object({ label: L, tone: z.enum(['free', 'fare', 'drive']) }).optional(),
@@ -364,29 +366,35 @@ export const PageContent = z.object({
     guides: z.object({
       title: Lines,
       seeAll: LinkCard,
-      /** Accordion rows. Each links to a live post (posts.json slug) or a registry resource. */
-      items: z
+      /**
+       * "New to this?" rows: Resources directory items by id ("post:transit-101", "list:drivetexas"),
+       * in order. Each row shows the item's picture, line and link; `title` is the short row name.
+       * Empty = every guide with "101" in its title. In WordPress the "Show in 'New to this?'"
+       * checkbox does this ([gtatx_new_to_this], includes/directory.php).
+       */
+      featured: z
         .array(
-          z
-            .object({
-              id: Text,
-              title: Text,
-              postSlug: Text.optional(),
-              resourceId: Text.optional(),
-              /** Defaults to the post excerpt or the resource one-liner. */
-              body: Text.optional(),
-              /** Defaults to the post image. */
-              image: Img.optional(),
-              /** Defaults to "Read the guide" (post) or the resource action. */
-              linkLabel: Text.optional(),
-            })
-            .refine((i) => !!i.postSlug !== !!i.resourceId, { message: 'an item needs exactly one of postSlug or resourceId' }),
+          z.object({
+            id: z.string().min(1),
+            title: Text,
+            /** Defaults to the item's description. */
+            body: Text.optional(),
+            /** Defaults to the item's picture. */
+            image: Img.optional(),
+            /** Defaults to the item's own link text ("Read the guide", "Visit website"). */
+            linkLabel: Text.optional(),
+          }),
         )
-        .min(1),
+        .default([]),
     }),
     discover: z.object({
       title: Text,
-      cards: z.array(z.object({ title: Text, image: Img, to: PagePath })).min(1),
+      /**
+       * Directory items shown as the photo cards, by their directory id ("list:<resource id>",
+       * "event:<id>", "post:<id>"). Empty = the first two Happening in Austin items with a picture.
+       * In WordPress the "Show on Home" checkbox does this ([gtatx_happening], includes/directory.php).
+       */
+      featured: z.array(z.string().min(1)).max(4).default([]),
       explore: LinkCard,
     }),
     together: Together,
@@ -417,6 +425,8 @@ export const PageContent = z.object({
     busRoute: Text,
     /** UT shuttle option: {routes} is "670". */
     utShuttle: Text,
+    /** The same on the narrow mode cards: "UT 670 · UT ID". */
+    utShuttleShort: Text,
   }),
   resources: z.object({
     hero: z.object({ title: Text, intro: Text, button: z.object({ label: Text, to: PagePath }) }),

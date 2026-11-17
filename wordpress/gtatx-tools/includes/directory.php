@@ -51,6 +51,18 @@ function gtatx_register_directory_types() {
 	register_post_meta( 'gtatx_resource', 'gtatx_description', gtatx_meta_args( 'string', 'sanitize_textarea_field' ) );
 	// A picture bundled with the plugin ("/images/resources/sites/…"), set by the import. A featured image wins over it.
 	register_post_meta( 'gtatx_resource', 'gtatx_photo', gtatx_meta_args( 'string', 'sanitize_text_field' ) );
+	// "Show on Home": the item is a photo card in Home's "See what's going on in Austin." ([gtatx_happening]).
+	foreach ( array( 'gtatx_resource', 'post', 'tribe_events' ) as $type ) {
+		register_post_meta( $type, 'gtatx_home_featured', gtatx_meta_args( 'boolean', 'rest_sanitize_boolean' ) );
+	}
+	// "Show in 'New to this?'": a row in Home's guides accordion ([gtatx_new_to_this]).
+	foreach ( array( 'gtatx_resource', 'post' ) as $type ) {
+		register_post_meta( $type, 'gtatx_home_guide', gtatx_meta_args( 'boolean', 'rest_sanitize_boolean' ) );
+		register_post_meta( $type, 'gtatx_home_guide_title', gtatx_meta_args( 'string', 'sanitize_text_field' ) );
+		register_post_meta( $type, 'gtatx_home_guide_body', gtatx_meta_args( 'string', 'sanitize_textarea_field' ) );
+		register_post_meta( $type, 'gtatx_home_guide_link', gtatx_meta_args( 'string', 'sanitize_text_field' ) );
+		register_post_meta( $type, 'gtatx_home_guide_order', gtatx_meta_args( 'integer', 'absint' ) );
+	}
 
 	register_taxonomy(
 		GTATX_TAG_TAX,
@@ -99,6 +111,70 @@ function gtatx_register_directory_fields() {
 	);
 }
 add_action( 'acf/init', 'gtatx_register_directory_fields' );
+
+function gtatx_register_home_field() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	acf_add_local_field_group(
+		array(
+			'key'      => 'group_gtatx_home_featured',
+			'title'    => 'Home page',
+			'position' => 'side',
+			'fields'   => array(
+				array(
+					'key'           => 'field_gtatx_home_featured',
+					'name'          => 'gtatx_home_featured',
+					'label'         => 'Show on Home',
+					'type'          => 'true_false',
+					'ui'            => 1,
+					'default_value' => 0,
+					'instructions'  => 'Shows this as a photo card in "See what\'s going on in Austin." (the 2 most recently changed ones). Needs a picture. Tag it "Happening in Austin" too.',
+				),
+			),
+			'location' => array(
+				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'gtatx_resource' ) ),
+				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ),
+				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'tribe_events' ) ),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'gtatx_register_home_field' );
+
+function gtatx_register_home_guide_fields() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+	$shown = array( array( array( 'field' => 'field_gtatx_home_guide', 'operator' => '==', 'value' => '1' ) ) );
+	acf_add_local_field_group(
+		array(
+			'key'      => 'group_gtatx_home_guide',
+			'title'    => 'Home: "New to this?"',
+			'position' => 'side',
+			'fields'   => array(
+				array(
+					'key'           => 'field_gtatx_home_guide',
+					'name'          => 'gtatx_home_guide',
+					'label'         => 'Show in "New to this?"',
+					'type'          => 'true_false',
+					'ui'            => 1,
+					'default_value' => 0,
+					'instructions'  => 'A row in the Home guides list, with this item\'s picture and link. Meant for the 101 guides. With none ticked, every post with "101" in its title shows.',
+				),
+				array( 'key' => 'field_gtatx_home_guide_title', 'name' => 'gtatx_home_guide_title', 'label' => 'Row name', 'type' => 'text', 'placeholder' => 'Bike', 'instructions' => 'Short, e.g. "Bike". Empty = the title.', 'conditional_logic' => $shown ),
+				array( 'key' => 'field_gtatx_home_guide_body', 'name' => 'gtatx_home_guide_body', 'label' => 'Line (optional)', 'type' => 'textarea', 'rows' => 2, 'instructions' => 'Empty = the excerpt or description.', 'conditional_logic' => $shown ),
+				array( 'key' => 'field_gtatx_home_guide_link', 'name' => 'gtatx_home_guide_link', 'label' => 'Link text (optional)', 'type' => 'text', 'placeholder' => 'Read the guide', 'conditional_logic' => $shown ),
+				array( 'key' => 'field_gtatx_home_guide_order', 'name' => 'gtatx_home_guide_order', 'label' => 'Order', 'type' => 'number', 'min' => 0, 'default_value' => 10, 'instructions' => 'Smaller comes first.', 'conditional_logic' => $shown ),
+			),
+			'location' => array(
+				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'gtatx_resource' ) ),
+				array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ),
+			),
+		)
+	);
+}
+add_action( 'acf/init', 'gtatx_register_home_guide_fields' );
 
 /* ---------- Reading the tree ---------- */
 
@@ -196,9 +272,10 @@ function gtatx_directory_entries() {
 		$entries[] = array_filter(
 			array(
 				'id'          => 'resource-' . $p->ID,
-				'kind'        => 'site',
+				// A page on this site (Bike Bus guide, CTX GO) opens in the same tab, like a guide.
+				'kind'        => gtatx_is_external( $url ) ? 'site' : 'guide',
 				'title'       => get_the_title( $p ),
-				'url'         => esc_url_raw( $url ),
+				'url'         => esc_url_raw( gtatx_full_url( $url ) ),
 				'tags'        => gtatx_post_tag_keys( $p->ID ),
 				'description' => gtatx_plain( get_post_meta( $p->ID, 'gtatx_description', true ) ),
 				'photo'       => $photo ? $photo : get_post_meta( $p->ID, 'gtatx_photo', true ),
@@ -290,9 +367,26 @@ function gtatx_directory_send() {
 
 /* ---------- Starter import (Tools → GetThereATX directory) ---------- */
 
+/** Another site? Relative addresses ("/ready/") and this site's own are not: they open in the same tab. */
+function gtatx_is_external( $url ) {
+	$bare = fn( $h ) => strtolower( preg_replace( '/^www\./', '', (string) $h ) );
+	$host = $bare( wp_parse_url( (string) $url, PHP_URL_HOST ) );
+	return '' !== $host && ! in_array( $host, array( $bare( wp_parse_url( home_url(), PHP_URL_HOST ) ), 'getthereatx.com' ), true );
+}
+
+/** A stored address as a full URL on this site: relative ones, and getthereatx.com's (so staging links stay on staging). */
+function gtatx_full_url( $url ) {
+	$url = preg_replace( '#^https?://(www\.)?getthereatx\.com(?=/|$)#i', '', (string) $url );
+	return 0 === strpos( $url, '/' ) && 0 !== strpos( $url, '//' ) ? home_url( $url ) : $url;
+}
+
 /** A web address compared without http(s), www. or a trailing slash. */
 function gtatx_url_key( $url ) {
-	return strtolower( untrailingslashit( preg_replace( '#^https?://(www\.)?#i', '', trim( (string) $url ) ) ) );
+	$url = trim( (string) $url );
+	// This site's own pages (and getthereatx.com's) compare by their path: "/ready/" = "https://www.getthereatx.com/ready/".
+	$own = preg_quote( preg_replace( '/^www\./', '', (string) wp_parse_url( home_url(), PHP_URL_HOST ) ), '#' );
+	$url = preg_replace( '#^https?://(www\.)?(' . $own . '|getthereatx\.com)(:\d+)?(?=/|$)#i', '', $url );
+	return strtolower( untrailingslashit( preg_replace( '#^https?://(www\.)?#i', '', $url ) ) );
 }
 
 /** Published External resources whose address isn't in the starter list (shown on the import page). */
@@ -483,6 +577,39 @@ function gtatx_directory_import( $replace_old = false ) {
 		++$report['guides'];
 	}
 
+	// Home's "New to this?" rows: set once; an item staff already set (ticked or not) is left alone.
+	$report['home_guides'] = 0;
+	foreach ( $seed['homeGuides'] ?? array() as $i => $g ) {
+		$id = 0;
+		if ( ! empty( $g['slug'] ) ) {
+			$post = get_page_by_path( $g['slug'], OBJECT, 'post' );
+			$id   = $post ? $post->ID : 0;
+		} elseif ( ! empty( $g['url'] ) ) {
+			$id = $have[ gtatx_url_key( $g['url'] ) ] ?? 0;
+			if ( ! $id ) {
+				foreach ( get_posts( array( 'post_type' => 'gtatx_resource', 'post_status' => 'any', 'numberposts' => -1, 'fields' => 'ids' ) ) as $rid ) {
+					if ( ! get_post_meta( $rid, 'gtatx_program', true ) && gtatx_url_key( get_post_meta( $rid, 'gtatx_url', true ) ) === gtatx_url_key( $g['url'] ) ) {
+						$id = $rid;
+						break;
+					}
+				}
+			}
+		}
+		if ( ! $id || metadata_exists( 'post', $id, 'gtatx_home_guide' ) ) {
+			continue;
+		}
+		update_post_meta( $id, 'gtatx_home_guide', 1 );
+		update_post_meta( $id, 'gtatx_home_guide_title', $g['title'] );
+		update_post_meta( $id, 'gtatx_home_guide_order', (int) $g['order'] );
+		if ( ! empty( $g['body'] ) ) {
+			update_post_meta( $id, 'gtatx_home_guide_body', $g['body'] );
+		}
+		if ( ! empty( $g['linkLabel'] ) ) {
+			update_post_meta( $id, 'gtatx_home_guide_link', $g['linkLabel'] );
+		}
+		++$report['home_guides'];
+	}
+
 	// Events: the "Happening in Austin" filter finds every event without a tag.
 	return $report;
 }
@@ -514,13 +641,14 @@ function gtatx_directory_admin_page() {
 			<div class="notice notice-success"><p>
 				<?php
 				printf(
-					'Done: %d tags, %d new External resources, %d new program cards, %d existing ones matched, %d older ones moved to Draft, tags added to %d blog posts.',
+					'Done: %d tags, %d new External resources, %d new program cards, %d existing ones matched, %d older ones moved to Draft, tags added to %d blog posts, %d "New to this?" rows set.',
 					(int) $report['tags'],
 					(int) $report['resources'],
 					(int) $report['programs'],
 					(int) $report['updated'],
 					(int) $report['drafted'],
-					(int) $report['guides']
+					(int) $report['guides'],
+					(int) $report['home_guides']
 				);
 				?>
 			</p>
@@ -560,4 +688,199 @@ function gtatx_directory_admin_page() {
 		</ul>
 	</div>
 	<?php
+}
+
+/* ---------- Home: "See what's going on in Austin." ([gtatx_happening]) ---------- */
+
+/** A post's picture for a card: its featured image, else the picture bundled with the plugin. */
+function gtatx_card_photo( $post ) {
+	$url = get_the_post_thumbnail_url( $post, 'medium_large' );
+	if ( $url ) {
+		return $url;
+	}
+	$photo = get_post_meta( $post->ID, 'gtatx_photo', true );
+	return $photo ? plugin_dir_url( GTATX_TOOLS_FILE ) . 'assets/' . ltrim( $photo, '/' ) : '';
+}
+
+/**
+ * The cards: items with "Show on Home" ticked (most recently changed first), else the first
+ * External resources tagged Happening in Austin that have a picture (A–Z), so the section is
+ * never empty. Same rule as the prototype (src/lib/directoryItems.ts, happeningItems).
+ */
+function gtatx_happening_posts( $count ) {
+	$base   = array(
+		'post_status' => 'publish',
+		'numberposts' => $count * 3,
+	);
+	$picked = get_posts(
+		$base + array(
+			'post_type'  => array( 'gtatx_resource', 'post', 'tribe_events' ),
+			'meta_key'   => 'gtatx_home_featured', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'meta_value' => '1', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'    => 'modified',
+			'order'      => 'DESC',
+		)
+	);
+	$picked = array_values( array_filter( $picked, 'gtatx_card_photo' ) );
+	if ( $picked ) {
+		return array_slice( $picked, 0, $count );
+	}
+	$tag = get_terms(
+		array(
+			'taxonomy'   => GTATX_TAG_TAX,
+			'hide_empty' => false,
+			'meta_key'   => 'gtatx_key', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'meta_value' => 'HappeninginAustin', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'number'     => 1,
+		)
+	);
+	if ( is_wp_error( $tag ) || ! $tag ) {
+		return array();
+	}
+	$fallback = get_posts(
+		array(
+			'post_type'   => 'gtatx_resource',
+			'post_status' => 'publish',
+			'numberposts' => -1,
+			'orderby'     => 'title',
+			'order'       => 'ASC',
+			'tax_query'   => array( array( 'taxonomy' => GTATX_TAG_TAX, 'terms' => $tag[0]->term_id ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	return array_slice( array_values( array_filter( $fallback, 'gtatx_card_photo' ) ), 0, $count );
+}
+
+/** [gtatx_happening count="2"]: the photo cards, styled like the prototype's Home. */
+function gtatx_happening_shortcode( $atts ) {
+	$atts  = shortcode_atts( array( 'count' => 2 ), $atts, 'gtatx_happening' );
+	$posts = gtatx_happening_posts( max( 1, min( 4, (int) $atts['count'] ) ) );
+	if ( ! $posts ) {
+		return '';
+	}
+	gtatx_happening_style();
+	$arrow = '<svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12 12 4M5 4h7v7"/></svg>';
+	$html  = '<ul class="gtatx-happening">';
+	foreach ( $posts as $p ) {
+		$url   = 'gtatx_resource' === $p->post_type ? gtatx_full_url( get_post_meta( $p->ID, 'gtatx_url', true ) ) : get_permalink( $p );
+		$out   = gtatx_is_external( $url );
+		$title = wp_strip_all_tags( get_the_title( $p ) );
+		$html .= sprintf(
+			'<li><a class="gtatx-happening-card" href="%1$s"%2$s><img src="%3$s" alt="" loading="lazy" decoding="async"><span class="gtatx-happening-title">%4$s</span>%5$s</a></li>',
+			esc_url( $url ),
+			$out ? sprintf( ' target="_blank" rel="noopener noreferrer" aria-label="%s"', esc_attr( $title . ', opens in a new tab' ) ) : '',
+			esc_url( gtatx_card_photo( $p ) ),
+			esc_html( $title ),
+			$arrow
+		);
+	}
+	return $html . '</ul>';
+}
+add_shortcode( 'gtatx_happening', 'gtatx_happening_shortcode' );
+
+/** The cards' look (Home.tsx): 218px tall (200 on phones), grey photo, dark fade, white title and ↗. */
+function gtatx_happening_style() {
+	static $done = false;
+	if ( $done ) {
+		return;
+	}
+	$done = true;
+	wp_register_style( 'gtatx-happening', false, array(), GTATX_TOOLS_VERSION );
+	wp_enqueue_style( 'gtatx-happening' );
+	wp_add_inline_style(
+		'gtatx-happening',
+		'.gtatx-happening{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:32px}'
+		. '.gtatx-happening li{margin:0}'
+		. '.gtatx-happening-card{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;height:218px;padding:16px;overflow:hidden;border:1px solid #fff;background:#d9e8f4;color:#fff!important;text-decoration:none!important}'
+		. '.gtatx-happening-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:transform .15s ease-out}'
+		. '.gtatx-happening-card:hover img{transform:scale(1.02)}'
+		. '.gtatx-happening-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,transparent 45%,rgba(0,0,0,.7))}'
+		. '.gtatx-happening-title{position:relative;z-index:1;font-size:28px;font-weight:600;line-height:1.15;letter-spacing:-.01em}'
+		. '.gtatx-happening-card svg{position:relative;z-index:1;flex:none}'
+		. '@media (max-width:1023px){.gtatx-happening{gap:24px}.gtatx-happening-card{height:200px}.gtatx-happening-title{font-size:24px}}'
+	);
+}
+
+/* ---------- Home: "New to this? We got you." ([gtatx_new_to_this]) ---------- */
+
+/** The rows: items with "Show in 'New to this?'" ticked, by Order; else every post with "101" in its title, A–Z. */
+function gtatx_new_to_this_posts() {
+	$picked = get_posts(
+		array(
+			'post_type'   => array( 'gtatx_resource', 'post' ),
+			'post_status' => 'publish',
+			'numberposts' => 8,
+			'meta_key'    => 'gtatx_home_guide', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'meta_value'  => '1', // phpcs:ignore WordPress.DB.SlowDBQuery
+		)
+	);
+	if ( $picked ) {
+		$order = fn( $p ) => (int) ( get_post_meta( $p->ID, 'gtatx_home_guide_order', true ) ?: 10 );
+		usort( $picked, fn( $a, $b ) => $order( $a ) <=> $order( $b ) ?: strcasecmp( $a->post_title, $b->post_title ) );
+		return $picked;
+	}
+	$all = get_posts( array( 'post_type' => 'post', 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'title', 'order' => 'ASC' ) );
+	return array_values( array_filter( $all, fn( $p ) => preg_match( '/\b101\b/', $p->post_title ) ) );
+}
+
+/** [gtatx_new_to_this]: the accordion, one row open at a time (the first, to start), like the prototype's Home. */
+function gtatx_new_to_this_shortcode() {
+	$posts = gtatx_new_to_this_posts();
+	if ( ! $posts ) {
+		return '';
+	}
+	gtatx_new_to_this_style();
+	$html = '<div class="gtatx-guides">';
+	foreach ( $posts as $i => $p ) {
+		$res   = 'gtatx_resource' === $p->post_type;
+		$url   = $res ? gtatx_full_url( get_post_meta( $p->ID, 'gtatx_url', true ) ) : get_permalink( $p );
+		$out   = gtatx_is_external( $url );
+		$name  = get_post_meta( $p->ID, 'gtatx_home_guide_title', true );
+		$name  = $name ? $name : wp_strip_all_tags( get_the_title( $p ) );
+		$body  = get_post_meta( $p->ID, 'gtatx_home_guide_body', true );
+		$body  = $body ? $body : ( $res ? get_post_meta( $p->ID, 'gtatx_description', true ) : gtatx_plain( get_the_excerpt( $p ) ) );
+		$label = get_post_meta( $p->ID, 'gtatx_home_guide_link', true );
+		$label = $label ? $label : ( $out ? 'Visit website' : ( get_post_meta( $p->ID, 'gtatx_hero_video', true ) ? 'Watch the video' : 'Read the guide' ) );
+		$photo = gtatx_card_photo( $p );
+		$html .= sprintf(
+			'<details name="gtatx-guides"%1$s><summary><h3>%2$s</h3><span class="gtatx-guides-icon" aria-hidden="true"></span></summary><div class="gtatx-guides-panel">%3$s%4$s<p class="gtatx-guides-link"><a href="%5$s"%6$s>%7$s <span aria-hidden="true">↗</span></a></p></div></details>',
+			0 === $i ? ' open' : '',
+			esc_html( $name ),
+			$photo ? sprintf( '<img src="%s" alt="" loading="lazy" decoding="async">', esc_url( $photo ) ) : '',
+			$body ? '<p class="gtatx-guides-body">' . esc_html( $body ) . '</p>' : '',
+			esc_url( $url ),
+			$out ? ' target="_blank" rel="noopener noreferrer"' : '',
+			esc_html( $label )
+		);
+	}
+	return $html . '</div>';
+}
+add_shortcode( 'gtatx_new_to_this', 'gtatx_new_to_this_shortcode' );
+
+/** Home.tsx GuideAccordion: rule between rows, 28px titles with +/−, a sky panel with the picture, line and link. */
+function gtatx_new_to_this_style() {
+	static $done = false;
+	if ( $done ) {
+		return;
+	}
+	$done = true;
+	wp_register_style( 'gtatx-guides', false, array(), GTATX_TOOLS_VERSION );
+	wp_enqueue_style( 'gtatx-guides' );
+	wp_add_inline_style(
+		'gtatx-guides',
+		'.gtatx-guides{border-bottom:1px solid #151515}'
+		. '.gtatx-guides details{border-top:1px solid #151515}'
+		. '.gtatx-guides summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0 20px 16px;cursor:pointer;list-style:none;color:#111}'
+		. '.gtatx-guides summary::-webkit-details-marker{display:none}'
+		. '.gtatx-guides summary h3{margin:0;font-size:28px;font-weight:600;line-height:1.15;letter-spacing:-.01em;color:inherit}'
+		. '.gtatx-guides-icon{position:relative;width:32px;height:32px;flex:none}'
+		. '.gtatx-guides-icon::before,.gtatx-guides-icon::after{content:"";position:absolute;left:8px;right:8px;top:15px;height:2px;border-radius:2px;background:currentColor}'
+		. '.gtatx-guides-icon::after{transform:rotate(90deg)}'
+		. '.gtatx-guides details[open] .gtatx-guides-icon::after{display:none}'
+		. '.gtatx-guides-panel{display:flex;flex-direction:column;gap:16px;padding:24px;background:#d9e8f4}'
+		. '.gtatx-guides-panel img{display:block;width:100%;height:180px;object-fit:cover;margin:0}'
+		. '.gtatx-guides-body{margin:0;font-size:22px;line-height:28px;color:#17324d}'
+		. '.gtatx-guides-link{margin:0;font-size:14px;line-height:20px;letter-spacing:.01em}'
+		. '.gtatx-guides-link a{color:#1268b3;text-decoration:underline;text-underline-offset:4px}'
+		. '@media (max-width:1023px){.gtatx-guides summary{padding:16px 0}.gtatx-guides summary h3{font-size:22px;font-weight:400;line-height:28px}.gtatx-guides-icon{width:24px;height:24px}.gtatx-guides-icon::before,.gtatx-guides-icon::after{left:6px;right:6px;top:11px}.gtatx-guides-panel{padding:16px}.gtatx-guides-panel img{height:150px}.gtatx-guides-body{font-size:16px;line-height:24px}.gtatx-guides-link{font-size:12px;line-height:16px}}'
+	);
 }

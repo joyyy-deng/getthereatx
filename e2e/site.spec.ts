@@ -160,10 +160,10 @@ test('Resources: every card shows a picture of the site or a plain panel, never 
   await expect(img).toHaveAttribute('alt', '');
 });
 
-test('Plan: Figma\'s five cards with cost pills, "Go" on desktop', async ({ page }) => {
+test('Plan: four cards (Bus + walk removed, Joy 2026-11-17) with cost pills, "Go" on desktop', async ({ page }) => {
   await open(page, '/plan?from=downtown&to=mueller&mode=bike', DESKTOP);
   const cards = page.getByRole('region', { name: /Compare ways/ }).getByRole('button');
-  await expect(cards).toHaveCount(5);
+  await expect(cards).toHaveCount(4);
   await expect(cards.first()).toContainText('Walking');
   await expect(page.getByText('$1.25 fare', { exact: true }).first()).toBeVisible();
   await expect(page.getByRole('button', { name: 'Go' })).toBeVisible();

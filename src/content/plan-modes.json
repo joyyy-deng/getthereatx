@@ -95,66 +95,11 @@
   },
   {
     "id": "bus",
-    "key": "bus-direct",
     "title": {
       "en": "Bus"
     },
     "image": {
       "src": "/images/mascots/mode-bus.svg",
-      "alt": "A sloth riding a bus"
-    },
-    "eyebrow": {
-      "en": "Less effort, more waiting"
-    },
-    "effort": {
-      "en": "Less physical effort"
-    },
-    "cost": {
-      "en": "$1.25 fare · free with UT ID"
-    },
-    "primary": {
-      "resourceId": "capmetro-planner",
-      "label": {
-        "en": "Plan on CapMetro"
-      }
-    },
-    "airportPrimary": {
-      "resourceId": "capmetro-airport",
-      "label": {
-        "en": "Take Route 20 to the airport"
-      }
-    },
-    "secondary": [
-      {
-        "resourceId": "google-maps",
-        "label": {
-          "en": "Transit directions in Google Maps"
-        },
-        "travelmode": "transit"
-      },
-      {
-        "resourceId": "capmetro-how-to-ride",
-        "label": {
-          "en": "First time riding?"
-        }
-      }
-    ],
-    "ctxGo": true,
-    "chip": {
-      "label": {
-        "en": "$1.25 fare"
-      },
-      "tone": "fare"
-    },
-    "minutesFactor": 0.93
-  },
-  {
-    "id": "bus",
-    "title": {
-      "en": "Bus + walk"
-    },
-    "image": {
-      "src": "/images/mascots/mode-bus-walk.svg",
       "alt": "A sloth riding a bus"
     },
     "eyebrow": {

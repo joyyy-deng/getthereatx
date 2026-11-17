@@ -54,9 +54,11 @@ export function GuideAccordion({ items }: { items: GuideItem[] }) {
                   className="block h-[150px] w-full object-cover lg:h-[180px] lg:border lg:border-sky"
                 />
               )}
-              <p className="m-0 text-fluid leading-[24px] text-navy [--d:22] [--m:16] lg:leading-[28px]">
-                {item.body}
-              </p>
+              {item.body && (
+                <p className="m-0 text-fluid leading-[24px] text-navy [--d:22] [--m:16] lg:leading-[28px]">
+                  {item.body}
+                </p>
+              )}
               <p className="m-0 text-fluid leading-[16px] tracking-[0.01em] [--d:14] [--m:12] lg:leading-[20px]">
                 {'to' in item.link ? (
                   <PageLink to={item.link.to} className="text-link underline decoration-1 underline-offset-4 hover:decoration-2">

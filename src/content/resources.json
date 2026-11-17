@@ -56,6 +56,7 @@
     "action": "Join a group bike ride to school",
     "oneLiner": "Students bike to school together in guided group rides led by trained adults.",
     "url": "https://www.getthereatx.com/austin-bike-bus-pilot-program/",
+    "postSlug": "austin-bike-bus-pilot-program",
     "modes": ["bike"],
     "needs": ["join-program", "learn-how"],
     "audiences": ["family"],

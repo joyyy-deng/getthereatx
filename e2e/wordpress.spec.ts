@@ -184,8 +184,15 @@ test('Resources: the directory comes from WP admin (External resources, tagged p
     const d = (window as unknown as { gtatxTools?: { directory?: { entries: { kind: string }[] } } }).gtatxTools?.directory;
     return d ? d.entries.reduce<Record<string, number>>((n, e) => ({ ...n, [e.kind]: (n[e.kind] ?? 0) + 1 }), {}) : null;
   });
-  // 71 sites from the list + the 3 "Get there together" programs.
-  expect(kinds?.site).toBe(74);
+  // 71 sites from the list + the 3 "Get there together" programs, less the 2 that are pages on this site
+  // (Families → the Bike Bus guide, CTX GO → /ready/): those open here, never the old getthereatx.com.
+  expect(kinds?.site).toBe(72);
+  const ownPages = await page.evaluate(() =>
+    (window as unknown as { gtatxTools: { directory: { entries: { title: string; kind: string; url: string }[] } } }).gtatxTools.directory.entries
+      .filter((e) => /^(Families|Earn money with CTX Go)$/.test(e.title))
+      .map((e) => `${e.kind} ${new URL(e.url).origin === location.origin}`),
+  );
+  expect(ownPages).toEqual(['guide true', 'guide true']);
   expect(kinds?.guide).toBeGreaterThan(0);
   // A list title, verbatim, and the filter from the address ticked.
   await expect(page.getByText('ACL Mobility Guide')).toBeVisible();
@@ -200,4 +207,25 @@ test('Resources: the program cards are External resources under Community / gett
     await page.goto(WP + `/resources/?type=Community/gettinginvolved&q=${encodeURIComponent(title)}#directory`);
     await expect(page.getByText(title, { exact: true }).first()).toBeVisible();
   }
+});
+
+test('Home: "See what\'s going on" cards come from WP admin ([gtatx_happening])', async ({ page }) => {
+  await page.setViewportSize(DESKTOP);
+  await page.goto(WP + '/sample-home/');
+  const cards = page.locator('.gtatx-happening-card');
+  await expect(cards).toHaveCount(2);
+  expect((await box(cards.first())).height).toBe(218);
+  await expect(cards.first().locator('img')).toHaveAttribute('src', /\S/);
+});
+
+test('Home: "New to this?" rows come from WP admin ([gtatx_new_to_this]), each with a picture, one open at a time', async ({ page }) => {
+  await page.setViewportSize(DESKTOP);
+  await page.goto(WP + '/sample-home/');
+  const rows = page.locator('.gtatx-guides details');
+  await expect(rows).toHaveCount(5);
+  await expect(rows.locator('summary h3')).toHaveText(['CapMetro Bus', 'Bike', 'Walk', 'Scooter', 'Drive']);
+  expect(await rows.locator('.gtatx-guides-panel img').count()).toBe(5);
+  await rows.nth(1).locator('summary').click();
+  await expect(rows.nth(1)).toHaveAttribute('open', '');
+  await expect(rows.nth(0)).not.toHaveAttribute('open', '');
 });

@@ -10,7 +10,7 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { ConnectCards, ResourceList, Resources } from '../src/content/schema';
+import { ConnectCards, PageContent, ResourceList, Resources } from '../src/content/schema';
 import { PROGRAM_TAG } from '../src/lib/directoryItems';
 
 const root = resolve(import.meta.dirname, '..');
@@ -19,9 +19,13 @@ const list = ResourceList.parse(read('resource-list.json'));
 const pictures = read('share-images.json') as Record<string, { src: string }>;
 const cards = ConnectCards.parse(read('connect-cards.json'));
 const registry = Resources.parse(read('resources.json'));
+const pages = PageContent.parse(read('pages.json'));
 
 /** Aliased tags (Carpool/vanpool) become the tag they count as, so WordPress has one term each. */
 const resolveTags = (tags: string[]) => [...new Set(tags.map((t) => list.tagAliases[t] ?? t))];
+
+/** getthereatx.com addresses become relative ("/ready/"): the same WordPress site, staging or live. */
+const ownSite = (url: string) => url.replace(/^https?:\/\/(www\.)?getthereatx\.com/, '') || '/';
 
 /** The post's address on getthereatx.com, minus the domain: "5-steps-of-a-helmet-fitting". */
 const slugOf = (url: string) => new URL(url).pathname.split('/').filter(Boolean).pop() ?? '';
@@ -32,7 +36,7 @@ const seed = {
   groups: list.groups,
   resources: list.resources.map((r) => ({
     title: r.title,
-    url: r.url,
+    url: ownSite(r.url),
     tags: resolveTags(r.tags),
     ...(r.description && { description: r.description }),
     ...(pictures[r.url] && { photo: pictures[r.url]!.src }),
@@ -42,9 +46,19 @@ const seed = {
   programs: cards.map((c) => {
     const r = registry.find((x) => x.id === c.resourceId);
     if (!r) throw new Error(`connect-cards: no resource ${c.resourceId}`);
-    return { program: c.id, title: c.title.en, url: r.url, tags: [PROGRAM_TAG], description: r.oneLiner, photo: c.image.src };
+    // Our own guide (Bike Bus): the post on this site, never the old page's address.
+    const url = r.postSlug ? `/${r.postSlug}/` : ownSite(r.url);
+    return { program: c.id, title: c.title.en, url, tags: [PROGRAM_TAG], description: r.oneLiner, photo: c.image.src };
   }),
   guides: list.guides.map((g) => ({ title: g.title, slug: slugOf(g.url), tags: resolveTags(g.tags) })),
+  // Home's "New to this?" rows (pages.json home.guides.featured): which post or site, its row name, line, link text.
+  homeGuides: pages.home.guides.featured.flatMap((f, i) => {
+    const [kind, key] = f.id.split(':') as [string, string];
+    const extra = { title: f.title, order: (i + 1) * 10, ...(f.body && { body: f.body }), ...(f.linkLabel && { linkLabel: f.linkLabel }) };
+    if (kind === 'post') return [{ slug: key, ...extra }];
+    const r = list.resources.find((x) => x.id === key);
+    return r ? [{ url: ownSite(r.url), ...extra }] : [];
+  }),
 };
 
 const out = resolve(root, 'wordpress/gtatx-tools/data/directory-seed.json');

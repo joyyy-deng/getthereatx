@@ -22,7 +22,7 @@ for (const file of FILES) {
     continue;
   }
   // Most files are lists; pages.json is a single object.
-  // Plan cards may share a mode (Figma's "Bus" and "Bus + walk"): their own `key` must be unique instead.
+  // Plan cards may share a mode (each then needs its own `key`): keys must be unique.
   const records = (Array.isArray(result.data) ? result.data : [result.data]).map((r) =>
     file === 'plan-modes' ? { id: (r as { key?: string; id: string }).key ?? (r as { id: string }).id } : r,
   ) as { id?: string; slug?: string }[];
@@ -77,12 +77,18 @@ for (const p of load('posts') as { slug: string; categories?: string[] }[]) {
 
 const pages = PageContent.safeParse(load('pages'));
 if (pages.success) {
-  const postSlugs = new Set((load('posts') as { slug: string }[]).map((p) => p.slug));
-  for (const item of pages.data.home.guides.items) {
-    if (item.postSlug && !postSlugs.has(item.postSlug)) fail('pages', `home guides: unknown post "${item.postSlug}"`);
-    if (item.resourceId && !resourceIds.has(item.resourceId))
-      fail('pages', `home guides: unknown resourceId "${item.resourceId}"`);
-  }
+  // Home's "New to this?" and "See what's going on" pick Resources directory items by id
+  // (lib/directoryItems.ts): post:<post id>, list:<resource-list id>, event:<id>, program:<connect card id>.
+  const directoryIds = new Set([
+    ...(load('posts') as { id: string }[]).map((p) => `post:${p.id}`),
+    ...(load('resource-list') as { resources: { id: string }[] }).resources.map((r) => `list:${r.id}`),
+    ...(load('events') as { id: string }[]).map((e) => `event:${e.id}`),
+    ...(load('connect-cards') as { id: string }[]).map((c) => `program:${c.id}`),
+  ]);
+  for (const { id } of pages.data.home.guides.featured)
+    if (!directoryIds.has(id)) fail('pages', `home guides: no directory item "${id}"`);
+  for (const id of pages.data.home.discover.featured)
+    if (!directoryIds.has(id)) fail('pages', `home discover: no directory item "${id}"`);
 }
 
 // Images live in the repo (public/), never on another site: outside images

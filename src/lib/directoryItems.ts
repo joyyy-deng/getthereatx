@@ -1,6 +1,7 @@
 import type { ConnectCard, Post, Resource, ResourceList, WpDirectory } from '../content/schema';
 import type { Occurrence } from './recurrence';
 import { groupTags, guideTags, labelsIn, tagLabels } from './directory';
+import { cardDateText } from './eventText';
 import { text } from './i18n';
 
 // The Resources directory shows four kinds of things as the same card: the
@@ -94,7 +95,10 @@ export function programItem(list: ResourceList, card: ConnectCard, resource: Res
     description: resource.oneLiner,
     meta: resource.provider,
     photo: card.image.src,
-    action: { kind: 'out', href: resource.url, label: resource.action, trackId: resource.id },
+    // Our own guide (Bike Bus) opens its rebuilt guide page, never the old getthereatx.com page.
+    action: resource.postSlug
+      ? { kind: 'in', to: `/guides/${resource.postSlug}`, label: resource.action }
+      : { kind: 'out', href: resource.url, label: resource.action, trackId: resource.id },
   };
 }
 
@@ -119,4 +123,73 @@ export function wpItem(
   if (e.kind === 'event')
     return { ...common, eyebrow: [b.eyebrow, date].filter(Boolean).join(' · '), meta: e.venue, action: { kind: 'in', to: e.url, label: labels.eventAction } };
   return { ...common, eyebrow: b.eyebrow ?? labels.guide, action: { kind: 'in', to: e.url, label: e.video ? labels.watchVideo : labels.readGuide } };
+}
+
+/** Everything the directory cards are built from (Resources page; Home's "See what's going on"). */
+export interface DirectorySources {
+  list: ResourceList;
+  copy: { linkLabel: string; eventAction: string; guidesLabel: string; readGuide: string; watchVideo: string };
+  cards: ConnectCard[];
+  resources: Resource[];
+  /** Upcoming community events, one occurrence each. */
+  events: Occurrence[];
+  posts: Post[];
+  /** Site address → its saved picture. */
+  shareImages: Record<string, string>;
+  /** Inside WordPress after the starter import: the directory from WP admin, which replaces the rest. */
+  wp?: WpDirectory | null;
+}
+
+/** Every directory card, A–Z by title: sites, then programs, events (by date) and guides. */
+export function directoryEntries(d: DirectorySources): DirectoryItem[] {
+  const { copy, list } = d;
+  const byTitle = (a: DirectoryItem, b: DirectoryItem) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base' });
+  const labels = { guide: copy.guidesLabel, readGuide: copy.readGuide, watchVideo: copy.watchVideo };
+  if (d.wp) {
+    const wpLabels = { ...labels, linkLabel: copy.linkLabel, eventAction: copy.eventAction };
+    const of = (kind: string) => d.wp!.entries.filter((e) => e.kind === kind);
+    const sites = of('site').map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
+    // Events come sorted by date from WordPress.
+    const events = of('event').map((e) => wpItem(list, e, wpLabels, e.start ? cardDateText(new Date(e.start)) : undefined));
+    const guides = of('guide').map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
+    // Programs are External resources in WordPress too (tagged Community / getting involved).
+    return [...sites, ...events, ...guides];
+  }
+  const programs = d.cards.flatMap((c) => {
+    const r = d.resources.find((x) => x.id === c.resourceId);
+    return r ? [programItem(list, c, r)] : [];
+  });
+  const sites = list.resources.map((r) => listItem(list, r, copy.linkLabel, d.shareImages[r.url])).sort(byTitle);
+  const events = d.events.map((o) => eventItem(list, o, copy.eventAction, cardDateText(o.start)));
+  const guides = d.posts.map((p) => guideItem(list, p, labels));
+  return [...sites, ...programs.sort(byTitle), ...events, ...guides.sort(byTitle)];
+}
+
+/**
+ * Home's "See what's going on in Austin." photo cards: the items picked in `featured`
+ * (directory ids, in that order), else the first `count` Happening in Austin items with a picture.
+ */
+export function happeningItems(items: DirectoryItem[], featured: string[], count = 2): DirectoryItem[] {
+  const picked = featured.flatMap((id) => items.filter((i) => i.id === id));
+  if (picked.length) return picked.slice(0, count);
+  return items.filter((i) => i.tags.includes(EVENT_TAG) && i.photo).slice(0, count);
+}
+
+/** One "New to this?" row picked on Home: a directory id plus the short row name and optional overrides. */
+export interface HomeGuidePick {
+  id: string;
+  title: string;
+  body?: string;
+  image?: { src: string; alt: string };
+  linkLabel?: string;
+}
+
+/**
+ * Home's "New to this?" rows: the picked directory items in order (with their row names),
+ * else every guide with "101" in its title, A–Z, named by its own title.
+ */
+export function newToThisItems(items: DirectoryItem[], picks: HomeGuidePick[]): { pick: HomeGuidePick; item: DirectoryItem }[] {
+  const rows = picks.flatMap((pick) => items.filter((i) => i.id === pick.id).map((item) => ({ pick, item })));
+  if (rows.length) return rows;
+  return items.filter((i) => i.id.startsWith('post:') && /\b101\b/.test(i.title)).map((item) => ({ pick: { id: item.id, title: item.title }, item }));
 }
