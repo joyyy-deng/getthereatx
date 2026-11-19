@@ -90,7 +90,7 @@ export function Resources() {
   const modeKey = mode.join('|');
   const whoKey = who.join('|');
   const typeKey = type.join('|');
-  // Every card, A-Z by title (resources first, then programs, events and guides): lib/directoryItems.ts.
+  // Every card: blog posts newest first, then resources and programs A-Z, then events: lib/directoryItems.ts.
   const items = useMemo(() => (data ? directoryEntries(data) : []), [data]);
 
   const results = useMemo(() => {

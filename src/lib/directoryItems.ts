@@ -151,9 +151,13 @@ export function directoryEntries(d: DirectorySources): DirectoryItem[] {
     const sites = of('site').map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
     // Events come sorted by date from WordPress.
     const events = of('event').map((e) => wpItem(list, e, wpLabels, e.start ? cardDateText(new Date(e.start)) : undefined));
-    const guides = of('guide').map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
+    // Blog posts lead, newest first (WordPress sends them by date; Joy 2026-11-18). Own-site External
+    // resources (kind 'guide', id "resource-…") stay A–Z with the other resources.
+    const isPost = (e: { id: string }) => e.id.startsWith('post-');
+    const posts = d.wp.entries.filter(isPost).map((e) => wpItem(list, e, wpLabels));
+    const guides = of('guide').filter((e) => !isPost(e)).map((e) => wpItem(list, e, wpLabels)).sort(byTitle);
     // Programs are External resources in WordPress too (tagged Community / getting involved).
-    return [...sites, ...events, ...guides];
+    return [...posts, ...sites, ...events, ...guides];
   }
   const programs = d.cards.flatMap((c) => {
     const r = d.resources.find((x) => x.id === c.resourceId);
@@ -161,8 +165,10 @@ export function directoryEntries(d: DirectorySources): DirectoryItem[] {
   });
   const sites = list.resources.map((r) => listItem(list, r, copy.linkLabel, d.shareImages[r.url])).sort(byTitle);
   const events = d.events.map((o) => eventItem(list, o, copy.eventAction, cardDateText(o.start)));
-  const guides = d.posts.map((p) => guideItem(list, p, labels));
-  return [...sites, ...programs.sort(byTitle), ...events, ...guides.sort(byTitle)];
+  // Blog posts lead, newest first (Joy 2026-11-18).
+  const when = (p: (typeof d.posts)[number]) => p.published ?? p.lastReviewed;
+  const guides = [...d.posts].sort((a, b) => when(b).localeCompare(when(a))).map((p) => guideItem(list, p, labels));
+  return [...guides, ...sites, ...programs.sort(byTitle), ...events];
 }
 
 /**

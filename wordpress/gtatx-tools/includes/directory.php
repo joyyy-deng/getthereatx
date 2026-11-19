@@ -285,11 +285,14 @@ function gtatx_directory_entries() {
 	}
 
 	// Blog posts appear once they have at least one Directory tag (so old news posts stay out).
+	// Newest first: the Resources page lists them before everything else.
 	$tagged_posts = get_posts(
 		array(
 			'post_type'   => 'post',
 			'post_status' => 'publish',
 			'numberposts' => -1,
+			'orderby'     => 'date',
+			'order'       => 'DESC',
 			'tax_query'   => array( array( 'taxonomy' => GTATX_TAG_TAX, 'operator' => 'EXISTS' ) ), // phpcs:ignore WordPress.DB.SlowDBQuery
 		)
 	);
