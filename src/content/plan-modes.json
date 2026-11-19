@@ -59,18 +59,18 @@
       "en": "no cost"
     },
     "primary": {
-      "resourceId": "google-maps",
+      "resourceId": "bike-streets",
       "label": {
-        "en": "Get bike directions"
-      },
-      "travelmode": "bicycling"
+        "en": "See low-stress bike routes"
+      }
     },
     "secondary": [
       {
-        "resourceId": "austin-bike-map",
+        "resourceId": "google-maps",
         "label": {
-          "en": "Austin Bike Map"
-        }
+          "en": "Get bike directions"
+        },
+        "travelmode": "bicycling"
       },
       {
         "resourceId": "metrobike",
@@ -152,8 +152,8 @@
       "en": "Driving"
     },
     "image": {
-      "src": "/images/mascots/mode-drive.svg",
-      "alt": "A car"
+      "src": "/images/mascots/mode-drive-dogs.svg",
+      "alt": "Three dogs riding in a car"
     },
     "eyebrow": {
       "en": "More time needed to park"

@@ -74,6 +74,89 @@
   transform: translate(-50%, -50%);
 }
 
+/* Plan Your Trip motion (Joy, 2026-11-17: "smooth out plan your trip animations").
+   One easing everywhere (fast start, soft landing) and nothing longer than ~0.7s.
+   The labels already use `transform` for placement, so their pop uses the separate
+   `scale` property and the two never fight. Off for reduced motion (end of block). */
+:root {
+  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes plan-rise {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+}
+@keyframes plan-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes plan-pop {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+@keyframes plan-drop {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
+}
+@keyframes route-draw {
+  from {
+    stroke-dashoffset: 2400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+/* Cards, route text, steps: rise in a beat apart (--rise-i = order). */
+.plan-rise {
+  animation: plan-rise 520ms var(--ease-glide) both;
+  animation-delay: calc(var(--rise-i, 0) * 60ms);
+}
+.plan-fade {
+  animation: plan-fade 420ms var(--ease-glide) both;
+}
+.plan-drop {
+  animation: plan-drop 180ms var(--ease-glide) both;
+  transform-origin: top;
+}
+/* The green line draws from A to B; the casing under it fades in. */
+.trip-route {
+  stroke-dasharray: 2400;
+  animation: route-draw 900ms var(--ease-glide) both;
+}
+.trip-route-casing {
+  animation: plan-fade 500ms ease-out both;
+}
+/* B and the time badge arrive as the line reaches them. */
+.trip-map-pin,
+.trip-map-label--above {
+  animation: plan-pop 380ms var(--ease-glide) 450ms both;
+}
+.trip-map-badge {
+  animation: plan-pop 420ms var(--ease-glide) 300ms both;
+}
+.trip-map-label--below {
+  animation: plan-fade 300ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .plan-rise,
+  .plan-fade,
+  .plan-drop,
+  .trip-route,
+  .trip-route-casing,
+  .trip-map-pin,
+  .trip-map-label--above,
+  .trip-map-badge,
+  .trip-map-label--below {
+    animation: none;
+  }
+}
+
 /* Map shapes are mouse shortcuts; keyboard users pick places in the From/To fields. */
 .leaflet-interactive:focus {
   outline: none;

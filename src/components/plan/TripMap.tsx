@@ -1,5 +1,5 @@
 import 'leaflet/dist/leaflet.css';
-import { divIcon, latLngBounds, type LatLngExpression, type LeafletEvent, type LeafletMouseEvent, type Path, type PathOptions } from 'leaflet';
+import { divIcon, latLngBounds, point, type LatLngExpression, type LeafletEvent, type LeafletMouseEvent, type Path, type PathOptions } from 'leaflet';
 import { useEffect, useMemo, useRef } from 'react';
 import { CircleMarker, MapContainer, Marker, Polygon, Polyline, TileLayer, Tooltip, useMap } from 'react-leaflet';
 import type { Place } from '../../content/schema';
@@ -59,8 +59,16 @@ function FitTrip({ from, to }: Pick<TripMapProps, 'from' | 'to'>) {
       map.setView(AUSTIN, DEFAULT_ZOOM, { animate });
       return;
     }
-    if (animate) map.flyToBounds(frame(picked), { padding: PAD, maxZoom: 14, duration: 0.8, easeLinearity: 0.2 });
-    else map.fitBounds(frame(picked), { padding: PAD, maxZoom: 14, animate: false });
+    const bounds = frame(picked);
+    if (!animate) {
+      map.fitBounds(bounds, { padding: PAD, maxZoom: 14, animate: false });
+      return;
+    }
+    // A small move (same zoom, give or take one step) glides straight there; flying out and back
+    // in for a nearby place felt like a lurch. Bigger jumps still fly, a little slower.
+    const zoomStep = Math.abs(Math.min(14, map.getBoundsZoom(bounds, false, point(PAD[0] * 2, PAD[1] * 2))) - map.getZoom());
+    if (zoomStep <= 1) map.fitBounds(bounds, { padding: PAD, maxZoom: 14, animate: true, duration: 0.7, easeLinearity: 0.25 });
+    else map.flyToBounds(bounds, { padding: PAD, maxZoom: 14, duration: 1.1, easeLinearity: 0.15 });
   }, [map, from, to]);
   return null;
 }
@@ -224,8 +232,9 @@ export function TripMap({ places, from, to, badge, onPick }: TripMapProps) {
         {trip && (
           <>
             {/* Figma "Route casing" + "Selected route". */}
-            <Polyline positions={[center(from), center(to)]} pathOptions={{ color: colors.white, weight: 10, opacity: 1 }} />
-            <Polyline positions={[center(from), center(to)]} pathOptions={{ color: colors.route, weight: 5, opacity: 1 }} />
+            {/* Keyed by the trip, so a new trip redraws the line from A to B (index.css .trip-route). */}
+            <Polyline key={`casing-${from.id}-${to.id}`} positions={[center(from), center(to)]} pathOptions={{ color: colors.white, weight: 10, opacity: 1, className: 'trip-route-casing' }} />
+            <Polyline key={`route-${from.id}-${to.id}`} positions={[center(from), center(to)]} pathOptions={{ color: colors.route, weight: 5, opacity: 1, className: 'trip-route' }} />
           </>
         )}
         {from && (

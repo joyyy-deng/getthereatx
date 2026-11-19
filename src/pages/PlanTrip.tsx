@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState, type CSSProperties } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ModeCard } from '../components/plan/ModeCard';
 import { PlaceCombobox } from '../components/plan/PlaceCombobox';
@@ -32,11 +32,15 @@ export function PlanTrip() {
   });
   const [params, setParams] = useSearchParams();
   const compareRef = useRef<HTMLHeadingElement>(null);
+  // Swap button turns half a turn per click.
+  const [swaps, setSwaps] = useState(0);
 
   const placeById = (id: string | null) => (id ? data?.places.find((p) => p.id === id) : undefined);
   const from = placeById(params.get('from'));
   const toRaw = placeById(params.get('to'));
   const to = toRaw?.id === from?.id ? undefined : toRaw;
+  // Restarts the Plan entrance motion whenever the trip changes.
+  const tripKey = `${from?.id ?? ''}-${to?.id ?? ''}`;
 
   // Departure menu, built once per visit: "Leave now", then every 15 minutes.
   const leaveOptions = useMemo(() => departureOptions(), []);
@@ -87,12 +91,23 @@ export function PlanTrip() {
   const swap = (
     <button
       type="button"
-      onClick={() => update({ from: to ?? null, to: from ?? null })}
+      onClick={() => {
+        setSwaps((n) => n + 1);
+        update({ from: to ?? null, to: from ?? null });
+      }}
       disabled={!from && !to}
       aria-label="Swap From and To"
       className="grid size-8 shrink-0 place-items-center border border-line bg-bg transition-colors duration-hover hover:bg-mist disabled:opacity-40"
     >
-      <img src={asset('/icons/arrow-left-right.svg')} alt="" width={16} height={16} className="block size-4" />
+      {/* Half a turn per swap, so the arrows visibly trade places. */}
+      <img
+        src={asset('/icons/arrow-left-right.svg')}
+        alt=""
+        width={16}
+        height={16}
+        className="block size-4 transition-transform duration-[450ms] ease-[var(--ease-glide)] motion-reduce:transition-none"
+        style={{ transform: `rotate(${swaps * 180}deg)` }}
+      />
     </button>
   );
 
@@ -174,9 +189,13 @@ export function PlanTrip() {
 
       {!trip && (
         <>
-          <p className="m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
-          <div className="h-[420px] lg:h-auto lg:min-h-0 lg:flex-1">
-            <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} />
+          <p className="plan-fade m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
+          {/* The box grows to fill the screen; the map is pinned inside it, because a 100% height
+              inside a grown box (no fixed height) comes out as 0 and the map vanishes. */}
+          <div className="plan-fade relative h-[420px] lg:h-auto lg:min-h-[420px] lg:flex-1">
+            <div className="absolute inset-0">
+              <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} />
+            </div>
           </div>
         </>
       )}
@@ -193,9 +212,10 @@ export function PlanTrip() {
             >
               {copy.compareTitle}
             </h2>
-            <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:gap-4">
-              {cards.map((c) => (
-                <li key={cardKey(c.mode)}>
+            {/* Keyed by the trip: a new trip deals the cards in again, left to right. */}
+            <ul key={tripKey} className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:gap-4">
+              {cards.map((c, i) => (
+                <li key={cardKey(c.mode)} className="plan-rise" style={{ '--rise-i': i } as CSSProperties}>
                   <ModeCard
                     card={c}
                     miles={miles}
@@ -214,7 +234,8 @@ export function PlanTrip() {
             aria-labelledby="route-title"
             className="grid gap-5 lg:min-h-[420px] lg:flex-1 lg:grid-cols-[minmax(300px,34%)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:gap-y-3"
           >
-            <div className="flex flex-col gap-4 lg:gap-2">
+            {/* Keyed by trip and card, so switching cards eases the new text in instead of snapping. */}
+            <div key={`${tripKey}-${cardKey(picked.mode)}`} className="plan-rise flex flex-col gap-4 lg:gap-2">
               <p className="m-0 text-caption font-semibold uppercase text-charcoal">
                 {text(picked.mode.title)}
               </p>
@@ -240,7 +261,11 @@ export function PlanTrip() {
               />
             </div>
             {/* Figma: A, a line down to B, B. */}
-            <ol className="m-0 flex list-none flex-col p-0 text-lead text-ink">
+            <ol
+              key={`steps-${tripKey}-${cardKey(picked.mode)}`}
+              className="plan-rise m-0 flex list-none flex-col p-0 text-lead text-ink"
+              style={{ '--rise-i': 1 } as CSSProperties}
+            >
               <li className="flex gap-4">
                 <span aria-hidden="true" className="w-3 text-fine">A</span>
                 <span className="sr-only">From </span>

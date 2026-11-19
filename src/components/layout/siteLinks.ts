@@ -20,6 +20,12 @@ export const DIRECTORY = [
   ],
 ] as const;
 
+/** Footer button: the GetThereATX newsletter (Mailchimp archive, with its sign-up link). Joy, 2026-11-19. */
+export const MAILING_LIST = {
+  href: 'https://us3.campaign-archive.com/home/?u=da7c8480d321984a479109412&id=4273909b8d',
+  label: 'Join our mailing list',
+};
+
 export const SOCIAL = [
   { href: 'https://www.facebook.com/GetThereAustin/', icon: '/icons/facebook.svg', label: 'Facebook' },
   { href: 'mailto:GetThereATX@austintexas.gov', icon: '/icons/email.svg', label: 'Email' },
@@ -27,10 +33,10 @@ export const SOCIAL = [
 ];
 
 /**
- * Privacy Policy is getthereatx.com's own page. The site has no Terms page, so
- * Terms stays on the City of Austin's legal notice (flagged for the client).
+ * Privacy Policy is the City of Austin's privacy notice (Joy, 2026-11-19). The site has
+ * no Terms page, so Terms stays on the City of Austin's legal notice (flagged for the client).
  */
 export const LEGAL = [
   { href: 'https://www.austintexas.gov/page/legal-notice', label: 'Terms' },
-  { href: 'https://www.getthereatx.com/privacy-policy/', label: 'Privacy Policy' },
+  { href: 'https://www.austintexas.gov/privacy-notice', label: 'Privacy Policy' },
 ];

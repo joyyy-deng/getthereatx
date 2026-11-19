@@ -34,7 +34,7 @@ test('nav: Figma Nav component (16px Demibold tabs, current page sky), 72px tall
   await expect(nav.getByRole('link', { name: 'Plan your trip' })).toBeVisible();
 });
 
-test('footer: 32px invitation, 22px Demibold links; Contact and Privacy go to getthereatx.com', async ({ page }) => {
+test('footer: 32px invitation, 22px Demibold links; Contact goes to getthereatx.com, Privacy to the City privacy notice', async ({ page }) => {
   await open(page, '/community', DESKTOP);
   const footer = page.locator('footer');
   expect(await css(footer.getByText('Keep Austin'), 'font-size')).toBe('32px');
@@ -42,7 +42,8 @@ test('footer: 32px invitation, 22px Demibold links; Contact and Privacy go to ge
   expect(await css(plan, 'font-size')).toBe('22px');
   expect(await css(plan, 'font-weight')).toBe('600');
   await expect(footer.getByRole('link', { name: /Contact/ })).toHaveAttribute('href', 'https://www.getthereatx.com/contact/');
-  await expect(footer.getByRole('link', { name: /Privacy Policy/ })).toHaveAttribute('href', 'https://www.getthereatx.com/privacy-policy/');
+  await expect(footer.getByRole('link', { name: /Privacy Policy/ })).toHaveAttribute('href', 'https://www.austintexas.gov/privacy-notice');
+  await expect(footer.getByRole('link', { name: /Join our mailing list/ })).toHaveAttribute('href', /campaign-archive\.com\/home\/\?u=da7c8480d321984a479109412/);
 });
 
 test('Type sizes: Home poster 80 / 45 (shortened from Figma 96 at Joy\'s request), Resources and Community titles 36 / 28', async ({ page }) => {

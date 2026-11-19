@@ -215,7 +215,7 @@ export function PlaceCombobox({
           aria-label={`${label} places`}
           // Keep focus in the input while clicking options.
           onMouseDown={(e) => e.preventDefault()}
-          className="absolute left-0 top-full z-[1000] mt-1 max-h-[360px] w-full min-w-[280px] max-w-[calc(100vw-48px)] overflow-y-auto border border-line bg-bg py-2 shadow-raised"
+          className="plan-drop absolute left-0 top-full z-[1000] mt-1 max-h-[360px] w-full min-w-[280px] max-w-[calc(100vw-48px)] overflow-y-auto border border-line bg-bg py-2 shadow-raised"
         >
           {ordered.length === 0 ? (
             <div className="flex flex-col gap-2 px-4 py-3 text-small">

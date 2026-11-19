@@ -38,6 +38,19 @@
     "lastChecked": "2026-10-15"
   },
   {
+    "id": "bike-streets",
+    "title": "Bike Streets",
+    "provider": "Bike Streets",
+    "action": "See low-stress bike routes",
+    "oneLiner": "Austin's low-stress bike map: chill routes, trails and protected lanes.",
+    "url": "https://bikestreets.com/tx/austin/",
+    "deepLink": "https://bikestreets.com/tx/austin/#{zoom}/{midLat}/{midLng}",
+    "modes": ["bike"],
+    "needs": ["plan-route"],
+    "audiences": ["everyone", "commuter"],
+    "lastChecked": "2026-11-19"
+  },
+  {
     "id": "ut-carpool",
     "title": "UT Carpool",
     "provider": "UT Parking & Transportation",

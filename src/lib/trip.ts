@@ -113,6 +113,7 @@ export function handoffUrl(
     toName: trip.to?.mapsQuery ?? '',
     leaveAt: trip.leaveAt ? String(trip.leaveAt.getTime()) : '',
   };
+  Object.assign(values, mapView(trip.from, trip.to));
   const url = new URL(resource.deepLink);
   for (const [key, value] of [...url.searchParams]) {
     const m = value.match(/^\{(\w+)\}$/);
@@ -121,5 +122,33 @@ export function handoffUrl(
     if (filled) url.searchParams.set(key, filled);
     else url.searchParams.delete(key);
   }
+  // A map view in the address's # part (Bike Streets: #zoom/lat/lng). Without a place
+  // picked, drop the # so the map opens on its own default view.
+  if (url.hash.includes('{')) {
+    const hash = decodeURIComponent(url.hash).replace(/\{(\w+)\}/g, (_, k: string) => values[k] ?? '');
+    url.hash = /\/\/|#\/|\/$/.test(hash) || hash === '#' ? '' : hash;
+  }
   return url.toString();
+}
+
+/**
+ * The map view that shows a trip: the midpoint of From and To and a zoom that fits both
+ * (Mapbox / web-map zoom, sized for a ~360px-wide phone map; one place alone: zoom 14).
+ */
+export function mapView(from?: Place, to?: Place): Partial<Record<'midLat' | 'midLng' | 'zoom', string>> {
+  const ends = [from, to].filter((p): p is Place => !!p);
+  if (!ends.length) return {};
+  const lat = ends.reduce((s, p) => s + p.centroid.lat, 0) / ends.length;
+  const lng = ends.reduce((s, p) => s + p.centroid.lng, 0) / ends.length;
+  let zoom = 14;
+  if (ends.length === 2) {
+    const metersPerDeg = 111_320;
+    const dy = Math.abs(ends[0]!.centroid.lat - ends[1]!.centroid.lat) * metersPerDeg;
+    const dx = Math.abs(ends[0]!.centroid.lng - ends[1]!.centroid.lng) * metersPerDeg * Math.cos((lat * Math.PI) / 180);
+    const span = Math.max(dx, dy, 500);
+    // Web-map zoom z shows 78,271.5 · cos(lat) / 2^z meters per pixel; fit the span in ~240px.
+    zoom = Math.log2((78_271.5 * Math.cos((lat * Math.PI) / 180) * 240) / span);
+  }
+  zoom = Math.min(15.5, Math.max(10.5, zoom));
+  return { midLat: lat.toFixed(5), midLng: lng.toFixed(5), zoom: zoom.toFixed(2) };
 }

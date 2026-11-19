@@ -33,7 +33,7 @@ export function ModeCard({
       aria-pressed={selected}
       onClick={onSelect}
       className={cx(
-        'flex h-full min-h-[132px] w-full flex-col justify-center gap-2 border p-4 text-left transition-colors duration-hover lg:min-h-[120px] lg:gap-2 lg:px-[13px] lg:py-3',
+        'flex h-full min-h-[132px] w-full flex-col justify-center gap-2 border p-4 text-left transition-[background-color,border-color,color] duration-panel ease-[var(--ease-glide)] motion-reduce:transition-none lg:min-h-[120px] lg:gap-2 lg:px-[13px] lg:py-3',
         selected ? 'border-charcoal bg-surface-muted lg:border-border-control lg:bg-sky lg:text-navy' : 'border-line bg-bg hover:border-ink-muted lg:border-border-control',
       )}
     >
@@ -57,7 +57,11 @@ export function ModeCard({
           <img
             src={asset(mode.image.src)}
             alt=""
-            className="block h-auto max-h-[107px] w-[100px] shrink-0 object-contain lg:max-h-[72px] lg:w-[80px]"
+            className={cx(
+              'block h-auto max-h-[107px] w-[100px] shrink-0 object-contain transition-transform duration-[400ms] ease-[cubic-bezier(.34,1.56,.64,1)] motion-reduce:transition-none lg:max-h-[72px] lg:w-[80px]',
+              // The picked card's mascot hops up a little.
+              selected && '-translate-y-1',
+            )}
           />
         )}
       </span>

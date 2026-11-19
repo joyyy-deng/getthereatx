@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { Logo } from './Logo';
-import { DIRECTORY, LEGAL, SOCIAL } from './siteLinks';
+import { Arrow } from '../ui/Arrow';
+import { DIRECTORY, LEGAL, MAILING_LIST, SOCIAL } from './siteLinks';
 
 // Figma "Footer" components (desktop 1117:4256, phone 1117:4216).
 //   Desktop: 1px rule on top. Left (560 of 1440): logo 330 × 106 at 64/40, then
@@ -41,6 +42,17 @@ export function Footer() {
           <br />
           Moving.
         </p>
+        {/* Mailing list (Joy, 2026-11-19): the site's leaf button, under the invitation. */}
+        <a
+          href={MAILING_LIST.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex min-h-[44px] w-fit items-center gap-3 bg-leaf px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90 lg:mt-3"
+        >
+          {MAILING_LIST.label}
+          <Arrow className="size-3" strokeWidth={2.5} />
+          <span className="sr-only"> (opens in a new tab)</span>
+        </a>
       </div>
 
       <div className="flex flex-1 flex-col gap-5 bg-sky p-6 lg:gap-6 lg:pb-4 lg:pl-12 lg:pr-16 lg:pt-10">

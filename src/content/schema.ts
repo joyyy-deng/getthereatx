@@ -46,6 +46,8 @@ export const Resource = z.object({
    * {from} {to} (place mapsQuery), {mode} (Google travelmode), {fromLatLng}
    * {toLatLng} ("30.26,-97.74"), {fromName} {toName}, {leaveAt} (ms since
    * 1970; empty = leave now). Empty fill-ins drop their parameter.
+   * In the # part: {zoom} {midLat} {midLng}, a map view that fits From and To
+   * (Bike Streets: "…/tx/austin/#{zoom}/{midLat}/{midLng}").
    */
   deepLink: z.string().optional(),
   modes: z.array(Mode).min(1),
