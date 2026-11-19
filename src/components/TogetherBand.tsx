@@ -15,14 +15,14 @@ import { PageLink } from './ui/PageLink';
 const SIZES = {
   home: {
     title: '[--m:32] [--d:57] leading-[1.15] lg:leading-[1.05]',
-    button: 'bg-leaf lg:bg-white',
+    button: 'bg-white',
     card: 'flex-row sm:flex-col lg:h-[395px]',
     pic: 'h-[131px] min-w-0 flex-1 sm:h-[200px] sm:flex-none lg:h-[230px]',
     details: 'w-[240px] shrink-0 sm:w-auto',
   },
   community: {
     title: '[--m:48] [--d:45] leading-[1.05]',
-    button: 'bg-leaf',
+    button: 'bg-white',
     card: 'flex-row sm:flex-col lg:h-[295px]',
     pic: 'w-[76px] shrink-0 sm:h-[200px] sm:w-auto lg:h-auto lg:min-h-0 lg:flex-1',
     details: 'justify-center sm:justify-start',
@@ -66,12 +66,12 @@ export function TogetherBand({
           <PageLink
             to={button.to}
             className={cx(
-              'flex min-h-[56px] items-center gap-7 px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90',
+              'flex min-h-[56px] items-center gap-7 px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink btn-slant',
               size.button,
             )}
           >
             {button.label}
-            <Arrow className="size-3" strokeWidth={2.5} />
+            <Arrow className="size-3" />
           </PageLink>
         </div>
         <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-3 lg:flex-1 lg:gap-[6px]">
@@ -83,7 +83,7 @@ export function TogetherBand({
                   // Our own guide (Bike Bus): its rebuilt guide page on this site, not the old getthereatx.com page.
                   <PageLink
                     to={`/guides/${r.postSlug}`}
-                    className={cx('group flex w-full overflow-hidden bg-white', size.card)}
+                    className={cx('group flex w-full overflow-hidden bg-white transition-colors duration-hover hover:bg-sky focus-visible:bg-sky', size.card)}
                   >
                     <span className={cx('block overflow-hidden bg-sky', size.pic)}>
                       <img
@@ -110,7 +110,7 @@ export function TogetherBand({
                     rel="noopener noreferrer"
                     aria-label={r ? `${text(c.title)}: ${r.action}, opens ${r.provider} in a new tab` : undefined}
                     onClick={() => r && track('handoff', { resourceId: r.id, from, provider: r.provider, href: r.url })}
-                    className={cx('group flex w-full overflow-hidden bg-white', size.card)}
+                    className={cx('group flex w-full overflow-hidden bg-white transition-colors duration-hover hover:bg-sky focus-visible:bg-sky', size.card)}
                   >
                     <span className={cx('block overflow-hidden bg-sky', size.pic)}>
                       <img

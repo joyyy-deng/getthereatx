@@ -17,7 +17,7 @@ function pageList(current: number, total: number): (number | '…')[] {
 }
 
 const arrow =
-  'grid size-[44px] place-items-center text-[20px] text-ink transition-colors duration-hover hover:bg-mist disabled:opacity-30';
+  'grid size-[44px] place-items-center text-[20px] text-ink transition-colors duration-hover hover:bg-sky disabled:opacity-30';
 
 /** ‹ 1 2 … 7 › with square page boxes, styled like the Resources filters (charcoal = current). */
 export function Pagination({ page, pages, onChange, label }: PaginationProps) {
@@ -47,7 +47,7 @@ export function Pagination({ page, pages, onChange, label }: PaginationProps) {
             aria-current={n === page ? 'page' : undefined}
             className={cx(
               'grid size-[44px] place-items-center border text-fine transition-colors duration-hover',
-              n === page ? 'border-charcoal bg-charcoal text-white' : 'border-line text-ink hover:bg-mist',
+              n === page ? 'border-charcoal bg-charcoal text-white' : 'border-line text-ink hover:bg-sky',
             )}
           >
             {n}

@@ -125,10 +125,10 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
               <EventLink
                 o={featured}
                 label={`${copy.linkLabel}: ${text(featured.event.title)}`}
-                className="flex min-h-[44px] items-center gap-3 bg-leaf px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90"
+                className="btn-slant flex min-h-[44px] items-center gap-3 border-2 border-ink bg-white px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink"
               >
                 {copy.linkLabel}
-                <Arrow className="size-3" strokeWidth={2.5} />
+                <Arrow className="size-3" />
               </EventLink>
             </div>
           </article>
@@ -155,7 +155,7 @@ export function EventsSection({ events: all, copy, aside }: { events: Occurrence
                           <span className="text-[12px] font-semibold leading-[16px] tracking-[0.01em] text-ink-muted">{rail.weekday}</span>
                         </span>
                         <span className="flex min-w-0 flex-1 flex-col gap-[7px]">
-                          <span className="text-fluid font-medium leading-[1.06] tracking-[-0.8px] text-ink group-hover:underline [--d:22] [--m:28] lg:font-normal lg:leading-[28px] lg:tracking-normal">
+                          <span className="text-fluid font-medium leading-[1.06] tracking-[-0.8px] text-ink u-draw [--d:22] [--m:28] lg:font-normal lg:leading-[28px] lg:tracking-normal">
                             {text(o.event.title)}
                           </span>
                           <span className="text-[14px] leading-[20px] tracking-[0.01em] text-ink">{nextText(o.start, o.end)}</span>

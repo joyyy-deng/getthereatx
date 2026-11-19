@@ -5,6 +5,7 @@ import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { track } from '../../lib/track';
 import { RichText } from '../guide/RichText';
+import { Arrow } from '../ui/Arrow';
 import { PageLink } from '../ui/PageLink';
 
 // Pieces shared by the blog template (Figma "Article/blog Master template",
@@ -12,17 +13,10 @@ import { PageLink } from '../ui/PageLink';
 // Template", 1014:2549 / 1015:277). Each one maps to one Elementor block in
 // wordpress/elementor (see docs/cms-plan.md), so the names match Figma's layers.
 
-/** Figma's 16px arrow (Frame 979:2010). `light` is the white version for dark buttons. */
-export function ArrowIcon({ light = false }: { light?: boolean }) {
-  return (
-    <img
-      src={asset(light ? '/images/icons/arrow-up-right-white.svg' : '/images/icons/arrow-up-right.svg')}
-      alt=""
-      width={16}
-      height={16}
-      className="block size-4 shrink-0"
-    />
-  );
+/** Figma's 16px arrow (Frame 979:2010), in the text color (so it's white on dark buttons),
+ *  with the hover exit-and-return. */
+export function ArrowIcon() {
+  return <Arrow className="size-4" />;
 }
 
 /** Figma 1008:2355: the angled arrow, mirrored to point back, then the label. */
@@ -41,18 +35,12 @@ export function BackLink({ to, label, className }: { to: string; label: string; 
     }
   };
   return (
-    <PageLink to={to} onClick={goBack} className={cx('flex items-center gap-[15px] self-start text-a-back font-semibold text-ink hover:underline', className)}>
-      {/* The 18×16 frame; the drawing overflows it a little, as in Figma. */}
-      <span aria-hidden="true" className="relative block h-4 w-[18px] shrink-0 -scale-x-100">
-        <img loading="lazy" decoding="async"
-          src={asset('/images/icons/arrow-back.svg')}
-          alt=""
-          width={20.1642}
-          height={19.1642}
-          className="absolute bottom-[-13.53%] left-[-12.02%] right-0 top-[-6.25%] block"
-        />
+    <PageLink to={to} onClick={goBack} className={cx('flex items-center gap-[15px] self-start text-a-back font-semibold text-ink', className)}>
+      {/* Figma: the angled arrow, mirrored to point back (Joy's Semibold arrow). */}
+      <span aria-hidden="true" className="block shrink-0 -scale-x-100">
+        <Arrow still className="size-4" />
       </span>
-      {label}
+      <span className="u-draw">{label}</span>
     </PageLink>
   );
 }
@@ -185,10 +173,13 @@ export function ArticleTable({ columns, rows }: { columns: string[]; rows: strin
 }
 
 type ButtonTone = 'green' | 'outline' | 'black';
+// Hover: the green slant wash (index.css .btn-slant); dark text.
+// Joy 2026-11-19: every button starts white, with a dark outline on white sections. `black` is the
+// "Ready to plan your trip?" panel's button: plain white on the green panel, no outline and no slant.
 const buttonTone: Record<ButtonTone, string> = {
-  green: 'bg-leaf text-ink',
-  outline: 'border-2 border-ink bg-white text-ink',
-  black: 'bg-ink text-white',
+  green: 'btn-slant border-2 border-ink bg-white text-ink',
+  outline: 'btn-slant border-2 border-ink bg-white text-ink',
+  black: 'bg-white text-ink',
 };
 
 /**
@@ -217,7 +208,7 @@ export function ArrowButton({
   onClick?: () => void;
 }) {
   const classes = cx(
-    'flex items-center px-5 py-4 text-a-button font-bold transition-opacity duration-hover hover:opacity-90',
+    'flex items-center px-5 py-4 text-a-button font-bold',
     stretch ? 'w-full justify-between' : 'gap-8 self-start',
     buttonTone[tone],
     className,
@@ -225,7 +216,7 @@ export function ArrowButton({
   const inner = (
     <>
       {label}
-      <ArrowIcon light={tone === 'black'} />
+      <ArrowIcon />
     </>
   );
   if (download) {
@@ -255,7 +246,7 @@ export function ArrowButton({
     >
       {label}
       <span className="sr-only"> (opens in a new tab)</span>
-      <ArrowIcon light={tone === 'black'} />
+      <ArrowIcon />
     </a>
   );
 }
@@ -285,7 +276,7 @@ export function RelatedCard({
       </span>
       <span className="flex flex-1 flex-col gap-[10px] p-6">
         {eyebrow && <span className="text-a-eyebrow uppercase text-ink-soft">{eyebrow}</span>}
-        <span className="text-a-card font-medium text-ink group-hover:underline">{title}</span>
+        <span className="u-draw text-a-card font-medium text-ink">{title}</span>
         <span className="mt-auto flex items-center justify-end gap-2 text-a-back font-semibold text-ink">
           {action}
           <ArrowIcon />

@@ -14,6 +14,10 @@ import { PageLink } from './PageLink';
  *   under the title, a 40px arrow bottom right.
  *   Desktop `side` (Explore more): title top left, arrow bottom left, the
  *   mascot (310 × 252) bottom right running off the card's edge.
+ * Hover (Motion Lab, Joy 2026-11-19): `fan` = "Deck fan", colored sheets fan
+ * out behind the card (See all guides); `scoot` = "Scoot forward", the mascot
+ * scoots ahead with speed lines behind it (Home's Explore more); `peek` = the
+ * mascot sits half below the bottom edge and pops up (Community's dog car). index.css.
  */
 export function MascotCard({
   title,
@@ -23,6 +27,7 @@ export function MascotCard({
   layout,
   className,
   titleSize = [28, 45],
+  hover,
 }: {
   title: string[];
   to: string;
@@ -33,23 +38,41 @@ export function MascotCard({
   className?: string;
   /** Figma title size, phone / desktop px. */
   titleSize?: [number, number];
+  hover?: 'fan' | 'scoot' | 'peek';
 }) {
   // Navy, not Figma's white, on the leaf green: white is 2.7:1 there (fails WCAG AA), navy 4.8:1.
-  const art = <img src={asset(mascot.src)} alt="" className={cx('block size-full max-w-none', mascot.flip && '-scale-x-100')} />;
+  const img = <img src={asset(mascot.src)} alt="" className={cx('block size-full max-w-none', mascot.flip && '-scale-x-100')} />;
+  const art =
+    hover === 'scoot' ? (
+      // A flipped mascot faces left, so it scoots left. The lines ride along with it, behind it.
+      <span className={cx('relative block size-full', mascot.flip && 'scoot--left')}>
+        <span className="scoot-mascot relative block size-full">
+          <span aria-hidden="true" className="scoot-lines text-navy">
+            <i />
+            <i />
+            <i />
+          </span>
+          {/* Lifts its nose up once it arrives (index.css .scoot-lift). */}
+          <span className="scoot-lift block size-full">{img}</span>
+        </span>
+      </span>
+    ) : (
+      img
+    );
   const arrow = (cls: string): ReactNode => (
-    <span className={cx('block transition-transform duration-hover group-hover:-translate-y-0.5 group-hover:translate-x-0.5', cls)}>
-      <Arrow className="size-6 lg:size-10" strokeWidth={2.2} />
+    <span className={cx('block', cls)}>
+      <Arrow className="size-6 lg:size-10" />
     </span>
   );
 
-  return (
+  const card = (
     <PageLink
       to={to}
       className={cx(
         'group relative flex justify-between gap-4 overflow-hidden p-6 text-navy lg:p-9',
         tone === 'leaf' ? 'bg-leaf' : 'bg-sky',
         layout === 'stacked' ? 'lg:h-[468px]' : 'lg:min-h-[303px]',
-        className,
+        hover !== 'fan' && className,
       )}
     >
       <span className={cx('relative z-10 flex shrink-0 flex-col justify-between gap-4 lg:w-auto', layout === 'side' ? 'min-w-[170px] whitespace-nowrap lg:whitespace-normal' : 'w-[170px]')}>
@@ -72,11 +95,26 @@ export function MascotCard({
           <span className="block h-[117px] w-[100px] shrink-0 self-center lg:hidden">{art}</span>
           {arrow('hidden self-end lg:block')}
         </>
+      ) : hover === 'peek' ? (
+        // Peek: the art sits on the card's bottom edge, half hidden below it, and pops up on hover.
+        <span className="-mb-6 flex w-[130px] shrink-0 items-end self-end lg:absolute lg:bottom-0 lg:right-9 lg:mb-0 lg:w-[300px]">
+          <img src={asset(mascot.src)} alt="" className={cx('peek-car block h-auto w-full', mascot.flip && '-scale-x-100')} />
+        </span>
       ) : (
         <span className="block h-[97px] w-[120px] shrink-0 self-center lg:absolute lg:bottom-9 lg:right-[-80px] lg:h-[252px] lg:w-[310px]">
           {art}
         </span>
       )}
     </PageLink>
+  );
+  if (hover !== 'fan') return card;
+  // Deck fan: the sheets sit behind the card, outside it (the card clips its own overflow).
+  return (
+    <div className={cx('fan-deck', className)}>
+      <span aria-hidden="true" className="fan-sheet fan-sheet--1 bg-sky" />
+      <span aria-hidden="true" className="fan-sheet fan-sheet--2 bg-[#fdc601]" />
+      <span aria-hidden="true" className="fan-sheet fan-sheet--3 bg-navy" />
+      {card}
+    </div>
   );
 }

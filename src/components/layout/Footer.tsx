@@ -13,20 +13,21 @@ import { DIRECTORY, LEGAL, MAILING_LIST, SOCIAL } from './siteLinks';
 //   Phone: logo 248 × 80, invitation 22/28 Demibold, then the sky panel
 //   (24 padding, 20 apart): links 16/24 Demibold, socials and legal 12/16.
 
-const linkClass = 'hover:underline';
+// The text inside each link draws its underline on hover (index.css .u-draw).
+const linkClass = '';
 
 function DirectoryLink({ l }: { l: (typeof DIRECTORY)[number][number] }) {
   const cls = cx(linkClass, 'flex items-center text-fluid [--m:16] [--d:22] font-semibold leading-[24px] tracking-[0.01em] text-navy lg:h-[44px] lg:leading-[28px] lg:tracking-normal');
   if ('to' in l) {
     return (
       <Link to={l.to} className={cls}>
-        {l.label}
+        <span className="u-draw">{l.label}</span>
       </Link>
     );
   }
   return (
     <a href={l.href} target="_blank" rel="noopener noreferrer" className={cls}>
-      {l.label}
+      <span className="u-draw">{l.label}</span>
       <span className="sr-only"> (opens getthereatx.com in a new tab)</span>
     </a>
   );
@@ -42,15 +43,15 @@ export function Footer() {
           <br />
           Moving.
         </p>
-        {/* Mailing list (Joy, 2026-11-19): the site's leaf button, under the invitation. */}
+        {/* Mailing list (Joy, 2026-11-19): under the invitation. White with a dark outline (white section); hover: green slant wash. */}
         <a
           href={MAILING_LIST.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex min-h-[44px] w-fit items-center gap-3 bg-leaf px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90 lg:mt-3"
+          className="btn-slant flex min-h-[44px] w-fit items-center gap-3 border-2 border-ink bg-white px-5 text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-ink lg:mt-3"
         >
           {MAILING_LIST.label}
-          <Arrow className="size-3" strokeWidth={2.5} />
+          <Arrow className="size-3" />
           <span className="sr-only"> (opens in a new tab)</span>
         </a>
       </div>
@@ -79,7 +80,7 @@ export function Footer() {
                 )}
               >
                 <img src={asset(s.icon)} alt="" width={24} height={24} className="block size-6" />
-                {s.label}
+                <span className="u-draw">{s.label}</span>
               </a>
             </li>
           ))}
@@ -91,7 +92,7 @@ export function Footer() {
             {LEGAL.map((l) => (
               <li key={l.label}>
                 <a href={l.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                  {l.label}
+                  <span className="u-draw">{l.label}</span>
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>

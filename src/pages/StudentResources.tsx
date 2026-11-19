@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowLeft } from '../components/ui/Arrow';
 import { LinkIn, PageLoading, ResourceList, ResourceRow, Tabs } from '../components/ui';
 import type { Resource } from '../content/schema';
 import { getPageContent, getResources, getStudentTabs } from '../data';
@@ -26,9 +27,9 @@ export function StudentResources() {
       <div className="mx-auto max-w-content">
         <Link
           to="/resources"
-          className="mt-8 inline-flex items-center gap-2 text-small text-ink-muted underline-offset-4 hover:text-ink hover:underline"
+          className="mt-8 inline-flex items-center gap-2 text-small text-ink-muted hover:text-ink"
         >
-          <span aria-hidden="true">←</span> Back to Resources
+          <ArrowLeft className="size-3" /> <span className="u-draw">Back to Resources</span>
         </Link>
         {/* Figma order: the GetThereTogether callout sits above the heading. */}
         <div className="pt-8">

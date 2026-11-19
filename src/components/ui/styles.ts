@@ -17,7 +17,8 @@ export interface ButtonStyle {
 const VARIANTS: Record<ButtonVariant, string> = {
   primary: 'bg-action text-white hover:bg-action-hover active:bg-action-hover active:translate-y-px',
   secondary: 'border border-border-strong bg-bg text-ink hover:bg-surface-muted active:bg-border',
-  ghost: 'text-link underline-offset-4 hover:underline active:opacity-80',
+  // Hover: the underline draws out (index.css .u-draw).
+  ghost: 'text-link u-draw active:opacity-80',
 };
 
 const SIZES: Record<ButtonSize, string> = {

@@ -1,7 +1,8 @@
-import { useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ModeCard } from '../components/plan/ModeCard';
 import { PlaceCombobox } from '../components/plan/PlaceCombobox';
+import { RollingNumber } from '../components/plan/RollingNumber';
 import { TripMap } from '../components/plan/TripMap';
 import { LinkOut, PageLoading } from '../components/ui';
 import { FilterSelect } from '../components/ui/FilterSelect';
@@ -32,15 +33,11 @@ export function PlanTrip() {
   });
   const [params, setParams] = useSearchParams();
   const compareRef = useRef<HTMLHeadingElement>(null);
-  // Swap button turns half a turn per click.
-  const [swaps, setSwaps] = useState(0);
 
   const placeById = (id: string | null) => (id ? data?.places.find((p) => p.id === id) : undefined);
   const from = placeById(params.get('from'));
   const toRaw = placeById(params.get('to'));
   const to = toRaw?.id === from?.id ? undefined : toRaw;
-  // Restarts the Plan entrance motion whenever the trip changes.
-  const tripKey = `${from?.id ?? ''}-${to?.id ?? ''}`;
 
   // Departure menu, built once per visit: "Leave now", then every 15 minutes.
   const leaveOptions = useMemo(() => departureOptions(), []);
@@ -91,23 +88,12 @@ export function PlanTrip() {
   const swap = (
     <button
       type="button"
-      onClick={() => {
-        setSwaps((n) => n + 1);
-        update({ from: to ?? null, to: from ?? null });
-      }}
+      onClick={() => update({ from: to ?? null, to: from ?? null })}
       disabled={!from && !to}
       aria-label="Swap From and To"
-      className="grid size-8 shrink-0 place-items-center border border-line bg-bg transition-colors duration-hover hover:bg-mist disabled:opacity-40"
+      className="grid size-8 shrink-0 place-items-center border border-line bg-bg transition-colors duration-hover hover:bg-sky disabled:opacity-40"
     >
-      {/* Half a turn per swap, so the arrows visibly trade places. */}
-      <img
-        src={asset('/icons/arrow-left-right.svg')}
-        alt=""
-        width={16}
-        height={16}
-        className="block size-4 transition-transform duration-[450ms] ease-[var(--ease-glide)] motion-reduce:transition-none"
-        style={{ transform: `rotate(${swaps * 180}deg)` }}
-      />
+      <img src={asset('/icons/arrow-left-right.svg')} alt="" width={16} height={16} className="block size-4" />
     </button>
   );
 
@@ -178,7 +164,7 @@ export function PlanTrip() {
           <button
             type="submit"
             disabled={!trip}
-            className="flex min-h-[48px] items-center gap-2 bg-charcoal px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-white transition-opacity duration-hover hover:opacity-90 disabled:opacity-50 lg:h-[52px] lg:bg-leaf lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px] lg:text-ink"
+            className="btn-slant flex min-h-[48px] items-center gap-2 border-2 border-ink bg-white px-4 text-[11px] font-normal leading-[16px] tracking-[0.01em] text-ink disabled:pointer-events-none disabled:opacity-50 lg:h-[52px] lg:px-6 lg:text-[14px] lg:font-semibold lg:leading-[20px]"
           >
             {/* Figma: "Update trip ↓" on phones, "Go" on desktop. */}
             <span className="lg:hidden">{copy.updateButton}</span>
@@ -189,10 +175,10 @@ export function PlanTrip() {
 
       {!trip && (
         <>
-          <p className="plan-fade m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
+          <p className="m-0 text-copy text-ink-soft">{copy.emptyHint}</p>
           {/* The box grows to fill the screen; the map is pinned inside it, because a 100% height
               inside a grown box (no fixed height) comes out as 0 and the map vanishes. */}
-          <div className="plan-fade relative h-[420px] lg:h-auto lg:min-h-[420px] lg:flex-1">
+          <div className="relative h-[420px] lg:h-auto lg:min-h-[420px] lg:flex-1">
             <div className="absolute inset-0">
               <TripMap places={data.places} from={from} to={to} onPick={pickOnMap} />
             </div>
@@ -212,10 +198,9 @@ export function PlanTrip() {
             >
               {copy.compareTitle}
             </h2>
-            {/* Keyed by the trip: a new trip deals the cards in again, left to right. */}
-            <ul key={tripKey} className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:gap-4">
-              {cards.map((c, i) => (
-                <li key={cardKey(c.mode)} className="plan-rise" style={{ '--rise-i': i } as CSSProperties}>
+            <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:auto-cols-fr lg:grid-flow-col lg:gap-4">
+              {cards.map((c) => (
+                <li key={cardKey(c.mode)}>
                   <ModeCard
                     card={c}
                     miles={miles}
@@ -234,8 +219,7 @@ export function PlanTrip() {
             aria-labelledby="route-title"
             className="grid gap-5 lg:min-h-[420px] lg:flex-1 lg:grid-cols-[minmax(300px,34%)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:gap-y-3"
           >
-            {/* Keyed by trip and card, so switching cards eases the new text in instead of snapping. */}
-            <div key={`${tripKey}-${cardKey(picked.mode)}`} className="plan-rise flex flex-col gap-4 lg:gap-2">
+            <div className="flex flex-col gap-4 lg:gap-2">
               <p className="m-0 text-caption font-semibold uppercase text-charcoal">
                 {text(picked.mode.title)}
               </p>
@@ -243,7 +227,16 @@ export function PlanTrip() {
                 id="route-title"
                 className="m-0 text-heading font-normal text-ink"
               >
-                {copy.headline.replace('{minutes}', String(minutes)).replace('{to}', text(trip.to.name))}
+                {/* The minutes roll to the new number when you pick another card (Motion Lab "Lift and roll"). */}
+                {copy.headline
+                  .replace('{to}', text(trip.to.name))
+                  .split('{minutes}')
+                  .map((part, i) => (
+                    <span key={i}>
+                      {i > 0 && <RollingNumber value={minutes} />}
+                      {part}
+                    </span>
+                  ))}
               </h2>
               <p className="m-0 text-copy text-ink-soft">
                 {/* The trip's distance (Joy, 2026-11-17: instead of the mode's effort line). */}
@@ -257,15 +250,12 @@ export function PlanTrip() {
                 from={from}
                 to={to}
                 badge={`${minutes} min`}
+                mode={picked.mode.id}
                 onPick={pickOnMap}
               />
             </div>
             {/* Figma: A, a line down to B, B. */}
-            <ol
-              key={`steps-${tripKey}-${cardKey(picked.mode)}`}
-              className="plan-rise m-0 flex list-none flex-col p-0 text-lead text-ink"
-              style={{ '--rise-i': 1 } as CSSProperties}
-            >
+            <ol className="m-0 flex list-none flex-col p-0 text-lead text-ink">
               <li className="flex gap-4">
                 <span aria-hidden="true" className="w-3 text-fine">A</span>
                 <span className="sr-only">From </span>
@@ -338,7 +328,7 @@ function HandoffButton({
         resourceId={r.id}
         from="plan"
         mode={mode.id}
-        className="flex min-h-[56px] w-full items-center justify-between !rounded-none !border-charcoal !bg-charcoal px-5 text-fine !text-white hover:opacity-90 lg:min-h-[48px] lg:!border-leaf lg:!bg-leaf lg:font-semibold lg:!text-ink"
+        className="btn-slant flex min-h-[56px] w-full items-center justify-between !rounded-none !border-2 !border-ink !bg-white px-5 text-fine !text-ink !transition-none hover:!border-leaf focus-visible:!border-leaf lg:min-h-[48px] lg:font-semibold"
       />
     </div>
   );

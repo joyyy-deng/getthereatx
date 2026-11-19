@@ -1,4 +1,4 @@
-import { useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import type { Place, Resource } from '../../content/schema';
 import { cx } from '../../lib/cx';
 import { text } from '../../lib/i18n';
@@ -28,6 +28,8 @@ export interface PlaceComboboxProps {
   selected?: boolean;
   /** Called when the field is clicked or focused. */
   onActivate?: () => void;
+  /** Home trip card: while empty and not focused, the field rolls through these ("e.g. Mueller"). */
+  examples?: string[];
   className?: string;
 }
 
@@ -36,6 +38,50 @@ const GROUPS: { kind: Place['kind']; label: string }[] = [
   { kind: 'destination', label: 'Popular places' },
   { kind: 'neighborhood', label: 'Neighborhoods' },
 ];
+
+/**
+ * Motion Lab "Rolling examples" (Joy 2026-11-19): every few seconds the example rolls up out
+ * of the field and the next rolls up in behind it, like a ticker (not a pop in and out).
+ * The list ends with the first example again, so it can jump back to the top unseen.
+ * Decorative: screen readers get the field's label and placeholder instead.
+ */
+function ExampleRoller({ items }: { items: string[] }) {
+  const [k, setK] = useState(0);
+  const [snap, setSnap] = useState(false);
+  useEffect(() => {
+    if (items.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = window.setInterval(() => setK((n) => n + 1), 2600);
+    return () => window.clearInterval(t);
+  }, [items.length]);
+  // After rolling onto the repeated first example, jump back to the real first one with no motion.
+  useEffect(() => {
+    if (k < items.length) return;
+    const t = window.setTimeout(() => {
+      setSnap(true);
+      setK(0);
+    }, 700);
+    return () => window.clearTimeout(t);
+  }, [k, items.length]);
+  useEffect(() => {
+    if (!snap) return;
+    const f = requestAnimationFrame(() => requestAnimationFrame(() => setSnap(false)));
+    return () => cancelAnimationFrame(f);
+  }, [snap]);
+  return (
+    <span aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[1.3em] overflow-hidden text-[16px] leading-[1.3] text-ink-muted">
+      <span
+        className={cx('block', !snap && 'transition-transform duration-[600ms] ease-[var(--ease-lab)]')}
+        style={{ transform: `translateY(${-k * 1.3}em)` }}
+      >
+        {[...items, items[0]].map((s, i) => (
+          <span key={i} className="block h-[1.3em] truncate">
+            e.g. {s}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+}
 
 function matches(place: Place, q: string): boolean {
   if (!q) return true;
@@ -62,12 +108,14 @@ export function PlaceCombobox({
   compact = false,
   selected = false,
   onActivate,
+  examples,
   className = 'w-full',
 }: PlaceComboboxProps) {
   const id = useId();
   const listId = `${id}-list`;
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
+  const [focused, setFocused] = useState(false);
   const [query, setQuery] = useState<string | null>(null); // null = not editing
   const [active, setActive] = useState(-1);
 
@@ -120,6 +168,8 @@ export function PlaceCombobox({
 
   const optionId = (p: Place) => `${id}-opt-${p.id}`;
   const shown = query ?? (value ? text(value.name) : '');
+  // The examples roll while the field is empty and not being typed in.
+  const rolling = !!examples?.length && !focused && !shown;
 
   return (
     <div className={cx('relative', className)}>
@@ -129,9 +179,12 @@ export function PlaceCombobox({
           'relative flex h-[62px] items-start gap-3 border px-[14px] py-[10px]',
           compact && 'lg:h-[52px] lg:py-[6px]',
           tone === 'white' ? 'border-white bg-bg' : 'border-line bg-field lg:border-border-control lg:bg-bg',
-          selected && 'outline outline-2 -outline-offset-2 outline-focus',
-          // The input hides its own outline, so the whole field shows keyboard focus.
-          'focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-focus',
+          // Hover: the light blue of the Home skyline picture behind the bus (Joy 2026-11-19).
+          'transition-colors duration-hover hover:border-[#8eaed6] lg:hover:border-[#8eaed6]',
+          // Picked or typing in: no separate highlight ring, just a darker, bolder border (Joy 2026-11-19):
+          // navy, 2px (the 1px border plus a 1px inset line, so nothing shifts).
+          selected && 'border-navy shadow-[inset_0_0_0_1px_var(--color-navy)] lg:border-navy',
+          'focus-within:border-navy focus-within:shadow-[inset_0_0_0_1px_var(--color-navy)] lg:focus-within:border-navy lg:hover:focus-within:border-navy hover:focus-within:border-navy',
         )}
       >
         <img
@@ -148,33 +201,41 @@ export function PlaceCombobox({
           >
             {label}
           </label>
-          <input
-            ref={inputRef}
-            id={`${id}-input`}
-            type="text"
-            role="combobox"
-            autoComplete="off"
-            aria-autocomplete="list"
-            aria-expanded={open}
-            aria-controls={listId}
-            aria-activedescendant={open && active >= 0 ? optionId(ordered[active]) : undefined}
-            placeholder={placeholder}
-            value={shown}
-            onClick={() => setOpen(true)}
-            onFocus={(e) => {
-              onActivate?.();
-              e.currentTarget.select();
-            }}
-            onBlur={() => close()}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setActive(-1);
-              setOpen(true);
-            }}
-            onKeyDown={onKeyDown}
-            // 16px so iOS doesn't zoom in on focus; Figma's 15px is close enough.
-            className={cx('w-full truncate border-0 bg-transparent p-0 text-[16px] leading-[1.3] text-ink outline-none', tone === 'white' && 'placeholder:text-ink-muted')}
-          />
+          <div className="relative">
+            <input
+              ref={inputRef}
+              id={`${id}-input`}
+              type="text"
+              role="combobox"
+              autoComplete="off"
+              aria-autocomplete="list"
+              aria-expanded={open}
+              aria-controls={listId}
+              aria-activedescendant={open && active >= 0 ? optionId(ordered[active]) : undefined}
+              placeholder={rolling ? '' : placeholder}
+              aria-label={rolling ? `${label}, ${placeholder}` : undefined}
+              value={shown}
+              onClick={() => setOpen(true)}
+              onFocus={(e) => {
+                setFocused(true);
+                onActivate?.();
+                e.currentTarget.select();
+              }}
+              onBlur={() => {
+                setFocused(false);
+                close();
+              }}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setActive(-1);
+                setOpen(true);
+              }}
+              onKeyDown={onKeyDown}
+              // 16px so iOS doesn't zoom in on focus; Figma's 15px is close enough.
+              className={cx('w-full truncate border-0 bg-transparent p-0 text-[16px] leading-[1.3] text-ink outline-none', tone === 'white' && 'placeholder:text-ink-muted')}
+            />
+            {rolling && <ExampleRoller items={examples!} />}
+          </div>
         </div>
         <button
           type="button"
@@ -215,7 +276,7 @@ export function PlaceCombobox({
           aria-label={`${label} places`}
           // Keep focus in the input while clicking options.
           onMouseDown={(e) => e.preventDefault()}
-          className="plan-drop absolute left-0 top-full z-[1000] mt-1 max-h-[360px] w-full min-w-[280px] max-w-[calc(100vw-48px)] overflow-y-auto border border-line bg-bg py-2 shadow-raised"
+          className="absolute left-0 top-full z-[1000] mt-1 max-h-[360px] w-full min-w-[280px] max-w-[calc(100vw-48px)] overflow-y-auto border border-line bg-bg py-2 shadow-raised"
         >
           {ordered.length === 0 ? (
             <div className="flex flex-col gap-2 px-4 py-3 text-small">

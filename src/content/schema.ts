@@ -439,6 +439,11 @@ export const PageContent = z.object({
     eventAction: Text,
     clearFilters: Text,
     noResults: Text,
+    /** Above the results while searching or filtering. {count} = number of results, {query} = the search. */
+    showingFor: Text.default('Showing {count} results for “{query}”'),
+    showing: Text.default('Showing {count} results'),
+    /** Screen-reader name of a selected-filter chip's remove button: {label}. */
+    removeFilter: Text.default('Remove {label}'),
     /** Action on each entry that has a link. */
     linkLabel: Text,
     /** Eyebrow of a guide the list has no tags for, and the guide card actions. */

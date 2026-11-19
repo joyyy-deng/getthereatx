@@ -15,6 +15,7 @@ dist-ssr
 wordpress/gtatx-tools/build
 wordpress/gtatx-tools/assets
 wordpress/gtatx-tools.zip
+wordpress/getthereatx-hello.zip
 *.local
 
 # Editor directories and files

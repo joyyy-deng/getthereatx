@@ -150,10 +150,10 @@ export function SiteMap() {
               <li key={s.id} className="shrink-0">
                 <a
                   href={`#${s.id}`}
-                  className="flex gap-2 border border-border-strong px-3 py-1 text-small text-ink hover:bg-surface-muted lg:border-0 lg:px-0 lg:py-1 lg:hover:bg-transparent lg:hover:underline"
+                  className="flex gap-2 border border-border-strong px-3 py-1 text-small text-ink hover:bg-surface-muted lg:border-0 lg:px-0 lg:py-1 lg:hover:bg-transparent"
                 >
                   <span className="font-mono text-data text-ink-muted">{String(i + 1).padStart(2, '0')}</span>
-                  {s.title}
+                  <span className="u-draw">{s.title}</span>
                 </a>
               </li>
             ))}

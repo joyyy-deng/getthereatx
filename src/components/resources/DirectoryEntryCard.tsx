@@ -20,9 +20,9 @@ function Art({ photo, className }: { photo?: string; className: string }) {
 const eyebrow = 'text-[12px] uppercase leading-[15px] tracking-[1.4px] text-charcoal';
 // The action link stretches over its whole card (after:inset-0), so a click anywhere on the card follows it.
 const actionClass =
-  "inline-flex items-center gap-2 self-start text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-charcoal outline-none after:absolute after:inset-0 after:content-[''] group-hover:underline focus-visible:underline";
+  "inline-flex items-center gap-2 self-start text-[14px] font-semibold leading-[20px] tracking-[0.01em] text-charcoal outline-none after:absolute after:inset-0 after:content-['']";
 /** The whole card lights up on hover or keyboard focus (Joy, 2026-11-17). */
-const cardHover = 'group relative cursor-pointer transition-colors duration-hover hover:bg-mist has-[:focus-visible]:bg-mist has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus';
+const cardHover = 'group relative cursor-pointer transition-colors duration-hover hover:bg-sky has-[:focus-visible]:bg-sky has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-focus';
 
 /** "Visit website" hands off to another site; "Read the guide" stays here. Both use Figma's ↗. */
 function Action({ item }: { item: DirectoryItem }) {
@@ -31,7 +31,7 @@ function Action({ item }: { item: DirectoryItem }) {
   if (a.kind === 'in') {
     return (
       <PageLink to={a.to} className={actionClass}>
-        {a.label}
+        <span className="u-draw">{a.label}</span>
         <Arrow className="size-3" />
       </PageLink>
     );
@@ -45,7 +45,7 @@ function Action({ item }: { item: DirectoryItem }) {
       onClick={() => track('handoff', { resourceId: a.trackId, from: 'resources', href: a.href })}
       className={actionClass}
     >
-      {a.label}
+      <span className="u-draw">{a.label}</span>
       <Arrow className="size-3" />
     </a>
   );

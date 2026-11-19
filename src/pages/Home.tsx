@@ -63,12 +63,12 @@ export function Home() {
           card on the left, the 451 × 448 picture on the right, bottoms aligned.
           Phones: headline beside a small picture, the trip card under them. */}
       {/* Joy (2026-11-17): shorter than Figma so "New to this?" shows at the bottom of the first screen:
-          40px padding (Figma 64), 16px above the trip card, an 80px headline (Figma 96). */}
+          40px padding (Figma 64), 32px above the trip card (Joy 2026-11-19, was 16), an 80px headline (Figma 96). */}
       <section className="border-b border-navy px-article py-6 lg:border-ink lg:py-10">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:gap-10">
-          <div className="flex min-w-0 flex-col gap-5 lg:flex-1 lg:gap-4">
+          <div className="flex min-w-0 flex-col gap-8 lg:flex-1 lg:gap-8">
             <div className="flex items-start gap-1">
-              <h1 className="m-0 min-w-0 max-w-[203px] flex-1 text-fluid font-semibold leading-[1.05] tracking-[-0.01em] text-ink [--d:80] [--m:45] lg:max-w-[400px]">
+              <h1 className="m-0 min-w-0 max-w-[203px] flex-1 text-fluid font-semibold leading-[0.9] tracking-[-0.01em] text-ink [--d:80] [--m:45] lg:max-w-[400px]">
                 {copy.hero.title.join(' ')}
               </h1>
               <CapitolIllustration alt={copy.hero.illustrationAlt} className="ml-auto w-[min(138px,40%)] shrink-0 lg:hidden" />
@@ -107,6 +107,7 @@ export function Home() {
             tone="leaf"
             layout="stacked"
             mascot={{ src: '/images/mascots/guides-kangaroo.svg' }}
+            hover="fan"
             className="lg:row-start-2"
           />
         </div>
@@ -137,7 +138,7 @@ export function Home() {
                     )}
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-[rgb(0_0_0/0.7)]" />
                     <span className="relative text-fluid font-semibold leading-[1.15] tracking-[-0.01em] text-white [--d:28] [--m:24]">{item.title}</span>
-                    <Arrow className="relative size-4 shrink-0 text-white" strokeWidth={2.5} />
+                    <Arrow className="relative size-4 shrink-0 text-white" />
                   </>
                 );
                 return (
@@ -168,6 +169,7 @@ export function Home() {
               tone="sky"
               layout="side"
               mascot={{ src: '/images/mascots/austin-dog.svg', flip: true }}
+              hover="scoot"
               className="lg:w-[41%] lg:shrink-0"
             />
           </div>

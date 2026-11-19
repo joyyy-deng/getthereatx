@@ -108,6 +108,28 @@ export function Resources() {
   const withPhoto = onPage.filter((e) => !!e.photo).slice(0, FEATURED);
   const shown = [...withPhoto, ...onPage.filter((e) => !withPhoto.includes(e))];
 
+  // What's applied, shown above the results (Joy 2026-11-19): "Showing 12 results for “bike”" and a
+  // square chip per selected filter, each one removes itself.
+  const tagLabel = new Map(
+    data.list.groups.flatMap((g) => g.tags.flatMap((t) => [[t.tag, t.label] as const, ...(t.children ?? []).map((c) => [c.tag, c.label] as const)])),
+  );
+  const chips = (['mode', 'who', 'type'] as const).flatMap((key) =>
+    ({ mode, who, type })[key].map((value) => ({ key, value, label: tagLabel.get(value) ?? value })),
+  );
+  const filtering = !!q || chips.length > 0;
+  const count = (t: string) => (results.length === 1 ? t.replace('results', 'result') : t).replace('{count}', String(results.length));
+  const showing = q ? count(copy.showingFor).replace('{query}', q) : count(copy.showing);
+  function clearChips() {
+    setParams(
+      (prev) => {
+        const p = new URLSearchParams(prev);
+        ['mode', 'who', 'type', 'page'].forEach((k) => p.delete(k));
+        return p;
+      },
+      { replace: true, preventScrollReset: true },
+    );
+  }
+
   return (
     <>
       {/* Learn and commute */}
@@ -126,10 +148,10 @@ export function Resources() {
           <p className="m-0 max-w-[640px] text-[16px] leading-[1.5] text-white lg:leading-[24px] lg:tracking-[0.01em]">{copy.hero.intro}</p>
           <PageLink
             to={copy.hero.button.to}
-            className="flex min-h-[44px] items-center gap-3 bg-bg px-4 text-[14px] leading-[20px] tracking-[0.01em] text-ink transition-opacity duration-hover hover:opacity-90 lg:min-h-[56px] lg:gap-8 lg:bg-leaf lg:px-5 lg:font-semibold"
+            className="flex min-h-[44px] items-center gap-3 bg-bg px-4 text-[14px] leading-[20px] tracking-[0.01em] text-ink btn-slant lg:min-h-[56px] lg:gap-8 lg:px-5 lg:font-semibold"
           >
             {copy.hero.button.label}
-            <Arrow className="size-3" strokeWidth={2.5} />
+            <Arrow className="size-3" />
           </PageLink>
         </div>
       </section>
@@ -162,6 +184,36 @@ export function Resources() {
             />
 
             <div className="flex min-w-0 flex-1 flex-col gap-6 lg:gap-8" aria-live="polite">
+              {filtering && (
+                <div className="flex flex-col gap-3">
+                  <p className="m-0 text-[16px] leading-[24px] tracking-[0.01em] text-ink">{showing}</p>
+                  {chips.length > 0 && (
+                    <ul className="m-0 flex list-none flex-wrap items-center gap-2 p-0">
+                      {chips.map((c) => (
+                        <li key={`${c.key}-${c.value}`}>
+                          {/* Square, not rounded (Joy 2026-11-19). */}
+                          <button
+                            type="button"
+                            onClick={() => toggle(c.key, c.value)}
+                            aria-label={copy.removeFilter.replace('{label}', c.label)}
+                            className="flex min-h-[36px] items-center gap-2 border border-ink bg-bg px-3 text-[14px] leading-[20px] tracking-[0.01em] text-ink transition-colors duration-hover hover:bg-sky"
+                          >
+                            {c.label}
+                            <span aria-hidden="true" className="text-[16px] leading-none">
+                              ×
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                      <li>
+                        <button type="button" onClick={clearChips} className="min-h-[36px] px-1 text-[14px] leading-[20px] text-ink">
+                          <span className="u-draw">{copy.clearFilters}</span>
+                        </button>
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              )}
               {results.length === 0 ? (
                 <p className="m-0 border-y border-line py-12 text-[16px] text-ink-muted">
                   {copy.noResults}{' '}

@@ -122,22 +122,40 @@ function KeepReading({ title, posts, categoryNames }: { title: string; posts: Po
 }
 
 /**
- * Figma "Ready to plan your trip?" panel. Text is navy, not Figma's white:
- * white on #63ac56 is 2.8:1, below the WCAG minimum even for large text.
+ * Figma "Ready to plan your trip?" panel, on the brand leaf green (#74ab60; Joy 2026-11-19, was
+ * #63ac56). Text is navy, not Figma's white: white on the green fails WCAG contrast.
+ * The axolotl (Home's Explore mascot) scoots in on hover. No sky box behind it, and no slant on
+ * the button (Joy 2026-11-19).
  */
 function PlanTripPanel({ cta }: { cta: Copy['cta'] }) {
   return (
     <div className="px-article pb-10 md:pb-[80px]">
-      <section aria-labelledby="plan-cta-title" className="flex flex-col gap-6 bg-leaf-deep px-6 py-8 lg:flex-row lg:items-center lg:gap-12 lg:p-14">
-        <div className="flex min-w-0 flex-1 flex-col gap-5">
+      <section
+        aria-labelledby="plan-cta-title"
+        className="scoot-host flex flex-col overflow-hidden bg-leaf px-6 pt-8 lg:flex-row lg:items-stretch lg:gap-12 lg:px-14 lg:pt-14"
+      >
+        <div className="flex min-w-0 flex-1 flex-col gap-5 pb-2 lg:self-center lg:pb-14">
           <h2 id="plan-cta-title" className="m-0 text-a-cta font-bold text-navy">
             {cta.title}
           </h2>
           <p className="m-0 text-a-cta-text text-navy">{cta.text}</p>
           <ArrowButton href={cta.to} label={cta.button} tone="black" className="w-full justify-between md:w-auto md:justify-start" />
         </div>
-        <div className="flex h-[160px] w-full shrink-0 items-center justify-center bg-sky p-4 lg:h-[240px] lg:w-[320px]">
-          <img loading="lazy" decoding="async" src={asset('/images/mascots/guides-kangaroo.svg')} alt="" className="block max-h-full max-w-full" />
+        {/* The axolotl faces left and scoots left with a little wheelie when the panel is hovered
+            (Motion Lab "Scoot forward"; index.css .scoot--left, .scoot-lift). */}
+        <div aria-hidden="true" className="flex h-[150px] w-full shrink-0 items-end justify-end lg:h-auto lg:w-[360px]">
+          <span className="scoot--left relative mb-6 block h-[110px] w-[140px] lg:mb-14 lg:h-[190px] lg:w-[240px]">
+            <span className="scoot-mascot relative block size-full">
+              <span className="scoot-lines text-navy">
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className="scoot-lift block size-full">
+                <img loading="lazy" decoding="async" src={asset('/images/mascots/austin-dog.svg')} alt="" className="block size-full -scale-x-100" />
+              </span>
+            </span>
+          </span>
         </div>
       </section>
     </div>

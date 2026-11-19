@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       GetThereATX Tools
  * Description:       The GetThereATX trip planner and resources directory (shortcodes [gtatx_trip_planner] and [gtatx_resources]), plus the fields and Elementor dynamic tags for blog posts and community events.
- * Version:           0.3.0
+ * Version:           0.3.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            WKRM (UT Austin) for Austin Transportation and Public Works
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const GTATX_TOOLS_VERSION = '0.3.0';
+const GTATX_TOOLS_VERSION = '0.3.1';
 const GTATX_TOOLS_FILE    = __FILE__;
 const GTATX_TOOLS_HANDLE  = 'gtatx-tools';
 
@@ -112,6 +112,11 @@ function gtatx_tools_resources_shortcode( $atts ) {
 	return gtatx_tools_mount( 'resources', gtatx_tools_width_attr( $atts, 'gtatx_resources' ) );
 }
 add_shortcode( 'gtatx_resources', 'gtatx_tools_resources_shortcode' );
+
+/* WP admin → Tools → GetThereATX theme switch: check and copy before moving to Hello Elementor. */
+if ( is_admin() ) {
+	require_once __DIR__ . '/includes/theme-switch.php';
+}
 
 /* Blog posts and community events: fields, helpers, styles (includes/content.php). */
 require_once __DIR__ . '/includes/content.php';

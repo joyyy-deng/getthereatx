@@ -2,7 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Place, Resource } from '../../content/schema';
 import { Arrow } from '../ui/Arrow';
+import { text } from '../../lib/i18n';
 import { PlaceCombobox } from '../plan/PlaceCombobox';
+
+/** Motion Lab "Rolling examples": places the empty fields roll through (ids in places.json). */
+const FROM_EXAMPLES = ['ut-austin', 'downtown', 'east-riverside', 'hyde-park'];
+const TO_EXAMPLES = ['mueller', 'domain', 'zilker', 'airport'];
 
 /**
  * Figma "Trip planner" card on Home (desktop 775:3259, phone 865:5600): sky card with one rounded
@@ -27,6 +32,8 @@ export function HeroTripForm({
   const [from, setFrom] = useState<Place>();
   const [to, setTo] = useState<Place>();
   const navigate = useNavigate();
+  const examples = (ids: string[]) =>
+    ids.map((id) => places.find((p) => p.id === id)).filter((p): p is Place => !!p).map((p) => text(p.name));
 
   function planTrip() {
     const p = new URLSearchParams();
@@ -63,6 +70,7 @@ export function HeroTripForm({
             side="from"
             googleMaps={googleMaps}
             onChange={setFrom}
+            examples={examples(FROM_EXAMPLES)}
             tone="white"
             chevron={false}
           />
@@ -76,6 +84,7 @@ export function HeroTripForm({
             side="to"
             googleMaps={googleMaps}
             onChange={setTo}
+            examples={examples(TO_EXAMPLES)}
             tone="white"
             chevron={false}
           />
@@ -83,9 +92,10 @@ export function HeroTripForm({
         <button
           type="submit"
           aria-label={buttonLabel}
-          className="grid size-16 shrink-0 place-items-center rounded-pill bg-navy text-bg transition-transform duration-hover hover:scale-105 lg:size-[124px]"
+          // No hover animation (Joy 2026-11-19).
+          className="grid size-16 shrink-0 place-items-center rounded-pill bg-navy text-bg lg:size-[124px]"
         >
-          <Arrow className="size-7 lg:size-10" strokeWidth={2.2} />
+          <Arrow still className="size-7 lg:size-10" />
         </button>
       </div>
     </form>

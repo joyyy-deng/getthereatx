@@ -60,7 +60,8 @@ export function Community() {
             tone="leaf"
             layout="side"
             titleSize={[36, 45]}
-            mascot={{ src: '/images/mascots/austin-dog.svg', flip: true }}
+            mascot={{ src: '/images/mascots/mode-drive-dogs.svg' }}
+            hover="peek"
           />
         }
       />

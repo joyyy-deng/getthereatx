@@ -70,90 +70,305 @@
   transform: translate(-50%, -50%);
 }
 .trip-map-badge {
-  @apply absolute left-0 top-0 whitespace-nowrap bg-route px-3 py-[7px] text-[14px] font-semibold leading-[1.3] text-white;
+  @apply absolute left-0 top-0 whitespace-nowrap px-3 py-[7px] text-[14px] font-semibold leading-[1.3] text-white;
   transform: translate(-50%, -50%);
 }
 
-/* Plan Your Trip motion (Joy, 2026-11-17: "smooth out plan your trip animations").
-   One easing everywhere (fast start, soft landing) and nothing longer than ~0.7s.
-   The labels already use `transform` for placement, so their pop uses the separate
-   `scale` property and the two never fight. Off for reduced motion (end of block). */
+/* Plan Your Trip motion, from the Motion Lab (Joy, 2026-11-19; replaces the 11-17 set):
+   - "Lift and roll": the headline's minutes roll digit by digit to the new number (RollingNumber).
+   - "Mascot hop": cards you didn't pick step back to 55%; the picked card's mascot hops (ModeCard).
+   - "Route restyle": the map line takes the mode's own style and color, in place.
+   No blinking (Joy 2026-11-19): nothing disappears and comes back when you switch cards.
+   Off for reduced motion (end of block). */
 :root {
   --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-lab: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-overshoot: cubic-bezier(0.34, 1.3, 0.64, 1);
 }
-@keyframes plan-rise {
-  from {
-    opacity: 0;
-    translate: 0 10px;
-  }
+.roll-col {
+  transition: transform 600ms var(--ease-overshoot);
 }
-@keyframes plan-fade {
-  from {
-    opacity: 0;
-  }
+/* The line wipes in from A toward B (the class says which side B is on). */
+@keyframes route-wipe-e {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
-@keyframes plan-pop {
-  from {
-    opacity: 0;
-    scale: 0.6;
-  }
+@keyframes route-wipe-w {
+  from { clip-path: inset(0 0 0 100%); }
+  to { clip-path: inset(0 0 0 0); }
 }
-@keyframes plan-drop {
-  from {
-    opacity: 0;
-    translate: 0 -6px;
-  }
+@keyframes route-wipe-n {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
-@keyframes route-draw {
-  from {
-    stroke-dashoffset: 2400;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+@keyframes route-wipe-s {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
-/* Cards, route text, steps: rise in a beat apart (--rise-i = order). */
-.plan-rise {
-  animation: plan-rise 520ms var(--ease-glide) both;
-  animation-delay: calc(var(--rise-i, 0) * 60ms);
-}
-.plan-fade {
-  animation: plan-fade 420ms var(--ease-glide) both;
-}
-.plan-drop {
-  animation: plan-drop 180ms var(--ease-glide) both;
-  transform-origin: top;
-}
-/* The green line draws from A to B; the casing under it fades in. */
-.trip-route {
-  stroke-dasharray: 2400;
-  animation: route-draw 900ms var(--ease-glide) both;
-}
-.trip-route-casing {
-  animation: plan-fade 500ms ease-out both;
-}
-/* B and the time badge arrive as the line reaches them. */
-.trip-map-pin,
-.trip-map-label--above {
-  animation: plan-pop 380ms var(--ease-glide) 450ms both;
-}
+.trip-route--e { animation: route-wipe-e 700ms var(--ease-lab) both; }
+.trip-route--w { animation: route-wipe-w 700ms var(--ease-lab) both; }
+.trip-route--n { animation: route-wipe-n 700ms var(--ease-lab) both; }
+.trip-route--s { animation: route-wipe-s 700ms var(--ease-lab) both; }
+/* The badge sits on the line in the mode's color. */
 .trip-map-badge {
-  animation: plan-pop 420ms var(--ease-glide) 300ms both;
-}
-.trip-map-label--below {
-  animation: plan-fade 300ms ease-out both;
+  background: var(--badge-c, var(--color-route));
 }
 @media (prefers-reduced-motion: reduce) {
-  .plan-rise,
-  .plan-fade,
-  .plan-drop,
-  .trip-route,
-  .trip-route-casing,
-  .trip-map-pin,
-  .trip-map-label--above,
-  .trip-map-badge,
-  .trip-map-label--below {
+  .roll-col {
+    transition: none;
+  }
+  .trip-route--e,
+  .trip-route--w,
+  .trip-route--n,
+  .trip-route--s {
     animation: none;
+  }
+}
+
+/* Site hovers from the Motion Lab (Joy, 2026-11-19). Off for reduced motion (end of block). */
+
+/* "Slant wash", green only (Joy 2026-11-19: no sky layer): a leaf square tilted 35deg rides up from
+   the bottom-left corner over 1.2s. Every slant button starts white and the text stays dark; on a
+   white section it has a dark outline, which turns leaf along with the fill. */
+.btn-slant {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+/* The outline turns leaf at once on hover, no fade (Joy 2026-11-19). */
+.btn-slant:is(:hover, :focus-visible) {
+  border-color: var(--color-leaf);
+}
+.btn-slant::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 320%;
+  aspect-ratio: 1;
+  pointer-events: none;
+  background: var(--color-leaf);
+  transform: translate(-50%, -50%) rotate(35deg) translateY(78%);
+  transition: transform 1200ms var(--ease-lab);
+}
+.btn-slant:hover::before,
+.btn-slant:focus-visible::before {
+  transform: translate(-50%, -50%) rotate(35deg) translateY(0);
+}
+
+/* Hover underlines draw out from the left, slowly (Joy 2026-11-19), instead of snapping on.
+   Put .u-draw on the text; it draws when the text or its link, button or hover card is hovered. */
+.u-draw {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 700ms var(--ease-lab);
+}
+.u-draw:is(:hover, :focus-visible),
+:is(a, button, .group):is(:hover, :focus-visible) .u-draw {
+  background-size: 100% 1.5px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-draw {
+    transition: none;
+  }
+}
+
+/* "Exit and return": on hover, the arrow flies out to the top right and a copy comes in from
+   the bottom left (the Arrow component draws both). Any link, button or hover card.
+   Slow: 0.7s, the copy 0.15s behind (Joy 2026-11-19). */
+.arrow-exit > svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 700ms var(--ease-lab);
+}
+.arrow-exit > svg + svg {
+  transform: translate(-120%, 120%);
+}
+:is(a, button, .group):is(:hover, :focus-visible) .arrow-exit > svg:first-child {
+  transform: translate(120%, -120%);
+}
+:is(a, button, .group):is(:hover, :focus-visible) .arrow-exit > svg + svg {
+  transform: none;
+  transition-delay: 150ms;
+}
+
+/* "Deck fan" (See all guides), slow: three colored sheets behind the card fan out
+   and the card dips a little. */
+.fan-deck {
+  position: relative;
+  isolation: isolate;
+  align-self: start; /* as tall as the card, so the sheets don't peek out below it */
+  width: 100%;
+}
+.fan-sheet {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1.5px solid var(--color-ink); /* the sheets are outlined, the card itself isn't (Joy 2026-11-19) */
+  transform-origin: 50% 110%;
+  transition: transform 1200ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+.fan-deck > a {
+  transition: transform 1200ms var(--ease-lab);
+}
+.fan-deck:is(:hover, :focus-within) .fan-sheet--1 {
+  transform: rotate(-6deg) translateX(-16px);
+}
+.fan-deck:is(:hover, :focus-within) .fan-sheet--2 {
+  transform: rotate(-3deg) translateX(-8px);
+  transition-delay: 80ms;
+}
+.fan-deck:is(:hover, :focus-within) .fan-sheet--3 {
+  /* Small, so the navy sheet stays clear of the guides list beside the card (Joy 2026-11-19). */
+  transform: rotate(1.5deg);
+  transition-delay: 160ms;
+}
+.fan-deck:is(:hover, :focus-within) > a {
+  transform: translateY(8px) rotate(1deg);
+}
+
+/* "Scoot forward" (Explore Austin, the post page's plan panel): the mascot scoots ahead and
+   three speed lines slide in behind it. They stay put while hovered (no looping). */
+.scoot-mascot {
+  transition: transform 600ms var(--ease-lab);
+}
+.scoot-lines {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  display: grid;
+  gap: 8px;
+  margin-right: 6px;
+  opacity: 0;
+  transform: translate(16px, -50%);
+  transition: opacity 600ms var(--ease-lab), transform 600ms var(--ease-lab);
+  pointer-events: none;
+}
+.scoot-lines i {
+  display: block;
+  height: 3px;
+  border-radius: 3px;
+  background: currentColor;
+}
+.scoot-lines i:nth-child(1) { width: 34px; }
+.scoot-lines i:nth-child(2) { width: 20px; margin-left: 12px; }
+.scoot-lines i:nth-child(3) { width: 28px; margin-left: 4px; }
+:is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot-mascot {
+  transform: translateX(22px) rotate(-5deg);
+}
+/* A mascot facing left (the flipped Explore axolotl) scoots all the way left across the card
+   (Joy 2026-11-19), so its whole body comes into view, with the lines trailing behind it on its
+   right. The lines sit inside the moving mascot, so they travel with it. */
+.scoot--left .scoot-mascot {
+  transition-duration: 900ms;
+}
+.scoot--left .scoot-lines {
+  right: auto;
+  left: 100%;
+  top: 52%;
+  margin: 0 0 0 6px;
+  transform: translate(-16px, -50%) scaleX(-1);
+}
+.scoot--left .scoot-lines i {
+  margin-left: 0 !important;
+}
+:is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot--left .scoot-mascot {
+  transform: translateX(-48px);
+}
+@media (min-width: 1024px) {
+  :is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot--left .scoot-mascot {
+    transform: translateX(-150px);
+  }
+}
+/* Once it arrives, the mascot lifts its front up a little and holds it, like a small wheelie
+   (Joy 2026-11-19: it looked static). On the way back the lift drops first, with no wait. */
+.scoot-lift {
+  transform-origin: 25% 100%; /* pivots on the back wheel, so the front comes up */
+  transition: transform 550ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.scoot--left .scoot-lift {
+  transform-origin: 75% 100%;
+}
+:is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot-lift {
+  transform: translateY(-10px) rotate(-4deg);
+  transition-delay: 350ms; /* starts while it's still rolling in (Joy 2026-11-19: earlier) */
+}
+:is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot--left .scoot-lift {
+  transform: translateY(-10px) rotate(4deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scoot-lift {
+    transition: none;
+  }
+}
+:is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot--left .scoot-lines {
+  transform: translate(0, -50%) scaleX(-1);
+}
+:is(.group, .scoot-host):is(:hover, :focus-visible, :focus-within) .scoot-lines {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* "Rolling examples" (Home trip card): the empty From / To fields roll up through real places
+   (PlaceCombobox ExampleRoller). */
+
+/* "Peek" (Community's Explore Austin card): the dogs' car sits half below the card's bottom edge,
+   heads up, and pops up with a little tilt and bounce when the card is hovered. */
+.peek-car {
+  transform: translateY(42%);
+  transform-origin: 70% 100%;
+  transition: transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+:is(.group, .peek-host):is(:hover, :focus-visible, :focus-within) .peek-car {
+  transform: translateY(-4%) rotate(-4deg); /* the whole car, wheels and all (Joy 2026-11-19: out a bit more) */
+}
+@media (prefers-reduced-motion: reduce) {
+  .peek-car {
+    transition: none;
+  }
+}
+
+/* "Group opens" (medium speed): the group slides open, then its options fade down one by one. */
+.filter-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms var(--ease-lab);
+}
+.filter-body[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.filter-body > * {
+  min-height: 0;
+  overflow: hidden;
+}
+.filter-body li {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 320ms var(--ease-lab), transform 320ms var(--ease-lab);
+}
+.filter-body[data-open='true'] li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 45ms + 60ms);
+}
+.filter-chevron {
+  transition: transform 320ms var(--ease-lab);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-slant::before,
+  .arrow-exit > svg,
+  .filter-body,
+  .filter-body li,
+  .filter-chevron,
+  .fan-sheet,
+  .fan-deck > a,
+  .scoot-mascot,
+  .scoot-lines {
+    transition: none !important;
   }
 }
 

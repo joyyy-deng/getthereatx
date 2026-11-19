@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { asset } from '../../lib/asset';
 import { cx } from '../../lib/cx';
 import { text } from '../../lib/i18n';
@@ -8,7 +9,16 @@ import { typicalMinutes, type CardPlan } from '../../lib/trip';
  * the mode's mascot (100px wide). Desktop: #888 outline, 28/13 padding, 22px
  * time, a cost pill (leaf / yellow / red outline); the picked card turns sky
  * with navy text. Phones: the picked card is grey with a dark outline.
+ * Motion Lab "Mascot hop": cards you didn't pick sit at 55% (full on hover or
+ * focus, so they still read); picking a card makes its mascot hop.
  */
+const HOP: Keyframe[] = [
+  { transform: 'scale(1.08, .9)' },
+  { transform: 'translateY(-12px) rotate(-6deg)', offset: 0.35 },
+  { transform: 'translateY(0) scale(1.06, .92)', offset: 0.75 },
+  { transform: 'none' },
+];
+
 export function ModeCard({
   card,
   miles,
@@ -27,14 +37,29 @@ export function ModeCard({
   onSelect: () => void;
 }) {
   const { mode, minutes, longRide } = card;
+  const mascot = useRef<HTMLImageElement>(null);
+  const mounted = useRef(false);
+  // Hop only when the card becomes the picked one, not on page load.
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    if (selected && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // 850ms (Joy 2026-11-19: slower than the Motion Lab's 520ms).
+      mascot.current?.animate(HOP, { duration: 850, easing: 'cubic-bezier(.3, 0, .3, 1)' });
+    }
+  }, [selected]);
   return (
     <button
       type="button"
       aria-pressed={selected}
       onClick={onSelect}
       className={cx(
-        'flex h-full min-h-[132px] w-full flex-col justify-center gap-2 border p-4 text-left transition-[background-color,border-color,color] duration-panel ease-[var(--ease-glide)] motion-reduce:transition-none lg:min-h-[120px] lg:gap-2 lg:px-[13px] lg:py-3',
-        selected ? 'border-charcoal bg-surface-muted lg:border-border-control lg:bg-sky lg:text-navy' : 'border-line bg-bg hover:border-ink-muted lg:border-border-control',
+        'flex h-full min-h-[132px] w-full flex-col justify-center gap-2 border p-4 text-left transition-opacity duration-[320ms] ease-[var(--ease-lab)] motion-reduce:transition-none lg:min-h-[120px] lg:gap-2 lg:px-[13px] lg:py-3',
+        selected
+          ? 'border-charcoal bg-surface-muted lg:border-border-control lg:bg-sky lg:text-navy'
+          : 'border-line bg-bg opacity-[.55] hover:border-ink-muted hover:opacity-100 focus-visible:opacity-100 lg:border-border-control',
       )}
     >
       <span className="flex w-full items-center gap-3">
@@ -55,13 +80,10 @@ export function ModeCard({
         </span>
         {mode.image && (
           <img
+            ref={mascot}
             src={asset(mode.image.src)}
             alt=""
-            className={cx(
-              'block h-auto max-h-[107px] w-[100px] shrink-0 object-contain transition-transform duration-[400ms] ease-[cubic-bezier(.34,1.56,.64,1)] motion-reduce:transition-none lg:max-h-[72px] lg:w-[80px]',
-              // The picked card's mascot hops up a little.
-              selected && '-translate-y-1',
-            )}
+            className="block h-auto max-h-[107px] w-[100px] shrink-0 object-contain lg:max-h-[72px] lg:w-[80px]"
           />
         )}
       </span>

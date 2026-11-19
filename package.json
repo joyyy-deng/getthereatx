@@ -15,6 +15,7 @@
     "build:wp": "npm run validate-content && tsc -b && tsx scripts/build-directory-seed.ts && vite build --config vite.wp.config.ts",
     "build:elementor": "tsx scripts/build-elementor-home.ts",
     "zip:wp": "npm run build:wp && cd wordpress && rm -f gtatx-tools.zip && zip -rq gtatx-tools.zip gtatx-tools -x '*.DS_Store' '* [0-9]/*' 'gtatx-tools/templates/*' 'gtatx-tools/includes/local-templates.php'",
+    "zip:theme": "cd wordpress && rm -f getthereatx-hello.zip && zip -rq getthereatx-hello.zip getthereatx-hello -x '*.DS_Store'",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

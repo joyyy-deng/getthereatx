@@ -40,7 +40,7 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
               className={({ isActive }) =>
                 cx(
                   'flex min-h-[72px] items-center justify-between px-6 py-4 text-[32px] font-semibold leading-[1.15] tracking-[-0.01em] text-ink',
-                  isActive ? 'bg-sky-nav' : 'hover:bg-mist',
+                  isActive ? 'bg-sky-nav' : 'hover:bg-sky',
                 )
               }
             >
@@ -51,16 +51,16 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
         ))}
       </ul>
       <div className="mt-auto flex flex-col gap-5 bg-mist p-6">
-        <a href={contact.href} target="_blank" rel="noopener noreferrer" className="text-[16px] font-semibold leading-[24px] tracking-[0.01em] text-ink hover:underline">
-          {contact.label}
+        <a href={contact.href} target="_blank" rel="noopener noreferrer" className="text-[16px] font-semibold leading-[24px] tracking-[0.01em] text-ink">
+          <span className="u-draw">{contact.label}</span>
           <span className="sr-only"> (opens getthereatx.com in a new tab)</span>
         </a>
         <ul className="m-0 flex list-none flex-wrap gap-4 p-0">
           {SOCIAL.map((s) => (
             <li key={s.label}>
-              <a href={s.href} className="flex min-h-[44px] items-center gap-[5px] text-[12px] leading-[16px] tracking-[0.01em] text-ink hover:underline">
+              <a href={s.href} className="flex min-h-[44px] items-center gap-[5px] text-[12px] leading-[16px] tracking-[0.01em] text-ink">
                 <img src={asset(s.icon)} alt="" width={24} height={24} className="block size-6" />
-                {s.label}
+                <span className="u-draw">{s.label}</span>
               </a>
             </li>
           ))}
@@ -68,8 +68,8 @@ export function MobileMenu({ onClose }: { onClose: () => void }) {
         <ul className="m-0 flex list-none gap-6 p-0 text-[12px] leading-[16px] tracking-[0.01em] text-ink-muted">
           {LEGAL.map((l) => (
             <li key={l.label}>
-              <a href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center hover:underline">
-                {l.label}
+              <a href={l.href} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center">
+                <span className="u-draw">{l.label}</span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </li>

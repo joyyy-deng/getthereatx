@@ -1,0 +1,11 @@
+/*
+Theme Name:   Get There ATX (Hello)
+Description:  Get There ATX on Hello Elementor. Replaces the custom "Get there ATX" theme and keeps what that theme did: the CTX GO landing pages, the /qr/eng/ and /qr/spn/ redirects, Global Options, the old Elementor widgets, [copyright_date]. The theme's own CSS and scripts load only on pages that still need them.
+Author:       WKRM
+Template:     hello-elementor
+Version:      1.0.0
+Requires PHP: 8.0
+Text Domain:  getthereatx
+*/
+
+/* Pages are built in Elementor; this file stays (nearly) empty on purpose. */
